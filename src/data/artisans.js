@@ -1,0 +1,58 @@
+export const artisans = [
+  {
+    id: 'maya-sharma',
+    name: 'Maya Sharma',
+    craft: 'Ceramic Artist',
+    city: 'Jaipur',
+    state: 'Rajasthan',
+    yearsOfExperience: 12,
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop',
+    studioImage: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=800&auto=format&fit=crop',
+    quote: 'Every piece of clay holds a story waiting to be shaped by touch, heat, and time.',
+    bio: 'Pioneering organic stoneware forms in Jaipur using locally sourced natural clays and ash glazes. Maya spent 7 years learning traditional potters craft in Sanganer before founding her slow studio.',
+    productsCount: 34,
+    badge: 'Master Potter'
+  },
+  {
+    id: 'arjun-das',
+    name: 'Arjun Das',
+    craft: 'Woodcraft Artist',
+    city: 'Kolkata',
+    state: 'West Bengal',
+    yearsOfExperience: 18,
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop',
+    studioImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop',
+    quote: 'Wood retains the warmth of the living tree. We carve honor into every grain.',
+    bio: 'Third-generation woodcarver transforming reclaimed teak, rosewood, and fallen orchard branches into heirloom serving boards and architectural home accents.',
+    productsCount: 22,
+    badge: 'Heritage Artisan'
+  },
+  {
+    id: 'asha-mehta',
+    name: 'Asha Mehta',
+    craft: 'Jewelry Designer',
+    city: 'Delhi',
+    state: 'NCR',
+    yearsOfExperience: 9,
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop',
+    studioImage: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800&auto=format&fit=crop',
+    quote: 'Hand-hammered metals capture light like water. Jewelry should feel like a personal amulet.',
+    bio: 'Specializing in recycled sterling silver and botanical impression metalsmithing. Asha collaborates directly with tribal silversmiths to preserve endangered casting techniques.',
+    productsCount: 45,
+    badge: 'Eco-Silversmith'
+  },
+  {
+    id: 'elena-fernandes',
+    name: 'Elena Fernandes',
+    craft: 'Textile Artist',
+    city: 'Goa',
+    state: 'Goa',
+    yearsOfExperience: 14,
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop',
+    studioImage: 'https://images.unsplash.com/photo-1528458876861-544fd1761a91?q=80&w=800&auto=format&fit=crop',
+    quote: 'Knitting fibers by hand connects us to human traditions older than modern memory.',
+    bio: 'Working out of a solar-powered coastal studio in Goa, Elena creates large-scale macrame wall tapestries and naturally plant-dyed linen throws.',
+    productsCount: 19,
+    badge: 'Textile Weaver'
+  }
+];

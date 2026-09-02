@@ -1,0 +1,96 @@
+/* Story Banner Styles */
+.story-banner-section {
+  padding: 4rem 0;
+  background-color: var(--bg-primary);
+}
+
+.story-banner-card {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.story-banner-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.story-banner-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(90deg, rgba(35, 24, 21, 0.88) 0%, rgba(35, 24, 21, 0.65) 60%, rgba(35, 24, 21, 0.3) 100%);
+}
+
+.story-banner-content {
+  position: relative;
+  z-index: 3;
+  padding: 4rem 4rem;
+  max-width: 640px;
+  color: #FFFFFF;
+}
+
+.story-eyebrow-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 1.5rem;
+}
+
+.story-title {
+  color: #FFFFFF;
+  font-family: var(--font-serif);
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
+}
+
+.story-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin-bottom: 2.2rem;
+}
+
+.story-cta-btn {
+  padding: 0.95rem 2.2rem;
+}
+
+@media (max-width: 768px) {
+  .story-banner-card {
+    min-height: 400px;
+  }
+  .story-banner-content {
+    padding: 2.5rem 2rem;
+  }
+  .story-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-banner-content {
+    padding: 2rem 1.5rem;
+  }
+  .story-title {
+    font-size: 2.1rem;
+  }
+  .story-subtitle {
+    font-size: 0.95rem;
+  }
+}

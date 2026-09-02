@@ -1,0 +1,185 @@
+/* Community Section Component Styles */
+.community-section {
+  padding: 5.5rem 0;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-warm);
+}
+
+.community-container {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.community-title {
+  margin-bottom: 1.25rem;
+}
+
+.community-subtitle {
+  margin-bottom: 2.2rem;
+  max-width: 480px;
+}
+
+.community-cta-btn {
+  padding: 0.95rem 2.2rem;
+}
+
+/* Post Card */
+.community-post-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-warm);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.post-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-author-info strong {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  display: block;
+}
+
+.post-handle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.post-follow-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-warm);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.post-follow-btn:hover {
+  background-color: var(--accent-terracotta);
+  border-color: var(--accent-terracotta);
+  color: #FFFFFF;
+}
+
+.post-follow-btn.following {
+  background-color: var(--bg-sage);
+  border-color: var(--bg-sage);
+  color: #FFFFFF;
+}
+
+.post-body {
+  margin-bottom: 1.25rem;
+}
+
+.post-text {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.post-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.post-tags-overlay {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.post-tag-pill {
+  background-color: rgba(35, 24, 21, 0.8);
+  backdrop-filter: blur(4px);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-full);
+}
+
+.post-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.post-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.post-action-btn:hover {
+  color: var(--accent-terracotta);
+}
+
+.post-action-btn.active-like {
+  color: var(--accent-terracotta);
+}
+
+.post-share-btn {
+  margin-left: auto;
+}
+
+@media (max-width: 1024px) {
+  .community-container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .community-section {
+    padding: 3.5rem 0;
+  }
+  .community-post-card {
+    padding: 1rem;
+  }
+  .post-media {
+    aspect-ratio: 4 / 3;
+  }
+}

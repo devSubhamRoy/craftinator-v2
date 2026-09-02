@@ -1,0 +1,171 @@
+/* Meet Makers Component Styles */
+.makers-section {
+  padding: 5.5rem 0;
+  background-color: var(--bg-primary);
+}
+
+.artisan-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem;
+  margin-bottom: 3.5rem;
+}
+
+.artisan-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-warm);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.artisan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: #D9CFC4;
+}
+
+.artisan-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.artisan-img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.artisan-card:hover .artisan-img {
+  transform: scale(1.06);
+}
+
+.artisan-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(35, 24, 21, 0) 50%, rgba(35, 24, 21, 0.4) 100%);
+}
+
+.artisan-avatar {
+  position: absolute;
+  bottom: -20px;
+  left: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid #FFFFFF;
+  box-shadow: var(--shadow-sm);
+  object-fit: cover;
+  z-index: 2;
+}
+
+.artisan-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(4px);
+  color: var(--accent-terracotta);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-full);
+}
+
+.artisan-content {
+  padding: 2rem 1.25rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.artisan-meta {
+  margin-bottom: 0.35rem;
+}
+
+.artisan-name {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.artisan-craft {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-terracotta);
+  display: block;
+}
+
+.artisan-location {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.location-icon {
+  color: var(--text-muted);
+}
+
+.artisan-quote {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.artisan-profile-btn {
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  padding: 0;
+  margin-top: auto;
+  transition: color var(--transition-fast);
+}
+
+.artisan-card:hover .artisan-profile-btn {
+  color: var(--accent-terracotta);
+}
+
+.makers-bottom-cta {
+  margin-top: 1rem;
+}
+
+.btn-more-artisans {
+  padding: 0.9rem 2rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .artisan-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .makers-section {
+    padding: 3.5rem 0;
+  }
+  .artisan-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}

@@ -1,0 +1,74 @@
+/* Brand Values Styles */
+.brand-values-section {
+  padding: 1.75rem 0;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-warm);
+  border-bottom: 1px solid var(--border-warm);
+}
+
+.brand-values-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+}
+
+.value-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.value-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accent-terracotta);
+}
+
+.value-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.value-title {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.25;
+  margin-bottom: 0.2rem;
+}
+
+.value-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+@media (max-width: 1024px) {
+  .brand-values-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .brand-values-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .brand-values-section {
+    padding: 1.5rem 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-values-grid {
+    grid-template-columns: 1fr;
+  }
+}

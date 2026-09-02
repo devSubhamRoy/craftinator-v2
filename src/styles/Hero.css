@@ -1,0 +1,296 @@
+/* Hero Component Styles */
+.hero-section {
+  padding-top: 3.5rem;
+  padding-bottom: 4.5rem;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+}
+
+.hero-container {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+/* Left Content */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 5.2vw, 4.4rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.hero-heading-italic {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-terracotta);
+}
+
+.hero-description {
+  max-width: 520px;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.hero-btn-main {
+  padding: 0.95rem 2rem;
+  font-size: 0.95rem;
+}
+
+.hero-btn-sub {
+  padding: 0.95rem 1.8rem;
+  font-size: 0.95rem;
+}
+
+.hero-slogan-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.slogan-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-terracotta);
+}
+
+/* Right Collage */
+.hero-visual {
+  position: relative;
+}
+
+.hero-collage-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 42px);
+  gap: 0.85rem;
+  position: relative;
+}
+
+.collage-tile {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal);
+}
+
+.collage-tile:hover {
+  transform: translateY(-3px);
+}
+
+.tile-pottery {
+  grid-column: 1 / 8;
+  grid-row: 1 / 7;
+}
+
+.tile-jewelry {
+  grid-column: 8 / 13;
+  grid-row: 1 / 5;
+}
+
+.tile-candle {
+  grid-column: 1 / 6;
+  grid-row: 7 / 13;
+}
+
+.tile-macrame {
+  grid-column: 6 / 13;
+  grid-row: 5 / 10;
+}
+
+.tile-leather {
+  grid-column: 6 / 13;
+  grid-row: 10 / 13;
+}
+
+/* Collage Badges */
+.collage-badge {
+  position: absolute;
+  background-color: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(8px);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.badge-top {
+  top: 12px;
+  left: 12px;
+}
+
+.badge-right {
+  top: 12px;
+  right: 12px;
+}
+
+.badge-icon {
+  color: var(--accent-terracotta);
+}
+
+/* Floating Pill */
+.collage-floating-pill {
+  position: absolute;
+  bottom: 120px;
+  left: -20px;
+  z-index: 10;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-warm);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-md);
+}
+
+.pill-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.pill-avatars img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  margin-left: -8px;
+}
+
+.pill-avatars img:first-child {
+  margin-left: 0;
+}
+
+.pill-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.pill-text strong {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+
+.pill-text span {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Artisan Tag on Tile */
+.collage-artisan-tag {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(35, 24, 21, 0.85);
+  color: #FFFFFF;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.collage-artisan-tag img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+
+.collage-artisan-tag strong {
+  font-size: 0.72rem;
+  display: block;
+}
+
+.collage-artisan-tag span {
+  font-size: 0.65rem;
+  color: #D6C7BC;
+}
+
+/* Mobile Breakpoints */
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .hero-heading {
+    font-size: 3.2rem;
+  }
+  .hero-collage-grid {
+    grid-template-rows: repeat(12, 36px);
+  }
+  .collage-floating-pill {
+    left: 10px;
+    bottom: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-section {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+  .hero-heading {
+    font-size: 2.4rem;
+  }
+  .hero-description {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-btn-main, .hero-btn-sub {
+    width: 100%;
+  }
+  .hero-collage-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    height: 260px;
+  }
+  .collage-tile {
+    flex: 0 0 80%;
+    scroll-snap-align: center;
+    height: 240px;
+  }
+  .collage-floating-pill {
+    display: none;
+  }
+}
