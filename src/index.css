@@ -158,8 +158,15 @@ h1, h2, h3, .font-serif {
   max-width: var(--container-max);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 0.65rem;
+  padding-right: 0.65rem;
+}
+
+@media (min-width: 641px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 @media (min-width: 768px) {

@@ -1,79 +1,223 @@
 /* Community Section Component Styles */
 .community-section {
-  padding: 5.5rem 0;
+  padding: 4.5rem 0;
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-warm);
+  overflow: hidden; /* Prevents 3D card stack horizontal overflow on all devices */
 }
 
 .community-container {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 4rem;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 3.5rem;
   align-items: center;
 }
 
 .community-title {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.1rem;
 }
 
 .community-subtitle {
-  margin-bottom: 2.2rem;
-  max-width: 480px;
+  margin-bottom: 2rem;
+  max-width: 460px;
+}
+
+.community-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .community-cta-btn {
-  padding: 0.95rem 2.2rem;
+  padding: 0.85rem 2rem;
 }
 
-/* Post Card */
-.community-post-card {
+/* Auto-play Status Toggle */
+.community-autoplay-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-warm);
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.community-autoplay-toggle:hover {
+  background-color: var(--bg-card);
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
+}
+
+.community-autoplay-toggle.active {
+  color: var(--accent-terracotta);
+  border-color: rgba(168, 88, 56, 0.3);
+  background-color: rgba(168, 88, 56, 0.06);
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent-terracotta);
+  box-shadow: 0 0 0 0 rgba(168, 88, 56, 0.7);
+  animation: pulse-ring 1.8s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(168, 88, 56, 0.7);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(168, 88, 56, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(168, 88, 56, 0);
+  }
+}
+
+/* Right Column: Compact 3D Stacked Card Deck */
+.community-right {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.community-deck-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.community-deck-container {
+  position: relative;
+  width: 100%;
+  height: 460px;
+  perspective: 1000px;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y; /* Preserves vertical page scrolling while swiping horizontally */
+}
+
+.community-deck-container:active {
+  cursor: grabbing;
+}
+
+/* 3D Stacked Card Items */
+.community-stacked-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   background-color: var(--bg-card);
   border-radius: var(--radius-xl);
   border: 1px solid var(--border-warm);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-md);
+  padding: 1.25rem;
+  box-shadow: 0 10px 28px rgba(35, 24, 21, 0.1), 0 2px 6px rgba(35, 24, 21, 0.04);
+  transform-origin: center bottom;
+  box-sizing: border-box;
+  will-change: transform, opacity;
 }
 
+.community-stacked-card.is-front {
+  box-shadow: 0 16px 40px rgba(35, 24, 21, 0.14), 0 4px 12px rgba(35, 24, 21, 0.06);
+}
+
+.community-stacked-card:not(.is-front) {
+  cursor: pointer;
+}
+
+/* Floating Deck Navigation Arrow Buttons */
+.community-deck-arrow {
+  position: absolute;
+  top: 48%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-warm);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(35, 24, 21, 0.12);
+  z-index: 20;
+  transition: all var(--transition-fast);
+}
+
+.community-deck-prev {
+  left: -14px;
+}
+
+.community-deck-next {
+  right: -14px;
+}
+
+.community-deck-arrow:hover {
+  background-color: var(--text-primary);
+  color: #FFFFFF;
+  border-color: var(--text-primary);
+  transform: translateY(-50%) scale(1.08);
+}
+
+/* Post Header */
 .post-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .post-author {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 
 .post-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50% !important;
   object-fit: cover;
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 .post-author-info strong {
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-primary);
   display: block;
 }
 
 .post-handle {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   color: var(--text-muted);
 }
 
 .post-follow-btn {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
   font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  padding: 0.4rem 1rem;
+  padding: 0.32rem 0.85rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-warm);
   background: var(--bg-primary);
@@ -94,59 +238,67 @@
   color: #FFFFFF;
 }
 
+/* Post Content & Media */
 .post-body {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .post-text {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   color: var(--text-primary);
-  line-height: 1.5;
-  margin-bottom: 1rem;
+  line-height: 1.45;
+  margin-bottom: 0.85rem;
 }
 
 .post-media {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   overflow: hidden;
+}
+
+.post-img {
+  pointer-events: none;
+  user-select: none;
 }
 
 .post-tags-overlay {
   position: absolute;
-  bottom: 12px;
-  left: 12px;
+  bottom: 10px;
+  left: 10px;
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  flex-wrap: wrap;
 }
 
 .post-tag-pill {
-  background-color: rgba(35, 24, 21, 0.8);
+  background-color: rgba(35, 24, 21, 0.82);
   backdrop-filter: blur(4px);
   color: #FFFFFF;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  padding: 0.25rem 0.7rem;
+  padding: 0.2rem 0.6rem;
   border-radius: var(--radius-full);
 }
 
+/* Actions Bar */
 .post-actions-bar {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  padding-top: 0.85rem;
+  gap: 1.1rem;
+  padding-top: 0.75rem;
   border-top: 1px solid var(--border-light);
 }
 
 .post-action-btn {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   background: transparent;
   border: none;
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-secondary);
   cursor: pointer;
@@ -165,21 +317,97 @@
   margin-left: auto;
 }
 
+/* Pagination Controls */
+.community-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.1rem;
+  padding: 0 0.4rem;
+}
+
+.community-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.community-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--border-warm);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+}
+
+.community-dot.active {
+  width: 20px;
+  border-radius: 12px;
+  background-color: var(--accent-terracotta);
+}
+
+.community-counter {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Responsive Media Queries */
 @media (max-width: 1024px) {
   .community-container {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
+  .community-deck-wrapper {
+    max-width: 400px;
+  }
+  .community-deck-container {
+    height: 440px;
+  }
 }
 
 @media (max-width: 640px) {
   .community-section {
-    padding: 3.5rem 0;
+    padding: 3rem 0;
   }
-  .community-post-card {
+  .community-deck-wrapper {
+    max-width: 320px;
+  }
+  .community-deck-container {
+    height: 410px;
+  }
+  .community-stacked-card {
     padding: 1rem;
   }
   .post-media {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 10;
+  }
+  .community-deck-arrow {
+    width: 34px;
+    height: 34px;
+  }
+  .community-deck-prev {
+    left: -10px;
+  }
+  .community-deck-next {
+    right: -10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .community-deck-wrapper {
+    max-width: 290px;
+  }
+  .community-deck-container {
+    height: 395px;
+  }
+  .post-text {
+    font-size: 0.84rem;
+  }
+  .post-author-info strong {
+    font-size: 0.8rem;
   }
 }

@@ -1,11 +1,17 @@
 import React, { useRef } from 'react';
 import { artisans } from '../data/artisans';
-import { MapPin, ArrowRight, ChevronRight } from 'lucide-react';
+import { MapPin, ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 export default function MeetMakers({ onOpenArtisanModal }) {
   const { t } = useLanguage();
   const sliderRef = useRef(null);
+
+  const handleScrollPrev = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+    }
+  };
 
   const handleScrollNext = () => {
     if (sliderRef.current) {
@@ -82,8 +88,13 @@ export default function MeetMakers({ onOpenArtisanModal }) {
             ))}
           </div>
 
+          {/* Floating Left Arrow Control */}
+          <button className="makers-slider-arrow makers-slider-arrow-prev" onClick={handleScrollPrev} aria-label="Previous artisans">
+            <ChevronLeft size={20} className="side" />
+          </button>
+
           {/* Floating Right Arrow Control */}
-          <button className="makers-slider-arrow" onClick={handleScrollNext} aria-label="Next artisans">
+          <button className="makers-slider-arrow makers-slider-arrow-next" onClick={handleScrollNext} aria-label="Next artisans">
             <ChevronRight size={20} />
           </button>
         </div>
