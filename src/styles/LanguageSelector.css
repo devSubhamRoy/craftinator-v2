@@ -157,7 +157,14 @@ html[dir="rtl"] .lang-option-item {
   flex-shrink: 0;
 }
 
-/* Mobile style variant */
+/* Hide top header language selector on mobile screens (< 768px) */
+@media (max-width: 767px) {
+  .header-actions .lang-selector-wrapper:not(.mobile-lang) {
+    display: none;
+  }
+}
+
+/* Mobile style variant inside drawer */
 .mobile-lang {
   width: 100%;
 }
@@ -177,3 +184,4 @@ html[dir="rtl"] .lang-option-item {
   border: 1px solid #eee;
   max-height: 250px;
 }
+
