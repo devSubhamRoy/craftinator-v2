@@ -1,11 +1,17 @@
 import React, { useRef } from 'react';
 import { categories } from '../data/categories';
-import { ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 export default function ShopByCategory({ onSelectCategory }) {
   const { t } = useLanguage();
   const sliderRef = useRef(null);
+
+  const handleScrollLeft = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: -340, behavior: 'smooth' });
+    }
+  };
 
   const handleScrollNext = () => {
     if (sliderRef.current) {
@@ -30,6 +36,17 @@ export default function ShopByCategory({ onSelectCategory }) {
 
         {/* Carousel Slider Wrapper */}
         <div className="category-slider-wrapper">
+          
+          {/* Floating Left Arrow Button */}
+          <button
+            className="category-slider-arrow category-slider-arrow-left"
+            onClick={handleScrollLeft}
+            aria-label="Previous categories"
+          >
+            <ChevronLeft size={20} />
+          </button>
+
+          {/* Carousel Track */}
           <div className="category-carousel-track" ref={sliderRef}>
             {categories.map((cat) => (
               <div
@@ -81,9 +98,14 @@ export default function ShopByCategory({ onSelectCategory }) {
           </div>
 
           {/* Floating Right Arrow Button */}
-          <button className="category-slider-arrow" onClick={handleScrollNext} aria-label="Next categories">
+          <button
+            className="category-slider-arrow category-slider-arrow-right"
+            onClick={handleScrollNext}
+            aria-label="Next categories"
+          >
             <ChevronRight size={20} />
           </button>
+
         </div>
 
       </div>
