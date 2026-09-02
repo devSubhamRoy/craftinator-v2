@@ -1,7 +1,7 @@
 /* Hero Component Styles */
 .hero-section {
-  padding-top: 3.5rem;
-  padding-bottom: 4.5rem;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
   background-color: var(--bg-primary);
   overflow: hidden;
 }
