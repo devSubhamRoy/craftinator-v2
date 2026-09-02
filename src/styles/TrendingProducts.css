@@ -3,6 +3,7 @@
   padding: 4rem 0;
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-warm);
+  overflow: hidden;
 }
 
 .product-filter-bar {
@@ -256,11 +257,13 @@
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    margin-left: -1rem;
-    margin-right: -1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
     margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 100%;
   }
   
   .product-filter-bar::-webkit-scrollbar {
