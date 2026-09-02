@@ -199,10 +199,9 @@
   color: var(--accent-terracotta);
 }
 
-/* Floating Right Arrow Button */
+/* Floating Navigation Arrow Buttons */
 .makers-slider-arrow {
   position: absolute;
-  right: -18px;
   top: 40%;
   transform: translateY(-50%);
   width: 44px;
@@ -218,6 +217,14 @@
   box-shadow: 0 4px 14px rgba(35, 24, 21, 0.12);
   z-index: 10;
   transition: all var(--transition-fast);
+}
+
+.makers-slider-arrow-prev {
+  left: -18px;
+}
+
+.makers-slider-arrow-next {
+  right: -18px;
 }
 
 .makers-slider-arrow:hover {
@@ -249,6 +256,10 @@
   .artisan-card {
     flex: 0 0 250px;
     width: 250px;
+  }
+
+  .artisan-img-clip {
+    aspect-ratio: 1 / 1;
   }
 
   .makers-slider-arrow {
