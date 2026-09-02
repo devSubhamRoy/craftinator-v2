@@ -138,10 +138,9 @@
   color: var(--accent-terracotta);
 }
 
-/* Floating Right Arrow Slider Button */
+/* Floating Arrow Slider Buttons */
 .category-slider-arrow {
   position: absolute;
-  right: -18px;
   top: 95px;
   width: 44px;
   height: 44px;
@@ -156,6 +155,14 @@
   box-shadow: 0 4px 14px rgba(35, 24, 21, 0.12);
   z-index: 10;
   transition: all var(--transition-fast);
+}
+
+.category-slider-arrow-left {
+  left: -18px;
+}
+
+.category-slider-arrow-right {
+  right: -18px;
 }
 
 .category-slider-arrow:hover {
