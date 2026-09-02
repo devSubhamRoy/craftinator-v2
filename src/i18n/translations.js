@@ -1,5 +1,7 @@
 export const SUPPORTED_LANGUAGES = [
   { code: 'en', name: 'English', nativeName: 'English', dir: 'ltr', flag: '🇺🇸' },
+  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', dir: 'ltr', flag: '🇮🇳' },
+  { code: 'bn', name: 'Bengali', nativeName: 'বাংলা', dir: 'ltr', flag: '🇮🇳' },
   { code: 'de', name: 'German', nativeName: 'Deutsch', dir: 'ltr', flag: '🇩🇪' },
   { code: 'pt-br', name: 'Portuguese (Brazil)', nativeName: 'Português do Brasil', dir: 'ltr', flag: '🇧🇷' },
   { code: 'es', name: 'Spanish', nativeName: 'Español', dir: 'ltr', flag: '🇪🇸' },
@@ -1548,5 +1550,197 @@ export const translations = {
     toast_wishlist_added: "Salvato nei preferiti",
     toast_wishlist_removed: "Rimosso dai preferiti",
     toast_subscribed: "Iscrizione completata con successo!"
+  },
+  hi: {
+    nav_explore: "एक्सप्लोर करें",
+    nav_categories: "श्रेणियां",
+    nav_trending: "ट्रेंडिंग",
+    nav_makers: "कारीगरों से मिलें",
+    nav_story: "शिल्प कहानी",
+    nav_community: "समुदाय",
+    search_placeholder: "मिट्टी के बर्तन, मोमबत्तियां, आभूषण खोजें...",
+    login: "लॉग इन",
+    signup: "साइन अप",
+    cart: "कार्ट",
+    wishlist: "विशलिस्ट",
+
+    hero_badge: "प्रामाणिक हस्तनिर्मित खजाने",
+    hero_title: "कारीगर के व्यक्तिगत स्पर्श से हस्तनिर्मित",
+    hero_subtitle: "उत्साही स्वतंत्र कारीगरों से सीधे जुड़ें। सीमित-बैच मिट्टी के बर्तन, सुगंधित मोमबत्तियां, नक्काशीदार लकड़ी के शिल्प और आभूषण खोजें।",
+    hero_cta_shop: "संग्रह देखें",
+    hero_cta_makers: "कारीगरों से मिलें",
+    stat_artisans: "सत्यापित स्वतंत्र कारीगर",
+    stat_creations: "हस्तनिर्मित अनूठी कृतियां",
+    stat_rating: "कारीगर समुदाय रेटिंग",
+
+    bv_1_title: "100% हस्तनिर्मित गारंटी",
+    bv_1_desc: "प्रत्येक वस्तु हाथों से बनाई गई है, कभी भी बड़े पैमाने पर उत्पादित नहीं।",
+    bv_2_title: "प्रत्यक्ष कारीगर सहायता",
+    bv_2_desc: "85%+ राजस्व सीधे स्वतंत्र कारीगरों के पास जाता है।",
+    bv_3_title: "सतत पैकेजिंग",
+    bv_3_desc: "पर्यावरण-अनुकूल सामग्री और बायोडिग्रेडेबल रैपिंग।",
+    bv_4_title: "विश्वव्यापी एक्सप्रेस केयर",
+    bv_4_desc: "सुरक्षित, बीमित वैश्विक शिपिंग और नाजुक वस्तु सुरक्षा।",
+
+    cat_title: "शिल्प श्रेणी के अनुसार खरीदारी करें",
+    cat_subtitle: "उत्कृष्ट कारीगरों द्वारा बनाई गई क्यूरेटेड संग्रह खोजें।",
+
+    tp_title: "ट्रेंडिंग हस्तनिर्मित कृतियां",
+    tp_subtitle: "दुनिया भर के स्वतंत्र निर्माताओं द्वारा सीधे तैयार किए गए लोकप्रिय आइटम।",
+    tp_filter_all: "सभी हस्तनिर्मित",
+    tp_quick_add: "कार्ट में जोड़ें",
+    tp_explore_all: "सभी उत्पाद देखें",
+
+    makers_title: "शिल्प के पीछे के हाथों से मिलें",
+    makers_subtitle: "हर रचना में दिल और परंपरा उड़ेलने वाले उस्ताद कारीगरों की खोज करें।",
+    master_craftsperson: "मास्टर कारीगर",
+
+    community_title: "समृद्ध वैश्विक शिल्प समुदाय",
+    community_desc: "हमारे उत्साही समुदाय में शामिल हों और हस्तनिर्मित कलाकृतियों की सराहना करें।",
+
+    story_title: "हर रचना के पीछे एक कहानी है",
+    story_desc: "हमारी कारीगर यात्रा और सांस्कृतिक विरासत के बारे में जानें।",
+
+    disc_title: "निजीकृत शिल्प खोज",
+    disc_subtitle: "अपनी शैली से मेल खाने वाले अनूठे हस्तनिर्मित आइटम खोजें।",
+
+    seller_title: "क्या आप एक हस्तनिर्मित कारीगर हैं?",
+    seller_desc: "आज ही Craftinator पर बेचना शुरू करें और वैश्विक खरीदारों से जुड़ें।",
+
+    testimonials_title: "शिल्प संग्राहकों द्वारा पसंद किया गया",
+    testimonials_subtitle: "सुनें कि हमारे ग्राहक हस्तनिर्मित वस्तुओं के बारे में क्या कहते हैं।",
+
+    news_title: "हमारी हस्तनिर्मित दुनिया से जुड़े रहें",
+    news_desc: "विशेष कारीगर कहानियों और नए संग्रह रिलीज के अपडेट प्राप्त करें।",
+    news_placeholder: "अपना ईमेल पता दर्ज करें",
+    news_btn: "सदस्यता लें",
+
+    footer_about: "Craftinator स्वतंत्र कारीगरों को वैश्विक कला प्रेमियों से जोड़ता है।",
+    footer_quick_links: "त्वरित लिंक",
+    footer_craft_categories: "शिल्प श्रेणियां",
+    footer_customer_care: "ग्राहक सेवा",
+    footer_rights: "सर्वाधिकार सुरक्षित।",
+
+    cart_title: "आपकी कार्ट",
+    cart_empty: "आपकी कार्ट खाली है",
+    cart_total: "कुल योग",
+    checkout: "चेकआउट करें",
+
+    wishlist_title: "आपकी विशलिस्ट",
+    wishlist_empty: "कोई सहेजी गई वस्तुएं नहीं हैं।",
+
+    auth_login_title: "अपने Craftinator खाते में लॉग इन करें",
+    auth_signup_title: "Craftinator समुदाय में शामिल हों",
+    auth_email: "ईमेल पता",
+    auth_password: "पासवर्ड",
+    auth_fullname: "पूरा नाम",
+    auth_btn_login: "लॉग इन करें",
+    auth_btn_signup: "खाता बनाएं",
+    auth_switch_signup: "खाता नहीं है? साइन अप करें",
+    auth_switch_login: "पहले से खाता है? लॉग इन करें",
+
+    story_modal_title: "पारंपरिक हस्तशिल्प की कहानी",
+    story_modal_close: "बंद करें",
+
+    toast_cart_added: "सफलतापूर्वक कार्ट में जोड़ा गया",
+    toast_wishlist_added: "विशलिस्ट में सहेजा गया",
+    toast_wishlist_removed: "विशलिस्ट से हटाया गया",
+    toast_subscribed: "सफलतापूर्वक सदस्यता ली गई!"
+  },
+  bn: {
+    nav_explore: "অন্বেষণ করুন",
+    nav_categories: "বিভাগসমূহ",
+    nav_trending: "ট্রেন্ডিং",
+    nav_makers: "কারুশিল্পীদের সাথে মিলুন",
+    nav_story: "ক্রাফট গল্প",
+    nav_community: "সম্প্রদায়",
+    search_placeholder: "মাটির পাত্র, মোমবাতি, গয়না অনুসন্ধান করুন...",
+    login: "লগ ইন",
+    signup: "সাইন আপ",
+    cart: "কার্ট",
+    wishlist: "উইশলিস্ট",
+
+    hero_badge: "খাটি হাতে তৈরি ধন",
+    hero_title: "কারিগরের ব্যক্তিগত স্পর্শে হাতে তৈরি",
+    hero_subtitle: "সরাসরি অনুরাগী স্বাধীন কারুশিল্পীদের সাথে যুক্ত হন। সীমিত ব্যাচের মাটির পাত্র, হাতে ঢালা মোমবাতি, খোদাই করা কাঠের শিল্প এবং গয়না অন্বেষণ করুন।",
+    hero_cta_shop: "সংগ্রহ দেখুন",
+    hero_cta_makers: "কারুশিল্পীদের সাথে মিলুন",
+    stat_artisans: "যাচাইকৃত স্বাধীন কারুশিল্পী",
+    stat_creations: "হাতে তৈরি অনন্য সৃষ্টি",
+    stat_rating: "কারুশিল্পী সম্প্রদায় রেটিং",
+
+    bv_1_title: "১০০% হাতে তৈরি গ্যারান্টি",
+    bv_1_desc: "প্রতিটি বস্তু মানুষের হাতে তৈরি, কখনোই ব্যাপকভাবে উৎপাদিত নয়।",
+    bv_2_title: "সরাসরি কারুশিল্পী সহায়তা",
+    bv_2_desc: "৮৫%+ রাজস্ব সরাসরি স্বাধীন কারুশিল্পীদের কাছে যায়।",
+    bv_3_title: "টেকসই প্যাকেজিং",
+    bv_3_desc: "পরিবেশ-বান্ধব উপাদান এবং বায়োডিগ্রেডেবল র‍্যাপিং।",
+    bv_4_title: "বিশ্বব্যাপী এক্সপ্রেস কেয়ার",
+    bv_4_desc: "সুরক্ষিত এবং বীমাকৃত বৈশ্বিক শিপিং।",
+
+    cat_title: "ক্রাফট বিভাগ অনুযায়ী কেনাকাটা করুন",
+    cat_subtitle: "চমৎকার কারুশিল্পীদের দ্বারা তৈরি কিউরেটেড সংগ্রহ অন্বেষণ করুন।",
+
+    tp_title: "ট্রেন্ডিং হাতে তৈরি সৃষ্টি",
+    tp_subtitle: "বিশ্বজুড়ে স্বাধীন নির্মাতাদের দ্বারা সরাসরি তৈরি করা জনপ্রিয় আইটেম।",
+    tp_filter_all: "সমস্ত হাতে তৈরি",
+    tp_quick_add: "কার্টে যোগ করুন",
+    tp_explore_all: "সমস্ত পণ্য দেখুন",
+
+    makers_title: "ক্রাফটের পিছনের হাতের সাথে মিলুন",
+    makers_subtitle: "প্রতিটি সৃষ্টিতে হৃদয় ঢেলে দেওয়া ওস্তাদ কারুশিল্পীদের আবিষ্কার করুন।",
+    master_craftsperson: "মাস্টার কারুশিল্পী",
+
+    community_title: "সমৃদ্ধ বৈশ্বিক ক্রাফট সম্প্রদায়",
+    community_desc: "আমাদের অনুরাগী সম্প্রদায়ে যোগ দিন এবং হাতে তৈরি শিল্পকর্মের প্রশংসা করুন।",
+
+    story_title: "প্রতিটি সৃষ্টির পিছনে একটি গল্প আছে",
+    story_desc: "আমাদের কারুশিল্পী যাত্রা এবং সাংস্কৃতিক ঐতিহ্য সম্পর্কে জানুন।",
+
+    disc_title: "ব্যক্তিগতকৃত ক্রাফট অন্বেষণ",
+    disc_subtitle: "আপনার শৈলীর সাথে মিল রেখে অনন্য হাতে তৈরি আইটেম খুঁজুন।",
+
+    seller_title: "আপনি কি একজন হাতে তৈরি পণ্যের কারুশিল্পী?",
+    seller_desc: "আজই Craftinator এ বিক্রি শুরু করুন এবং বৈশ্বিক ক্রেতাদের সাথে যুক্ত হন।",
+
+    testimonials_title: "ক্রাফট সংগ্রাহকদের দ্বারা পছন্দনীয়",
+    testimonials_subtitle: "আমাদের গ্রাহকরা হাতে তৈরি আইটেম সম্পর্কে কি বলেন তা শুনুন।",
+
+    news_title: "আমাদের হাতে তৈরি বিশ্বের সাথে যুক্ত থাকুন",
+    news_desc: "বিশেষ কারুশিল্পী গল্প এবং নতুন সংগ্রহের আপডেট পান।",
+    news_placeholder: "আপনার ইমেল ঠিকানা লিখুন",
+    news_btn: "সাবস্ক্রাইব করুন",
+
+    footer_about: "Craftinator স্বাধীন কারুশিল্পীদের বৈশ্বিক শিল্প প্রেমীদের সাথে যুক্ত করে।",
+    footer_quick_links: "দ্রুত লিঙ্ক",
+    footer_craft_categories: "ক্রাফট বিভাগসমূহ",
+    footer_customer_care: "গ্রাহক সেবা",
+    footer_rights: "সর্বস্বত্ব সংরক্ষিত।",
+
+    cart_title: "আপনার কার্ট",
+    cart_empty: "আপনার কার্ট খালি",
+    cart_total: "মোট যোগফল",
+    checkout: "চেকআউট করুন",
+
+    wishlist_title: "আপনার উইশলিস্ট",
+    wishlist_empty: "কোন সংরক্ষিত বস্তু নেই।",
+
+    auth_login_title: "আপনার Craftinator অ্যাকাউন্টে লগ ইন করুন",
+    auth_signup_title: "Craftinator সম্প্রদায়ে যোগ দিন",
+    auth_email: "ইমেল ঠিকানা",
+    auth_password: "পাসওয়ার্ড",
+    auth_fullname: "পূর্ণ নাম",
+    auth_btn_login: "লগ ইন করুন",
+    auth_btn_signup: "অ্যাকাউন্ট তৈরি করুন",
+    auth_switch_signup: "অ্যাকাউন্ট নেই? সাইন আপ করুন",
+    auth_switch_login: "ইতিমধ্যেই অ্যাকাউন্ট আছে? লগ ইন করুন",
+
+    story_modal_title: "ঐতিহ্যবাহী হস্তশিল্পের গল্প",
+    story_modal_close: "বন্ধ করুন",
+
+    toast_cart_added: "সফলভাবে কার্টে যোগ করা হয়েছে",
+    toast_wishlist_added: "উইশলিস্টে সংরক্ষিত হয়েছে",
+    toast_wishlist_removed: "উইশলিস্ট থেকে সরানো হয়েছে",
+    toast_subscribed: "সফলভাবে সাবস্ক্রাইব করা হয়েছে!"
   }
 };
