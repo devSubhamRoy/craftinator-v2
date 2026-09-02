@@ -1,7 +1,10 @@
 /* Header Component Styles */
 .header-root {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
   background-color: var(--bg-primary);
   border-bottom: 1px solid var(--border-warm);
