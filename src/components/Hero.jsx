@@ -9,34 +9,7 @@ export default function Hero({ onShopClick, onArtisansClick }) {
     <section className="hero-section" id="hero">
       <div className="container hero-container">
         
-        {/* Left Column: Editorial Headline & Actions */}
-        <div className="hero-content">
-          <span className="eyebrow">{t('hero_badge')}</span>
-          
-          <h1 className="hero-heading">
-            {t('hero_title')}
-          </h1>
-
-          <p className="paragraph-lg hero-description">
-            {t('hero_subtitle')}
-          </p>
-
-          <div className="hero-actions">
-            <a href="#trending-products" className="btn btn-primary hero-btn-main" onClick={onShopClick}>
-              {t('hero_cta_shop')} <ArrowRight size={18} />
-            </a>
-            <a href="#meet-makers" className="btn btn-secondary hero-btn-sub" onClick={onArtisansClick}>
-              {t('hero_cta_makers')}
-            </a>
-          </div>
-
-          <div className="hero-slogan-strip">
-            <span className="slogan-dot" />
-            <span className="slogan-text">Artisans. Community. Connections.</span>
-          </div>
-        </div>
-
-        {/* Right Column: Editorial Photo Collage */}
+        {/* Photo Collage Visual (Placed first in HTML so it appears first on mobile/tablet) */}
         <div className="hero-visual">
           <div className="hero-collage-grid">
             
@@ -118,6 +91,33 @@ export default function Hero({ onShopClick, onArtisansClick }) {
               />
             </div>
 
+          </div>
+        </div>
+
+        {/* Editorial Headline & Actions (Placed second, appears under photo collage on mobile/tablet) */}
+        <div className="hero-content">
+          <span className="eyebrow">{t('hero_badge')}</span>
+          
+          <h1 className="hero-heading">
+            {t('hero_title')}
+          </h1>
+
+          <p className="paragraph-lg hero-description">
+            {t('hero_subtitle')}
+          </p>
+
+          <div className="hero-actions">
+            <a href="#trending-products" className="btn btn-primary hero-btn-main" onClick={onShopClick}>
+              {t('hero_cta_shop')} <ArrowRight size={18} />
+            </a>
+            <a href="#meet-makers" className="btn btn-secondary hero-btn-sub" onClick={onArtisansClick}>
+              {t('hero_cta_makers')}
+            </a>
+          </div>
+
+          <div className="hero-slogan-strip">
+            <span className="slogan-dot" />
+            <span className="slogan-text">Artisans. Community. Connections.</span>
           </div>
         </div>
 

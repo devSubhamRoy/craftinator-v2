@@ -1,161 +1,191 @@
-/* Shop By Category Component Styles */
+/* Craftinator 3-Photo Collage Category Styles */
 .category-section {
-  padding: 5rem 0;
+  padding: 4.5rem 0;
   background-color: var(--bg-primary);
 }
 
-.text-center {
-  text-align: center;
+/* Header Row */
+.category-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 2.25rem;
 }
 
-.section-header {
-  max-width: 620px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 3.5rem;
+.category-header-title-group .eyebrow {
+  margin-bottom: 0.35rem;
 }
 
-.section-title {
-  margin-bottom: 0.75rem;
+.category-main-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
 }
 
-.section-subtitle {
-  color: var(--text-secondary);
+.btn-see-all {
+  padding: 0.6rem 1.4rem;
+  font-size: 0.88rem;
 }
 
-/* Category Grid Layout */
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 240px;
-  gap: 1.25rem;
-}
-
-/* Editorial Grid Spans */
-.category-card {
+/* Slider Wrapper */
+.category-slider-wrapper {
   position: relative;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  width: 100%;
 }
 
-.category-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+.category-carousel-track {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.35rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
 }
 
-.category-card-bg {
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+.category-carousel-track::-webkit-scrollbar {
+  display: none;
 }
 
-.category-card:hover .category-card-bg {
-  transform: scale(1.06);
-}
-
-.category-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(35, 24, 21, 0.1) 0%, rgba(35, 24, 21, 0.75) 100%);
-  transition: opacity var(--transition-fast);
-}
-
-.category-card:hover .category-card-overlay {
-  background: linear-gradient(180deg, rgba(35, 24, 21, 0.15) 0%, rgba(35, 24, 21, 0.85) 100%);
-}
-
-.category-card-content {
-  position: absolute;
-  inset: 0;
-  padding: 1.5rem;
+/* Craft Category Card */
+.craft-category-card {
+  flex: 0 0 310px;
+  width: 310px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  z-index: 2;
-  color: #FFFFFF;
-}
-
-.category-count {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.85);
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(6px);
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-full);
-  display: inline-block;
-  margin-bottom: 0.5rem;
-}
-
-.category-title {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  line-height: 1.15;
-}
-
-.category-explore-btn {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: transparent;
-  border: none;
-  color: #FFFFFF;
-  font-family: var(--font-sans);
-  font-size: 0.88rem;
-  font-weight: 600;
   cursor: pointer;
-  padding: 0;
   transition: transform var(--transition-fast);
 }
 
-.category-card:hover .category-explore-btn {
-  transform: translateX(4px);
-  color: #F7D6C8;
+.craft-category-card:hover {
+  transform: translateY(-4px);
 }
 
-/* Grid Spanning Classes */
-.col-span-1 { grid-column: span 1; }
-.row-span-1 { grid-row: span 1; }
-.row-span-2 { grid-row: span 2; }
-
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-  .category-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 220px;
-  }
-  .row-span-2 {
-    grid-row: span 1;
-  }
+/* 3-Photo Split Collage Container */
+.collage-container {
+  display: flex;
+  gap: 3px;
+  height: 190px;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 0.85rem;
+  background-color: var(--bg-secondary);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-warm);
 }
 
+.collage-left {
+  flex: 1.35;
+  height: 100%;
+  overflow: hidden;
+}
+
+.collage-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  height: 100%;
+}
+
+.collage-thumb-top,
+.collage-thumb-bottom {
+  flex: 1;
+  height: 50%;
+  overflow: hidden;
+}
+
+.collage-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.craft-category-card:hover .collage-img {
+  transform: scale(1.06);
+}
+
+/* Card Metadata Info */
+.craft-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.craft-card-title {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: 0.25rem;
+}
+
+.craft-card-tagline {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
+}
+
+.craft-card-count {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--accent-terracotta);
+}
+
+/* Floating Right Arrow Slider Button */
+.category-slider-arrow {
+  position: absolute;
+  right: -18px;
+  top: 95px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-warm);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(35, 24, 21, 0.12);
+  z-index: 10;
+  transition: all var(--transition-fast);
+}
+
+.category-slider-arrow:hover {
+  background-color: var(--text-primary);
+  color: #FFFFFF;
+  border-color: var(--text-primary);
+  transform: scale(1.08);
+}
+
+/* Responsive Mobile Breakpoint (< 640px) */
 @media (max-width: 640px) {
   .category-section {
-    padding: 3.5rem 0;
+    padding: 2.5rem 0;
   }
-  .category-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 190px;
-    gap: 0.85rem;
-  }
-  .category-title {
-    font-size: 1.35rem;
-  }
-  .category-card-content {
-    padding: 1rem;
-  }
-}
 
-@media (max-width: 380px) {
-  .category-grid {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 200px;
+  .category-header-row {
+    margin-bottom: 1.25rem;
+  }
+
+  .craft-category-card {
+    flex: 0 0 250px;
+    width: 250px;
+  }
+
+  .collage-container {
+    height: 155px;
+    border-radius: 14px;
+  }
+
+  .category-slider-arrow {
+    display: none;
   }
 }

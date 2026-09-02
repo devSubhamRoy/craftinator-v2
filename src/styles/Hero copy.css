@@ -1,0 +1,440 @@
+/* Hero Component Styles */
+.hero-section {
+  padding-top: 3.5rem;
+  padding-bottom: 4.5rem;
+  background-color: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-container {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+/* Left Content */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.hero-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 5.2vw, 4.4rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.hero-heading-italic {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-terracotta);
+}
+
+.hero-description {
+  max-width: 520px;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.hero-btn-main {
+  padding: 0.95rem 2rem;
+  font-size: 0.95rem;
+}
+
+.hero-btn-sub {
+  padding: 0.95rem 1.8rem;
+  font-size: 0.95rem;
+}
+
+.hero-slogan-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.slogan-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-terracotta);
+}
+
+/* Right Column: Premium Studio Showcase Stage */
+.hero-visual {
+  position: relative;
+  width: 100%;
+}
+
+.hero-stage-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
+  background: radial-gradient(circle, rgba(168, 88, 56, 0.12) 0%, rgba(250, 247, 242, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-showcase-stage {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+/* Main Focal Frame */
+.showcase-main-frame {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(35, 24, 21, 0.12);
+  border: 4px solid #FFFFFF;
+}
+
+.showcase-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.showcase-main-frame:hover .showcase-img {
+  transform: scale(1.04);
+}
+
+.showcase-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(35, 24, 21, 0.12) 0%, rgba(35, 24, 21, 0.38) 100%);
+}
+
+.showcase-main-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background-color: rgba(250, 247, 242, 0.94);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: var(--shadow-sm);
+  z-index: 2;
+}
+
+.badge-sparkle-icon {
+  color: var(--accent-terracotta);
+}
+
+/* Floating Glass Cards */
+.showcase-float-card {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(228, 220, 211, 0.8);
+  border-radius: 18px;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 12px 30px rgba(35, 24, 21, 0.12);
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+.showcase-float-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Floating Card 1: Top Right Artisan Profile */
+.card-artisan-profile {
+  top: 35px;
+  right: -24px;
+  width: 220px;
+  animation: floatSlow 4s ease-in-out infinite alternate;
+}
+
+.float-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.4rem;
+}
+
+.float-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-terracotta);
+}
+
+.float-artist-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.float-artist-info strong {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.float-artist-info span {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.float-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.35rem;
+  border-top: 1px dashed var(--border-warm);
+}
+
+.float-tag {
+  font-size: 0.68rem;
+  background: var(--bg-warm-badge);
+  color: var(--accent-terracotta);
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+/* Floating Card 2: Bottom Left Product Showcase */
+.card-product-highlight {
+  bottom: 50px;
+  left: -28px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 230px;
+  animation: floatSlow 5s ease-in-out infinite alternate-reverse;
+}
+
+.float-prod-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.float-prod-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.float-prod-info strong {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.float-prod-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+
+.float-price {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-terracotta);
+}
+
+.float-craft-badge {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+/* Floating Community Pill */
+.showcase-community-pill {
+  position: absolute;
+  bottom: -20px;
+  right: 20px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-warm);
+  padding: 0.55rem 1rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 10px 25px rgba(35, 24, 21, 0.1);
+  z-index: 12;
+}
+
+.pill-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.pill-avatars img {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  margin-left: -8px;
+}
+
+.pill-avatars img:first-child {
+  margin-left: 0;
+}
+
+.pill-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.pill-text strong {
+  font-size: 0.78rem;
+  color: var(--text-primary);
+}
+
+.pill-text span {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+@keyframes floatSlow {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
+/* Tablet Responsive Breakpoint (768px - 1024px) */
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .hero-heading {
+    font-size: 3.2rem;
+  }
+  .card-artisan-profile {
+    right: 10px;
+  }
+  .card-product-highlight {
+    left: 10px;
+  }
+}
+
+/* Mobile Responsive Breakpoint (< 640px) */
+@media (max-width: 640px) {
+  .hero-section {
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .hero-heading {
+    font-size: 2.2rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-btn-main, .hero-btn-sub {
+    width: 100%;
+    padding: 0.8rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .hero-showcase-stage {
+    max-width: 100%;
+  }
+
+  .showcase-main-frame {
+    height: 250px;
+    border-radius: 20px;
+    border: 2px solid #FFFFFF;
+  }
+
+  .showcase-main-badge {
+    top: 10px;
+    left: 10px;
+    font-size: 0.72rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  /* Clean mobile stage layout without cluttered floating card overlaps */
+  .card-artisan-profile {
+    display: none;
+  }
+
+  .card-product-highlight {
+    display: none;
+  }
+
+  .showcase-community-pill {
+    bottom: 12px;
+    right: 12px;
+    left: 12px;
+    width: calc(100% - 24px);
+    justify-content: center;
+    padding: 0.45rem 0.85rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+  }
+
+  .pill-avatars img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .pill-text strong {
+    font-size: 0.75rem;
+  }
+
+  .pill-text span {
+    font-size: 0.65rem;
+  }
+}
+

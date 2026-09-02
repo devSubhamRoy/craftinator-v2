@@ -25,5 +25,32 @@ export const testimonials = [
     city: 'Delhi',
     purchasedItem: 'Base Botanical Earrings',
     avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200&auto=format&fit=crop'
+  },
+  {
+    id: 't4',
+    rating: 5,
+    quote: 'The brass craftsmanship and attention to detail on the tea light holder is incredible. Knowing 85%+ goes directly to the maker makes it priceless.',
+    author: 'Siddharth K.',
+    city: 'Hyderabad',
+    purchasedItem: 'Brass Tea Light Holder',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop'
+  },
+  {
+    id: 't5',
+    rating: 5,
+    quote: 'I bought the hand-woven macrame tapestry for our living room wall. It completely transformed our home aesthetic with warm artisanal texture!',
+    author: 'Meera N.',
+    city: 'Pune',
+    purchasedItem: 'Woven Macrame Tapestry',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop'
+  },
+  {
+    id: 't6',
+    rating: 5,
+    quote: 'The soy wax candle in concrete vessel burns so cleanly. Beautiful essential oil fragrance, heirloom vessel design, and eco-friendly packaging.',
+    author: 'Kabir S.',
+    city: 'Chennai',
+    purchasedItem: 'Scented Fig Soy Candle',
+    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=200&auto=format&fit=crop'
   }
 ];

@@ -17,8 +17,6 @@ import './styles/SellerCTA.css';
 import './styles/Testimonials.css';
 import './styles/Newsletter.css';
 import './styles/Footer.css';
-import './styles/CartDrawer.css';
-import './styles/Modals.css';
 import './styles/LanguageSelector.css';
 
 /* Components */
@@ -36,14 +34,6 @@ import SellerCTA from './components/SellerCTA';
 import Testimonials from './components/Testimonials';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
-
-/* Drawers & Modals */
-import CartDrawer from './components/CartDrawer';
-import WishlistDrawer from './components/WishlistDrawer';
-import ProductModal from './components/ProductModal';
-import ArtisanModal from './components/ArtisanModal';
-import StoryModal from './components/StoryModal';
-import AuthModal from './components/AuthModal';
 import ToastNotification from './components/ToastNotification';
 
 /* Datasets */
@@ -63,15 +53,8 @@ function AppContent() {
     'scented-fig-candle'
   ]);
 
-  /* UI Drawers & Modals Control */
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  /* Mobile Drawer Control */
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  const [activeProductModal, setActiveProductModal] = useState(null);
-  const [activeArtisanModal, setActiveArtisanModal] = useState(null);
-  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
-  const [authModalConfig, setAuthModalConfig] = useState({ isOpen: false, mode: 'login' });
 
   /* Toast Notification */
   const [toast, setToast] = useState(null);
@@ -100,16 +83,6 @@ function AppContent() {
     showToast(`Added "${product.name}" to your cart`);
   };
 
-  const handleUpdateQuantity = (id, newQty) => {
-    if (newQty < 1) return;
-    setCartItems(prev => prev.map(item => item.id === id ? { ...item, quantity: newQty } : item));
-  };
-
-  const handleRemoveFromCart = (id) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
-    showToast('Removed item from cart');
-  };
-
   /* Wishlist Handlers */
   const handleToggleWishlist = (productId) => {
     if (wishlist.includes(productId)) {
@@ -121,13 +94,6 @@ function AppContent() {
     }
   };
 
-  /* Checkout Handler */
-  const handleCheckout = () => {
-    setIsCartOpen(false);
-    showToast('Thank you! Your artisan order has been placed.');
-    setCartItems([]);
-  };
-
   return (
     <div className="app-root">
       
@@ -135,11 +101,11 @@ function AppContent() {
       <Header
         cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
         wishlistCount={wishlist.length}
-        onOpenCart={() => setIsCartOpen(true)}
-        onOpenWishlist={() => setIsWishlistOpen(true)}
+        onOpenCart={() => showToast(`Cart contains ${cartItems.length} items`)}
+        onOpenWishlist={() => showToast(`Wishlist contains ${wishlist.length} items`)}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
-        onOpenAuth={(mode) => setAuthModalConfig({ isOpen: true, mode })}
-        onOpenSearch={() => showToast('Search modal ready: type pottery, candles, jewelry...')}
+        onOpenAuth={(mode) => showToast(`${mode === 'login' ? 'Log In' : 'Sign Up'} clicked`)}
+        onOpenSearch={() => showToast('Search ready: type pottery, candles, jewelry...')}
       />
 
       {/* 2. Hero Section */}
@@ -171,13 +137,13 @@ function AppContent() {
         <TrendingProducts
           wishlist={wishlist}
           onToggleWishlist={handleToggleWishlist}
-          onOpenProductModal={(product) => setActiveProductModal(product)}
+          onOpenProductModal={(product) => showToast(`Selected product: ${product.name}`)}
           onAddToCart={handleAddToCart}
         />
 
         {/* 6. Meet the Hands Behind the Craft */}
         <MeetMakers
-          onOpenArtisanModal={(artisan) => setActiveArtisanModal(artisan)}
+          onOpenArtisanModal={(artisan) => showToast(`Artisan profile: ${artisan.name}`)}
         />
 
         {/* 7. Community Section */}
@@ -190,7 +156,7 @@ function AppContent() {
 
         {/* 8. Behind Every Piece Is a Story */}
         <StoryBanner
-          onOpenStoryModal={() => setIsStoryModalOpen(true)}
+          onOpenStoryModal={() => showToast('Artisan craft story loaded')}
         />
 
         {/* 9. Personalized Discovery */}
@@ -204,7 +170,7 @@ function AppContent() {
 
         {/* 10. Seller / Artisan CTA */}
         <SellerCTA
-          onStartSelling={() => setAuthModalConfig({ isOpen: true, mode: 'signup' })}
+          onStartSelling={() => showToast('Artisan signup clicked')}
         />
 
         {/* 11. Customer Testimonials */}
@@ -219,66 +185,14 @@ function AppContent() {
       {/* 13. Footer */}
       <Footer />
 
-      {/* Drawers & Modals */}
+      {/* Mobile Navigation Drawer */}
       <MobileDrawer
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        onOpenAuth={(mode) => setAuthModalConfig({ isOpen: true, mode })}
+        onOpenAuth={(mode) => showToast(`${mode === 'login' ? 'Log In' : 'Sign Up'} clicked`)}
       />
 
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveFromCart}
-        onCheckout={handleCheckout}
-      />
-
-      <WishlistDrawer
-        isOpen={isWishlistOpen}
-        onClose={() => setIsWishlistOpen(false)}
-        wishlistIds={wishlist}
-        onToggleWishlist={handleToggleWishlist}
-        onAddToCart={handleAddToCart}
-        onOpenProductModal={(product) => {
-          setIsWishlistOpen(false);
-          setActiveProductModal(product);
-        }}
-      />
-
-      <ProductModal
-        product={activeProductModal}
-        isOpen={!!activeProductModal}
-        onClose={() => setActiveProductModal(null)}
-        isWishlisted={activeProductModal ? wishlist.includes(activeProductModal.id) : false}
-        onToggleWishlist={handleToggleWishlist}
-        onAddToCart={handleAddToCart}
-      />
-
-      <ArtisanModal
-        artisan={activeArtisanModal}
-        isOpen={!!activeArtisanModal}
-        onClose={() => setActiveArtisanModal(null)}
-        onAddToCart={handleAddToCart}
-        onOpenProductModal={(product) => {
-          setActiveArtisanModal(null);
-          setActiveProductModal(product);
-        }}
-      />
-
-      <StoryModal
-        isOpen={isStoryModalOpen}
-        onClose={() => setIsStoryModalOpen(false)}
-      />
-
-      <AuthModal
-        isOpen={authModalConfig.isOpen}
-        mode={authModalConfig.mode}
-        onClose={() => setAuthModalConfig({ ...authModalConfig, isOpen: false })}
-        onAuthSuccess={(msg) => showToast(msg)}
-      />
-
+      {/* Toast Notification */}
       <ToastNotification
         toast={toast}
         onClose={() => setToast(null)}

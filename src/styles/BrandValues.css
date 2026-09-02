@@ -1,15 +1,25 @@
 /* Brand Values Styles */
 .brand-values-section {
-  padding: 1.75rem 0;
+  padding: 1.5rem 0;
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-warm);
   border-bottom: 1px solid var(--border-warm);
+  overflow: hidden;
 }
 
-.brand-values-grid {
+.brand-values-container {
+  position: relative;
+}
+
+/* Desktop Grid View (>= 1024px) */
+.brand-values-desktop-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+}
+
+.brand-values-marquee-wrapper {
+  display: none;
 }
 
 .value-card {
@@ -19,8 +29,8 @@
 }
 
 .value-icon-wrapper {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background-color: var(--bg-primary);
   border: 1px solid var(--border-warm);
@@ -51,24 +61,48 @@
   line-height: 1.35;
 }
 
-@media (max-width: 1024px) {
-  .brand-values-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .brand-values-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.2rem;
-  }
+/* Mobile & Tablet Auto-Moving Horizontal Marquee Row (< 1024px) */
+@media (max-width: 1023px) {
   .brand-values-section {
-    padding: 1.5rem 0;
+    padding: 1.25rem 0;
+  }
+
+  .brand-values-desktop-grid {
+    display: none;
+  }
+
+  .brand-values-marquee-wrapper {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .brand-values-marquee-track {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    width: max-content;
+    animation: marqueeAutoScroll 22s linear infinite;
+  }
+
+  .brand-values-marquee-wrapper:hover .brand-values-marquee-track,
+  .brand-values-marquee-wrapper:active .brand-values-marquee-track,
+  .brand-values-marquee-track.is-paused {
+    animation-play-state: paused !important;
+  }
+
+  .marquee-card {
+    width: 260px;
+    flex-shrink: 0;
   }
 }
 
-@media (max-width: 420px) {
-  .brand-values-grid {
-    grid-template-columns: 1fr;
+@keyframes marqueeAutoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-25% - 0.5rem));
   }
 }
