@@ -1,0 +1,81 @@
+/* ============================================================
+   SCROLL TO TOP BUTTON - STYLESHEET
+   Round floating arrow with #231815 background and silky-smooth
+   entrance/fade-out transitions.
+   ============================================================ */
+
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #231815;
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(35, 24, 21, 0.35);
+  z-index: 995;
+  outline: none;
+  touch-action: manipulation;
+  will-change: opacity, transform, visibility;
+
+  /* Default Hidden State (in DOM for smooth transition) */
+  opacity: 0;
+  transform: translateY(14px) scale(0.9);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+              visibility 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+              background-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+/* Silky-Smooth Entrance when screen stops moving */
+.scroll-to-top-btn.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+/* Ultra-smooth Fade-Out Transition over ~2 seconds (from 3s mark to 5s mark) */
+.scroll-to-top-btn.fading {
+  opacity: 0;
+  transform: translateY(10px) scale(0.92);
+  pointer-events: none;
+  visibility: visible;
+  transition: opacity 1.9s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 1.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-to-top-btn:hover {
+  background-color: #3A2C27;
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 12px 28px rgba(35, 24, 21, 0.5);
+}
+
+.scroll-to-top-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+/* Responsive adjustment for Mobile (< 768px) */
+@media (max-width: 767px) {
+  .scroll-to-top-btn {
+    bottom: 22px;
+    right: 18px;
+    width: 44px;
+    height: 44px;
+    box-shadow: 0 6px 20px rgba(35, 24, 21, 0.38);
+  }
+}

@@ -55,6 +55,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
   cursor: pointer;
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
