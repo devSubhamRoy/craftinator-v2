@@ -1,22 +1,37 @@
 import React, { useState } from 'react';
 import { products } from '../data/products';
-import { Heart, Star, ShoppingBag, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
+import ProductCard from './ProductCard';
+import ProductCardSkeleton from './ProductCardSkeleton';
 
 export default function TrendingProducts({
   wishlist,
   onToggleWishlist,
   onOpenProductModal,
-  onAddToCart
+  onAddToCart,
+  onExploreAllClick
 }) {
   const { t } = useLanguage();
   const [selectedFilter, setSelectedFilter] = useState('All');
+  const [isLoading, setIsLoading] = useState(false);
 
   const filterTabs = ['All', 'Pottery & Ceramics', 'Jewelry', 'Woodcraft', 'Textiles', 'Candles'];
 
-  const filteredProducts = selectedFilter === 'All'
-    ? products
-    : products.filter(p => p.category === selectedFilter);
+  const handleFilterChange = (tab) => {
+    if (tab === selectedFilter) return;
+    setIsLoading(true);
+    setSelectedFilter(tab);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 280);
+  };
+
+  const filteredProducts = (
+    selectedFilter === 'All'
+      ? products.filter(p => p.isTrending)
+      : products.filter(p => p.category === selectedFilter)
+  ).slice(0, 8);
 
   return (
     <section className="trending-section" id="trending-products">
@@ -37,7 +52,7 @@ export default function TrendingProducts({
             <button
               key={tab}
               className={`filter-chip ${selectedFilter === tab ? 'active' : ''}`}
-              onClick={() => setSelectedFilter(tab)}
+              onClick={() => handleFilterChange(tab)}
             >
               {tab === 'All' ? t('nav_explore') : tab}
             </button>
@@ -46,77 +61,34 @@ export default function TrendingProducts({
 
         {/* Product Grid */}
         <div className="product-grid">
-          {filteredProducts.map((product) => {
-            const isWishlisted = wishlist.includes(product.id);
+          {isLoading ? (
+            Array.from({ length: 8 }).map((_, idx) => (
+              <ProductCardSkeleton key={`trending-skeleton-${idx}`} />
+            ))
+          ) : (
+            filteredProducts.map((product) => {
+              const isWishlisted = wishlist.includes(product.id);
 
-            return (
-              <div key={product.id} className="product-card">
-                
-                {/* Card Top Media Container */}
-                <div className="product-media" onClick={() => onOpenProductModal(product)}>
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="product-img img-cover"
-                    loading="lazy"
-                  />
-                  
-                  {/* Badge */}
-                  {product.badge && (
-                    <span className="product-card-badge">{product.badge}</span>
-                  )}
-
-                  {/* Heart Wishlist Icon */}
-                  <button
-                    className={`product-wishlist-btn ${isWishlisted ? 'active' : ''}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onToggleWishlist(product.id);
-                    }}
-                    aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                  >
-                    <Heart size={18} fill={isWishlisted ? '#A85838' : 'none'} />
-                  </button>
-
-                  {/* Quick Add Overlay Button */}
-                  <button
-                    className="product-quick-add"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onAddToCart(product);
-                    }}
-                  >
-                    <ShoppingBag size={15} />
-                    <span>{t('add_to_cart')}</span>
-                  </button>
-                </div>
-
-                {/* Card Body Information */}
-                <div className="product-info" onClick={() => onOpenProductModal(product)}>
-                  <div className="product-meta">
-                    <span className="product-maker-name">{t('by')} {product.artisan}</span>
-                    <div className="product-rating">
-                      <Star size={13} fill="#A85838" color="#A85838" />
-                      <span>{product.rating}</span>
-                    </div>
-                  </div>
-
-                  <h3 className="product-title">{product.name}</h3>
-
-                  <div className="product-footer">
-                    <span className="product-price">₹{product.price.toLocaleString('en-IN')}</span>
-                    <span className="product-location">{product.artisanCity}</span>
-                  </div>
-                </div>
-
-              </div>
-            );
-          })}
+              return (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  isWishlisted={isWishlisted}
+                  onToggleWishlist={onToggleWishlist}
+                  onOpenProductModal={onOpenProductModal}
+                  onAddToCart={onAddToCart}
+                />
+              );
+            })
+          )}
         </div>
 
-        {/* Bottom CTA Button */}
+        {/* Bottom CTA Button navigating to /shop */}
         <div className="text-center trending-bottom-cta">
-          <button className="btn btn-primary btn-explore-all" onClick={() => setSelectedFilter('All')}>
+          <button
+            className="btn btn-primary btn-explore-all"
+            onClick={() => onExploreAllClick ? onExploreAllClick() : setSelectedFilter('All')}
+          >
             {t('hero_cta_shop')} <ArrowRight size={18} />
           </button>
         </div>
