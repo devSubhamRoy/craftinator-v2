@@ -1,11 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { artisans } from '../data/artisans';
 import { MapPin, ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
+import ArtisanCardSkeleton from './ArtisanCardSkeleton';
 
 export default function MeetMakers({ onOpenArtisanModal }) {
   const { t } = useLanguage();
   const sliderRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  /* Initial mount skeleton shimmer effect */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleScrollPrev = () => {
     if (sliderRef.current) {
@@ -37,7 +47,12 @@ export default function MeetMakers({ onOpenArtisanModal }) {
         {/* Artisans Horizontal Row Slider */}
         <div className="makers-slider-wrapper">
           <div className="artisan-carousel-track" ref={sliderRef}>
-            {artisans.map((artisan) => (
+            {isLoading ? (
+              Array.from({ length: 4 }).map((_, idx) => (
+                <ArtisanCardSkeleton key={`artisan-skeleton-${idx}`} />
+              ))
+            ) : (
+              artisans.map((artisan) => (
               <div
                 key={artisan.id}
                 className="artisan-card"
@@ -85,7 +100,8 @@ export default function MeetMakers({ onOpenArtisanModal }) {
                   </button>
                 </div>
               </div>
-            ))}
+              ))
+            )}
           </div>
 
           {/* Floating Left Arrow Control */}
