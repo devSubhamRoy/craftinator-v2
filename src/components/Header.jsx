@@ -6,6 +6,8 @@ import LanguageSelector from './LanguageSelector';
 export default function Header({
   cartCount,
   wishlistCount,
+  currentPath,
+  onNavigate,
   onOpenCart,
   onOpenWishlist,
   onOpenMobileMenu,
@@ -14,7 +16,6 @@ export default function Header({
 }) {
   const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
-  const [activeNav, setActiveNav] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,12 +26,31 @@ export default function Header({
   }, []);
 
   const navItems = [
-    { id: 'home', label: t('nav_explore'), href: '#' },
-    { id: 'shop', label: t('nav_trending'), href: '#trending-products' },
-    { id: 'artisans', label: t('nav_makers'), href: '#meet-makers' },
-    { id: 'community', label: t('nav_community'), href: '#community-section' },
-    { id: 'stories', label: t('nav_story'), href: '#story-banner' }
+    { id: 'home', label: 'Home', path: '/' },
+    { id: 'shop', label: 'Shop', path: '/shop' },
+    { id: 'artisans', label: 'Artisans', path: '/#meet-makers', anchor: 'meet-makers' },
+    { id: 'community', label: 'Community', path: '/#community-section', anchor: 'community-section' },
+    { id: 'stories', label: 'Stories', path: '/#story-banner', anchor: 'story-banner' }
   ];
+
+  const handleNavClick = (e, item) => {
+    e.preventDefault();
+    if (item.path === '/shop') {
+      onNavigate && onNavigate('/shop');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (item.path === '/') {
+      onNavigate && onNavigate('/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (item.anchor) {
+      onNavigate && onNavigate('/');
+      setTimeout(() => {
+        const el = document.getElementById(item.anchor);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+  };
+
+  const isShopActive = currentPath === '/shop';
 
   return (
     <header className={`header-root ${scrolled ? 'header-scrolled' : ''}`}>
@@ -46,25 +66,38 @@ export default function Header({
         </button>
 
         {/* Brand Text Logo */}
-        <a href="#" className="brand-logo-text" aria-label="Craftinator Homepage">
+        <a
+          href="/"
+          className="brand-logo-text"
+          aria-label="Craftinator Homepage"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate && onNavigate('/');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        >
           Craftinator
         </a>
 
         {/* Center Desktop Navigation */}
         <nav className="header-nav-desktop" aria-label="Main Navigation">
           <ul className="header-nav-list">
-            {navItems.map((item) => (
-              <li key={item.id}>
-                <a
-                  href={item.href}
-                  className={`header-nav-link ${activeNav === item.id ? 'active' : ''}`}
-                  onClick={() => setActiveNav(item.id)}
-                >
-                  {item.label}
-                  {activeNav === item.id && <span className="nav-active-indicator" />}
-                </a>
-              </li>
-            ))}
+            {navItems.map((item) => {
+              const isActive = item.id === 'shop' ? isShopActive : (!isShopActive && item.id === 'home');
+
+              return (
+                <li key={item.id}>
+                  <a
+                    href={item.path}
+                    className={`header-nav-link ${isActive ? 'active' : ''}`}
+                    onClick={(e) => handleNavClick(e, item)}
+                  >
+                    {item.label}
+                    {isActive && <span className="nav-active-indicator" />}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
