@@ -24,17 +24,6 @@ import './styles/Modals.css';
 /* Global Components */
 import Header from './components/Header';
 import MobileDrawer from './components/MobileDrawer';
-import Hero from './components/Hero';
-import BrandValues from './components/BrandValues';
-import ShopByCategory from './components/ShopByCategory';
-import TrendingProducts from './components/TrendingProducts';
-import MeetMakers from './components/MeetMakers';
-import CommunitySection from './components/CommunitySection';
-import StoryBanner from './components/StoryBanner';
-import PersonalizedDiscovery from './components/PersonalizedDiscovery';
-import SellerCTA from './components/SellerCTA';
-import Testimonials from './components/Testimonials';
-import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import ToastNotification from './components/ToastNotification';
 import ProductModal from './components/ProductModal';
@@ -43,21 +32,27 @@ import AuthModal from './components/AuthModal';
 import ScrollToTop from './components/ScrollToTop';
 
 /* Pages */
+import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 
 /* Datasets */
 import { products } from './data/products';
-import { artisans } from './data/artisans';
 
 function AppContent() {
   /* Route State */
   const [currentPath, setCurrentPath] = useState(
-    typeof window !== 'undefined' && window.location.pathname === '/shop' ? '/shop' : '/'
+    typeof window !== 'undefined' && window.location.pathname === '/shop'
+      ? '/shop'
+      : (window.location.pathname === '/home' ? '/home' : '/')
   );
 
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname === '/shop' ? '/shop' : '/');
+      setCurrentPath(
+        window.location.pathname === '/shop'
+          ? '/shop'
+          : (window.location.pathname === '/home' ? '/home' : '/')
+      );
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     };
     window.addEventListener('popstate', handlePopState);
@@ -163,60 +158,16 @@ function AppContent() {
             onNavigateHome={() => handleNavigate('/')}
           />
         ) : (
-          /* Dedicated Homepage (/) */
-          <>
-            <Hero
-              onShopClick={() => handleNavigate('/shop')}
-              onArtisansClick={() => {
-                const el = document.getElementById('meet-makers');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-            />
-
-            <BrandValues />
-
-            <ShopByCategory
-              onSelectCategory={(category) => {
-                handleNavigate('/shop');
-              }}
-            />
-
-            <TrendingProducts
-              wishlist={wishlist}
-              onToggleWishlist={handleToggleWishlist}
-              onOpenProductModal={(product) => setSelectedProductModal(product)}
-              onAddToCart={handleAddToCart}
-              onExploreAllClick={() => handleNavigate('/shop')}
-            />
-
-            <MeetMakers
-              onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
-            />
-
-            <CommunitySection
-              onExploreClick={() => handleNavigate('/shop')}
-            />
-
-            <StoryBanner
-              onOpenStoryModal={() => showToast('Artisan craft story loaded')}
-            />
-
-            <PersonalizedDiscovery
-              onFilterByStyle={(style) => {
-                handleNavigate('/shop');
-              }}
-            />
-
-            <SellerCTA
-              onStartSelling={() => setSelectedArtisanModal(artisans[0])}
-            />
-
-            <Testimonials />
-
-            <Newsletter
-              onSubscribe={(email) => showToast(`Subscribed ${email} to Craftinator Community`)}
-            />
-          </>
+          /* Dedicated Homepage (/ and /home) */
+          <HomePage
+            wishlist={wishlist}
+            onToggleWishlist={handleToggleWishlist}
+            onOpenProductModal={(product) => setSelectedProductModal(product)}
+            onAddToCart={handleAddToCart}
+            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onNavigate={handleNavigate}
+            showToast={showToast}
+          />
         )}
       </main>
 

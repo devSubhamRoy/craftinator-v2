@@ -1,15 +1,16 @@
-import React from 'react';
-import { materials } from '../data/materials';
+import React from "react";
+import { materials } from "../data/materials";
 
 export default function ShopByMaterial({ onSelectMaterial }) {
   return (
     <section className="material-section">
       <div className="container">
-        
         {/* Section Header */}
         <div className="section-header text-center">
           <span className="eyebrow">Shop by Material</span>
-          <h2 className="heading-lg section-title">Crafted From Something Real.</h2>
+          <h2 className="heading-lg section-title">
+            Crafted From Something Real.
+          </h2>
         </div>
 
         {/* Material Cards Track */}
@@ -33,7 +34,6 @@ export default function ShopByMaterial({ onSelectMaterial }) {
             ))}
           </div>
         </div>
-
       </div>
     </section>
   );

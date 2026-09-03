@@ -1,0 +1,180 @@
+/* ============================================================
+   ARTISAN CARD SKELETON - STYLESHEET
+   Shimmer animation and dimensional matching for MeetMakers
+   ============================================================ */
+
+.artisan-card.artisan-card-skeleton {
+  pointer-events: none;
+  user-select: none;
+  border: 1px solid var(--border-warm, #E4DCD3);
+  background-color: var(--bg-card, #FFFFFF);
+  border-radius: var(--radius-lg, 20px);
+  overflow: visible;
+  position: relative;
+  box-shadow: var(--shadow-sm, 0 2px 8px rgba(35, 24, 21, 0.04));
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 300px;
+  width: 300px;
+}
+
+/* Studio image skeleton clip */
+.skeleton-artisan-clip {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-lg, 20px) var(--radius-lg, 20px) 0 0;
+  background-color: #EFE7DE;
+}
+
+/* Shimmer overlay animation */
+.skeleton-shimmer-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: artisanShimmerAnimation 1.6s ease-in-out infinite;
+  transform: translateX(-100%);
+}
+
+@keyframes artisanShimmerAnimation {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Floating Avatar Skeleton (unclipped circular) */
+.skeleton-artisan-avatar {
+  position: absolute;
+  bottom: -24px;
+  left: 20px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 3px solid #FFFFFF;
+  background-color: #E6DDCF;
+  box-shadow: 0 4px 12px rgba(35, 24, 21, 0.12);
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Top Badge Skeleton */
+.skeleton-artisan-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 88px;
+  height: 22px;
+  border-radius: var(--radius-full, 9999px);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+/* Content Skeleton Box */
+.skeleton-artisan-content {
+  padding: 2.2rem 1.25rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Skeleton Line Base */
+.skeleton-artisan-line {
+  background-color: #EDE5DC;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-artisan-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: artisanShimmerAnimation 1.6s ease-in-out infinite;
+  transform: translateX(-100%);
+}
+
+.skeleton-artisan-name {
+  width: 65%;
+  height: 20px;
+  margin-bottom: 8px;
+}
+
+.skeleton-artisan-craft {
+  width: 42%;
+  height: 13px;
+  margin-bottom: 14px;
+}
+
+.skeleton-artisan-loc-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.skeleton-artisan-loc-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-artisan-city {
+  width: 48%;
+  height: 12px;
+}
+
+.skeleton-artisan-quote-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.skeleton-quote-l1 {
+  width: 95%;
+  height: 12px;
+}
+
+.skeleton-quote-l2 {
+  width: 72%;
+  height: 12px;
+}
+
+.skeleton-artisan-btn {
+  width: 96px;
+  height: 16px;
+  margin-top: auto;
+}
+
+/* Responsive adjustment for Mobile (< 640px) */
+@media (max-width: 640px) {
+  .artisan-card.artisan-card-skeleton {
+    flex: 0 0 250px;
+    width: 250px;
+  }
+
+  .skeleton-artisan-clip {
+    aspect-ratio: 1 / 1;
+  }
+
+  .skeleton-artisan-content {
+    padding: 2rem 1.1rem 1.1rem 1.1rem;
+  }
+}
