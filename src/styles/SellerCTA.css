@@ -1,104 +1,238 @@
-/* Seller CTA Component Styles */
+/* ============================================================
+   SELLER CTA COMPONENT - ELEVATED ARTISANAL STYLESHEET
+   Deep luxury dark espresso card with glowing terracotta/gold
+   ambient light, glassmorphic feature pills, and social badges.
+   ============================================================ */
+
 .seller-section {
-  padding: 5rem 0;
-  background-color: var(--bg-primary);
+  padding: 5.5rem 0;
+  background: linear-gradient(180deg, var(--bg-primary, #FAF7F2) 0%, var(--bg-secondary, #F3ECE2) 100%);
+  position: relative;
 }
 
+/* Premium Deep Dark Card (#1F1614) with Radiant Ambient Gradients */
 .seller-card {
-  background-color: var(--accent-terracotta);
-  border-radius: var(--radius-xl);
+  background: radial-gradient(120% 120% at 85% 15%, #38241F 0%, #231815 55%, #19100E 100%);
+  border-radius: var(--radius-xl, 28px);
   color: #FFFFFF;
-  padding: 4rem;
+  padding: 4.5rem 4rem;
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: 1.15fr 1fr;
   gap: 3.5rem;
   align-items: center;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 20px 50px rgba(35, 24, 21, 0.22);
+  border: 1px solid rgba(228, 220, 211, 0.15);
   position: relative;
   overflow: hidden;
 }
 
+/* Ambient Radiant Glow Orbs */
+.seller-card::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -100px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(168, 88, 56, 0.35) 0%, rgba(35, 24, 21, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.seller-card::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: -80px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(212, 163, 115, 0.18) 0%, rgba(35, 24, 21, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Left Column Content */
+.seller-content {
+  position: relative;
+  z-index: 2;
+}
+
 .seller-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #F7D6C8;
-  margin-bottom: 0.85rem;
-  display: inline-block;
+  color: var(--accent-terracotta, #E08560);
+  background: rgba(224, 133, 96, 0.14);
+  border: 1px solid rgba(224, 133, 96, 0.3);
+  padding: 0.38rem 0.95rem;
+  border-radius: var(--radius-full, 9999px);
+  margin-bottom: 1.25rem;
 }
 
 .seller-title {
   color: #FFFFFF;
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.8vw, 3.2rem);
-  line-height: 1.12;
-  margin-bottom: 1.25rem;
+  font-size: clamp(2.1rem, 3.8vw, 3.1rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1.15rem;
+  letter-spacing: -0.01em;
 }
 
 .seller-subtitle {
+  font-family: var(--font-sans);
   font-size: 1.05rem;
-  color: #F7EAE3;
-  line-height: 1.6;
-  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.65;
+  margin-bottom: 2.25rem;
+  max-width: 540px;
 }
 
+/* Action Buttons Row */
 .seller-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.15rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.75rem;
 }
 
 .seller-btn-primary {
-  padding: 0.9rem 2.2rem;
+  background: var(--accent-terracotta, #A85838);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.95rem 2.2rem;
   font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius-full, 9999px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.15s ease);
+  box-shadow: 0 8px 20px rgba(168, 88, 56, 0.35);
+}
+
+.seller-btn-primary:hover {
+  background: #B96645;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(168, 88, 56, 0.45);
+  color: #FFFFFF;
+}
+
+.seller-btn-primary:active {
+  transform: translateY(0);
 }
 
 .seller-btn-secondary {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   color: #FFFFFF;
-  padding: 0.9rem 1.8rem;
+  padding: 0.95rem 1.85rem;
   font-size: 0.95rem;
-  border-radius: var(--radius-full);
+  font-weight: 600;
+  border-radius: var(--radius-full, 9999px);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-fast, 0.15s ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .seller-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
 }
 
-/* Steps Grid */
+/* Bottom Stats / Trust Indicators Strip */
+.seller-stats-strip {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  flex-wrap: wrap;
+}
+
+.seller-stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.seller-stat-number {
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.1;
+}
+
+.seller-stat-label {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0.25rem;
+}
+
+/* Right Column: 4 Key Value Pillars */
+.seller-visual {
+  position: relative;
+  z-index: 2;
+}
+
 .seller-steps-grid {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .seller-step-pill {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: var(--radius-lg);
-  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-lg, 18px);
+  padding: 1.15rem 1.35rem;
   display: flex;
   align-items: flex-start;
-  gap: 0.85rem;
-  transition: transform var(--transition-fast);
+  gap: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .seller-step-pill:hover {
-  transform: translateX(4px);
-  background: rgba(255, 255, 255, 0.18);
+  transform: translateX(6px);
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(224, 133, 96, 0.5);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
 }
 
-.step-check-icon {
-  color: #F7D6C8;
-  margin-top: 2px;
+.step-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(168, 88, 56, 0.25);
+  border: 1px solid rgba(224, 133, 96, 0.4);
+  color: #F8B499;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.seller-step-pill:hover .step-icon-box {
+  transform: scale(1.08);
+  background: var(--accent-terracotta, #A85838);
+  color: #FFFFFF;
 }
 
 .step-text {
@@ -108,36 +242,89 @@
 
 .step-text strong {
   font-family: var(--font-sans);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #FFFFFF;
   line-height: 1.3;
+  margin-bottom: 0.25rem;
 }
 
 .step-text span {
-  font-size: 0.8rem;
-  color: #F7EAE3;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.74);
+  line-height: 1.45;
 }
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
 
 @media (max-width: 1024px) {
   .seller-card {
     grid-template-columns: 1fr;
-    padding: 3rem 2.5rem;
-    gap: 2.5rem;
+    padding: 3.5rem 2.5rem;
+    gap: 2.75rem;
+  }
+
+  .seller-subtitle {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 640px) {
-  .seller-card {
-    padding: 2rem 1.5rem;
-    border-radius: var(--radius-lg);
+  .seller-section {
+    padding: 3.5rem 0;
   }
+
+  .seller-card {
+    padding: 2.25rem 1.4rem;
+    border-radius: var(--radius-lg, 20px);
+  }
+
+  .seller-title {
+    font-size: 1.95rem;
+  }
+
+  .seller-subtitle {
+    font-size: 0.94rem;
+    margin-bottom: 1.75rem;
+  }
+
   .seller-actions {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.85rem;
+    margin-bottom: 2rem;
   }
-  .seller-btn-primary, .seller-btn-secondary {
+
+  .seller-btn-primary,
+  .seller-btn-secondary {
     width: 100%;
+    justify-content: center;
     text-align: center;
+  }
+
+  .seller-stats-strip {
+    gap: 1.5rem;
+    justify-content: space-between;
+  }
+
+  .seller-step-pill {
+    padding: 1rem 1.15rem;
+    gap: 0.9rem;
+  }
+
+  .step-icon-box {
+    width: 38px;
+    height: 38px;
+  }
+
+  .step-text strong {
+    font-size: 0.92rem;
+  }
+
+  .step-text span {
+    font-size: 0.78rem;
   }
 }

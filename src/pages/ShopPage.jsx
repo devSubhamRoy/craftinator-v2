@@ -12,6 +12,7 @@ import ShopByCategory from '../components/ShopByCategory';
 import ProductCard from '../components/ProductCard';
 import ProductCardSkeleton from '../components/ProductCardSkeleton';
 import ArtisanDiscoveryBanner from '../components/ArtisanDiscoveryBanner';
+import MeetMakers from '../components/MeetMakers';
 import ShopByMaterial from '../components/ShopByMaterial';
 import PersonalizedDiscovery from '../components/PersonalizedDiscovery';
 import SellerCTA from '../components/SellerCTA';
@@ -602,8 +603,8 @@ export default function ShopPage({
         </div>
       </section>
 
-      {/* 7. Shop by Material */}
-      <ShopByMaterial onSelectMaterial={handleMaterialSelect} />
+      {/* 7. Meet the Makers / Artisans */}
+      <MeetMakers onOpenArtisanModal={onOpenArtisanModal} />
 
       {/* 8. Personalized Discovery */}
       <PersonalizedDiscovery onFilterByStyle={handleStyleSelect} />
