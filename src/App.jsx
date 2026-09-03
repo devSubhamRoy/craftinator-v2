@@ -40,6 +40,7 @@ import ToastNotification from './components/ToastNotification';
 import ProductModal from './components/ProductModal';
 import ArtisanModal from './components/ArtisanModal';
 import AuthModal from './components/AuthModal';
+import ScrollToTop from './components/ScrollToTop';
 
 /* Pages */
 import ShopPage from './pages/ShopPage';
@@ -57,15 +58,22 @@ function AppContent() {
   useEffect(() => {
     const handlePopState = () => {
       setCurrentPath(window.location.pathname === '/shop' ? '/shop' : '/');
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  /* Always scroll to top whenever the page/route redirects */
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [currentPath]);
+
   const handleNavigate = (path) => {
     setCurrentPath(path);
     if (typeof window !== 'undefined') {
       window.history.pushState({}, '', path);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
   };
 
@@ -256,6 +264,9 @@ function AppContent() {
         toast={toast}
         onClose={() => setToast(null)}
       />
+
+      {/* Floating Scroll To Top Button */}
+      <ScrollToTop />
 
     </div>
   );

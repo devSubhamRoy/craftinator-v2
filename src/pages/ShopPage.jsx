@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { products } from '../data/products';
 import { artisans } from '../data/artisans';
-import { SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, Search, X, ArrowUpDown, Loader2 } from 'lucide-react';
+import { SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, Search, X, ArrowUpDown, ArrowRight, Loader2 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
@@ -34,6 +34,42 @@ export default function ShopPage({
   const [sortBy, setSortBy] = useState('recommended');
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
+  /* Trending Section Infinite Horizontal Row State */
+  const [trendingTab, setTrendingTab] = useState('All');
+  const [isTrendingLoading, setIsTrendingLoading] = useState(true);
+  const [isTrendingLoadingMore, setIsTrendingLoadingMore] = useState(false);
+  const [visibleTrendingCount, setVisibleTrendingCount] = useState(12);
+  const trendingTrackRef = useRef(null);
+
+  /* Initial mount skeleton shimmer effect for trending section */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsTrendingLoading(false);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const trendingTabs = [
+    { id: 'All', label: 'All Trending' },
+    { id: 'Community Pick', label: 'Community Pick' },
+    { id: 'Trending', label: 'Trending' },
+    { id: 'Bestseller', label: 'Top Sellers' },
+    { id: 'Staff Pick', label: 'Staff Picks' }
+  ];
+
+  const handleTrendingTabChange = (tabId) => {
+    if (tabId === trendingTab) return;
+    setIsTrendingLoading(true);
+    setTrendingTab(tabId);
+    setVisibleTrendingCount(12);
+    if (trendingTrackRef.current) {
+      trendingTrackRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+    setTimeout(() => {
+      setIsTrendingLoading(false);
+    }, 350);
+  };
 
   /* -------------------------------------------------------------
      Direct Infinite Scroll Architecture:
@@ -204,6 +240,71 @@ export default function ShopPage({
     setSelectedStyle('All');
     setSearchQuery('');
     setSortBy('recommended');
+  };
+
+  /* All Matching Trending Products for active tab */
+  const allMatchingTrending = useMemo(() => {
+    if (trendingTab === 'All') {
+      return products.filter(p => p.isTrending);
+    }
+    if (trendingTab === 'Community Pick') {
+      return products.filter(p => p.badge === 'Community Pick');
+    }
+    if (trendingTab === 'Trending') {
+      return products.filter(p => p.badge === 'Trending' || (p.isTrending && p.rating >= 4.9));
+    }
+    if (trendingTab === 'Bestseller') {
+      return products.filter(p => p.badge === 'Top Seller' || p.badge === 'Bestseller');
+    }
+    if (trendingTab === 'Staff Pick') {
+      return products.filter(p => p.badge === 'Staff Pick' || p.badge === 'Masterwork' || p.badge === 'Artisan Original');
+    }
+    return products.filter(p => p.isTrending);
+  }, [trendingTab]);
+
+  /* Infinite Horizontal List: Loads items progressively and loops so right scrolling never ends */
+  const trendingProductsList = useMemo(() => {
+    if (allMatchingTrending.length === 0) return [];
+    const base = allMatchingTrending.slice(0, visibleTrendingCount);
+    // Duplicate items if count is small so horizontal scroll track is rich and continuous
+    return base.length < 8 ? [...base, ...base, ...base] : base;
+  }, [allMatchingTrending, visibleTrendingCount]);
+
+  /* Infinite Right Scroll Detection with Progressive Skeleton Loading */
+  const handleTrendingTrackScroll = () => {
+    const el = trendingTrackRef.current;
+    if (!el || isTrendingLoadingMore) return;
+    if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 360) {
+      if (visibleTrendingCount < allMatchingTrending.length) {
+        setIsTrendingLoadingMore(true);
+        setTimeout(() => {
+          setVisibleTrendingCount(prev => Math.min(prev + 6, allMatchingTrending.length));
+          setIsTrendingLoadingMore(false);
+        }, 400);
+      }
+    }
+  };
+
+  const handleScrollTrendingLeft = () => {
+    if (trendingTrackRef.current) {
+      trendingTrackRef.current.scrollBy({ left: -340, behavior: 'smooth' });
+    }
+  };
+
+  const handleScrollTrendingRight = () => {
+    if (trendingTrackRef.current) {
+      trendingTrackRef.current.scrollBy({ left: 340, behavior: 'smooth' });
+      const el = trendingTrackRef.current;
+      if (el && el.scrollLeft + el.clientWidth >= el.scrollWidth - 500 && !isTrendingLoadingMore) {
+        if (visibleTrendingCount < allMatchingTrending.length) {
+          setIsTrendingLoadingMore(true);
+          setTimeout(() => {
+            setVisibleTrendingCount(prev => Math.min(prev + 6, allMatchingTrending.length));
+            setIsTrendingLoadingMore(false);
+          }, 400);
+        }
+      }
+    }
   };
 
   const activeFilterCount = (selectedCategory !== 'All' ? 1 : 0) +
@@ -385,30 +486,119 @@ export default function ShopPage({
       {/* 5. Artisan Discovery Banner */}
       <ArtisanDiscoveryBanner onOpenArtisan={() => onOpenArtisanModal && onOpenArtisanModal(artisans[0])} />
 
-      {/* 6. Trending Now Section */}
-      <section className="shop-trending-section">
+      {/* 6. Trending Now Section (Single-Row Infinite Horizontal Scrolling) */}
+      <section className="shop-trending-section" id="shop-trending">
         <div className="container">
+          
+          {/* Trending Header with Eyebrow, Title, Filter Strip & Nav Controls */}
           <div className="shop-trending-header">
-            <h2 className="heading-md">Trending Now</h2>
-            <div className="trending-badges-strip">
-              <span className="badge badge-terracotta">Community Pick</span>
-              <span className="badge badge-sage">Trending</span>
-              <span className="badge">Bestseller</span>
+            <div className="shop-trending-title-group">
+              <span className="eyebrow">CURATED HIGHLIGHTS</span>
+              <h2 className="heading-lg">Trending Now</h2>
+              <p className="paragraph-lg shop-trending-subtitle">
+                Most loved handcrafted creations selected by collectors and makers this week.
+              </p>
+            </div>
+
+            {/* Filter Tabs & Quick Nav Arrows */}
+            <div className="shop-trending-controls">
+              <div className="trending-badges-strip" role="tablist" aria-label="Filter trending products">
+                {trendingTabs.map((tab) => {
+                  const isActive = trendingTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      role="tab"
+                      aria-selected={isActive}
+                      className={`trending-tab-btn ${isActive ? 'active' : ''}`}
+                      onClick={() => handleTrendingTabChange(tab.id)}
+                    >
+                      <span>{tab.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          <div className="product-grid shop-trending-grid">
-            {products.slice(0, 4).map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                isWishlisted={wishlist.includes(product.id)}
-                onToggleWishlist={onToggleWishlist}
-                onOpenProductModal={onOpenProductModal}
-                onAddToCart={onAddToCart}
-              />
-            ))}
+          {/* Single-Row Horizontal Infinite Scrolling Track Wrapper */}
+          <div className="trending-horizontal-row-wrapper">
+            {/* Left Edge Floating Arrow for Desktop Quick Scroll */}
+            <button
+              type="button"
+              className="trending-side-arrow trending-side-arrow-left"
+              onClick={handleScrollTrendingLeft}
+              aria-label="Scroll trending items left"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            {/* Single Continuous Row Track (No wrap, Left-Right Infinite Scroll) */}
+            <div
+              ref={trendingTrackRef}
+              className="trending-horizontal-track"
+              onScroll={handleTrendingTrackScroll}
+            >
+              {isTrendingLoading ? (
+                Array.from({ length: 6 }).map((_, idx) => (
+                  <div key={`trending-row-skeleton-${idx}`} className="trending-row-item">
+                    <ProductCardSkeleton />
+                  </div>
+                ))
+              ) : trendingProductsList.length > 0 ? (
+                <>
+                  {trendingProductsList.map((product, idx) => (
+                    <div key={`${product.id}-trending-${idx}`} className="trending-row-item">
+                      <ProductCard
+                        product={product}
+                        isWishlisted={wishlist.includes(product.id)}
+                        onToggleWishlist={onToggleWishlist}
+                        onOpenProductModal={onOpenProductModal}
+                        onAddToCart={onAddToCart}
+                      />
+                    </div>
+                  ))}
+                  {/* Appending skeleton cards while horizontally loading more */}
+                  {isTrendingLoadingMore && (
+                    Array.from({ length: 2 }).map((_, idx) => (
+                      <div key={`trending-more-skeleton-${idx}`} className="trending-row-item trending-skeleton-item">
+                        <ProductCardSkeleton />
+                      </div>
+                    ))
+                  )}
+                </>
+              ) : (
+                <div className="shop-no-results text-center" style={{ width: '100%', padding: '2rem 0' }}>
+                  <p>No trending items found in this category.</p>
+                </div>
+              )}
+            </div>
+
+            {/* Right Edge Floating Arrow for Desktop Quick Scroll */}
+            <button
+              type="button"
+              className="trending-side-arrow trending-side-arrow-right"
+              onClick={handleScrollTrendingRight}
+              aria-label="Scroll trending items right"
+            >
+              <ChevronRight size={20} />
+            </button>
           </div>
+
+          {/* Bottom Exploration Link */}
+          {/* <div className="shop-trending-footer text-center">
+            <button
+              className="btn btn-secondary shop-trending-view-all-btn"
+              onClick={() => {
+                const el = document.getElementById('explore-all-products');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <span>Explore All {products.length} Handcrafted Pieces</span>
+              <ArrowRight size={17} />
+            </button>
+          </div> */}
+
         </div>
       </section>
 
