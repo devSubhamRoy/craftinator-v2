@@ -1,48 +1,62 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 import { X, ChevronRight, LogIn, UserPlus } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import LanguageSelector from './LanguageSelector';
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
-export default function MobileDrawer({ isOpen, onClose, onOpenAuth }) {
+export default function MobileDrawer({ isOpen, onClose, onOpenAuth, onNavigate }) {
   const { t } = useLanguage();
+  const containerRef = useRef(null);
+  const backdropRef = useRef(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      const handleKeyDown = (e) => {
-        if (e.key === 'Escape') onClose();
-      };
-      window.addEventListener('keydown', handleKeyDown);
-      return () => {
-        document.body.style.overflow = '';
-        window.removeEventListener('keydown', handleKeyDown);
-      };
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [isOpen, onClose]);
+  useBodyScrollLock(isOpen, {
+    containerRef,
+    backdropRef,
+    onClose,
+  });
 
   if (!isOpen) return null;
 
   const menuItems = [
-    { label: t('nav_explore'), href: '#', tag: 'Main' },
-    { label: t('nav_trending'), href: '#trending-products', tag: 'Handmade' },
-    { label: t('nav_makers'), href: '#meet-makers', tag: 'Artisans' },
-    { label: t('nav_community'), href: '#community-section', tag: 'Community' },
-    { label: t('nav_story'), href: '#story-banner', tag: 'Craft' },
-    { label: t('wishlist'), href: '#trending-products' },
-    { label: t('seller_cta'), href: '#seller-cta', isHighlight: true }
+    { label: 'Home', path: '/', tag: 'Main' },
+    { label: 'Shop', path: '/shop', tag: 'Handmade' },
+    { label: 'Artisans', path: '/#meet-makers', anchor: 'meet-makers', tag: 'Artisans' },
+    { label: 'Community', path: '/#community-section', anchor: 'community-section', tag: 'Community' },
+    { label: 'Stories', path: '/#story-banner', anchor: 'story-banner', tag: 'Craft' }
   ];
+
+  const handleItemClick = (e, item) => {
+    e.preventDefault();
+    onClose();
+    if (item.path === '/shop') {
+      onNavigate && onNavigate('/shop');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (item.path === '/') {
+      onNavigate && onNavigate('/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (item.anchor) {
+      onNavigate && onNavigate('/');
+      setTimeout(() => {
+        const el = document.getElementById(item.anchor);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+  };
 
   return (
     <div
+      ref={backdropRef}
       className="mobile-drawer-backdrop"
       onClick={onClose}
       aria-hidden={!isOpen}
       role="dialog"
       aria-modal="true"
     >
-      <div className="mobile-drawer-content" onClick={(e) => e.stopPropagation()}>
+      <div
+        ref={containerRef}
+        className="mobile-drawer-content"
+        onClick={(e) => e.stopPropagation()}
+      >
         
         {/* Drawer Header */}
         <div className="mobile-drawer-header">
@@ -68,9 +82,9 @@ export default function MobileDrawer({ isOpen, onClose, onOpenAuth }) {
             {menuItems.map((item, idx) => (
               <li key={idx}>
                 <a
-                  href={item.href}
-                  className={`mobile-drawer-link ${item.isHighlight ? 'highlight' : ''}`}
-                  onClick={onClose}
+                  href={item.path}
+                  className="mobile-drawer-link"
+                  onClick={(e) => handleItemClick(e, item)}
                 >
                   <span className="mobile-link-text">{item.label}</span>
                   {item.tag && <span className="mobile-link-tag">{item.tag}</span>}

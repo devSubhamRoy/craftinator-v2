@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LanguageProvider } from './i18n/LanguageContext';
 
 /* Styles */
@@ -18,8 +18,10 @@ import './styles/Testimonials.css';
 import './styles/Newsletter.css';
 import './styles/Footer.css';
 import './styles/LanguageSelector.css';
+import './styles/ShopPage.css';
+import './styles/Modals.css';
 
-/* Components */
+/* Global Components */
 import Header from './components/Header';
 import MobileDrawer from './components/MobileDrawer';
 import Hero from './components/Hero';
@@ -35,11 +37,38 @@ import Testimonials from './components/Testimonials';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import ToastNotification from './components/ToastNotification';
+import ProductModal from './components/ProductModal';
+import ArtisanModal from './components/ArtisanModal';
+import AuthModal from './components/AuthModal';
+
+/* Pages */
+import ShopPage from './pages/ShopPage';
 
 /* Datasets */
 import { products } from './data/products';
+import { artisans } from './data/artisans';
 
 function AppContent() {
+  /* Route State */
+  const [currentPath, setCurrentPath] = useState(
+    typeof window !== 'undefined' && window.location.pathname === '/shop' ? '/shop' : '/'
+  );
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname === '/shop' ? '/shop' : '/');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleNavigate = (path) => {
+    setCurrentPath(path);
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', path);
+    }
+  };
+
   /* Cart State */
   const [cartItems, setCartItems] = useState([
     { ...products[0], quantity: 1 },
@@ -53,8 +82,11 @@ function AppContent() {
     'scented-fig-candle'
   ]);
 
-  /* Mobile Drawer Control */
+  /* Modals Control State */
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedProductModal, setSelectedProductModal] = useState(null);
+  const [selectedArtisanModal, setSelectedArtisanModal] = useState(null);
+  const [authModalMode, setAuthModalMode] = useState(null); // 'login' | 'signup' | null
 
   /* Toast Notification */
   const [toast, setToast] = useState(null);
@@ -97,102 +129,129 @@ function AppContent() {
   return (
     <div className="app-root">
       
-      {/* 1. Header Navigation */}
+      {/* 1. Reusable Global Header Navigation */}
       <Header
         cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
         wishlistCount={wishlist.length}
+        currentPath={currentPath}
+        onNavigate={handleNavigate}
         onOpenCart={() => showToast(`Cart contains ${cartItems.length} items`)}
         onOpenWishlist={() => showToast(`Wishlist contains ${wishlist.length} items`)}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
-        onOpenAuth={(mode) => showToast(`${mode === 'login' ? 'Log In' : 'Sign Up'} clicked`)}
+        onOpenAuth={(mode) => setAuthModalMode(mode)}
         onOpenSearch={() => showToast('Search ready: type pottery, candles, jewelry...')}
       />
 
-      {/* 2. Hero Section */}
+      {/* 2. Main Page View Architecture */}
       <main id="main-content">
-        <Hero
-          onShopClick={() => {
-            const el = document.getElementById('trending-products');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-          onArtisansClick={() => {
-            const el = document.getElementById('meet-makers');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-        />
+        {currentPath === '/shop' ? (
+          /* Dedicated Independent Shop Page (/shop) */
+          <ShopPage
+            wishlist={wishlist}
+            onToggleWishlist={handleToggleWishlist}
+            onOpenProductModal={(product) => setSelectedProductModal(product)}
+            onAddToCart={handleAddToCart}
+            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onNavigateHome={() => handleNavigate('/')}
+          />
+        ) : (
+          /* Dedicated Homepage (/) */
+          <>
+            <Hero
+              onShopClick={() => handleNavigate('/shop')}
+              onArtisansClick={() => {
+                const el = document.getElementById('meet-makers');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+            />
 
-        {/* 3. Brand Value Strip */}
-        <BrandValues />
+            <BrandValues />
 
-        {/* 4. Shop by Category */}
-        <ShopByCategory
-          onSelectCategory={(category) => {
-            showToast(`Filter applied: ${category.name}`);
-            const el = document.getElementById('trending-products');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-        />
+            <ShopByCategory
+              onSelectCategory={(category) => {
+                handleNavigate('/shop');
+              }}
+            />
 
-        {/* 5. Trending Handmade Products */}
-        <TrendingProducts
-          wishlist={wishlist}
-          onToggleWishlist={handleToggleWishlist}
-          onOpenProductModal={(product) => showToast(`Selected product: ${product.name}`)}
-          onAddToCart={handleAddToCart}
-        />
+            <TrendingProducts
+              wishlist={wishlist}
+              onToggleWishlist={handleToggleWishlist}
+              onOpenProductModal={(product) => setSelectedProductModal(product)}
+              onAddToCart={handleAddToCart}
+              onExploreAllClick={() => handleNavigate('/shop')}
+            />
 
-        {/* 6. Meet the Hands Behind the Craft */}
-        <MeetMakers
-          onOpenArtisanModal={(artisan) => showToast(`Artisan profile: ${artisan.name}`)}
-        />
+            <MeetMakers
+              onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            />
 
-        {/* 7. Community Section */}
-        <CommunitySection
-          onExploreClick={() => {
-            const el = document.getElementById('trending-products');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-        />
+            <CommunitySection
+              onExploreClick={() => handleNavigate('/shop')}
+            />
 
-        {/* 8. Behind Every Piece Is a Story */}
-        <StoryBanner
-          onOpenStoryModal={() => showToast('Artisan craft story loaded')}
-        />
+            <StoryBanner
+              onOpenStoryModal={() => showToast('Artisan craft story loaded')}
+            />
 
-        {/* 9. Personalized Discovery */}
-        <PersonalizedDiscovery
-          onFilterByStyle={(style) => {
-            showToast(`Showing recommendations for ${style} style`);
-            const el = document.getElementById('trending-products');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-        />
+            <PersonalizedDiscovery
+              onFilterByStyle={(style) => {
+                handleNavigate('/shop');
+              }}
+            />
 
-        {/* 10. Seller / Artisan CTA */}
-        <SellerCTA
-          onStartSelling={() => showToast('Artisan signup clicked')}
-        />
+            <SellerCTA
+              onStartSelling={() => setSelectedArtisanModal(artisans[0])}
+            />
 
-        {/* 11. Customer Testimonials */}
-        <Testimonials />
+            <Testimonials />
 
-        {/* 12. Newsletter */}
-        <Newsletter
-          onSubscribe={(email) => showToast(`Subscribed ${email} to Craftinator Community`)}
-        />
+            <Newsletter
+              onSubscribe={(email) => showToast(`Subscribed ${email} to Craftinator Community`)}
+            />
+          </>
+        )}
       </main>
 
-      {/* 13. Footer */}
+      {/* 3. Reusable Global Footer */}
       <Footer />
 
       {/* Mobile Navigation Drawer */}
       <MobileDrawer
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        onOpenAuth={(mode) => showToast(`${mode === 'login' ? 'Log In' : 'Sign Up'} clicked`)}
+        onOpenAuth={(mode) => setAuthModalMode(mode)}
+        onNavigate={handleNavigate}
       />
 
-      {/* Toast Notification */}
+      {/* Product Quick-View Details Modal */}
+      {selectedProductModal && (
+        <ProductModal
+          product={selectedProductModal}
+          wishlist={wishlist}
+          onClose={() => setSelectedProductModal(null)}
+          onToggleWishlist={handleToggleWishlist}
+          onAddToCart={handleAddToCart}
+        />
+      )}
+
+      {/* Artisan Profile Modal */}
+      {selectedArtisanModal && (
+        <ArtisanModal
+          artisan={selectedArtisanModal}
+          onClose={() => setSelectedArtisanModal(null)}
+        />
+      )}
+
+      {/* Authentication Modal */}
+      {authModalMode && (
+        <AuthModal
+          initialMode={authModalMode}
+          onClose={() => setAuthModalMode(null)}
+          onSuccess={(msg) => showToast(msg)}
+        />
+      )}
+
+      {/* Global Toast Notifications */}
       <ToastNotification
         toast={toast}
         onClose={() => setToast(null)}

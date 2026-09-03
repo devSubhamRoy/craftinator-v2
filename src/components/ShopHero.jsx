@@ -2,18 +2,18 @@ import React from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 
-export default function Hero({ onShopClick, onArtisansClick }) {
+export default function ShopHero({ onNavigateHome, onExploreProductsClick }) {
   const { t } = useLanguage();
 
   return (
-    <section className="hero-section" id="hero">
+    <section className="hero-section shop-hero-override" id="shop-hero">
       <div className="container hero-container">
         
         {/* Photo Collage Visual (Placed first in HTML so it appears first on mobile/tablet) */}
         <div className="hero-visual">
           <div className="hero-collage-grid">
             
-            {/* Tile 1: Top Center Pottery Wheel */}
+            {/* Tile 1: Top Pottery Crafting */}
             <div className="collage-tile tile-pottery">
               <img
                 src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=600&auto=format&fit=crop"
@@ -24,7 +24,7 @@ export default function Hero({ onShopClick, onArtisansClick }) {
               />
               <div className="collage-badge badge-top">
                 <Sparkles size={14} className="badge-icon" />
-                <span>{t('hero_badge')}</span>
+                <span>Craftinator Collection</span>
               </div>
             </div>
 
@@ -37,7 +37,7 @@ export default function Hero({ onShopClick, onArtisansClick }) {
                 loading="eager"
               />
               <div className="collage-badge badge-right">
-                <span>{t('hero_cta_makers')}</span>
+                <span>Handmade</span>
               </div>
             </div>
 
@@ -49,8 +49,8 @@ export default function Hero({ onShopClick, onArtisansClick }) {
                 <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop" alt="Collector" />
               </div>
               <div className="pill-text">
-                <strong>12.4k people</strong>
-                <span>{t('community_title')}</span>
+                <strong>12.4k pieces</strong>
+                <span>Direct from Artisans</span>
               </div>
             </div>
 
@@ -94,31 +94,42 @@ export default function Hero({ onShopClick, onArtisansClick }) {
           </div>
         </div>
 
-        {/* Editorial Headline & Actions (Placed second, appears under photo collage on mobile/tablet) */}
+        {/* Editorial Headline, Breadcrumbs & Actions */}
         <div className="hero-content">
-          <span className="eyebrow">{t('hero_badge')}</span>
+          {/* Breadcrumb Navigation */}
+          <nav className="shop-hero-breadcrumb" aria-label="Breadcrumb" style={{ marginBottom: '0.85rem' }}>
+            <button className="breadcrumb-link" onClick={onNavigateHome}>Home</button>
+            <span className="breadcrumb-sep">/</span>
+            <span className="breadcrumb-current">Shop</span>
+          </nav>
+
+          <span className="eyebrow">THE CRAFTINATOR COLLECTION</span>
           
           <h1 className="hero-heading">
-            {t('hero_title')}
+            Discover Something <br />
+            <span className="hero-heading-italic">Truly Handmade.</span>
           </h1>
 
           <p className="paragraph-lg hero-description">
-            {t('hero_subtitle')}
+            Explore thoughtfully crafted pieces from independent artisans — made with skill, character, and a personal maker's touch.
           </p>
 
           <div className="hero-actions">
             <button
               className="btn btn-primary hero-btn-main"
-              onClick={(e) => {
-                e.preventDefault();
-                onShopClick && onShopClick();
+              onClick={() => {
+                const el = document.getElementById('explore-all-products');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                else if (onExploreProductsClick) onExploreProductsClick();
               }}
             >
-              {t('hero_cta_shop')} <ArrowRight size={18} />
+              <span>Explore Products</span>
+              <ArrowRight size={18} />
             </button>
-            <a href="#meet-makers" className="btn btn-secondary hero-btn-sub" onClick={onArtisansClick}>
-              {t('hero_cta_makers')}
-            </a>
+
+            <button className="btn btn-secondary hero-btn-sub" onClick={onNavigateHome}>
+              <span>Back to Home</span>
+            </button>
           </div>
 
           <div className="hero-slogan-strip">
