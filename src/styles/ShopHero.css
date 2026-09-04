@@ -142,9 +142,9 @@
 }
 
 .shop-btn-primary {
-  background: var(--accent-terracotta, #A85838);
+  background: var(--text-primary, #231815);
   color: #FFFFFF;
-  border: 1px solid var(--accent-terracotta, #A85838);
+  border: 1px solid var(--text-primary, #231815);
   padding: 0.95rem 2rem;
   font-size: 0.95rem;
   font-weight: 600;
@@ -154,13 +154,14 @@
   gap: 0.55rem;
   cursor: pointer;
   transition: all var(--transition-fast, 0.15s ease);
-  box-shadow: 0 6px 18px rgba(168, 88, 56, 0.28);
+  box-shadow: 0 6px 18px rgba(35, 24, 21, 0.25);
 }
 
 .shop-btn-primary:hover {
-  background: #B96645;
+  background: #3A2C27;
+  border-color: #3A2C27;
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(168, 88, 56, 0.38);
+  box-shadow: 0 10px 24px rgba(35, 24, 21, 0.35);
 }
 
 .shop-btn-primary:active {

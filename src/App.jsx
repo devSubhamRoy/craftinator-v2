@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LanguageProvider } from './i18n/LanguageContext';
+import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 
 /* Styles */
 import './index.css';
@@ -39,6 +39,8 @@ import ShopPage from './pages/ShopPage';
 import { products } from './data/products';
 
 function AppContent() {
+  const { t } = useLanguage();
+
   /* Route State */
   const [currentPath, setCurrentPath] = useState(
     typeof window !== 'undefined' && window.location.pathname === '/shop'
@@ -122,10 +124,10 @@ function AppContent() {
   const handleToggleWishlist = (productId) => {
     if (wishlist.includes(productId)) {
       setWishlist(wishlist.filter(id => id !== productId));
-      showToast('Item removed from wishlist');
+      showToast(t('toast_wishlist_removed'));
     } else {
       setWishlist([...wishlist, productId]);
-      showToast('Saved to your wishlist');
+      showToast(t('toast_wishlist_added'));
     }
   };
 
@@ -142,7 +144,7 @@ function AppContent() {
         onOpenWishlist={() => showToast(`Wishlist contains ${wishlist.length} items`)}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
         onOpenAuth={(mode) => setAuthModalMode(mode)}
-        onOpenSearch={() => showToast('Search ready: type pottery, candles, jewelry...')}
+        onOpenSearch={() => showToast(t('search_placeholder'))}
       />
 
       {/* 2. Main Page View Architecture */}

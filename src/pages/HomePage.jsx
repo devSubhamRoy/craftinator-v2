@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 /* Global Section Components */
 import Hero from '../components/Hero';
@@ -25,6 +26,8 @@ export default function HomePage({
   onNavigate,
   showToast
 }) {
+  const { t } = useLanguage();
+
   return (
     <div className="homepage-root">
       {/* 1. Hero Section */}
@@ -67,7 +70,7 @@ export default function HomePage({
 
       {/* 7. Craft Heritage Story Banner */}
       <StoryBanner
-        onOpenStoryModal={() => showToast && showToast('Artisan craft story loaded')}
+        onOpenStoryModal={() => showToast && showToast(t('story_modal_title'))}
       />
 
       {/* 8. Personalized Style Aesthetic Discovery */}
