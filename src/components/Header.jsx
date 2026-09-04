@@ -26,11 +26,11 @@ export default function Header({
   }, []);
 
   const navItems = [
-    { id: 'home', label: 'Home', path: '/' },
-    { id: 'shop', label: 'Shop', path: '/shop' },
-    { id: 'artisans', label: 'Artisans', path: '/#meet-makers', anchor: 'meet-makers' },
-    { id: 'community', label: 'Community', path: '/#community-section', anchor: 'community-section' },
-    { id: 'stories', label: 'Stories', path: '/#story-banner', anchor: 'story-banner' }
+    { id: 'home', label: t('nav_home'), path: '/' },
+    { id: 'shop', label: t('nav_shop'), path: '/shop' },
+    { id: 'artisans', label: t('nav_makers'), path: '/#meet-makers', anchor: 'meet-makers' },
+    { id: 'community', label: t('nav_community'), path: '/#community-section', anchor: 'community-section' },
+    { id: 'stories', label: t('nav_story'), path: '/#story-banner', anchor: 'story-banner' }
   ];
 
   const handleNavClick = (e, item) => {

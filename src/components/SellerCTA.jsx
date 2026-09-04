@@ -44,18 +44,15 @@ export default function SellerCTA({ onStartSelling }) {
           <div className="seller-content">
             <span className="seller-eyebrow">
               <Sparkles size={14} />
-              Why Craftinator • The Maker’s Advantage
+              {t('seller_eyebrow')}
             </span>
 
             <h2 className="heading-lg seller-title">
-              Where Authentic Craft Meets a Thriving Social Community.
+              {t('seller_title')}
             </h2>
 
             <p className="seller-subtitle">
-              Craftinator isn't just another faceless storefront. We bridge
-              independent artisans and discerning collectors through rich social
-              studio feeds, authentic maker storytelling, and fair craft
-              commerce.
+              {t('seller_subtitle')}
             </p>
 
             <div className="seller-actions">
@@ -64,7 +61,7 @@ export default function SellerCTA({ onStartSelling }) {
                 className="seller-btn-primary"
                 onClick={onStartSelling}
               >
-                <span>Open Your Maker Studio</span>
+                <span>{t('seller_cta_btn')}</span>
                 <ArrowRight size={17} />
               </button>
 
