@@ -1,7 +1,7 @@
 # Graph Report - Craftinator-v2  (2026-09-07)
 
 ## Corpus Check
-- 61 files · ~67,619 words
+- 61 files · ~67,532 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
