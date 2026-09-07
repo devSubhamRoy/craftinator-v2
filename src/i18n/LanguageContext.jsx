@@ -46,9 +46,16 @@ export function LanguageProvider({ children }) {
     }
   };
 
-  const t = (key) => {
+  const t = (key, fallbackText) => {
+    if (!key) return '';
     const langDict = translations[language] || translations['en'];
-    return langDict[key] || translations['en'][key] || key;
+    if (langDict && langDict[key]) return langDict[key];
+    if (translations['en'] && translations['en'][key]) return translations['en'][key];
+    if (fallbackText) return fallbackText;
+    // Smart humanization fallback (e.g. "my_new_section" -> "My New Section")
+    return typeof key === 'string'
+      ? key.replace(/^[a-z]+_/, '').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+      : key;
   };
 
   return (

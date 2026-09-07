@@ -18,11 +18,11 @@ export default function MobileDrawer({ isOpen, onClose, onOpenAuth, onNavigate }
   if (!isOpen) return null;
 
   const menuItems = [
-    { label: 'Home', path: '/', tag: 'Main' },
-    { label: 'Shop', path: '/shop', tag: 'Handmade' },
-    { label: 'Artisans', path: '/#meet-makers', anchor: 'meet-makers', tag: 'Artisans' },
-    { label: 'Community', path: '/#community-section', anchor: 'community-section', tag: 'Community' },
-    { label: 'Stories', path: '/#story-banner', anchor: 'story-banner', tag: 'Craft' }
+    { label: t('nav_home'), path: '/', tag: 'Main' },
+    { label: t('nav_shop'), path: '/shop', tag: 'Handmade' },
+    { label: t('nav_makers'), path: '/#meet-makers', anchor: 'meet-makers', tag: 'Artisans' },
+    { label: t('nav_community'), path: '/#community-section', anchor: 'community-section', tag: 'Community' },
+    { label: t('nav_story'), path: '/#story-banner', anchor: 'story-banner', tag: 'Craft' }
   ];
 
   const handleItemClick = (e, item) => {

@@ -52,11 +52,11 @@ export default function ShopPage({
   }, []);
 
   const trendingTabs = [
-    { id: 'All', label: 'All Trending' },
-    { id: 'Community Pick', label: 'Community Pick' },
-    { id: 'Trending', label: 'Trending' },
-    { id: 'Bestseller', label: 'Top Sellers' },
-    { id: 'Staff Pick', label: 'Staff Picks' }
+    { id: 'All', label: t('tab_all_trending') },
+    { id: 'Community Pick', label: t('tab_community_pick') },
+    { id: 'Trending', label: t('tab_trending') },
+    { id: 'Bestseller', label: t('tab_top_sellers') },
+    { id: 'Staff Pick', label: t('tab_staff_picks') }
   ];
 
   const handleTrendingTabChange = (tabId) => {
@@ -320,7 +320,7 @@ export default function ShopPage({
       <ShopHero onNavigateHome={onNavigateHome} />
 
       {/* 2. Brand Value Strip (Same as Homepage) */}
-      <BrandValues />
+      {/* <BrandValues /> */}
 
       {/* 3. Shop by Category (3-Photo Split Collage Cards Carousel) */}
       <ShopByCategory onSelectCategory={handleCategorySelect} />
@@ -332,9 +332,9 @@ export default function ShopPage({
           {/* Section Header */}
           <div className="shop-products-header">
             <div className="shop-header-left">
-              <h2 className="heading-lg">Explore All Handmade</h2>
+              <h2 className="heading-lg">{t('shop_explore_title')}</h2>
               <p className="paragraph-lg">
-                {processedProducts.length} handcrafted pieces from independent makers.
+                {processedProducts.length} {t('shop_pieces_count')}
               </p>
             </div>
 
@@ -343,15 +343,15 @@ export default function ShopPage({
               <button
                 className={`shop-filter-trigger-btn ${activeFilterCount > 0 ? 'active' : ''}`}
                 onClick={() => setIsFilterDrawerOpen(true)}
-                aria-label="Filter products"
+                aria-label={t('shop_filter_btn')}
               >
                 <SlidersHorizontal size={16} />
-                <span>Filter</span>
+                <span>{t('shop_filter_btn')}</span>
                 {activeFilterCount > 0 && <span className="filter-count-badge">{activeFilterCount}</span>}
               </button>
 
               <div className="shop-sort-wrapper">
-                <label htmlFor="shop-sort-select" className="sort-label">Sort By:</label>
+                <label htmlFor="shop-sort-select" className="sort-label">{t('shop_sort_by')}</label>
                 <div className="sort-select-container">
                   <ArrowUpDown size={14} className="sort-prefix-icon" />
                   <select
@@ -359,13 +359,13 @@ export default function ShopPage({
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
                     className="shop-sort-select"
-                    aria-label="Sort products"
+                    aria-label={t('shop_sort_by')}
                   >
-                    <option value="recommended">Recommended</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="rating">Highest Rated</option>
-                    <option value="newest">Newest Additions</option>
+                    <option value="recommended">{t('sort_recommended')}</option>
+                    <option value="price-low">{t('sort_price_low')}</option>
+                    <option value="price-high">{t('sort_price_high')}</option>
+                    <option value="rating">{t('sort_rating')}</option>
+                    <option value="newest">{t('sort_newest')}</option>
                   </select>
                   <ChevronDown size={14} className="select-arrow" />
                 </div>
@@ -376,33 +376,33 @@ export default function ShopPage({
           {/* Active Filters Bar */}
           {activeFilterCount > 0 && (
             <div className="active-filters-strip">
-              <span className="active-filters-label">Active Filters:</span>
+              <span className="active-filters-label">{t('shop_active_filters')}</span>
               {selectedCategory !== 'All' && (
                 <span className="filter-pill">
-                  Category: {selectedCategory}
+                  {t('shop_filter_cat_label')} {selectedCategory}
                   <X size={14} onClick={() => setSelectedCategory('All')} />
                 </span>
               )}
               {selectedMaterial !== 'All' && (
                 <span className="filter-pill">
-                  Material: {selectedMaterial}
+                  {t('shop_filter_mat_label')} {selectedMaterial}
                   <X size={14} onClick={() => setSelectedMaterial('All')} />
                 </span>
               )}
               {selectedStyle !== 'All' && (
                 <span className="filter-pill">
-                  Style: {selectedStyle}
+                  {t('shop_filter_style_label')} {selectedStyle}
                   <X size={14} onClick={() => setSelectedStyle('All')} />
                 </span>
               )}
               {searchQuery && (
                 <span className="filter-pill">
-                  Search: "{searchQuery}"
+                  {t('shop_filter_search_label')} "{searchQuery}"
                   <X size={14} onClick={() => setSearchQuery('')} />
                 </span>
               )}
               <button className="clear-all-btn" onClick={resetAllFilters}>
-                Clear All
+                {t('shop_clear_all')}
               </button>
             </div>
           )}
@@ -465,7 +465,7 @@ export default function ShopPage({
                 <div className="infinite-end-indicator">
                   <span className="end-divider-line" />
                   <span className="end-badge">
-                    You've viewed all {totalFilteredCount} handcrafted pieces
+                    {t('shop_showing_all')} ({totalFilteredCount})
                   </span>
                   <span className="end-divider-line" />
                 </div>
@@ -473,10 +473,10 @@ export default function ShopPage({
             </>
           ) : (
             <div className="shop-no-results text-center">
-              <h3>No handmade items found</h3>
-              <p>Try adjusting your category filter, material search, or sorting options.</p>
+              <h3>{t('shop_no_products')}</h3>
+              <p>{t('shop_reset_filters')}</p>
               <button className="btn btn-primary" onClick={resetAllFilters}>
-                Reset All Filters
+                {t('shop_reset_filters')}
               </button>
             </div>
           )}
@@ -494,10 +494,10 @@ export default function ShopPage({
           {/* Trending Header with Eyebrow, Title, Filter Strip & Nav Controls */}
           <div className="shop-trending-header">
             <div className="shop-trending-title-group">
-              <span className="eyebrow">CURATED HIGHLIGHTS</span>
-              <h2 className="heading-lg">Trending Now</h2>
+              <span className="eyebrow">{t('story_badge')}</span>
+              <h2 className="heading-lg">{t('shop_trending_title')}</h2>
               <p className="paragraph-lg shop-trending-subtitle">
-                Most loved handcrafted creations selected by collectors and makers this week.
+                {t('shop_trending_subtitle')}
               </p>
             </div>
 
@@ -630,7 +630,7 @@ export default function ShopPage({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="filter-drawer-header">
-              <h3>Filter Products</h3>
+              <h3>{t('shop_filter_drawer_title')}</h3>
               <button className="filter-drawer-close" onClick={() => setIsFilterDrawerOpen(false)} aria-label="Close filters">
                 <X size={20} />
               </button>
@@ -639,7 +639,7 @@ export default function ShopPage({
             <div className="filter-drawer-body">
               {/* Category Filter */}
               <div className="filter-group">
-                <label className="filter-group-title">Category</label>
+                <label className="filter-group-title">{t('shop_filter_drawer_cat')}</label>
                 <div className="filter-options-grid">
                   {categories.map(cat => (
                     <button
@@ -655,7 +655,7 @@ export default function ShopPage({
 
               {/* Style Tag Filter */}
               <div className="filter-group">
-                <label className="filter-group-title">Style</label>
+                <label className="filter-group-title">{t('shop_filter_drawer_style')}</label>
                 <div className="filter-options-grid">
                   {['All', 'Minimal', 'Rustic', 'Bohemian', 'Contemporary', 'Statement', 'Nature Product'].map(style => (
                     <button
@@ -671,12 +671,12 @@ export default function ShopPage({
 
               {/* Search Query Filter */}
               <div className="filter-group">
-                <label className="filter-group-title">Search Keywords</label>
+                <label className="filter-group-title">{t('shop_filter_drawer_search')}</label>
                 <div className="filter-search-box">
                   <Search size={16} className="search-icon" />
                   <input
                     type="text"
-                    placeholder="Search pottery, jewelry, leather..."
+                    placeholder={t('shop_filter_drawer_search_ph')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -697,10 +697,10 @@ export default function ShopPage({
 
             <div className="filter-drawer-footer">
               <button className="btn btn-secondary" onClick={resetAllFilters}>
-                Reset
+                {t('shop_filter_drawer_reset')}
               </button>
               <button className="btn btn-primary" onClick={() => setIsFilterDrawerOpen(false)}>
-                Apply ({processedProducts.length})
+                {t('shop_filter_drawer_apply')} ({processedProducts.length})
               </button>
             </div>
           </div>

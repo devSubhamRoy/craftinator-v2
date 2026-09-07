@@ -23,9 +23,9 @@ export default function ShopHero({ onNavigateHome, onExploreProductsClick }) {
         
         {/* Breadcrumb Navigation - ALWAYS AT THE VERY TOP ACROSS ALL MODES */}
         <nav className="shop-hero-breadcrumb" aria-label="Breadcrumb">
-          <button type="button" className="breadcrumb-link" onClick={onNavigateHome}>Home</button>
+          <button type="button" className="breadcrumb-link" onClick={onNavigateHome}>{t('nav_home')}</button>
           <span className="breadcrumb-sep">/</span>
-          <span className="breadcrumb-current">Craftinator Marketplace</span>
+          <span className="breadcrumb-current">{t('nav_shop')}</span>
         </nav>
 
         <div className="shop-hero-container">
@@ -126,16 +126,16 @@ export default function ShopHero({ onNavigateHome, onExploreProductsClick }) {
           <div className="shop-hero-content">
             <span className="shop-hero-eyebrow">
               <Sparkles size={13} />
-              CURATED ARTISAN MARKETPLACE
+              {t('shop_hero_badge')}
             </span>
             
             <h1 className="shop-hero-heading">
-              The Handcrafted Shop. <br />
-              <span className="shop-hero-heading-italic">Pieces with a Maker's Soul.</span>
+              {t('shop_hero_title')} <br />
+              <span className="shop-hero-heading-italic">{t('shop_hero_title_italic')}</span>
             </h1>
 
             <p className="shop-hero-description">
-              Browse authentic creations shaped by independent makers — from wheel-thrown terracotta and hand-forged brass to hand-spun textiles and carved teak. Small-batch integrity with zero factory mass-production.
+              {t('shop_hero_desc')}
             </p>
 
             <div className="shop-hero-actions">
@@ -144,7 +144,7 @@ export default function ShopHero({ onNavigateHome, onExploreProductsClick }) {
                 className="shop-btn-primary"
                 onClick={handleScrollToProducts}
               >
-                <span>Explore All Products</span>
+                <span>{t('shop_btn_explore')}</span>
                 <ArrowDown size={17} />
               </button>
 
@@ -154,14 +154,14 @@ export default function ShopHero({ onNavigateHome, onExploreProductsClick }) {
                 onClick={handleScrollToTrending}
               >
                 <Flame size={16} style={{ color: '#A85838' }} />
-                <span>Trending Now</span>
+                <span>{t('shop_btn_trending')}</span>
               </button>
             </div>
 
             {/* Live Studio Status Pill */}
             <div className="shop-live-pulse-pill">
               <span className="live-pulse-dot" />
-              <span>Live from 48+ Independent Studios Across India</span>
+              <span>{t('shop_live_studios')}</span>
             </div>
           </div>
 
