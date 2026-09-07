@@ -1,29 +1,28 @@
 # Graph Report - Craftinator-v2  (2026-09-07)
 
 ## Corpus Check
-- 61 files · ~67,532 words
+- 62 files · ~70,331 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 237 nodes · 382 edges · 18 communities (12 shown, 3 thin omitted)
+- 239 nodes · 398 edges · 17 communities (11 shown, 3 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9872c743`
+- Built from commit: `47f25b8f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - useLanguage
 - package.json
+- HomePage.jsx
 - ShopPage.jsx
-- TrendingProducts.jsx
 - Safe Feature Implementation Workflow
 - i18n-sync.js
 - Design Tokens (`src/index.css`)
 - Example 1: New Feature Request Workflow
-- 3. Development Guidelines & Conventions
 - vercel.json
 - CuratedCollections.jsx
 - Graphify Cheat Sheet & Guide (Antigravity IDE)
@@ -32,18 +31,20 @@
 - workflows/graphify.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `useLanguage()` - 57 edges
+1. `useLanguage()` - 59 edges
 2. `Safe Feature Implementation Workflow` - 16 edges
 3. `Example 1: New Feature Request Workflow` - 8 edges
 4. `scripts` - 7 edges
-5. `useBodyScrollLock()` - 7 edges
-6. `Phase 2 — Create an Implementation Plan` - 7 edges
-7. `products` - 6 edges
+5. `products` - 7 edges
+6. `useBodyScrollLock()` - 7 edges
+7. `Phase 2 — Create an Implementation Plan` - 7 edges
 8. `3. Development Guidelines & Conventions` - 6 edges
 9. `Design Tokens (`src/index.css`)` - 6 edges
 10. `Error Investigation Mode` - 6 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `WishlistDrawer()` --calls--> `useLanguage()`  [EXTRACTED]
+  src/components/WishlistDrawer.jsx → src/i18n/LanguageContext.jsx
 - `AppContent()` --calls--> `useLanguage()`  [EXTRACTED]
   src/App.jsx → src/i18n/LanguageContext.jsx
 - `BrandValues()` --calls--> `useLanguage()`  [EXTRACTED]
@@ -52,29 +53,27 @@
   src/components/CartDrawer.jsx → src/i18n/LanguageContext.jsx
 - `CommunitySection()` --calls--> `useLanguage()`  [EXTRACTED]
   src/components/CommunitySection.jsx → src/i18n/LanguageContext.jsx
-- `Hero()` --calls--> `useLanguage()`  [EXTRACTED]
-  src/components/Hero copy.jsx → src/i18n/LanguageContext.jsx
 
 ## Import Cycles
 - None detected.
 
-## Communities (18 total, 3 thin omitted)
+## Communities (17 total, 3 thin omitted)
 
 ### Community 0 - "useLanguage"
 Cohesion: 0.11
-Nodes (24): App(), AppContent(), ArtisanModal(), AuthModal(), CartDrawer(), Footer(), Header(), Hero() (+16 more)
+Nodes (23): App(), AppContent(), ArtisanModal(), AuthModal(), CartDrawer(), Footer(), Header(), Hero() (+15 more)
 
 ### Community 1 - "package.json"
 Cohesion: 0.07
 Nodes (27): lucide-react, dependencies, lucide-react, react, react-dom, devDependencies, @types/react, @types/react-dom (+19 more)
 
-### Community 2 - "ShopPage.jsx"
-Cohesion: 0.09
-Nodes (20): ArtisanCardSkeleton(), ArtisanDiscoveryBanner(), BrandValues(), CommunitySection(), Hero(), MeetMakers(), Newsletter(), PersonalizedDiscovery() (+12 more)
+### Community 2 - "HomePage.jsx"
+Cohesion: 0.13
+Nodes (12): CommunitySection(), Hero(), PersonalizedDiscovery(), SellerCTA(), ShopByCategory(), StoryBanner(), Testimonials(), TrendingProducts() (+4 more)
 
-### Community 3 - "TrendingProducts.jsx"
-Cohesion: 0.47
-Nodes (3): ProductCard(), ProductCardSkeleton(), TrendingProducts()
+### Community 3 - "ShopPage.jsx"
+Cohesion: 0.15
+Nodes (13): ArtisanCardSkeleton(), ArtisanDiscoveryBanner(), BrandValues(), MeetMakers(), Newsletter(), ProductCard(), ProductCardSkeleton(), ShopByMaterial() (+5 more)
 
 ### Community 4 - "Safe Feature Implementation Workflow"
 Cohesion: 0.06
@@ -85,16 +84,12 @@ Cohesion: 0.27
 Nodes (9): __dirname, extractTranslationCalls(), __filename, humanizeKey(), rootDir, run(), scanFiles(), srcDir (+1 more)
 
 ### Community 6 - "Design Tokens (`src/index.css`)"
-Cohesion: 0.10
-Nodes (18): Color Palette Tokens, Craftinator-v2 Design Tokens & Styling Guidelines, Design Tokens (`src/index.css`), Elevation & Shadows, Layout Constraints, Philosophy, Radii, Styling Conventions (+10 more)
+Cohesion: 0.06
+Nodes (28): Color Palette Tokens, Craftinator-v2 Design Tokens & Styling Guidelines, Design Tokens (`src/index.css`), Elevation & Shadows, Layout Constraints, Philosophy, Radii, Styling Conventions (+20 more)
 
 ### Community 7 - "Example 1: New Feature Request Workflow"
 Cohesion: 0.14
 Nodes (13): 1. User Prompt, 1. User Prompt, 2. Diagnosis Protocol (Zero file changes), 2. Phase 1 — Project Understanding (Zero file changes), 3. Approval Gate (Stop), 3. Phase 2 — Implementation Plan, 4. Approval Gate 1 (Stop), 5. Implementation Phase (Only after "Approved" or "Implement it") (+5 more)
-
-### Community 8 - "3. Development Guidelines & Conventions"
-Cohesion: 0.20
-Nodes (10): 1. Project Inspection Workflow ("Understand the Project"), 2. Core Architecture Summary, 3. Development Guidelines & Conventions, Adding New Routes / Pages, Adding or Modifying Data, Craftinator-v2 Project & Engineering Guide, Internationalization (i18n) & Adding New Pages / Components / Languages, Modal & Drawer Behavior (+2 more)
 
 ### Community 9 - "vercel.json"
 Cohesion: 0.33
@@ -116,17 +111,17 @@ Nodes (3): Available Skills, Core Architectural Rules & Standards, Craftinator-v
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useLanguage()` connect `useLanguage` to `ShopPage.jsx`, `TrendingProducts.jsx`?**
-  _High betweenness centrality (0.063) - this node is a cross-community bridge._
-- **Why does `Craftinator-v2 Project & Engineering Guide` connect `3. Development Guidelines & Conventions` to `Design Tokens (`src/index.css`)`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **Why does `useLanguage()` connect `useLanguage` to `HomePage.jsx`, `ShopPage.jsx`?**
+  _High betweenness centrality (0.065) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _94 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `useLanguage` be split into smaller, more focused modules?**
-  _Cohesion score 0.1109936575052854 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11382113821138211 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.07142857142857142 - nodes in this community are weakly interconnected._
+- **Should `HomePage.jsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.12648221343873517 - nodes in this community are weakly interconnected._
 - **Should `ShopPage.jsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.09024390243902439 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1455026455026455 - nodes in this community are weakly interconnected._
 - **Should `Safe Feature Implementation Workflow` be split into smaller, more focused modules?**
   _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._

@@ -12,9 +12,9 @@
     "semantic_hash": "f384cc00239e43641c6a7517e0a0804c"
   },
   "src/App.jsx": {
-    "mtime": 1788792268.2280815,
-    "seen": 1788792391.1015954,
-    "ast_hash": "ee0ed6d38fe2eeaf73918337344d3f34",
+    "mtime": 1788795490.6110663,
+    "seen": 1788795669.7807064,
+    "ast_hash": "c94364cb0dd0b25c762f520cb2702e61",
     "semantic_hash": ""
   },
   "src/components/ArtisanCardSkeleton.jsx": {
@@ -72,10 +72,10 @@
     "semantic_hash": "215a6fabd35be24ba232c4d79bf0e9a0"
   },
   "src/components/Header.jsx": {
-    "mtime": 1788530041.1105578,
-    "seen": 1788613311.5185108,
-    "ast_hash": "4ae9366cd4716a12bd08b1aca30e05fe",
-    "semantic_hash": "4ae9366cd4716a12bd08b1aca30e05fe"
+    "mtime": 1788794999.1670942,
+    "seen": 1788795294.297283,
+    "ast_hash": "dc16069a107288eba67dacc0262216c5",
+    "semantic_hash": ""
   },
   "src/components/Hero copy.jsx": {
     "mtime": 1788355760.27995,
@@ -132,10 +132,10 @@
     "semantic_hash": "9c678d1d8749d569cf6dd015b96e2ef8"
   },
   "src/components/ProductModal.jsx": {
-    "mtime": 1788335605.5993812,
-    "seen": 1788613311.51853,
-    "ast_hash": "55cdd272ffb7977fe35a0c8adea43cec",
-    "semantic_hash": "55cdd272ffb7977fe35a0c8adea43cec"
+    "mtime": 1788794945.4627402,
+    "seen": 1788795294.2973115,
+    "ast_hash": "a9c36e725dcd631de3d3ef25eae82bd1",
+    "semantic_hash": ""
   },
   "src/components/ScrollToTop.jsx": {
     "mtime": 1788438281.7533789,
@@ -258,9 +258,9 @@
     "semantic_hash": "cd50faa6936d1b4be27ba931c883d126"
   },
   "src/i18n/translations.js": {
-    "mtime": 1788792197.4940352,
-    "seen": 1788792391.1018271,
-    "ast_hash": "f45be147dd69237bc307e84aa78510c8",
+    "mtime": 1788795193.5833948,
+    "seen": 1788795294.2973678,
+    "ast_hash": "20b7c8e7e6e77c8f31018376fbf9aea2",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -432,9 +432,15 @@
     "semantic_hash": ""
   },
   "src/components/LoadingScreen.jsx": {
-    "mtime": 1788792179.402745,
-    "seen": 1788792391.1016624,
-    "ast_hash": "fa490ffd68bd04a8ea3e034f915e5e60",
+    "mtime": 1788794225.27452,
+    "seen": 1788795294.2972934,
+    "ast_hash": "dfca1d916118a2e6065830e01419e0d1",
+    "semantic_hash": ""
+  },
+  "src/pages/ProductDetailsPage.jsx": {
+    "mtime": 1788795530.172046,
+    "seen": 1788795669.7808187,
+    "ast_hash": "4964a568b7e5ceedf42d73ce5b50bd83",
     "semantic_hash": ""
   }
 }
