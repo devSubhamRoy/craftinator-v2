@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { artisans } from '../data/artisans';
-import { MapPin, ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
+import { MapPin, ArrowRight, ChevronRight, ChevronLeft, UserPlus, Check } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import ArtisanCardSkeleton from './ArtisanCardSkeleton';
 
@@ -8,6 +8,7 @@ export default function MeetMakers({ onOpenArtisanModal }) {
   const { t } = useLanguage();
   const sliderRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [followingArtisans, setFollowingArtisans] = useState({});
 
   /* Initial mount skeleton shimmer effect */
   useEffect(() => {
@@ -17,15 +18,23 @@ export default function MeetMakers({ onOpenArtisanModal }) {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleToggleFollow = (e, artisanId) => {
+    e.stopPropagation();
+    setFollowingArtisans(prev => ({
+      ...prev,
+      [artisanId]: !prev[artisanId]
+    }));
+  };
+
   const handleScrollPrev = () => {
     if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+      sliderRef.current.scrollBy({ left: -300, behavior: 'smooth' });
     }
   };
 
   const handleScrollNext = () => {
     if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: 320, behavior: 'smooth' });
+      sliderRef.current.scrollBy({ left: 300, behavior: 'smooth' });
     }
   };
 
@@ -52,55 +61,74 @@ export default function MeetMakers({ onOpenArtisanModal }) {
                 <ArtisanCardSkeleton key={`artisan-skeleton-${idx}`} />
               ))
             ) : (
-              artisans.map((artisan) => (
-              <div
-                key={artisan.id}
-                className="artisan-card"
-                onClick={() => onOpenArtisanModal && onOpenArtisanModal(artisan)}
-              >
-                {/* Studio / Portrait Image Container with Unclipped Avatar */}
-                <div className="artisan-image-wrapper">
-                  <div className="artisan-img-clip">
-                    <img
-                      src={artisan.studioImage}
-                      alt={`${artisan.name} working in studio`}
-                      className="artisan-img img-cover"
-                      loading="lazy"
-                    />
-                    <div className="artisan-overlay" />
-                    {/* Badge */}
-                    <span className="artisan-badge">{artisan.badge}</span>
+              artisans.map((artisan) => {
+                const isFollowing = !!followingArtisans[artisan.id];
+
+                return (
+                  <div
+                    key={artisan.id}
+                    className="artisan-card"
+                    onClick={() => onOpenArtisanModal && onOpenArtisanModal(artisan)}
+                  >
+                    {/* Studio / Portrait Image Container with Unclipped Avatar & Floating Follow Button */}
+                    <div className="artisan-image-wrapper">
+                      <div className="artisan-img-clip">
+                        <img
+                          src={artisan.studioImage}
+                          alt={`${artisan.name} working in studio`}
+                          className="artisan-img img-cover"
+                          loading="lazy"
+                        />
+                        <div className="artisan-overlay" />
+                        {/* Badge */}
+                        <span className="artisan-badge">{artisan.badge}</span>
+                      </div>
+                      
+                      {/* Floating Avatar (Enlarged, Unclipped & Sharp) */}
+                      <img
+                        src={artisan.avatar}
+                        alt={artisan.name}
+                        className="artisan-avatar"
+                      />
+
+                      {/* Floating Follow Button (Right aligned opposite to Avatar - Green Circle) */}
+                      <button
+                        type="button"
+                        className={`artisan-follow-btn ${isFollowing ? 'following' : ''}`}
+                        onClick={(e) => handleToggleFollow(e, artisan.id)}
+                        aria-label={isFollowing ? `Unfollow ${artisan.name}` : `Follow ${artisan.name}`}
+                      >
+                        {isFollowing ? (
+                          <>
+                            <Check size={16} />
+                            <span>{t('following', 'Following')}</span>
+                          </>
+                        ) : (
+                          <>
+                            <UserPlus size={16} />
+                            <span>{t('follow', 'Follow')}</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    {/* Content */}
+                    <div className="artisan-content">
+                      <div className="artisan-meta">
+                        <h3 className="artisan-name">{artisan.name}</h3>
+                        <span className="artisan-craft">{artisan.craft}</span>
+                      </div>
+
+                      <div className="artisan-location">
+                        <MapPin size={14} className="location-icon" />
+                        <span>{artisan.city}, {artisan.state}</span>
+                      </div>
+
+                      <p className="artisan-quote">"{artisan.quote}"</p>
+                    </div>
                   </div>
-                  
-                  {/* Floating Avatar (Unclipped & Sharp) */}
-                  <img
-                    src={artisan.avatar}
-                    alt={artisan.name}
-                    className="artisan-avatar"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="artisan-content">
-                  <div className="artisan-meta">
-                    <h3 className="artisan-name">{artisan.name}</h3>
-                    <span className="artisan-craft">{artisan.craft}</span>
-                  </div>
-
-                  <div className="artisan-location">
-                    <MapPin size={14} className="location-icon" />
-                    <span>{artisan.city}, {artisan.state}</span>
-                  </div>
-
-                  <p className="artisan-quote">"{artisan.quote}"</p>
-
-                  <button className="artisan-profile-btn">
-                    <span>{t('nav_makers')}</span>
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
-              </div>
-              ))
+                );
+              })
             )}
           </div>
 

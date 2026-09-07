@@ -15,6 +15,9 @@ export default function ArtisanCardSkeleton() {
         <div className="artisan-avatar skeleton-artisan-avatar">
           <div className="skeleton-shimmer-sweep" />
         </div>
+
+        {/* Floating Follow Button Skeleton */}
+        <div className="skeleton-artisan-follow" />
       </div>
 
       {/* Content Skeleton */}
@@ -33,8 +36,6 @@ export default function ArtisanCardSkeleton() {
           <div className="skeleton-artisan-line skeleton-quote-l1" />
           <div className="skeleton-artisan-line skeleton-quote-l2" />
         </div>
-
-        <div className="skeleton-artisan-line skeleton-artisan-btn" />
       </div>
     </div>
   );

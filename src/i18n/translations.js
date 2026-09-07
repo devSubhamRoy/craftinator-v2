@@ -257,7 +257,9 @@ export const translations = {
     "shop_filter_drawer_reset": "Reset",
     "shop_filter_drawer_apply": "Apply",
     "seller_eyebrow": "Why Craftinator • The Maker's Advantage",
-    "seller_cta_btn": "Start Selling Your Craft"
+    "seller_cta_btn": "Start Selling Your Craft",
+    "following": "Following",
+    "follow": "Follow"
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -402,7 +404,9 @@ export const translations = {
     "shop_filter_drawer_reset": "Zurücksetzen",
     "shop_filter_drawer_apply": "Anwenden",
     "seller_eyebrow": "Warum Craftinator • Der Macher-Vorteil",
-    "seller_cta_btn": "Jetzt Verkaufen Starten"
+    "seller_cta_btn": "Jetzt Verkaufen Starten",
+    "following": "Following",
+    "follow": "Follow"
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -547,7 +551,9 @@ export const translations = {
     "shop_filter_drawer_reset": "Redefinir",
     "shop_filter_drawer_apply": "Aplicar",
     "seller_eyebrow": "Por que Craftinator • A Vantagem do Artesão",
-    "seller_cta_btn": "Começar a Vender no Craftinator"
+    "seller_cta_btn": "Começar a Vender no Craftinator",
+    "following": "Following",
+    "follow": "Follow"
   },
   "es": {
     "nav_explore": "Explorar",
@@ -692,7 +698,9 @@ export const translations = {
     "shop_filter_drawer_reset": "Restablecer",
     "shop_filter_drawer_apply": "Aplicar",
     "seller_eyebrow": "Por qué Craftinator • La Ventaja del Creador",
-    "seller_cta_btn": "Empieza a Vender en Craftinator"
+    "seller_cta_btn": "Empieza a Vender en Craftinator",
+    "following": "Following",
+    "follow": "Follow"
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -837,7 +845,9 @@ export const translations = {
     "shop_filter_drawer_reset": "重置",
     "shop_filter_drawer_apply": "应用筛选",
     "seller_eyebrow": "为什么选择 Craftinator • 创作者优势",
-    "seller_cta_btn": "在 Craftinator 开始出售作品"
+    "seller_cta_btn": "在 Craftinator 开始出售作品",
+    "following": "Following",
+    "follow": "Follow"
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -982,7 +992,9 @@ export const translations = {
     "shop_filter_drawer_reset": "重置",
     "shop_filter_drawer_apply": "套用篩選",
     "seller_eyebrow": "為何選擇 Craftinator • 創作者優勢",
-    "seller_cta_btn": "在 Craftinator 開啟販售"
+    "seller_cta_btn": "在 Craftinator 開啟販售",
+    "following": "Following",
+    "follow": "Follow"
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -1127,7 +1139,9 @@ export const translations = {
     "shop_filter_drawer_reset": "Réinitialiser",
     "shop_filter_drawer_apply": "Appliquer",
     "seller_eyebrow": "Pourquoi Craftinator • L'Avantage Créateur",
-    "seller_cta_btn": "Commencer à Vendre sur Craftinator"
+    "seller_cta_btn": "Commencer à Vendre sur Craftinator",
+    "following": "Following",
+    "follow": "Follow"
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -1272,7 +1286,9 @@ export const translations = {
     "shop_filter_drawer_reset": "إعادة ضبط",
     "shop_filter_drawer_apply": "تطبيق",
     "seller_eyebrow": "لماذا كرافتيناتور • ميزة الصانع",
-    "seller_cta_btn": "ابدأ البيع على كرافتيناتور"
+    "seller_cta_btn": "ابدأ البيع على كرافتيناتور",
+    "following": "Following",
+    "follow": "Follow"
   },
   "ja": {
     "nav_explore": "探す",
@@ -1417,7 +1433,9 @@ export const translations = {
     "shop_filter_drawer_reset": "リセット",
     "shop_filter_drawer_apply": "適用する",
     "seller_eyebrow": "Craftinator を選ぶ理由 • 作り手のメリット",
-    "seller_cta_btn": "Craftinator で作品を販売する"
+    "seller_cta_btn": "Craftinator で作品を販売する",
+    "following": "Following",
+    "follow": "Follow"
   },
   "ko": {
     "nav_explore": "탐색",
@@ -1562,7 +1580,9 @@ export const translations = {
     "shop_filter_drawer_reset": "초기화",
     "shop_filter_drawer_apply": "적용하기",
     "seller_eyebrow": "왜 Craftinator인가 • 작가를 위한 혜택",
-    "seller_cta_btn": "Craftinator에서 판매 시작하기"
+    "seller_cta_btn": "Craftinator에서 판매 시작하기",
+    "following": "Following",
+    "follow": "Follow"
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -1707,7 +1727,9 @@ export const translations = {
     "shop_filter_drawer_reset": "Resetuj",
     "shop_filter_drawer_apply": "Zastosuj",
     "seller_eyebrow": "Dlaczego Craftinator • Korzyści dla Twórców",
-    "seller_cta_btn": "Zacznij Sprzedawać na Craftinator"
+    "seller_cta_btn": "Zacznij Sprzedawać na Craftinator",
+    "following": "Following",
+    "follow": "Follow"
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -1852,7 +1874,9 @@ export const translations = {
     "shop_filter_drawer_reset": "Сброс",
     "shop_filter_drawer_apply": "Применить",
     "seller_eyebrow": "Почему Craftinator • Преимущества для мастеров",
-    "seller_cta_btn": "Начать Продажи на Craftinator"
+    "seller_cta_btn": "Начать Продажи на Craftinator",
+    "following": "Following",
+    "follow": "Follow"
   },
   "it": {
     "nav_explore": "Esplora",
@@ -1997,7 +2021,9 @@ export const translations = {
     "shop_filter_drawer_reset": "Reimposta",
     "shop_filter_drawer_apply": "Applica",
     "seller_eyebrow": "Perché Craftinator • Il Vantaggio per gli Artigiani",
-    "seller_cta_btn": "Inizia a Vendere su Craftinator"
+    "seller_cta_btn": "Inizia a Vendere su Craftinator",
+    "following": "Following",
+    "follow": "Follow"
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -2146,7 +2172,9 @@ export const translations = {
     "shop_filter_drawer_apply": "लागू करें",
     "seller_eyebrow": "Craftinator क्यों • शिल्पकारों का लाभ",
     "seller_subtitle": "Craftinator केवल एक दुकान नहीं है। हम स्वतंत्र कारीगरों और समझदार खरीदारों को सोशल स्टूडियो फ़ीड, सच्ची कहानियों और निष्पक्ष व्यापार के माध्यम से जोड़ते हैं।",
-    "seller_cta_btn": "Craftinator पर बेचना शुरू करें"
+    "seller_cta_btn": "Craftinator पर बेचना शुरू करें",
+    "following": "Following",
+    "follow": "Follow"
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -2295,7 +2323,9 @@ export const translations = {
     "shop_filter_drawer_apply": "প্রয়োগ করুন",
     "seller_eyebrow": "কেন Craftinator • নির্মাতাদের সুবিধা",
     "seller_subtitle": "Craftinator সাধারণ কোনো দোকান নয়। আমরা স্বাধীন কারুশিল্পী ও সংগ্রাহকদের সামাজিক স্টুডিও ফিড, গল্পের মাধ্যমে সরাসরি সংযুক্ত করি।",
-    "seller_cta_btn": "Craftinator এ বিক্রি শুরু করুন"
+    "seller_cta_btn": "Craftinator এ বিক্রি শুরু করুন",
+    "following": "Following",
+    "follow": "Follow"
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -2450,6 +2480,8 @@ export const translations = {
     "story_desc": "अस्माकं पारम्परिकशिल्पयात्रां सांस्कृतिकसम्पदं च जानन्तु।",
     "disc_title": "वैयक्तिकशिल्पान्वेषणम्",
     "disc_subtitle": "भवतां शैल्यानुरूपम् अद्वितीयं हस्तनिर्मितं वस्तु प्राप्नुवन्तु।",
-    "seller_desc": "अद्यैव Craftinator मध्ये सम्मिलित्वा विश्वव्यापिक्रेतृभिः सह सम्बध्यताम्।"
+    "seller_desc": "अद्यैव Craftinator मध्ये सम्मिलित्वा विश्वव्यापिक्रेतृभिः सह सम्बध्यताम्।",
+    "following": "Following",
+    "follow": "Follow"
   }
 };
