@@ -51,6 +51,7 @@ export default function Header({
   };
 
   const isShopActive = currentPath === '/shop';
+  const isHomeActive = currentPath === '/' || currentPath === '/home';
 
   return (
     <header className={`header-root ${scrolled ? 'header-scrolled' : ''}`}>
@@ -83,7 +84,7 @@ export default function Header({
         <nav className="header-nav-desktop" aria-label="Main Navigation">
           <ul className="header-nav-list">
             {navItems.map((item) => {
-              const isActive = item.id === 'shop' ? isShopActive : (!isShopActive && item.id === 'home');
+              const isActive = item.id === 'shop' ? isShopActive : (item.id === 'home' && isHomeActive);
 
               return (
                 <li key={item.id}>
