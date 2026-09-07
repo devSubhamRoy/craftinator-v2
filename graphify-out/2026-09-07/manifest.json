@@ -12,8 +12,8 @@
     "semantic_hash": "f384cc00239e43641c6a7517e0a0804c"
   },
   "src/App.jsx": {
-    "mtime": 1788795490.6110663,
-    "seen": 1788795669.7807064,
+    "mtime": 1788797418.732562,
+    "seen": 1788804039.8568587,
     "ast_hash": "c94364cb0dd0b25c762f520cb2702e61",
     "semantic_hash": ""
   },
@@ -72,8 +72,8 @@
     "semantic_hash": "215a6fabd35be24ba232c4d79bf0e9a0"
   },
   "src/components/Header.jsx": {
-    "mtime": 1788794999.1670942,
-    "seen": 1788795294.297283,
+    "mtime": 1788797418.7365055,
+    "seen": 1788804039.856917,
     "ast_hash": "dc16069a107288eba67dacc0262216c5",
     "semantic_hash": ""
   },
@@ -132,9 +132,9 @@
     "semantic_hash": "9c678d1d8749d569cf6dd015b96e2ef8"
   },
   "src/components/ProductModal.jsx": {
-    "mtime": 1788794945.4627402,
-    "seen": 1788795294.2973115,
-    "ast_hash": "a9c36e725dcd631de3d3ef25eae82bd1",
+    "mtime": 1788797418.7365055,
+    "seen": 1788804039.8569744,
+    "ast_hash": "dba6acae5a270493db269bafccc427f6",
     "semantic_hash": ""
   },
   "src/components/ScrollToTop.jsx": {
@@ -258,9 +258,9 @@
     "semantic_hash": "cd50faa6936d1b4be27ba931c883d126"
   },
   "src/i18n/translations.js": {
-    "mtime": 1788795193.5833948,
-    "seen": 1788795294.2973678,
-    "ast_hash": "20b7c8e7e6e77c8f31018376fbf9aea2",
+    "mtime": 1788797418.7395086,
+    "seen": 1788804039.857085,
+    "ast_hash": "ae24514d63201065f6fe46a0d68f772c",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -438,9 +438,21 @@
     "semantic_hash": ""
   },
   "src/pages/ProductDetailsPage.jsx": {
-    "mtime": 1788795530.172046,
-    "seen": 1788795669.7808187,
-    "ast_hash": "4964a568b7e5ceedf42d73ce5b50bd83",
+    "mtime": 1788804932.0283175,
+    "seen": 1788805064.4254134,
+    "ast_hash": "0f3b70ff992026da34ac1380b823654f",
+    "semantic_hash": ""
+  },
+  "src/data/editorialHeroes.js": {
+    "mtime": 1788804480.230848,
+    "seen": 1788804597.5833328,
+    "ast_hash": "364c36b642d7bd3d55bf774db907b3de",
+    "semantic_hash": ""
+  },
+  "src/data/reviews.js": {
+    "mtime": 1788804488.83834,
+    "seen": 1788804597.5833416,
+    "ast_hash": "1d5556c0337a7437507d197c03903ffd",
     "semantic_hash": ""
   }
 }
