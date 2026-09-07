@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Star, Heart, ShoppingBag, MapPin, Truck, RotateCcw } from 'lucide-react';
+import { X, Star, Heart, ShoppingBag, MapPin, Truck, RotateCcw, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 export default function ProductModal({
@@ -8,7 +8,8 @@ export default function ProductModal({
   onClose,
   isWishlisted,
   onToggleWishlist,
-  onAddToCart
+  onAddToCart,
+  onNavigate
 }) {
   const { t } = useLanguage();
   if (!isOpen || !product) return null;
@@ -102,6 +103,21 @@ export default function ProductModal({
                 <RotateCcw size={16} />
                 <span>{t('bv_1_title')}</span>
               </div>
+            </div>
+
+            {/* Link to Full Product Details Page */}
+            <div className="modal-footer-action">
+              <button
+                type="button"
+                className="btn-view-details-link"
+                onClick={() => {
+                  onClose && onClose();
+                  onNavigate && onNavigate(`/product?id=${product.id}`);
+                }}
+              >
+                <span>{t('view_full_details', 'View Full Product Details & Artisan Story')}</span>
+                <ArrowRight size={15} />
+              </button>
             </div>
 
           </div>

@@ -13,7 +13,7 @@
       "file_type": "code",
       "norm_label": "app()",
       "source_file": "src/App.jsx",
-      "source_location": "L257"
+      "source_location": "L308"
     },
     {
       "id": "src_app_appcontent",
@@ -25,7 +25,7 @@
       "file_type": "code",
       "norm_label": "appcontent()",
       "source_file": "src/App.jsx",
-      "source_location": "L43"
+      "source_location": "L45"
     },
     {
       "id": "src_components_artisanmodal_artisanmodal",
@@ -160,6 +160,18 @@
       "source_location": "L5"
     },
     {
+      "id": "src_components_shophero_shophero",
+      "label": "ShopHero()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useLanguage",
+      "file_type": "code",
+      "norm_label": "shophero()",
+      "source_file": "src/components/ShopHero.jsx",
+      "source_location": "L6"
+    },
+    {
       "id": "src_components_storymodal_storymodal",
       "label": "StoryModal()",
       "_callable": true,
@@ -182,18 +194,6 @@
       "norm_label": "toastnotification()",
       "source_file": "src/components/ToastNotification.jsx",
       "source_location": "L4"
-    },
-    {
-      "id": "src_components_wishlistdrawer_wishlistdrawer",
-      "label": "WishlistDrawer()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "wishlistdrawer()",
-      "source_file": "src/components/WishlistDrawer.jsx",
-      "source_location": "L6"
     },
     {
       "id": "src_hooks_usebodyscrolllock_usebodyscrolllock",
@@ -256,48 +256,12 @@
       "source_location": "L5"
     },
     {
-      "id": "src_components_artisancardskeleton_artisancardskeleton",
-      "label": "ArtisanCardSkeleton()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "artisancardskeleton()",
-      "source_file": "src/components/ArtisanCardSkeleton.jsx",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_components_artisandiscoverybanner_artisandiscoverybanner",
-      "label": "ArtisanDiscoveryBanner()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "artisandiscoverybanner()",
-      "source_file": "src/components/ArtisanDiscoveryBanner.jsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_components_brandvalues_brandvalues",
-      "label": "BrandValues()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "brandvalues()",
-      "source_file": "src/components/BrandValues.jsx",
-      "source_location": "L5"
-    },
-    {
       "id": "src_components_communitysection_communitysection",
       "label": "CommunitySection()",
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "communitysection()",
       "source_file": "src/components/CommunitySection.jsx",
@@ -309,34 +273,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "hero()",
       "source_file": "src/components/Hero.jsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_components_meetmakers_meetmakers",
-      "label": "MeetMakers()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "meetmakers()",
-      "source_file": "src/components/MeetMakers.jsx",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_components_newsletter_newsletter",
-      "label": "Newsletter()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "newsletter()",
-      "source_file": "src/components/Newsletter.jsx",
       "source_location": "L5"
     },
     {
@@ -345,7 +285,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "personalizeddiscovery()",
       "source_file": "src/components/PersonalizedDiscovery.jsx",
@@ -357,7 +297,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "sellercta()",
       "source_file": "src/components/SellerCTA.jsx",
@@ -369,34 +309,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "shopbycategory()",
       "source_file": "src/components/ShopByCategory.jsx",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_components_shopbymaterial_shopbymaterial",
-      "label": "ShopByMaterial()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "shopbymaterial()",
-      "source_file": "src/components/ShopByMaterial.jsx",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_components_shophero_shophero",
-      "label": "ShopHero()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "shophero()",
-      "source_file": "src/components/ShopHero.jsx",
       "source_location": "L6"
     },
     {
@@ -405,7 +321,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "storybanner()",
       "source_file": "src/components/StoryBanner.jsx",
@@ -417,11 +333,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "testimonials()",
       "source_file": "src/components/Testimonials.jsx",
       "source_location": "L6"
+    },
+    {
+      "id": "src_components_trendingproducts_trendingproducts",
+      "label": "TrendingProducts()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "HomePage.jsx",
+      "file_type": "code",
+      "norm_label": "trendingproducts()",
+      "source_file": "src/components/TrendingProducts.jsx",
+      "source_location": "L8"
     },
     {
       "id": "src_pages_homepage_homepage",
@@ -429,11 +357,71 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "homepage()",
       "source_file": "src/pages/HomePage.jsx",
       "source_location": "L20"
+    },
+    {
+      "id": "src_components_artisancardskeleton_artisancardskeleton",
+      "label": "ArtisanCardSkeleton()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "artisancardskeleton()",
+      "source_file": "src/components/ArtisanCardSkeleton.jsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_components_artisandiscoverybanner_artisandiscoverybanner",
+      "label": "ArtisanDiscoveryBanner()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "artisandiscoverybanner()",
+      "source_file": "src/components/ArtisanDiscoveryBanner.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_components_brandvalues_brandvalues",
+      "label": "BrandValues()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "brandvalues()",
+      "source_file": "src/components/BrandValues.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_components_meetmakers_meetmakers",
+      "label": "MeetMakers()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "meetmakers()",
+      "source_file": "src/components/MeetMakers.jsx",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_components_newsletter_newsletter",
+      "label": "Newsletter()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "newsletter()",
+      "source_file": "src/components/Newsletter.jsx",
+      "source_location": "L5"
     },
     {
       "id": "src_components_productcard_productcard",
@@ -441,7 +429,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "TrendingProducts.jsx",
+      "community_name": "ShopPage.jsx",
       "file_type": "code",
       "norm_label": "productcard()",
       "source_file": "src/components/ProductCard.jsx",
@@ -453,23 +441,47 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "TrendingProducts.jsx",
+      "community_name": "ShopPage.jsx",
       "file_type": "code",
       "norm_label": "productcardskeleton()",
       "source_file": "src/components/ProductCardSkeleton.jsx",
       "source_location": "L4"
     },
     {
-      "id": "src_components_trendingproducts_trendingproducts",
-      "label": "TrendingProducts()",
+      "id": "src_components_shopbymaterial_shopbymaterial",
+      "label": "ShopByMaterial()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "TrendingProducts.jsx",
+      "community_name": "ShopPage.jsx",
       "file_type": "code",
-      "norm_label": "trendingproducts()",
-      "source_file": "src/components/TrendingProducts.jsx",
-      "source_location": "L8"
+      "norm_label": "shopbymaterial()",
+      "source_file": "src/components/ShopByMaterial.jsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_components_wishlistdrawer_wishlistdrawer",
+      "label": "WishlistDrawer()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "wishlistdrawer()",
+      "source_file": "src/components/WishlistDrawer.jsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_pages_productdetailspage_productdetailspage",
+      "label": "ProductDetailsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "productdetailspage()",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L33"
     },
     {
       "id": "scripts_i18n_sync_extracttranslationcalls",
@@ -652,6 +664,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_shophero",
+      "label": "ShopHero.jsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useLanguage",
+      "file_type": "code",
+      "norm_label": "shophero.jsx",
+      "source_file": "src/components/ShopHero.jsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_storymodal",
       "label": "StoryModal.jsx",
       "_origin": "ast",
@@ -671,39 +694,6 @@
       "file_type": "code",
       "norm_label": "toastnotification.jsx",
       "source_file": "src/components/ToastNotification.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_wishlistdrawer",
-      "label": "WishlistDrawer.jsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "wishlistdrawer.jsx",
-      "source_file": "src/components/WishlistDrawer.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_products",
-      "label": "products.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "products.js",
-      "source_file": "src/data/products.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_products_products",
-      "label": "products",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "products",
-      "source_file": "src/data/products.js",
       "source_location": "L1"
     },
     {
@@ -1335,44 +1325,11 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_artisancardskeleton",
-      "label": "ArtisanCardSkeleton.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "artisancardskeleton.jsx",
-      "source_file": "src/components/ArtisanCardSkeleton.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_artisandiscoverybanner",
-      "label": "ArtisanDiscoveryBanner.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "artisandiscoverybanner.jsx",
-      "source_file": "src/components/ArtisanDiscoveryBanner.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_brandvalues",
-      "label": "BrandValues.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "brandvalues.jsx",
-      "source_file": "src/components/BrandValues.jsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_communitysection",
       "label": "CommunitySection.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "communitysection.jsx",
       "source_file": "src/components/CommunitySection.jsx",
@@ -1383,32 +1340,10 @@
       "label": "Hero.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "hero.jsx",
       "source_file": "src/components/Hero.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_meetmakers",
-      "label": "MeetMakers.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "meetmakers.jsx",
-      "source_file": "src/components/MeetMakers.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_newsletter",
-      "label": "Newsletter.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "newsletter.jsx",
-      "source_file": "src/components/Newsletter.jsx",
       "source_location": "L1"
     },
     {
@@ -1416,7 +1351,7 @@
       "label": "PersonalizedDiscovery.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "personalizeddiscovery.jsx",
       "source_file": "src/components/PersonalizedDiscovery.jsx",
@@ -1427,7 +1362,7 @@
       "label": "SellerCTA.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "sellercta.jsx",
       "source_file": "src/components/SellerCTA.jsx",
@@ -1438,32 +1373,10 @@
       "label": "ShopByCategory.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "shopbycategory.jsx",
       "source_file": "src/components/ShopByCategory.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_shopbymaterial",
-      "label": "ShopByMaterial.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "shopbymaterial.jsx",
-      "source_file": "src/components/ShopByMaterial.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_shophero",
-      "label": "ShopHero.jsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "shophero.jsx",
-      "source_file": "src/components/ShopHero.jsx",
       "source_location": "L1"
     },
     {
@@ -1471,7 +1384,7 @@
       "label": "StoryBanner.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "storybanner.jsx",
       "source_file": "src/components/StoryBanner.jsx",
@@ -1482,32 +1395,10 @@
       "label": "Testimonials.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "testimonials.jsx",
       "source_file": "src/components/Testimonials.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_artisans",
-      "label": "artisans.js",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "artisans.js",
-      "source_file": "src/data/artisans.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_artisans_artisans",
-      "label": "artisans",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "artisans",
-      "source_file": "src/data/artisans.js",
       "source_location": "L1"
     },
     {
@@ -1515,7 +1406,7 @@
       "label": "categories.js",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "categories.js",
       "source_file": "src/data/categories.js",
@@ -1526,7 +1417,7 @@
       "label": "categories",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "categories",
       "source_file": "src/data/categories.js",
@@ -1537,7 +1428,7 @@
       "label": "communityPosts.js",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "communityposts.js",
       "source_file": "src/data/communityPosts.js",
@@ -1548,32 +1439,10 @@
       "label": "communityPosts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "communityposts",
       "source_file": "src/data/communityPosts.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_materials",
-      "label": "materials.js",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "materials.js",
-      "source_file": "src/data/materials.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_materials_materials",
-      "label": "materials",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "ShopPage.jsx",
-      "file_type": "code",
-      "norm_label": "materials",
-      "source_file": "src/data/materials.js",
       "source_location": "L1"
     },
     {
@@ -1581,7 +1450,7 @@
       "label": "testimonials.js",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "testimonials.js",
       "source_file": "src/data/testimonials.js",
@@ -1592,7 +1461,7 @@
       "label": "testimonials",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "testimonials",
       "source_file": "src/data/testimonials.js",
@@ -1603,21 +1472,65 @@
       "label": "HomePage.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "ShopPage.jsx",
+      "community_name": "HomePage.jsx",
       "file_type": "code",
       "norm_label": "homepage.jsx",
       "source_file": "src/pages/HomePage.jsx",
       "source_location": "L1"
     },
     {
-      "id": "src_pages_shoppage",
-      "label": "ShopPage.jsx",
+      "id": "src_components_artisancardskeleton",
+      "label": "ArtisanCardSkeleton.jsx",
       "_origin": "ast",
-      "community": 2,
+      "community": 3,
       "community_name": "ShopPage.jsx",
       "file_type": "code",
-      "norm_label": "shoppage.jsx",
-      "source_file": "src/pages/ShopPage.jsx",
+      "norm_label": "artisancardskeleton.jsx",
+      "source_file": "src/components/ArtisanCardSkeleton.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_artisandiscoverybanner",
+      "label": "ArtisanDiscoveryBanner.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "artisandiscoverybanner.jsx",
+      "source_file": "src/components/ArtisanDiscoveryBanner.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_brandvalues",
+      "label": "BrandValues.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "brandvalues.jsx",
+      "source_file": "src/components/BrandValues.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_meetmakers",
+      "label": "MeetMakers.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "meetmakers.jsx",
+      "source_file": "src/components/MeetMakers.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_newsletter",
+      "label": "Newsletter.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "newsletter.jsx",
+      "source_file": "src/components/Newsletter.jsx",
       "source_location": "L1"
     },
     {
@@ -1625,7 +1538,7 @@
       "label": "ProductCard.jsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "TrendingProducts.jsx",
+      "community_name": "ShopPage.jsx",
       "file_type": "code",
       "norm_label": "productcard.jsx",
       "source_file": "src/components/ProductCard.jsx",
@@ -1636,10 +1549,21 @@
       "label": "ProductCardSkeleton.jsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "TrendingProducts.jsx",
+      "community_name": "ShopPage.jsx",
       "file_type": "code",
       "norm_label": "productcardskeleton.jsx",
       "source_file": "src/components/ProductCardSkeleton.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_shopbymaterial",
+      "label": "ShopByMaterial.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "shopbymaterial.jsx",
+      "source_file": "src/components/ShopByMaterial.jsx",
       "source_location": "L1"
     },
     {
@@ -1647,10 +1571,109 @@
       "label": "TrendingProducts.jsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "TrendingProducts.jsx",
+      "community_name": "ShopPage.jsx",
       "file_type": "code",
       "norm_label": "trendingproducts.jsx",
       "source_file": "src/components/TrendingProducts.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_wishlistdrawer",
+      "label": "WishlistDrawer.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "wishlistdrawer.jsx",
+      "source_file": "src/components/WishlistDrawer.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_artisans",
+      "label": "artisans.js",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "artisans.js",
+      "source_file": "src/data/artisans.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_artisans_artisans",
+      "label": "artisans",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "artisans",
+      "source_file": "src/data/artisans.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_materials",
+      "label": "materials.js",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "materials.js",
+      "source_file": "src/data/materials.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_materials_materials",
+      "label": "materials",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "materials",
+      "source_file": "src/data/materials.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_products",
+      "label": "products.js",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "products.js",
+      "source_file": "src/data/products.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_products_products",
+      "label": "products",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "products",
+      "source_file": "src/data/products.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pages_productdetailspage",
+      "label": "ProductDetailsPage.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "productdetailspage.jsx",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pages_shoppage",
+      "label": "ShopPage.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "shoppage.jsx",
+      "source_file": "src/pages/ShopPage.jsx",
       "source_location": "L1"
     },
     {
@@ -2412,6 +2435,126 @@
       "source_location": "L3"
     },
     {
+      "id": "agents_skills_craftinator_guide_skill_1_project_inspection_workflow_understand_the_project",
+      "label": "1. Project Inspection Workflow (\"Understand the Project\")",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. project inspection workflow (\"understand the project\")",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L15"
+    },
+    {
+      "id": "agents_skills_craftinator_guide_skill_2_core_architecture_summary",
+      "label": "2. Core Architecture Summary",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. core architecture summary",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L35"
+    },
+    {
+      "id": "agents_skills_craftinator_guide_skill_3_development_guidelines_conventions",
+      "label": "3. Development Guidelines & Conventions",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. development guidelines & conventions",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L54"
+    },
+    {
+      "id": "agents_skills_craftinator_guide_skill_adding_new_routes_pages",
+      "label": "Adding New Routes / Pages",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "adding new routes / pages",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L80"
+    },
+    {
+      "id": "agents_skills_craftinator_guide_skill_adding_or_modifying_data",
+      "label": "Adding or Modifying Data",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "adding or modifying data",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L91"
+    },
+    {
+      "id": "agents_skills_craftinator_guide_skill_craftinator_v2_project_engineering_guide",
+      "label": "Craftinator-v2 Project & Engineering Guide",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "craftinator-v2 project & engineering guide",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L9"
+    },
+    {
+      "id": "agents_skills_craftinator_guide_skill_internationalization_i18n_adding_new_pages_components_languages",
+      "label": "Internationalization (i18n) & Adding New Pages / Components / Languages",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "internationalization (i18n) & adding new pages / components / languages",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L62"
+    },
+    {
+      "id": "agents_skills_craftinator_guide_skill_modal_drawer_behavior",
+      "label": "Modal & Drawer Behavior",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "modal & drawer behavior",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L107"
+    },
+    {
+      "id": "agents_skills_craftinator_guide_skill_rules",
+      "label": "Rules:",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "rules:",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L19"
+    },
+    {
+      "id": "agents_skills_craftinator_guide_skill_styling_rules",
+      "label": "Styling Rules",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": "Design Tokens (`src/index.css`)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "styling rules",
+      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
+      "source_location": "L56"
+    },
+    {
       "id": "agents_skills_safe_feature_implementation_references_examples",
       "label": "examples.md",
       "_origin": "ast",
@@ -2580,126 +2723,6 @@
       "source_location": "L1"
     },
     {
-      "id": "agents_skills_craftinator_guide_skill_1_project_inspection_workflow_understand_the_project",
-      "label": "1. Project Inspection Workflow (\"Understand the Project\")",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "1. project inspection workflow (\"understand the project\")",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L15"
-    },
-    {
-      "id": "agents_skills_craftinator_guide_skill_2_core_architecture_summary",
-      "label": "2. Core Architecture Summary",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2. core architecture summary",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L35"
-    },
-    {
-      "id": "agents_skills_craftinator_guide_skill_3_development_guidelines_conventions",
-      "label": "3. Development Guidelines & Conventions",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "3. development guidelines & conventions",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L54"
-    },
-    {
-      "id": "agents_skills_craftinator_guide_skill_adding_new_routes_pages",
-      "label": "Adding New Routes / Pages",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "adding new routes / pages",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L80"
-    },
-    {
-      "id": "agents_skills_craftinator_guide_skill_adding_or_modifying_data",
-      "label": "Adding or Modifying Data",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "adding or modifying data",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L91"
-    },
-    {
-      "id": "agents_skills_craftinator_guide_skill_craftinator_v2_project_engineering_guide",
-      "label": "Craftinator-v2 Project & Engineering Guide",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "craftinator-v2 project & engineering guide",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L9"
-    },
-    {
-      "id": "agents_skills_craftinator_guide_skill_internationalization_i18n_adding_new_pages_components_languages",
-      "label": "Internationalization (i18n) & Adding New Pages / Components / Languages",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "internationalization (i18n) & adding new pages / components / languages",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L62"
-    },
-    {
-      "id": "agents_skills_craftinator_guide_skill_modal_drawer_behavior",
-      "label": "Modal & Drawer Behavior",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "modal & drawer behavior",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L107"
-    },
-    {
-      "id": "agents_skills_craftinator_guide_skill_rules",
-      "label": "Rules:",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "rules:",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L19"
-    },
-    {
-      "id": "agents_skills_craftinator_guide_skill_styling_rules",
-      "label": "Styling Rules",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "3. Development Guidelines & Conventions",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "styling rules",
-      "source_file": ".agents/skills/craftinator-guide/SKILL.md",
-      "source_location": "L56"
-    },
-    {
       "id": "vercel",
       "label": "vercel.json",
       "_origin": "ast",
@@ -2812,7 +2835,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L44",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -3040,7 +3063,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/ProductModal.jsx",
-      "source_location": "L13",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -3149,6 +3172,18 @@
       "context": "call",
       "source_file": "src/pages/HomePage.jsx",
       "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage_productdetailspage",
+      "target": "src_i18n_languagecontext_uselanguage",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -3292,7 +3327,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L26",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
@@ -3304,7 +3339,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L27",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -3316,7 +3351,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -3328,7 +3363,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -3340,7 +3375,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -3352,7 +3387,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -3364,7 +3399,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -3376,7 +3411,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -3388,7 +3423,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -3400,7 +3435,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L37",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
@@ -3412,7 +3447,19 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L38",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_pages_productdetailspage_productdetailspage",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -3424,7 +3471,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L41",
+      "source_location": "L43",
       "weight": 1.0
     },
     {
@@ -4112,6 +4159,78 @@
       "weight": 1.0
     },
     {
+      "source": "src_pages_productdetailspage",
+      "target": "src_data_products_products",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_data_artisans_artisans",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_i18n_languagecontext_uselanguage",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_components_productcard_productcard",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_components_brandvalues_brandvalues",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_components_newsletter_newsletter",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
       "source": "src_pages_shoppage",
       "target": "src_components_brandvalues_brandvalues",
       "relation": "imports",
@@ -4312,7 +4431,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L26",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
@@ -4324,7 +4443,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L27",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -4336,7 +4455,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -4348,7 +4467,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -4360,7 +4479,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -4372,7 +4491,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -4384,7 +4503,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -4396,7 +4515,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -4408,7 +4527,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -4420,7 +4539,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L37",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
@@ -4432,7 +4551,19 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L38",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_pages_productdetailspage",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -4444,7 +4575,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L41",
+      "source_location": "L43",
       "weight": 1.0
     },
     {
@@ -5117,6 +5248,78 @@
       "context": "import",
       "source_file": "src/pages/HomePage.jsx",
       "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_data_products",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_data_artisans",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_i18n_languagecontext",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_components_productcard",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_components_brandvalues",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_components_newsletter",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -6572,7 +6775,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/App.jsx",
-      "source_location": "L257",
+      "source_location": "L308",
       "weight": 1.0
     },
     {
@@ -6583,7 +6786,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/App.jsx",
-      "source_location": "L43",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -7093,6 +7296,17 @@
       "weight": 1.0
     },
     {
+      "source": "src_pages_productdetailspage",
+      "target": "src_pages_productdetailspage_productdetailspage",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
       "source": "src_pages_shoppage",
       "target": "src_pages_shoppage_shoppage",
       "relation": "contains",
@@ -7182,5 +7396,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "9872c74345b905e321bd1a753f2aede55e384552"
+  "built_at_commit": "47f25b8fd762bc68836e29991b1042dd08ecde07"
 }

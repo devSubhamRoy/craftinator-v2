@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 
 /* Styles */
@@ -21,6 +21,7 @@ import './styles/LanguageSelector.css';
 import './styles/ShopPage.css';
 import './styles/Modals.css';
 import './styles/LoadingScreen.css';
+import './styles/ProductDetailsPage.css';
 
 /* Global Components */
 import Header from './components/Header';
@@ -36,6 +37,7 @@ import LoadingScreen from './components/LoadingScreen';
 /* Pages */
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
+import ProductDetailsPage from './pages/ProductDetailsPage';
 
 /* Datasets */
 import { products } from './data/products';
@@ -44,22 +46,47 @@ function AppContent() {
   const { t } = useLanguage();
 
   /* Route State */
-  const [currentPath, setCurrentPath] = useState(
-    typeof window !== 'undefined' && window.location.pathname === '/shop'
-      ? '/shop'
-      : (window.location.pathname === '/home' ? '/home' : '/')
-  );
+  const [currentPath, setCurrentPath] = useState(() => {
+    if (typeof window === 'undefined') return '/';
+    const path = window.location.pathname;
+    const search = window.location.search;
+    if (path.startsWith('/product')) return path + search;
+    if (path === '/shop') return '/shop';
+    if (path === '/home') return '/home';
+    return '/';
+  });
 
   /* App & Route Loading State */
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [loadingKey, setLoadingKey] = useState(0);
 
+  /* Extract Product ID if on /product route */
+  const currentProductId = useMemo(() => {
+    if (!currentPath.startsWith('/product')) return null;
+    if (currentPath.includes('?')) {
+      const queryPart = currentPath.split('?')[1];
+      const params = new URLSearchParams(queryPart);
+      if (params.get('id')) return params.get('id');
+    }
+    const segments = currentPath.split('/');
+    if (segments.length >= 3 && segments[2]) {
+      return segments[2].split('?')[0];
+    }
+    return products[0]?.id || null;
+  }, [currentPath]);
+
   useEffect(() => {
     const handlePopState = () => {
-      const nextPath =
-        window.location.pathname === '/shop'
-          ? '/shop'
-          : (window.location.pathname === '/home' ? '/home' : '/');
+      const pathname = window.location.pathname;
+      const search = window.location.search;
+      let nextPath = '/';
+      if (pathname.startsWith('/product')) {
+        nextPath = pathname + search;
+      } else if (pathname === '/shop') {
+        nextPath = '/shop';
+      } else if (pathname === '/home') {
+        nextPath = '/home';
+      }
 
       const normalize = (p) => (p === '/home' || p === '') ? '/' : p;
       if (normalize(nextPath) !== normalize(currentPath)) {
@@ -152,6 +179,16 @@ function AppContent() {
     }
   };
 
+  /* Product Navigation Handler - Direct to Product Details Page */
+  const handleProductClick = (product) => {
+    if (!product) return;
+    const prodId = typeof product === 'string' ? product : product.id;
+    setSelectedProductModal(null);
+    setSelectedArtisanModal(null);
+    setIsMobileMenuOpen(false);
+    handleNavigate(`/product?id=${prodId}`);
+  };
+
   return (
     <div className="app-root">
       {/* 0. Artisan Initial & Route Redirect Loading Screen */}
@@ -178,22 +215,34 @@ function AppContent() {
 
       {/* 2. Main Page View Architecture */}
       <main id="main-content">
-        {currentPath === '/shop' ? (
+        {currentPath.startsWith('/product') ? (
+          /* Dedicated Independent Product Details Page (/product?id=...) */
+          <ProductDetailsPage
+            productId={currentProductId}
+            wishlist={wishlist}
+            onToggleWishlist={handleToggleWishlist}
+            onAddToCart={handleAddToCart}
+            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenProductModal={handleProductClick}
+            onNavigate={handleNavigate}
+          />
+        ) : currentPath === '/shop' ? (
           /* Dedicated Independent Shop Page (/shop) */
           <ShopPage
             wishlist={wishlist}
             onToggleWishlist={handleToggleWishlist}
-            onOpenProductModal={(product) => setSelectedProductModal(product)}
+            onOpenProductModal={handleProductClick}
             onAddToCart={handleAddToCart}
             onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
             onNavigateHome={() => handleNavigate('/')}
+            onNavigate={handleNavigate}
           />
         ) : (
           /* Dedicated Homepage (/ and /home) */
           <HomePage
             wishlist={wishlist}
             onToggleWishlist={handleToggleWishlist}
-            onOpenProductModal={(product) => setSelectedProductModal(product)}
+            onOpenProductModal={handleProductClick}
             onAddToCart={handleAddToCart}
             onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
             onNavigate={handleNavigate}
@@ -221,6 +270,7 @@ function AppContent() {
           onClose={() => setSelectedProductModal(null)}
           onToggleWishlist={handleToggleWishlist}
           onAddToCart={handleAddToCart}
+          onNavigate={handleNavigate}
         />
       )}
 
@@ -229,6 +279,7 @@ function AppContent() {
         <ArtisanModal
           artisan={selectedArtisanModal}
           onClose={() => setSelectedArtisanModal(null)}
+          onOpenProductModal={handleProductClick}
         />
       )}
 
