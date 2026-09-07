@@ -20,6 +20,7 @@ import './styles/Footer.css';
 import './styles/LanguageSelector.css';
 import './styles/ShopPage.css';
 import './styles/Modals.css';
+import './styles/LoadingScreen.css';
 
 /* Global Components */
 import Header from './components/Header';
@@ -30,6 +31,7 @@ import ProductModal from './components/ProductModal';
 import ArtisanModal from './components/ArtisanModal';
 import AuthModal from './components/AuthModal';
 import ScrollToTop from './components/ScrollToTop';
+import LoadingScreen from './components/LoadingScreen';
 
 /* Pages */
 import HomePage from './pages/HomePage';
@@ -48,18 +50,28 @@ function AppContent() {
       : (window.location.pathname === '/home' ? '/home' : '/')
   );
 
+  /* App & Route Loading State */
+  const [isAppLoading, setIsAppLoading] = useState(true);
+  const [loadingKey, setLoadingKey] = useState(0);
+
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(
+      const nextPath =
         window.location.pathname === '/shop'
           ? '/shop'
-          : (window.location.pathname === '/home' ? '/home' : '/')
-      );
+          : (window.location.pathname === '/home' ? '/home' : '/');
+
+      const normalize = (p) => (p === '/home' || p === '') ? '/' : p;
+      if (normalize(nextPath) !== normalize(currentPath)) {
+        setLoadingKey((prev) => prev + 1);
+        setIsAppLoading(true);
+      }
+      setCurrentPath(nextPath);
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [currentPath]);
 
   /* Always scroll to top whenever the page/route redirects */
   useEffect(() => {
@@ -67,6 +79,15 @@ function AppContent() {
   }, [currentPath]);
 
   const handleNavigate = (path) => {
+    const normalize = (p) => (p === '/home' || p === '') ? '/' : p;
+    if (normalize(path) === normalize(currentPath)) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // Trigger loading screen during redirect between /home and /shop
+    setLoadingKey((prev) => prev + 1);
+    setIsAppLoading(true);
     setCurrentPath(path);
     if (typeof window !== 'undefined') {
       window.history.pushState({}, '', path);
@@ -133,6 +154,14 @@ function AppContent() {
 
   return (
     <div className="app-root">
+      {/* 0. Artisan Initial & Route Redirect Loading Screen */}
+      {isAppLoading && (
+        <LoadingScreen
+          key={`app-loading-${loadingKey}`}
+          minDuration={loadingKey === 0 ? 1100 : 750}
+          onComplete={() => setIsAppLoading(false)}
+        />
+      )}
       
       {/* 1. Reusable Global Header Navigation */}
       <Header

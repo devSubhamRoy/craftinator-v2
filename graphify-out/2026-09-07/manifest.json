@@ -12,9 +12,9 @@
     "semantic_hash": "f384cc00239e43641c6a7517e0a0804c"
   },
   "src/App.jsx": {
-    "mtime": 1788793496.266249,
-    "seen": 1788793625.875686,
-    "ast_hash": "dec4c4a834b0d4e0c349e7a5ddca9336",
+    "mtime": 1788792268.2280815,
+    "seen": 1788792391.1015954,
+    "ast_hash": "ee0ed6d38fe2eeaf73918337344d3f34",
     "semantic_hash": ""
   },
   "src/components/ArtisanCardSkeleton.jsx": {
@@ -258,9 +258,9 @@
     "semantic_hash": "cd50faa6936d1b4be27ba931c883d126"
   },
   "src/i18n/translations.js": {
-    "mtime": 1788793513.9042807,
-    "seen": 1788793625.875803,
-    "ast_hash": "85eea52cb6bc781cbb552f6367371fe7",
+    "mtime": 1788792197.4940352,
+    "seen": 1788792391.1018271,
+    "ast_hash": "f45be147dd69237bc307e84aa78510c8",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -432,9 +432,9 @@
     "semantic_hash": ""
   },
   "src/components/LoadingScreen.jsx": {
-    "mtime": 1788793448.035369,
-    "seen": 1788793625.875728,
-    "ast_hash": "27defd5f04a869d48a43c5310db64d99",
+    "mtime": 1788792179.402745,
+    "seen": 1788792391.1016624,
+    "ast_hash": "fa490ffd68bd04a8ea3e034f915e5e60",
     "semantic_hash": ""
   }
 }
