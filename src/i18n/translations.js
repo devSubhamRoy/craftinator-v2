@@ -321,7 +321,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -530,7 +533,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -739,7 +745,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "es": {
     "nav_explore": "Explorar",
@@ -948,7 +957,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -1157,7 +1169,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -1366,7 +1381,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -1575,7 +1593,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -1784,7 +1805,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "ja": {
     "nav_explore": "探す",
@@ -1993,7 +2017,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "ko": {
     "nav_explore": "탐색",
@@ -2202,7 +2229,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -2411,7 +2441,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -2620,7 +2653,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "it": {
     "nav_explore": "Esplora",
@@ -2829,7 +2865,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -3042,7 +3081,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -3255,7 +3297,10 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -3474,6 +3519,9 @@ export const translations = {
     "editorial_section_title": "Curated Artisan Stories & Craft Discoveries",
     "editorial_section_sub": "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
     "related_artisans_title": "Meet Related Master Artisans",
-    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums"
+    "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
+    "loading_more": "Loading more creations...",
+    "load_more_products": "Load More Creations",
+    "maker_creations_short": "Handcrafted creations from this artisan studio"
   }
 };

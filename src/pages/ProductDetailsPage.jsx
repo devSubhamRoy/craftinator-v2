@@ -10,6 +10,9 @@ import {
   Leaf,
   ArrowLeft,
   ArrowRight,
+  ArrowUpDown,
+  ChevronDown,
+  SlidersHorizontal,
   Plus,
   Minus,
   Sparkles,
@@ -23,10 +26,13 @@ import {
 } from 'lucide-react';
 import { products } from '../data/products';
 import { artisans } from '../data/artisans';
+import { editorialHeroCards } from '../data/editorialHeroes';
+import { getProductReviews } from '../data/reviews';
 import { useLanguage } from '../i18n/LanguageContext';
 
 /* Reusable Components for Consistency */
 import ProductCard from '../components/ProductCard';
+import ProductCardSkeleton from '../components/ProductCardSkeleton';
 import BrandValues from '../components/BrandValues';
 import Newsletter from '../components/Newsletter';
 
@@ -58,6 +64,12 @@ export default function ProductDetailsPage({
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description'); // 'description' | 'materials' | 'reviews'
   const [followingArtisanIds, setFollowingArtisanIds] = useState([]);
+  const [makerSortBy, setMakerSortBy] = useState('recommended'); // 'recommended' | 'price-low' | 'price-high' | 'rating'
+
+  // Pagination for Maker Products (Load More with skeleton loading)
+  const INITIAL_MAKER_COUNT = 8;
+  const [visibleMakerCount, setVisibleMakerCount] = useState(INITIAL_MAKER_COUNT);
+  const [isMakerLoadingMore, setIsMakerLoadingMore] = useState(false);
 
   // Reset when viewing a different product
   useEffect(() => {
@@ -65,6 +77,9 @@ export default function ProductDetailsPage({
       setSelectedImg(product.image);
       setQuantity(1);
       setActiveTab('description');
+      setMakerSortBy('recommended');
+      setVisibleMakerCount(INITIAL_MAKER_COUNT);
+      setIsMakerLoadingMore(false);
     }
   }, [product?.id]);
 
@@ -78,24 +93,51 @@ export default function ProductDetailsPage({
     return list;
   }, [product, maker]);
 
-  // 3. Maker's Other Products Section
+  // 3. All Products Section (The Same Maker's Other Creations)
   const makerOtherProducts = useMemo(() => {
     if (!product) return [];
     const others = products.filter(
       (p) => p.artisan === product.artisan && p.id !== product.id
     );
-    // If maker only has 1 or 2 products, supplement with products from the same city or region
+    // If maker has fewer than 4 other pieces, supplement with matching pieces from the same artisan craft or city
     if (others.length < 4) {
       const supplementary = products.filter(
         (p) =>
           p.id !== product.id &&
           !others.some((o) => o.id === p.id) &&
-          p.artisanCity === product.artisanCity
+          (p.artisanCity === product.artisanCity || p.category === product.category)
       );
-      return [...others, ...supplementary].slice(0, 4);
+      return [...others, ...supplementary].slice(0, 8);
     }
-    return others.slice(0, 4);
+    return others;
   }, [product]);
+
+  // Sorted maker products matching ShopPage sorting logic
+  const sortedMakerProducts = useMemo(() => {
+    let list = [...makerOtherProducts];
+    if (makerSortBy === 'price-low') {
+      list.sort((a, b) => a.price - b.price);
+    } else if (makerSortBy === 'price-high') {
+      list.sort((a, b) => b.price - a.price);
+    } else if (makerSortBy === 'rating') {
+      list.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    }
+    return list;
+  }, [makerOtherProducts, makerSortBy]);
+
+  // Currently visible paginated maker products
+  const visibleMakerProducts = useMemo(() => {
+    return sortedMakerProducts.slice(0, visibleMakerCount);
+  }, [sortedMakerProducts, visibleMakerCount]);
+
+  // Handle Load More with realistic skeleton shimmer state
+  const handleLoadMoreMakerProducts = () => {
+    setIsMakerLoadingMore(true);
+    setTimeout(() => {
+      setVisibleMakerCount((prev) => prev + 8);
+      setIsMakerLoadingMore(false);
+    }, 600);
+  };
 
   // 4. Related Products Section (Same Category & Style)
   const relatedCategoryProducts = useMemo(() => {
@@ -125,45 +167,10 @@ export default function ProductDetailsPage({
     return artisans.filter((a) => a.name !== product.artisan).slice(0, 5);
   }, [product]);
 
-  // 6. Editorial Promotional Hero Carousel Data (2.5 Desktop / 1.5 Tablet / 1.0 Mobile)
-  const editorialHeroCards = [
-    {
-      id: 'editorial-1',
-      tag: t('editorial_craft_heritage', 'Artisan Heritage'),
-      title: t('editorial_title_1', 'The Soul of Traditional Stoneware'),
-      sub: t('editorial_sub_1', 'Hand-thrown on slow wooden wheels in Jaipur using mineral glazes and raw earth.'),
-      cta: t('editorial_cta_1', 'Explore Pottery'),
-      image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=1200&auto=format&fit=crop',
-      targetCategory: 'Pottery & Ceramics'
-    },
-    {
-      id: 'editorial-2',
-      tag: t('editorial_sustainable', 'Pure & Hand-carved'),
-      title: t('editorial_title_2', 'Heirloom Reclaimed Woodcraft'),
-      sub: t('editorial_sub_2', 'Living grain sculpted with chisel and ancestral honor in Bengal studios.'),
-      cta: t('editorial_cta_2', 'Explore Woodcraft'),
-      image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1200&auto=format&fit=crop',
-      targetCategory: 'Woodcraft'
-    },
-    {
-      id: 'editorial-3',
-      tag: t('editorial_sustainable_silver', 'Tribal Silversmithing'),
-      title: t('editorial_title_3', 'Solid Recycled Sterling Silver'),
-      sub: t('editorial_sub_3', 'Botanical leaf impressions and hand-hammered metals reflecting organic light.'),
-      cta: t('editorial_cta_3', 'Explore Jewelry'),
-      image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1200&auto=format&fit=crop',
-      targetCategory: 'Jewelry'
-    },
-    {
-      id: 'editorial-4',
-      tag: t('editorial_pure_weaves', 'Sacred Pit Looms'),
-      title: t('editorial_title_4', 'Mulberry Silks & Plant Dyes'),
-      sub: t('editorial_sub_4', 'Weaving past, present, and spirit together on coastal and village looms.'),
-      cta: t('editorial_cta_4', 'Explore Textiles'),
-      image: 'https://images.unsplash.com/photo-1528458876861-544fd1761a91?q=80&w=1200&auto=format&fit=crop',
-      targetCategory: 'Textiles & Handloom'
-    }
-  ];
+  // Reviews data retrieved dynamically by product ID (with maker/item fallback)
+  const productReviewsList = useMemo(() => {
+    return getProductReviews(product?.id, product);
+  }, [product]);
 
   // Editorial Carousel scroll controls
   const heroSliderRef = useRef(null);
@@ -199,34 +206,6 @@ export default function ProductDetailsPage({
   };
 
   const isWishlisted = wishlist.includes(product?.id);
-
-  // Reviews Mock
-  const mockReviews = [
-    {
-      id: 1,
-      author: 'Aarav Patel',
-      rating: 5,
-      date: '2 weeks ago',
-      content:
-        'The texture and craftsmanship are exceptional. You can genuinely feel the time and care that went into every contour. Arrived in beautiful eco-friendly packaging.'
-    },
-    {
-      id: 2,
-      author: 'Meera Sen',
-      rating: 5,
-      date: '1 month ago',
-      content:
-        'Even more stunning in person than on the site! It has become the centerpiece of my home. Supporting real independent artisans feels deeply rewarding.'
-    },
-    {
-      id: 3,
-      author: 'Vikram Joshi',
-      rating: 5,
-      date: '1 month ago',
-      content:
-        'Authentic handcrafted masterpiece. The earthy tones and natural glazes make it truly one of a kind. Fast and safe dispatch directly from the studio.'
-    }
-  ];
 
   if (!product) return null;
 
@@ -542,7 +521,7 @@ export default function ProductDetailsPage({
                 </div>
 
                 <div className="reviews-cards-grid">
-                  {mockReviews.map((rev) => (
+                  {productReviewsList.map((rev) => (
                     <div key={rev.id} className="review-card">
                       <div className="review-stars-row">
                         {[...Array(rev.rating)].map((_, idx) => (
@@ -565,25 +544,57 @@ export default function ProductDetailsPage({
         </section>
 
         {/* 3. All Products Section (The Same Maker's Other Creations) */}
-        {makerOtherProducts.length > 0 && (
-          <section className="maker-products-section">
-            <div className="section-header-row">
-              <div className="section-header-titles">
-                <h2>{t('more_from_artisan', 'More Handcrafted by')} {product.artisan}</h2>
-                <p>{t('maker_creations_sub', 'Discover other authentic pieces shaped in this artisan studio')}</p>
+        {sortedMakerProducts.length > 0 && (
+          <section className="maker-products-section" id="maker-all-products">
+            <div className="shop-products-header">
+              <div className="shop-header-left">
+                <h2 className="heading-lg">
+                  {t('more_from_artisan', 'More Handcrafted by')} {product.artisan}
+                </h2>
+                <p className="paragraph-lg maker-subtitle-line">
+                  {sortedMakerProducts.length} {t('shop_pieces_count', 'pieces')} • {t('maker_creations_short', 'Handcrafted creations from this artisan studio')}
+                </p>
+                <div className="maker-header-accent-line" aria-hidden="true" />
               </div>
-              <button
-                type="button"
-                className="btn-back-to-shop"
-                onClick={() => maker && onOpenArtisanModal && onOpenArtisanModal(maker)}
-              >
-                <span>{t('view_maker_studio', 'View Maker Studio')}</span>
-                <ArrowRight size={14} />
-              </button>
+
+              {/* Controls Bar: Sort Dropdown & Maker Studio Action */}
+              <div className="shop-controls-bar">
+                <div className="shop-sort-wrapper">
+                  <label htmlFor="maker-sort-select" className="sort-label">
+                    {t('shop_sort_by', 'Sort by')}
+                  </label>
+                  <div className="sort-select-container">
+                    <ArrowUpDown size={14} className="sort-prefix-icon" />
+                    <select
+                      id="maker-sort-select"
+                      value={makerSortBy}
+                      onChange={(e) => setMakerSortBy(e.target.value)}
+                      className="shop-sort-select"
+                      aria-label={t('shop_sort_by', 'Sort by')}
+                    >
+                      <option value="recommended">{t('sort_recommended', 'Recommended')}</option>
+                      <option value="price-low">{t('sort_price_low', 'Price: Low to High')}</option>
+                      <option value="price-high">{t('sort_price_high', 'Price: High to Low')}</option>
+                      <option value="rating">{t('sort_rating', 'Highest Rated')}</option>
+                    </select>
+                    <ChevronDown size={14} className="select-arrow" />
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="btn-maker-studio"
+                  onClick={() => maker && onOpenArtisanModal && onOpenArtisanModal(maker)}
+                  aria-label={t('view_maker_studio', 'View Maker Studio')}
+                >
+                  <span>{t('view_maker_studio', 'View Maker Studio')}</span>
+                  <ArrowRight size={15} />
+                </button>
+              </div>
             </div>
 
-            <div className="products-standard-grid">
-              {makerOtherProducts.map((makerProd) => (
+            <div className="product-grid shop-product-grid">
+              {visibleMakerProducts.map((makerProd) => (
                 <ProductCard
                   key={makerProd.id}
                   product={makerProd}
@@ -593,7 +604,38 @@ export default function ProductDetailsPage({
                   onAddToCart={onAddToCart}
                 />
               ))}
+
+              {/* Skeletons on loading more products */}
+              {isMakerLoadingMore && (
+                Array.from({ length: 4 }).map((_, idx) => (
+                  <ProductCardSkeleton key={`maker-skeleton-${idx}`} />
+                ))
+              )}
             </div>
+
+            {/* Load More Button for Maker Products */}
+            {sortedMakerProducts.length > visibleMakerCount && (
+              <div className="maker-load-more-wrapper">
+                <button
+                  type="button"
+                  className="btn-maker-load-more"
+                  onClick={handleLoadMoreMakerProducts}
+                  disabled={isMakerLoadingMore}
+                >
+                  {isMakerLoadingMore ? (
+                    <>
+                      <span className="maker-spinner" />
+                      <span>{t('loading_more', 'Loading more creations...')}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{t('load_more_products', 'Load More Creations')}</span>
+                      <ArrowRight size={15} />
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
           </section>
         )}
 
@@ -602,7 +644,7 @@ export default function ProductDetailsPage({
           <section className="related-products-section">
             <div className="section-header-row">
               <div className="section-header-titles">
-                <h2>{t('related_products_title', 'Related Creations in')} {product.category}</h2>
+                <h2>{t('related_products_title', 'More Handcrafted in this Collection')}</h2>
                 <p>{t('related_products_sub', 'Curated handcrafted treasures that pair well with this aesthetic')}</p>
               </div>
               <button
@@ -615,7 +657,7 @@ export default function ProductDetailsPage({
               </button>
             </div>
 
-            <div className="products-standard-grid">
+            <div className="product-grid">
               {relatedCategoryProducts.map((relProd) => (
                 <ProductCard
                   key={relProd.id}
@@ -649,11 +691,11 @@ export default function ProductDetailsPage({
                 >
                   <img src={hero.image} alt={hero.title} className="editorial-hero-bg" loading="lazy" />
                   <div className="editorial-hero-overlay">
-                    <span className="editorial-craft-tag">{hero.tag}</span>
-                    <h3 className="editorial-hero-title">{hero.title}</h3>
-                    <p className="editorial-hero-sub">{hero.sub}</p>
+                    <span className="editorial-craft-tag">{t(hero.tagKey, hero.tag)}</span>
+                    <h3 className="editorial-hero-title">{t(hero.titleKey, hero.title)}</h3>
+                    <p className="editorial-hero-sub">{t(hero.subKey, hero.sub)}</p>
                     <span className="editorial-hero-cta">
-                      <span>{hero.cta}</span>
+                      <span>{t(hero.ctaKey, hero.cta)}</span>
                       <ArrowRight size={15} />
                     </span>
                   </div>
