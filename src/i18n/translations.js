@@ -259,7 +259,12 @@ export const translations = {
     "seller_eyebrow": "Why Craftinator • The Maker's Advantage",
     "seller_cta_btn": "Start Selling Your Craft",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -406,7 +411,12 @@ export const translations = {
     "seller_eyebrow": "Warum Craftinator • Der Macher-Vorteil",
     "seller_cta_btn": "Jetzt Verkaufen Starten",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -553,7 +563,12 @@ export const translations = {
     "seller_eyebrow": "Por que Craftinator • A Vantagem do Artesão",
     "seller_cta_btn": "Começar a Vender no Craftinator",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "es": {
     "nav_explore": "Explorar",
@@ -700,7 +715,12 @@ export const translations = {
     "seller_eyebrow": "Por qué Craftinator • La Ventaja del Creador",
     "seller_cta_btn": "Empieza a Vender en Craftinator",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -847,7 +867,12 @@ export const translations = {
     "seller_eyebrow": "为什么选择 Craftinator • 创作者优势",
     "seller_cta_btn": "在 Craftinator 开始出售作品",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -994,7 +1019,12 @@ export const translations = {
     "seller_eyebrow": "為何選擇 Craftinator • 創作者優勢",
     "seller_cta_btn": "在 Craftinator 開啟販售",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -1141,7 +1171,12 @@ export const translations = {
     "seller_eyebrow": "Pourquoi Craftinator • L'Avantage Créateur",
     "seller_cta_btn": "Commencer à Vendre sur Craftinator",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -1288,7 +1323,12 @@ export const translations = {
     "seller_eyebrow": "لماذا كرافتيناتور • ميزة الصانع",
     "seller_cta_btn": "ابدأ البيع على كرافتيناتور",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "ja": {
     "nav_explore": "探す",
@@ -1435,7 +1475,12 @@ export const translations = {
     "seller_eyebrow": "Craftinator を選ぶ理由 • 作り手のメリット",
     "seller_cta_btn": "Craftinator で作品を販売する",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "ko": {
     "nav_explore": "탐색",
@@ -1582,7 +1627,12 @@ export const translations = {
     "seller_eyebrow": "왜 Craftinator인가 • 작가를 위한 혜택",
     "seller_cta_btn": "Craftinator에서 판매 시작하기",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -1729,7 +1779,12 @@ export const translations = {
     "seller_eyebrow": "Dlaczego Craftinator • Korzyści dla Twórców",
     "seller_cta_btn": "Zacznij Sprzedawać na Craftinator",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -1876,7 +1931,12 @@ export const translations = {
     "seller_eyebrow": "Почему Craftinator • Преимущества для мастеров",
     "seller_cta_btn": "Начать Продажи на Craftinator",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "it": {
     "nav_explore": "Esplora",
@@ -2023,7 +2083,12 @@ export const translations = {
     "seller_eyebrow": "Perché Craftinator • Il Vantaggio per gli Artigiani",
     "seller_cta_btn": "Inizia a Vendere su Craftinator",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -2174,7 +2239,12 @@ export const translations = {
     "seller_subtitle": "Craftinator केवल एक दुकान नहीं है। हम स्वतंत्र कारीगरों और समझदार खरीदारों को सोशल स्टूडियो फ़ीड, सच्ची कहानियों और निष्पक्ष व्यापार के माध्यम से जोड़ते हैं।",
     "seller_cta_btn": "Craftinator पर बेचना शुरू करें",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -2325,7 +2395,12 @@ export const translations = {
     "seller_subtitle": "Craftinator সাধারণ কোনো দোকান নয়। আমরা স্বাধীন কারুশিল্পী ও সংগ্রাহকদের সামাজিক স্টুডিও ফিড, গল্পের মাধ্যমে সরাসরি সংযুক্ত করি।",
     "seller_cta_btn": "Craftinator এ বিক্রি শুরু করুন",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -2482,6 +2557,11 @@ export const translations = {
     "disc_subtitle": "भवतां शैल्यानुरूपम् अद्वितीयं हस्तनिर्मितं वस्तु प्राप्नुवन्तु।",
     "seller_desc": "अद्यैव Craftinator मध्ये सम्मिलित्वा विश्वव्यापिक्रेतृभिः सह सम्बध्यताम्।",
     "following": "Following",
-    "follow": "Follow"
+    "follow": "Follow",
+    "loading_step_1": "Gathering curated handmade treasures...",
+    "loading_step_2": "Connecting with master artisan studios...",
+    "loading_step_3": "Preparing your bespoke gallery...",
+    "loading_brand": "Craftinator",
+    "loading_tagline": "Artisans. Community. Connection."
   }
 };

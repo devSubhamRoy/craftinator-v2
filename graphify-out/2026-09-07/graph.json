@@ -13,7 +13,7 @@
       "file_type": "code",
       "norm_label": "app()",
       "source_file": "src/App.jsx",
-      "source_location": "L257"
+      "source_location": "L237"
     },
     {
       "id": "src_app_appcontent",
@@ -121,7 +121,7 @@
       "file_type": "code",
       "norm_label": "loadingscreen()",
       "source_file": "src/components/LoadingScreen.jsx",
-      "source_location": "L13"
+      "source_location": "L14"
     },
     {
       "id": "src_components_mobiledrawer_mobiledrawer",
@@ -2944,7 +2944,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/LoadingScreen.jsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -2956,7 +2956,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/LoadingScreen.jsx",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -6572,7 +6572,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/App.jsx",
-      "source_location": "L257",
+      "source_location": "L237",
       "weight": 1.0
     },
     {
@@ -6737,7 +6737,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/LoadingScreen.jsx",
-      "source_location": "L13",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
