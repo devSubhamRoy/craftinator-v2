@@ -2,6 +2,7 @@
 .makers-section {
   padding: 4.5rem 0;
   background-color: var(--bg-primary);
+  border-top: 1px solid var(--border-warm);
   overflow: hidden;
 }
 
@@ -55,10 +56,10 @@
 
 /* Original Artisan Card Structure */
 .artisan-card {
-  flex: 0 0 280px;
-  width: 280px;
-  min-width: 280px;
-  height: 335px;
+  flex: 0 0 290px;
+  width: 290px;
+  min-width: 290px;
+  height: 375px;
   background-color: var(--bg-card);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-warm);
@@ -221,9 +222,12 @@
   margin-bottom: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  word-break: break-word;
+  max-height: calc(1.44em * 3);
 }
 
 /* Card Action Footer */
@@ -311,7 +315,7 @@
     flex: 0 0 295px;
     width: 295px;
     min-width: 295px;
-    height: 340px;
+    height: 375px;
   }
 }
 
@@ -325,7 +329,7 @@
     flex: 0 0 270px;
     width: 270px;
     min-width: 270px;
-    height: 325px;
+    height: 340px;
   }
 
   .artisan-img-clip {
@@ -361,8 +365,15 @@
 
   .artisan-quote {
     font-size: 0.76rem;
+    line-height: 1.44;
+    display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-word;
+    max-height: calc(1.44em * 3);
   }
 
   .makers-slider-arrow {

@@ -73,7 +73,7 @@
       "file_type": "code",
       "norm_label": "footer()",
       "source_file": "src/components/Footer.jsx",
-      "source_location": "L6"
+      "source_location": "L5"
     },
     {
       "id": "src_components_header_header",
@@ -136,18 +136,6 @@
       "source_location": "L7"
     },
     {
-      "id": "src_components_productcard_productcard",
-      "label": "ProductCard()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "productcard()",
-      "source_file": "src/components/ProductCard.jsx",
-      "source_location": "L5"
-    },
-    {
       "id": "src_components_productmodal_productmodal",
       "label": "ProductModal()",
       "_callable": true,
@@ -196,18 +184,6 @@
       "source_location": "L4"
     },
     {
-      "id": "src_components_trendingproducts_trendingproducts",
-      "label": "TrendingProducts()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "trendingproducts()",
-      "source_file": "src/components/TrendingProducts.jsx",
-      "source_location": "L8"
-    },
-    {
       "id": "src_components_wishlistdrawer_wishlistdrawer",
       "label": "WishlistDrawer()",
       "_callable": true,
@@ -218,18 +194,6 @@
       "norm_label": "wishlistdrawer()",
       "source_file": "src/components/WishlistDrawer.jsx",
       "source_location": "L6"
-    },
-    {
-      "id": "src_data_footerdata_getfootersections",
-      "label": "getFooterSections()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "getfootersections()",
-      "source_file": "src/data/footerData.js",
-      "source_location": "L55"
     },
     {
       "id": "src_hooks_usebodyscrolllock_usebodyscrolllock",
@@ -297,7 +261,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "communitysection()",
       "source_file": "src/components/CommunitySection.jsx",
@@ -309,10 +273,22 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "hero()",
       "source_file": "src/components/Hero.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_components_personalizeddiscovery_personalizeddiscovery",
+      "label": "PersonalizedDiscovery()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "LanguageContext.jsx",
+      "file_type": "code",
+      "norm_label": "personalizeddiscovery()",
+      "source_file": "src/components/PersonalizedDiscovery.jsx",
       "source_location": "L5"
     },
     {
@@ -321,7 +297,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "sellercta()",
       "source_file": "src/components/SellerCTA.jsx",
@@ -333,7 +309,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "storybanner()",
       "source_file": "src/components/StoryBanner.jsx",
@@ -345,7 +321,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "testimonials()",
       "source_file": "src/components/Testimonials.jsx",
@@ -357,7 +333,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "homepage()",
       "source_file": "src/pages/HomePage.jsx",
@@ -424,15 +400,15 @@
       "source_location": "L5"
     },
     {
-      "id": "src_components_personalizeddiscovery_personalizeddiscovery",
-      "label": "PersonalizedDiscovery()",
+      "id": "src_components_productcard_productcard",
+      "label": "ProductCard()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "ShopPage.jsx",
       "file_type": "code",
-      "norm_label": "personalizeddiscovery()",
-      "source_file": "src/components/PersonalizedDiscovery.jsx",
+      "norm_label": "productcard()",
+      "source_file": "src/components/ProductCard.jsx",
       "source_location": "L5"
     },
     {
@@ -482,6 +458,18 @@
       "norm_label": "shophero()",
       "source_file": "src/components/ShopHero.jsx",
       "source_location": "L6"
+    },
+    {
+      "id": "src_components_trendingproducts_trendingproducts",
+      "label": "TrendingProducts()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "trendingproducts()",
+      "source_file": "src/components/TrendingProducts.jsx",
+      "source_location": "L8"
     },
     {
       "id": "src_data_reviews_getproductreviews",
@@ -666,17 +654,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_productcard",
-      "label": "ProductCard.jsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "productcard.jsx",
-      "source_file": "src/components/ProductCard.jsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_productmodal",
       "label": "ProductModal.jsx",
       "_origin": "ast",
@@ -721,17 +698,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_trendingproducts",
-      "label": "TrendingProducts.jsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "trendingproducts.jsx",
-      "source_file": "src/components/TrendingProducts.jsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_wishlistdrawer",
       "label": "WishlistDrawer.jsx",
       "_origin": "ast",
@@ -741,28 +707,6 @@
       "norm_label": "wishlistdrawer.jsx",
       "source_file": "src/components/WishlistDrawer.jsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_data_footerdata",
-      "label": "footerData.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "footerdata.js",
-      "source_file": "src/data/footerData.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_footerdata_footersectionsdata",
-      "label": "footerSectionsData",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "footersectionsdata",
-      "source_file": "src/data/footerData.js",
-      "source_location": "L7"
     },
     {
       "id": "src_data_products",
@@ -796,61 +740,6 @@
       "norm_label": "usebodyscrolllock.js",
       "source_file": "src/hooks/useBodyScrollLock.js",
       "source_location": "L1"
-    },
-    {
-      "id": "src_i18n_languagecontext",
-      "label": "LanguageContext.jsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "languagecontext.jsx",
-      "source_file": "src/i18n/LanguageContext.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_i18n_languagecontext_languagecontext",
-      "label": "LanguageContext",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "languagecontext",
-      "source_file": "src/i18n/LanguageContext.jsx",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_i18n_translations",
-      "label": "translations.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "translations.js",
-      "source_file": "src/i18n/translations.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_i18n_translations_supported_languages",
-      "label": "SUPPORTED_LANGUAGES",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "supported_languages",
-      "source_file": "src/i18n/translations.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_i18n_translations_translations",
-      "label": "translations",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useLanguage",
-      "file_type": "code",
-      "norm_label": "translations",
-      "source_file": "src/i18n/translations.js",
-      "source_location": "L116"
     },
     {
       "id": "src_main",
@@ -1419,7 +1308,7 @@
       "label": "CommunitySection.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "communitysection.jsx",
       "source_file": "src/components/CommunitySection.jsx",
@@ -1430,10 +1319,21 @@
       "label": "Hero.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "hero.jsx",
       "source_file": "src/components/Hero.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_personalizeddiscovery",
+      "label": "PersonalizedDiscovery.jsx",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "LanguageContext.jsx",
+      "file_type": "code",
+      "norm_label": "personalizeddiscovery.jsx",
+      "source_file": "src/components/PersonalizedDiscovery.jsx",
       "source_location": "L1"
     },
     {
@@ -1441,7 +1341,7 @@
       "label": "SellerCTA.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "sellercta.jsx",
       "source_file": "src/components/SellerCTA.jsx",
@@ -1452,7 +1352,7 @@
       "label": "StoryBanner.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "storybanner.jsx",
       "source_file": "src/components/StoryBanner.jsx",
@@ -1463,7 +1363,7 @@
       "label": "Testimonials.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "testimonials.jsx",
       "source_file": "src/components/Testimonials.jsx",
@@ -1474,7 +1374,7 @@
       "label": "communityPosts.js",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "communityposts.js",
       "source_file": "src/data/communityPosts.js",
@@ -1485,7 +1385,7 @@
       "label": "communityPosts",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "communityposts",
       "source_file": "src/data/communityPosts.js",
@@ -1496,7 +1396,7 @@
       "label": "testimonials.js",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "testimonials.js",
       "source_file": "src/data/testimonials.js",
@@ -1507,18 +1407,73 @@
       "label": "testimonials",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "testimonials",
       "source_file": "src/data/testimonials.js",
       "source_location": "L1"
     },
     {
+      "id": "src_i18n_languagecontext",
+      "label": "LanguageContext.jsx",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "LanguageContext.jsx",
+      "file_type": "code",
+      "norm_label": "languagecontext.jsx",
+      "source_file": "src/i18n/LanguageContext.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_i18n_languagecontext_languagecontext",
+      "label": "LanguageContext",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "LanguageContext.jsx",
+      "file_type": "code",
+      "norm_label": "languagecontext",
+      "source_file": "src/i18n/LanguageContext.jsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_i18n_translations",
+      "label": "translations.js",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "LanguageContext.jsx",
+      "file_type": "code",
+      "norm_label": "translations.js",
+      "source_file": "src/i18n/translations.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_i18n_translations_supported_languages",
+      "label": "SUPPORTED_LANGUAGES",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "LanguageContext.jsx",
+      "file_type": "code",
+      "norm_label": "supported_languages",
+      "source_file": "src/i18n/translations.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_i18n_translations_translations",
+      "label": "translations",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "LanguageContext.jsx",
+      "file_type": "code",
+      "norm_label": "translations",
+      "source_file": "src/i18n/translations.js",
+      "source_location": "L116"
+    },
+    {
       "id": "src_pages_homepage",
       "label": "HomePage.jsx",
       "_origin": "ast",
       "community": 2,
-      "community_name": "HomePage.jsx",
+      "community_name": "LanguageContext.jsx",
       "file_type": "code",
       "norm_label": "homepage.jsx",
       "source_file": "src/pages/HomePage.jsx",
@@ -1580,14 +1535,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_personalizeddiscovery",
-      "label": "PersonalizedDiscovery.jsx",
+      "id": "src_components_productcard",
+      "label": "ProductCard.jsx",
       "_origin": "ast",
       "community": 3,
       "community_name": "ShopPage.jsx",
       "file_type": "code",
-      "norm_label": "personalizeddiscovery.jsx",
-      "source_file": "src/components/PersonalizedDiscovery.jsx",
+      "norm_label": "productcard.jsx",
+      "source_file": "src/components/ProductCard.jsx",
       "source_location": "L1"
     },
     {
@@ -1632,6 +1587,17 @@
       "file_type": "code",
       "norm_label": "shophero.jsx",
       "source_file": "src/components/ShopHero.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_trendingproducts",
+      "label": "TrendingProducts.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "trendingproducts.jsx",
+      "source_file": "src/components/TrendingProducts.jsx",
       "source_location": "L1"
     },
     {
@@ -3001,18 +2967,6 @@
     },
     {
       "source": "src_components_footer_footer",
-      "target": "src_data_footerdata_getfootersections",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/Footer.jsx",
-      "source_location": "L15",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_footer_footer",
       "target": "src_i18n_languagecontext_uselanguage",
       "relation": "calls",
       "_origin": "ast",
@@ -3020,7 +2974,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/Footer.jsx",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -3705,18 +3659,6 @@
       "context": "import",
       "source_file": "src/components/Footer.jsx",
       "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_footer",
-      "target": "src_data_footerdata_getfootersections",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Footer.jsx",
-      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -4881,18 +4823,6 @@
       "context": "import",
       "source_file": "src/components/Footer.jsx",
       "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_footer",
-      "target": "src_data_footerdata",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Footer.jsx",
-      "source_location": "L4",
       "weight": 1.0
     },
     {
@@ -7142,7 +7072,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/Footer.jsx",
-      "source_location": "L6",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -7454,28 +7384,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_data_footerdata",
-      "target": "src_data_footerdata_getfootersections",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/data/footerData.js",
-      "source_location": "L55",
-      "weight": 1.0
-    },
-    {
-      "source": "src_data_footerdata",
-      "target": "src_data_footerdata_footersectionsdata",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/data/footerData.js",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
       "source": "src_data_materials",
       "target": "src_data_materials_materials",
       "relation": "contains",
@@ -7719,5 +7627,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a9ba2cf77c9890047ec146c3091c1f22e6a202b0"
+  "built_at_commit": "00f493461960b9e11f4b19f131e95cd397d54dd4"
 }

@@ -324,7 +324,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -536,7 +543,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -748,7 +762,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "es": {
     "nav_explore": "Explorar",
@@ -960,7 +981,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -1172,7 +1200,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -1384,7 +1419,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -1596,7 +1638,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -1808,7 +1857,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "ja": {
     "nav_explore": "探す",
@@ -2020,7 +2076,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "ko": {
     "nav_explore": "탐색",
@@ -2232,7 +2295,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -2444,7 +2514,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -2656,7 +2733,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "it": {
     "nav_explore": "Esplora",
@@ -2868,7 +2952,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -3084,7 +3175,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -3300,7 +3398,14 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -3522,6 +3627,13 @@ export const translations = {
     "related_artisans_sub": "Independent makers shaping handcrafted art in similar traditional mediums",
     "loading_more": "Loading more creations...",
     "load_more_products": "Load More Creations",
-    "maker_creations_short": "Handcrafted creations from this artisan studio"
+    "maker_creations_short": "Handcrafted creations from this artisan studio",
+    "artisan_showcase_title": "Artisan Craft Showcase",
+    "artisan_gallery_track": "Artisan Studio Visual Gallery",
+    "go_to_slide": "Go to slide",
+    "tab_all_related": "All Related",
+    "same_category": "Same Category",
+    "tab_matching_style": "Matching Aesthetic",
+    "no_matching_related_products": "No related handcrafted items found in this filter."
   }
 };
