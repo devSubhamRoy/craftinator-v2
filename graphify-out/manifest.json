@@ -18,8 +18,8 @@
     "semantic_hash": ""
   },
   "src/components/ArtisanCardSkeleton.jsx": {
-    "mtime": 1788865788.241002,
-    "seen": 1788868126.3415954,
+    "mtime": 1788868782.3431625,
+    "seen": 1788869338.9840448,
     "ast_hash": "43496c6771705c0ff8868c687a56eb91",
     "semantic_hash": ""
   },
@@ -66,9 +66,9 @@
     "semantic_hash": "c10e928db20dda39814549b039b0d851"
   },
   "src/components/Footer.jsx": {
-    "mtime": 1788868291.3705852,
-    "seen": 1788868589.841786,
-    "ast_hash": "5e564573085680a3665bc381094a79da",
+    "mtime": 1788868782.3443446,
+    "seen": 1788869338.9840686,
+    "ast_hash": "b7dfe2a4d3b1e41e9e40062a20593c24",
     "semantic_hash": ""
   },
   "src/components/Header.jsx": {
@@ -258,9 +258,9 @@
     "semantic_hash": "cd50faa6936d1b4be27ba931c883d126"
   },
   "src/i18n/translations.js": {
-    "mtime": 1788868312.74686,
-    "seen": 1788868589.8418822,
-    "ast_hash": "d84aa9470ed946046376e7dc38026326",
+    "mtime": 1788868782.347282,
+    "seen": 1788869338.984165,
+    "ast_hash": "a386cf13080aeff55b20d22563455b64",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -438,9 +438,9 @@
     "semantic_hash": ""
   },
   "src/pages/ProductDetailsPage.jsx": {
-    "mtime": 1788868116.486702,
-    "seen": 1788868126.341721,
-    "ast_hash": "7f7c621a01f4aac4fc75b96973a142c8",
+    "mtime": 1788869530.6999803,
+    "seen": 1788869777.351752,
+    "ast_hash": "5a2f06c829576f32423b726b3906ddc2",
     "semantic_hash": ""
   },
   "src/data/editorialHeroes.js": {
@@ -456,9 +456,9 @@
     "semantic_hash": ""
   },
   "src/data/footerData.js": {
-    "mtime": 1788868276.13912,
-    "seen": 1788868589.8418603,
-    "ast_hash": "b644a023b83223cb12662e446c3b1e7a",
+    "mtime": 1788868782.3450146,
+    "seen": 1788869338.9841437,
+    "ast_hash": "1c67fd972717d5c2b3f637773a041315",
     "semantic_hash": ""
   }
 }

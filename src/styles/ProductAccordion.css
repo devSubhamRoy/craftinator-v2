@@ -1,0 +1,422 @@
+/* ------------------------------------------------------------
+   ProductAccordion Component Styling
+   Matches exclusive vertical dropdown & pill tab design
+   ------------------------------------------------------------ */
+
+.product-accordion-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.accordion-row-item {
+  border-bottom: 1px solid var(--border-warm);
+  padding: 1.25rem 0;
+  transition: background-color var(--transition-fast);
+}
+
+.accordion-row-item:first-child {
+  /* border-top: 1px solid var(--border-warm); */
+}
+
+.accordion-row-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  background: transparent;
+  border: none;
+  padding: 0.35rem 0;
+  cursor: pointer;
+  text-align: left;
+  transition: opacity var(--transition-fast);
+}
+
+.accordion-row-header:hover {
+  opacity: 0.85;
+}
+
+.accordion-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.accordion-item-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.accordion-item-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin: 0;
+  font-weight: 400;
+}
+
+.accordion-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: var(--bg-card, #FFFFFF);
+  border: 1px solid var(--border-light, #E8E2D9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.accordion-row-item.is-expanded .accordion-icon-box {
+  background-color: #F0EAE1;
+  color: var(--accent-terracotta);
+  border-color: var(--border-warm);
+}
+
+.accordion-row-body {
+  padding-top: 1.35rem;
+  padding-bottom: 0.5rem;
+  animation: accordionSlideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes accordionSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ------------------------------------------------------------
+   Horizontal Sub-Tabs (Pill Buttons)
+   ------------------------------------------------------------ */
+
+.accordion-subtabs-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.85rem;
+  margin-bottom: 1.5rem;
+  scrollbar-width: none;
+}
+
+.accordion-subtabs-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.subtab-pill-btn {
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-warm, #E0D7CC);
+  background-color: var(--bg-card, #FFFFFF);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.subtab-pill-btn:hover {
+  border-color: var(--text-primary);
+  background-color: var(--bg-secondary);
+}
+
+.subtab-pill-btn.active {
+  background-color: #231815;
+  color: #FFFFFF;
+  border-color: #231815;
+}
+
+/* ------------------------------------------------------------
+   Sub-Tab Panel Views
+   ------------------------------------------------------------ */
+
+.subtab-panel-content {
+  width: 100%;
+}
+
+/* 1. Showcase View */
+.subtab-showcase-view {
+  display: flex;
+  flex-direction: column;
+}
+
+.showcase-banner-card {
+  position: relative;
+  border-radius: var(--radius-lg, 14px);
+  overflow: hidden;
+  height: 280px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: var(--shadow-sm);
+}
+
+.showcase-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.65);
+  z-index: 1;
+}
+
+.showcase-banner-overlay {
+  position: relative;
+  z-index: 2;
+  padding: 1.75rem;
+  color: #FFFFFF;
+}
+
+.showcase-badge {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+}
+
+.showcase-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 0.4rem;
+  line-height: 1.25;
+}
+
+.showcase-description {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.55;
+  max-width: 650px;
+}
+
+.showcase-story-block {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.showcase-story-paragraph {
+  margin-bottom: 0.85rem;
+}
+
+.expanded-story-details {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  animation: fadeInStory 0.25s ease forwards;
+}
+
+@keyframes fadeInStory {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.showcase-quote {
+  font-style: italic;
+  border-left: 3px solid var(--accent-terracotta);
+  padding-left: 1rem;
+  color: var(--text-primary);
+  margin-top: 0.5rem;
+}
+
+.btn-show-more-toggle {
+  width: fit-content;
+  max-width: max-content;
+  padding: 0.75rem 1.4rem;
+  border-radius: 12px;
+  border: 1px solid #231815;
+  background-color: #231815;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin: 1.5rem auto 0 auto;
+  box-shadow: 0 2px 8px rgba(35, 24, 21, 0.18);
+}
+
+.btn-show-more-toggle:hover {
+  background-color: #382723;
+  border-color: #382723;
+  color: #FFFFFF;
+}
+
+/* 2. Highlights & Specifications List */
+.highlights-feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.highlights-feature-list li strong {
+  color: var(--text-primary);
+}
+
+.specs-table-grid {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.specs-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1.2rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.specs-row:last-child {
+  border-bottom: none;
+}
+
+.specs-row:nth-child(even) {
+  background-color: rgba(250, 247, 242, 0.6);
+}
+
+.specs-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.specs-value {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* 3. Care Guide List */
+.care-guide-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.care-guide-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.care-check-icon {
+  color: var(--accent-sage);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* 4. Reviews Horizontal Slider View */
+.subtab-reviews-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.reviews-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-warm);
+}
+
+.reviews-cards-track {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.5rem 0 1.25rem 0;
+}
+
+.reviews-cards-track::-webkit-scrollbar {
+  display: none;
+}
+
+.review-item-card {
+  flex: 0 0 320px;
+  width: 320px;
+  min-width: 320px;
+  background-color: var(--bg-card, #FFFFFF);
+  border: 1px solid var(--border-light, #E8E2D9);
+  border-radius: var(--radius-md, 12px);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.review-stars-inline {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 0.65rem;
+}
+
+.review-quote-text {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 0.85rem;
+  flex: 1;
+}
+
+.review-author-line {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .review-item-card {
+    flex: 0 0 270px;
+    width: 270px;
+    min-width: 270px;
+    padding: 1.1rem;
+  }
+}

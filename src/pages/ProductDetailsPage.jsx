@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import {
   Star,
   Heart,
@@ -22,20 +22,24 @@ import {
   UserPlus,
   Check,
   Flame,
-  Info
-} from 'lucide-react';
-import { products } from '../data/products';
-import { artisans } from '../data/artisans';
-import { editorialHeroCards, artisanShowcaseCards } from '../data/editorialHeroes';
-import { getProductReviews } from '../data/reviews';
-import { useLanguage } from '../i18n/LanguageContext';
-import MeetMakers from '../components/MeetMakers';
+  Info,
+} from "lucide-react";
+import { products } from "../data/products";
+import { artisans } from "../data/artisans";
+import {
+  editorialHeroCards,
+  artisanShowcaseCards,
+} from "../data/editorialHeroes";
+import { getProductReviews } from "../data/reviews";
+import { useLanguage } from "../i18n/LanguageContext";
+import MeetMakers from "../components/MeetMakers";
+import ProductAccordion from "../components/ProductAccordion";
 
 /* Reusable Components for Consistency */
-import ProductCard from '../components/ProductCard';
-import ProductCardSkeleton from '../components/ProductCardSkeleton';
-import BrandValues from '../components/BrandValues';
-import Newsletter from '../components/Newsletter';
+import ProductCard from "../components/ProductCard";
+import ProductCardSkeleton from "../components/ProductCardSkeleton";
+import BrandValues from "../components/BrandValues";
+import Newsletter from "../components/Newsletter";
 
 export default function ProductDetailsPage({
   productId,
@@ -44,7 +48,7 @@ export default function ProductDetailsPage({
   onAddToCart,
   onOpenArtisanModal,
   onOpenProductModal,
-  onNavigate
+  onNavigate,
 }) {
   const { t } = useLanguage();
 
@@ -63,17 +67,23 @@ export default function ProductDetailsPage({
   // 2. Interactive States
   const [selectedImg, setSelectedImg] = useState(product?.image);
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState('description'); // 'description' | 'materials' | 'reviews'
+  const [activeAccordion, setActiveAccordion] = useState("description");
+
+  const toggleAccordion = (key) => {
+    setActiveAccordion((prev) => (prev === key ? null : key));
+  };
+
   const [followingArtisanIds, setFollowingArtisanIds] = useState([]);
-  const [makerSortBy, setMakerSortBy] = useState('recommended'); // 'recommended' | 'price-low' | 'price-high' | 'rating'
+  const [makerSortBy, setMakerSortBy] = useState("recommended"); // 'recommended' | 'price-low' | 'price-high' | 'rating'
 
   // Pagination for Maker Products (Load More with skeleton loading)
   const INITIAL_MAKER_COUNT = 8;
-  const [visibleMakerCount, setVisibleMakerCount] = useState(INITIAL_MAKER_COUNT);
+  const [visibleMakerCount, setVisibleMakerCount] =
+    useState(INITIAL_MAKER_COUNT);
   const [isMakerLoadingMore, setIsMakerLoadingMore] = useState(false);
 
   // Trending & Related Products Section State (Single-Row Infinite Horizontal Scrolling)
-  const [trendingTab, setTrendingTab] = useState('All Related');
+  const [trendingTab, setTrendingTab] = useState("All Related");
   const [isTrendingLoading, setIsTrendingLoading] = useState(false);
   const [visibleTrendingCount, setVisibleTrendingCount] = useState(12);
   const [isTrendingLoadingMore, setIsTrendingLoadingMore] = useState(false);
@@ -84,15 +94,15 @@ export default function ProductDetailsPage({
     if (product) {
       setSelectedImg(product.image);
       setQuantity(1);
-      setActiveTab('description');
-      setMakerSortBy('recommended');
+      setActiveAccordion("description");
+      setMakerSortBy("recommended");
       setVisibleMakerCount(INITIAL_MAKER_COUNT);
       setIsMakerLoadingMore(false);
-      setTrendingTab('All Related');
+      setTrendingTab("All Related");
       setVisibleTrendingCount(12);
       setIsTrendingLoadingMore(false);
       if (trendingTrackRef.current) {
-        trendingTrackRef.current.scrollTo({ left: 0, behavior: 'instant' });
+        trendingTrackRef.current.scrollTo({ left: 0, behavior: "instant" });
       }
     }
   }, [product?.id]);
@@ -111,7 +121,7 @@ export default function ProductDetailsPage({
   const makerOtherProducts = useMemo(() => {
     if (!product) return [];
     const others = products.filter(
-      (p) => p.artisan === product.artisan && p.id !== product.id
+      (p) => p.artisan === product.artisan && p.id !== product.id,
     );
     // If maker has fewer than 4 other pieces, supplement with matching pieces from the same artisan craft or city
     if (others.length < 4) {
@@ -119,7 +129,8 @@ export default function ProductDetailsPage({
         (p) =>
           p.id !== product.id &&
           !others.some((o) => o.id === p.id) &&
-          (p.artisanCity === product.artisanCity || p.category === product.category)
+          (p.artisanCity === product.artisanCity ||
+            p.category === product.category),
       );
       return [...others, ...supplementary].slice(0, 8);
     }
@@ -129,11 +140,11 @@ export default function ProductDetailsPage({
   // Sorted maker products matching ShopPage sorting logic
   const sortedMakerProducts = useMemo(() => {
     let list = [...makerOtherProducts];
-    if (makerSortBy === 'price-low') {
+    if (makerSortBy === "price-low") {
       list.sort((a, b) => a.price - b.price);
-    } else if (makerSortBy === 'price-high') {
+    } else if (makerSortBy === "price-high") {
       list.sort((a, b) => b.price - a.price);
-    } else if (makerSortBy === 'rating') {
+    } else if (makerSortBy === "rating") {
       list.sort((a, b) => (b.rating || 0) - (a.rating || 0));
     }
     return list;
@@ -154,36 +165,80 @@ export default function ProductDetailsPage({
   };
 
   // 4. Trending & Related Products Section Logic (Filtered dynamically according to active product)
-  const trendingTabs = useMemo(() => [
-    { id: 'All Related', label: t('tab_all_related', 'All Related') },
-    { id: 'Category', label: product?.category ? product.category : t('same_category', 'Same Category') },
-    { id: 'Style', label: product?.styleTag ? `${product.styleTag} Style` : t('tab_matching_style', 'Matching Aesthetic') },
-    { id: 'Trending', label: t('tab_trending', 'Top Trending') },
-    { id: 'Bestseller', label: t('tab_top_sellers', 'Bestsellers') }
-  ], [product, t]);
+  const trendingTabs = useMemo(
+    () => [
+      { id: "All Related", label: t("tab_all_related", "All Related") },
+      {
+        id: "Category",
+        label: product?.category
+          ? product.category
+          : t("same_category", "Same Category"),
+      },
+      {
+        id: "Style",
+        label: product?.styleTag
+          ? `${product.styleTag} Style`
+          : t("tab_matching_style", "Matching Aesthetic"),
+      },
+      { id: "Trending", label: t("tab_trending", "Top Trending") },
+      { id: "Bestseller", label: t("tab_top_sellers", "Bestsellers") },
+    ],
+    [product, t],
+  );
 
   const allMatchingTrending = useMemo(() => {
     if (!product) return products;
 
-    if (trendingTab === 'Category') {
-      const match = products.filter(p => p.id !== product.id && p.category === product.category);
-      return match.length > 0 ? match : products.filter(p => p.id !== product.id);
+    if (trendingTab === "Category") {
+      const match = products.filter(
+        (p) => p.id !== product.id && p.category === product.category,
+      );
+      return match.length > 0
+        ? match
+        : products.filter((p) => p.id !== product.id);
     }
-    if (trendingTab === 'Style') {
-      const match = products.filter(p => p.id !== product.id && p.styleTag === product.styleTag);
-      return match.length > 0 ? match : products.filter(p => p.id !== product.id && p.category === product.category);
+    if (trendingTab === "Style") {
+      const match = products.filter(
+        (p) => p.id !== product.id && p.styleTag === product.styleTag,
+      );
+      return match.length > 0
+        ? match
+        : products.filter(
+            (p) => p.id !== product.id && p.category === product.category,
+          );
     }
-    if (trendingTab === 'Trending') {
-      return products.filter(p => p.id !== product.id && (p.isTrending || p.badge === 'Trending'));
+    if (trendingTab === "Trending") {
+      return products.filter(
+        (p) => p.id !== product.id && (p.isTrending || p.badge === "Trending"),
+      );
     }
-    if (trendingTab === 'Bestseller') {
-      return products.filter(p => p.id !== product.id && (p.badge === 'Top Seller' || p.badge === 'Bestseller' || (p.rating && p.rating >= 4.85)));
+    if (trendingTab === "Bestseller") {
+      return products.filter(
+        (p) =>
+          p.id !== product.id &&
+          (p.badge === "Top Seller" ||
+            p.badge === "Bestseller" ||
+            (p.rating && p.rating >= 4.85)),
+      );
     }
 
     // Default 'All Related' - prioritize same category, then same style
-    const sameCat = products.filter(p => p.id !== product.id && p.category === product.category);
-    const sameStyle = products.filter(p => p.id !== product.id && p.styleTag === product.styleTag && p.category !== product.category);
-    const others = products.filter(p => p.id !== product.id && p.category !== product.category && p.styleTag !== product.styleTag && p.isTrending);
+    const sameCat = products.filter(
+      (p) => p.id !== product.id && p.category === product.category,
+    );
+    const sameStyle = products.filter(
+      (p) =>
+        p.id !== product.id &&
+        p.styleTag === product.styleTag &&
+        p.category !== product.category,
+    );
+    const others = products.filter(
+      (p) =>
+        p.id !== product.id &&
+        p.category !== product.category &&
+        p.styleTag !== product.styleTag &&
+        p.isTrending,
+    );
     return [...sameCat, ...sameStyle, ...others];
   }, [product, trendingTab]);
 
@@ -200,7 +255,7 @@ export default function ProductDetailsPage({
     setTrendingTab(tabId);
     setVisibleTrendingCount(12);
     if (trendingTrackRef.current) {
-      trendingTrackRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+      trendingTrackRef.current.scrollTo({ left: 0, behavior: "smooth" });
     }
     setTimeout(() => {
       setIsTrendingLoading(false);
@@ -214,7 +269,9 @@ export default function ProductDetailsPage({
       if (visibleTrendingCount < allMatchingTrending.length) {
         setIsTrendingLoadingMore(true);
         setTimeout(() => {
-          setVisibleTrendingCount((prev) => Math.min(prev + 6, allMatchingTrending.length));
+          setVisibleTrendingCount((prev) =>
+            Math.min(prev + 6, allMatchingTrending.length),
+          );
           setIsTrendingLoadingMore(false);
         }, 400);
       }
@@ -223,19 +280,25 @@ export default function ProductDetailsPage({
 
   const handleScrollTrendingLeft = () => {
     if (trendingTrackRef.current) {
-      trendingTrackRef.current.scrollBy({ left: -340, behavior: 'smooth' });
+      trendingTrackRef.current.scrollBy({ left: -340, behavior: "smooth" });
     }
   };
 
   const handleScrollTrendingRight = () => {
     if (trendingTrackRef.current) {
-      trendingTrackRef.current.scrollBy({ left: 340, behavior: 'smooth' });
+      trendingTrackRef.current.scrollBy({ left: 340, behavior: "smooth" });
       const el = trendingTrackRef.current;
-      if (el && el.scrollLeft + el.clientWidth >= el.scrollWidth - 500 && !isTrendingLoadingMore) {
+      if (
+        el &&
+        el.scrollLeft + el.clientWidth >= el.scrollWidth - 500 &&
+        !isTrendingLoadingMore
+      ) {
         if (visibleTrendingCount < allMatchingTrending.length) {
           setIsTrendingLoadingMore(true);
           setTimeout(() => {
-            setVisibleTrendingCount((prev) => Math.min(prev + 6, allMatchingTrending.length));
+            setVisibleTrendingCount((prev) =>
+              Math.min(prev + 6, allMatchingTrending.length),
+            );
             setIsTrendingLoadingMore(false);
           }, 400);
         }
@@ -247,16 +310,22 @@ export default function ProductDetailsPage({
   const relatedArtisans = useMemo(() => {
     if (!product) return artisans.slice(0, 5);
     // Find artisans matching craft category keywords
-    const categoryLower = product.category?.toLowerCase() || '';
+    const categoryLower = product.category?.toLowerCase() || "";
     const matches = artisans.filter(
       (a) =>
         a.name !== product.artisan &&
-        (categoryLower.includes('ceramic') && a.craft.toLowerCase().includes('ceramic') ||
-         categoryLower.includes('pottery') && a.craft.toLowerCase().includes('potter') ||
-         categoryLower.includes('wood') && a.craft.toLowerCase().includes('wood') ||
-         categoryLower.includes('jewelry') && a.craft.toLowerCase().includes('jewelry') ||
-         categoryLower.includes('textile') && a.craft.toLowerCase().includes('textile') ||
-         categoryLower.includes('candle') && a.craft.toLowerCase().includes('chandler'))
+        ((categoryLower.includes("ceramic") &&
+          a.craft.toLowerCase().includes("ceramic")) ||
+          (categoryLower.includes("pottery") &&
+            a.craft.toLowerCase().includes("potter")) ||
+          (categoryLower.includes("wood") &&
+            a.craft.toLowerCase().includes("wood")) ||
+          (categoryLower.includes("jewelry") &&
+            a.craft.toLowerCase().includes("jewelry")) ||
+          (categoryLower.includes("textile") &&
+            a.craft.toLowerCase().includes("textile")) ||
+          (categoryLower.includes("candle") &&
+            a.craft.toLowerCase().includes("chandler"))),
     );
     if (matches.length >= 3) return matches;
     // Otherwise return next artisans from list
@@ -274,8 +343,8 @@ export default function ProductDetailsPage({
     if (heroSliderRef.current) {
       const scrollAmount = heroSliderRef.current.clientWidth * 0.75;
       heroSliderRef.current.scrollBy({
-        left: dir === 'next' ? scrollAmount : -scrollAmount,
-        behavior: 'smooth'
+        left: dir === "next" ? scrollAmount : -scrollAmount,
+        behavior: "smooth",
       });
     }
   };
@@ -288,9 +357,15 @@ export default function ProductDetailsPage({
   const extendedSlides = useMemo(() => {
     if (!showcaseSlides.length) return [];
     return [
-      { ...showcaseSlides[showcaseSlides.length - 1], uniqueSlideKey: 'clone-last' },
-      ...showcaseSlides.map((s, i) => ({ ...s, uniqueSlideKey: `real-${s.id}-${i}` })),
-      { ...showcaseSlides[0], uniqueSlideKey: 'clone-first' }
+      {
+        ...showcaseSlides[showcaseSlides.length - 1],
+        uniqueSlideKey: "clone-last",
+      },
+      ...showcaseSlides.map((s, i) => ({
+        ...s,
+        uniqueSlideKey: `real-${s.id}-${i}`,
+      })),
+      { ...showcaseSlides[0], uniqueSlideKey: "clone-first" },
     ];
   }, [showcaseSlides]);
 
@@ -429,7 +504,7 @@ export default function ProductDetailsPage({
   const handleShowcaseCardClick = () => {
     if (hasDraggedRef.current) return;
     if (onNavigate) {
-      onNavigate('/shop');
+      onNavigate("/shop");
     }
   };
 
@@ -445,8 +520,8 @@ export default function ProductDetailsPage({
     if (artisanSliderRef.current) {
       const scrollAmount = 300;
       artisanSliderRef.current.scrollBy({
-        left: dir === 'next' ? scrollAmount : -scrollAmount,
-        behavior: 'smooth'
+        left: dir === "next" ? scrollAmount : -scrollAmount,
+        behavior: "smooth",
       });
     }
   };
@@ -456,7 +531,7 @@ export default function ProductDetailsPage({
     setFollowingArtisanIds((prev) =>
       prev.includes(artisanId)
         ? prev.filter((id) => id !== artisanId)
-        : [...prev, artisanId]
+        : [...prev, artisanId],
     );
   };
 
@@ -466,340 +541,204 @@ export default function ProductDetailsPage({
 
   return (
     <div className="product-details-page">
-
       {/* 1. Main Product Showcase & Breadcrumbs Section (#FAF7F2) */}
       <section className="product-showcase-section">
         <div className="container">
           {/* Breadcrumb Bar */}
           <div className="product-breadcrumb-bar">
-            <nav className="product-breadcrumbs" aria-label="Breadcrumb navigation">
+            <nav
+              className="product-breadcrumbs"
+              aria-label="Breadcrumb navigation"
+            >
               <button
                 type="button"
                 className="breadcrumb-link"
-                onClick={() => onNavigate && onNavigate('/')}
+                onClick={() => onNavigate && onNavigate("/")}
               >
-                {t('nav_home', 'Home')}
+                {t("nav_home", "Home")}
               </button>
               <span className="breadcrumb-sep">/</span>
               <button
                 type="button"
                 className="breadcrumb-link"
-                onClick={() => onNavigate && onNavigate('/shop')}
+                onClick={() => onNavigate && onNavigate("/shop")}
               >
-                {t('nav_shop', 'Shop')}
+                {t("nav_shop", "Shop")}
               </button>
               <span className="breadcrumb-sep">/</span>
               <span className="breadcrumb-current">{product.name}</span>
             </nav>
 
-            <button
+            {/* <button
               type="button"
               className="btn-back-to-shop"
-              onClick={() => onNavigate && onNavigate('/shop')}
+              onClick={() => onNavigate && onNavigate("/shop")}
             >
               <ArrowLeft size={16} />
-              <span>{t('back_to_shop', 'Back to Catalog')}</span>
-            </button>
+              <span>{t("back_to_shop", "Back to Catalog")}</span>
+            </button> */}
           </div>
 
           <div className="product-showcase-grid">
+            {/* Left Media Gallery */}
+            <div className="product-media-column">
+              <div className="product-main-frame">
+                <img
+                  src={selectedImg || product.image}
+                  alt={product.name}
+                  className="product-main-img"
+                />
+                {product.badge && (
+                  <span className="product-detail-badge">{product.badge}</span>
+                )}
+              </div>
 
-          {/* Left Media Gallery */}
-          <div className="product-media-column">
-            <div className="product-main-frame">
-              <img
-                src={selectedImg || product.image}
-                alt={product.name}
-                className="product-main-img"
-              />
-              {product.badge && (
-                <span className="product-detail-badge">{product.badge}</span>
+              {/* Thumbnail Strip */}
+              {thumbnails.length > 1 && (
+                <div className="product-thumbnails-track" role="tablist">
+                  {thumbnails.map((imgUrl, idx) => (
+                    <button
+                      key={`thumb-${idx}`}
+                      type="button"
+                      className={`product-thumb-btn ${
+                        selectedImg === imgUrl ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedImg(imgUrl)}
+                      aria-label={`View photo ${idx + 1}`}
+                    >
+                      <img src={imgUrl} alt={`Thumbnail view ${idx + 1}`} />
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
 
-            {/* Thumbnail Strip */}
-            {thumbnails.length > 1 && (
-              <div className="product-thumbnails-track" role="tablist">
-                {thumbnails.map((imgUrl, idx) => (
-                  <button
-                    key={`thumb-${idx}`}
-                    type="button"
-                    className={`product-thumb-btn ${
-                      selectedImg === imgUrl ? 'active' : ''
-                    }`}
-                    onClick={() => setSelectedImg(imgUrl)}
-                    aria-label={`View photo ${idx + 1}`}
-                  >
-                    <img src={imgUrl} alt={`Thumbnail view ${idx + 1}`} />
-                  </button>
-                ))}
+            {/* Right Product Information & Actions */}
+            <div className="product-info-column">
+              <div className="product-meta-pills">
+                <span className="product-category-pill">
+                  {product.category}
+                </span>
+                {product.styleTag && (
+                  <span className="product-style-pill">
+                    {product.styleTag} Style
+                  </span>
+                )}
               </div>
-            )}
-          </div>
 
-          {/* Right Product Information & Actions */}
-          <div className="product-info-column">
-            <div className="product-meta-pills">
-              <span className="product-category-pill">{product.category}</span>
-              {product.styleTag && (
-                <span className="product-style-pill">{product.styleTag} Style</span>
-              )}
-            </div>
+              <h1 className="product-page-title">{product.name}</h1>
 
-            <h1 className="product-page-title">{product.name}</h1>
-
-            <div className="product-maker-row">
-              <MapPin size={15} className="maker-city-icon" />
-              <span>
-                {t('crafted_in', 'Crafted in')} {product.artisanCity} {t('by', 'by')}{' '}
-                <button
-                  type="button"
-                  className="maker-link-btn"
-                  onClick={() => maker && onOpenArtisanModal && onOpenArtisanModal(maker)}
-                >
-                  {product.artisan}
-                </button>
-              </span>
-            </div>
-
-            <div className="product-rating-box">
-              <div className="rating-stars-cluster">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} fill="#A85838" color="#A85838" />
-                ))}
-              </div>
-              <span className="rating-score-badge">{product.rating}</span>
-              <span className="rating-reviews-label">
-                ({product.reviewsCount} {t('verified_reviews', 'verified reviews')})
-              </span>
-            </div>
-
-            <div className="product-price-box">
-              <span className="product-currency-price">
-                ₹{product.price.toLocaleString('en-IN')}
-              </span>
-              <span className="product-tax-note">{t('tax_included', 'Inclusive of all taxes')}</span>
-              <span className="product-stock-tag">
-                {t('in_stock', 'In Stock')} ({product.stock} {t('units_left', 'units left')})
-              </span>
-            </div>
-
-            <p className="product-hero-summary">{product.description}</p>
-
-            {/* Stepper, Add to Cart, Wishlist */}
-            <div className="product-actions-cluster">
-              <div className="product-stepper-row">
-                <div className="product-qty-selector">
+              <div className="product-maker-row">
+                <MapPin size={15} className="maker-city-icon" />
+                <span>
+                  {t("crafted_in", "Crafted in")} {product.artisanCity}{" "}
+                  {t("by", "by")}{" "}
                   <button
                     type="button"
-                    className="qty-btn"
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    disabled={quantity <= 1}
-                    aria-label="Decrease quantity"
+                    className="maker-link-btn"
+                    onClick={() =>
+                      maker && onOpenArtisanModal && onOpenArtisanModal(maker)
+                    }
                   >
-                    <Minus size={15} />
+                    {product.artisan}
                   </button>
-                  <span className="qty-number">{quantity}</span>
+                </span>
+              </div>
+
+              <div className="product-rating-box">
+                <div className="rating-stars-cluster">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} fill="#A85838" color="#A85838" />
+                  ))}
+                </div>
+                <span className="rating-score-badge">{product.rating}</span>
+                <span className="rating-reviews-label">
+                  ({product.reviewsCount}{" "}
+                  {t("verified_reviews", "verified reviews")})
+                </span>
+              </div>
+
+              <div className="product-price-box">
+                <span className="product-currency-price">
+                  ₹{product.price.toLocaleString("en-IN")}
+                </span>
+                <span className="product-tax-note">
+                  {t("tax_included", "Inclusive of all taxes")}
+                </span>
+                <span className="product-stock-tag">
+                  {t("in_stock", "In Stock")} ({product.stock}{" "}
+                  {t("units_left", "units left")})
+                </span>
+              </div>
+
+              <p className="product-hero-summary">{product.description}</p>
+
+              {/* Stepper, Add to Cart, Wishlist */}
+              <div className="product-actions-cluster">
+                <div className="product-stepper-row">
+                  <div className="product-qty-selector">
+                    <button
+                      type="button"
+                      className="qty-btn"
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      disabled={quantity <= 1}
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus size={15} />
+                    </button>
+                    <span className="qty-number">{quantity}</span>
+                    <button
+                      type="button"
+                      className="qty-btn"
+                      onClick={() =>
+                        setQuantity((q) => Math.min(product.stock, q + 1))
+                      }
+                      disabled={quantity >= product.stock}
+                      aria-label="Increase quantity"
+                    >
+                      <Plus size={15} />
+                    </button>
+                  </div>
+
                   <button
                     type="button"
-                    className="qty-btn"
-                    onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))}
-                    disabled={quantity >= product.stock}
-                    aria-label="Increase quantity"
+                    className="btn btn-primary btn-add-cart-main"
+                    onClick={() =>
+                      onAddToCart && onAddToCart(product, quantity)
+                    }
                   >
-                    <Plus size={15} />
+                    <ShoppingBag size={18} />
+                    <span>{t("add_to_cart", "Add to Cart")}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`btn-wishlist-circle ${isWishlisted ? "active" : ""}`}
+                    onClick={() =>
+                      onToggleWishlist && onToggleWishlist(product.id)
+                    }
+                    aria-label={
+                      isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+                    }
+                  >
+                    <Heart size={20} fill={isWishlisted ? "#A85838" : "none"} />
                   </button>
                 </div>
-
-                <button
-                  type="button"
-                  className="btn btn-primary btn-add-cart-main"
-                  onClick={() => onAddToCart && onAddToCart(product, quantity)}
-                >
-                  <ShoppingBag size={18} />
-                  <span>{t('add_to_cart', 'Add to Cart')}</span>
-                </button>
-
-                <button
-                  type="button"
-                  className={`btn-wishlist-circle ${isWishlisted ? 'active' : ''}`}
-                  onClick={() => onToggleWishlist && onToggleWishlist(product.id)}
-                  aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                >
-                  <Heart size={20} fill={isWishlisted ? '#A85838' : 'none'} />
-                </button>
-              </div>
-            </div>
-
-            {/* Artisan Trust Guarantees */}
-            <div className="artisan-trust-grid">
-              <div className="trust-item">
-                <ShieldCheck size={18} className="trust-icon" />
-                <span>{t('trust_100_handcrafted', '100% Verified Handcrafted')}</span>
-              </div>
-              <div className="trust-item">
-                <Truck size={18} className="trust-icon" />
-                <span>{t('trust_direct_shipping', 'Direct Studio Dispatch')}</span>
-              </div>
-              <div className="trust-item">
-                <RotateCcw size={18} className="trust-icon" />
-                <span>{t('trust_returns', '14-Day Artisan Return Guarantee')}</span>
-              </div>
-              <div className="trust-item">
-                <Leaf size={18} className="trust-icon" />
-                <span>{t('trust_eco_packaging', 'Plastic-Free Eco Packaging')}</span>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-      {/* 2. Product Information & Reviews Tabs Section (#F3EFEA) */}
+      {/* 2. Product Information & Reviews Section (#F3EFEA) */}
       <section className="product-tabs-section">
         <div className="container">
-          <div className="product-tabs-nav" role="tablist">
-            <button
-              type="button"
-              className={`product-tab-btn ${activeTab === 'description' ? 'active' : ''}`}
-              onClick={() => setActiveTab('description')}
-              role="tab"
-              aria-selected={activeTab === 'description'}
-            >
-              {t('tab_description', 'Craft Story & Description')}
-            </button>
-            <button
-              type="button"
-              className={`product-tab-btn ${activeTab === 'materials' ? 'active' : ''}`}
-              onClick={() => setActiveTab('materials')}
-              role="tab"
-              aria-selected={activeTab === 'materials'}
-            >
-              {t('tab_materials_care', 'Materials & Studio Care')}
-            </button>
-            <button
-              type="button"
-              className={`product-tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
-              onClick={() => setActiveTab('reviews')}
-              role="tab"
-              aria-selected={activeTab === 'reviews'}
-            >
-              {t('tab_reviews', 'Collector Reviews')} ({product.reviewsCount})
-            </button>
-          </div>
-
-          <div className="product-tabs-content">
-            {/* Tab 1: Description Panel */}
-            {activeTab === 'description' && (
-              <div className="tab-pane tab-description-content">
-                <div className="tab-description-text">
-                  <h3>{t('artisan_heritage_title', 'Shaped with Human Soul & Heritage')}</h3>
-                  <p>{product.description}</p>
-                  <p>
-                    {t('craft_narrative_p2', 'Each creation is individually shaped in independent artisan studios. Because natural materials like clay, solid timber, and hand-cast metals respond uniquely to heat and touch, minor textural variances are celebrated as the hallmark of authentic handcrafted art.')}
-                  </p>
-                  {maker?.bio && (
-                    <p className="maker-bio-quote">
-                      <strong>{maker.name}:</strong> "{maker.bio}"
-                    </p>
-                  )}
-                </div>
-
-                {maker?.studioImage && (
-                  <div className="tab-studio-card">
-                    <img
-                      src={maker.studioImage}
-                      alt={`${maker.name} working in studio`}
-                    />
-                    <div className="tab-studio-card-caption">
-                      {maker.name} working inside the {maker.city} studio
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Tab 2: Materials & Care Panel */}
-            {activeTab === 'materials' && (
-              <div className="tab-pane tab-materials-grid">
-                <div className="materials-col-card">
-                  <h4>
-                    <Sparkles size={18} className="text-terracotta" />
-                    {t('materials_origin_title', 'Natural Mediums & Origins')}
-                  </h4>
-                  <ul className="materials-list">
-                    {product.materials?.map((mat, i) => (
-                      <li key={i}>
-                        <span className="materials-bullet" />
-                        <span>{mat}</span>
-                      </li>
-                    ))}
-                    <li>
-                      <span className="materials-bullet" />
-                      <span>{t('dimensions', 'Dimensions')}: {product.dimensions}</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="materials-col-card">
-                  <h4>
-                    <Leaf size={18} className="text-sage" />
-                    {t('care_instructions_title', 'Longevity & Maintenance')}
-                  </h4>
-                  <ul className="care-instructions-list">
-                    <li className="care-item">
-                      <CheckCircle2 size={16} className="care-icon" />
-                      <span>{t('care_item_1', 'Wipe with a soft damp linen cloth; avoid abrasive chemical detergents.')}</span>
-                    </li>
-                    <li className="care-item">
-                      <CheckCircle2 size={16} className="care-icon" />
-                      <span>{t('care_item_2', 'Keep away from extreme sudden temperature fluctuations.')}</span>
-                    </li>
-                    <li className="care-item">
-                      <CheckCircle2 size={16} className="care-icon" />
-                      <span>{t('care_item_3', 'Handcrafted with natural organic pigments that mature beautifully over time.')}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {/* Tab 3: Reviews Panel */}
-            {activeTab === 'reviews' && (
-              <div className="tab-pane tab-reviews-container">
-                <div className="reviews-summary-bar">
-                  <div className="reviews-big-score">{product.rating}</div>
-                  <div className="reviews-breakdown-info">
-                    <div className="stars-row">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={18} fill="#A85838" color="#A85838" />
-                      ))}
-                    </div>
-                    <span>{t('based_on_reviews', 'Based on')} {product.reviewsCount} {t('verified_buyer_ratings', 'verified collector ratings')}</span>
-                  </div>
-                </div>
-
-                <div className="reviews-cards-grid">
-                  {productReviewsList.map((rev) => (
-                    <div key={rev.id} className="review-card">
-                      <div className="review-stars-row">
-                        {[...Array(rev.rating)].map((_, idx) => (
-                          <Star key={idx} size={14} fill="#A85838" color="#A85838" />
-                        ))}
-                      </div>
-                      <p className="review-text-content">"{rev.content}"</p>
-                      <div className="review-author-meta">
-                        <span className="review-author-name">{rev.author}</span>
-                        <span className="verified-buyer-badge">
-                          <CheckCircle2 size={13} /> {t('verified_buyer', 'Verified Buyer')}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          <ProductAccordion
+            product={product}
+            maker={maker}
+            productReviewsList={productReviewsList}
+            t={t}
+          />
         </div>
       </section>
 
@@ -810,10 +749,16 @@ export default function ProductDetailsPage({
             <div className="shop-products-header">
               <div className="shop-header-left">
                 <h2 className="heading-lg">
-                  {t('more_from_artisan', 'More Handcrafted by')} {product.artisan}
+                  {t("more_from_artisan", "More Handcrafted by")}{" "}
+                  {product.artisan}
                 </h2>
                 <p className="paragraph-lg maker-subtitle-line">
-                  {sortedMakerProducts.length} {t('shop_pieces_count', 'pieces')} • {t('maker_creations_short', 'Handcrafted creations from this artisan studio')}
+                  {sortedMakerProducts.length}{" "}
+                  {t("shop_pieces_count", "pieces")} •{" "}
+                  {t(
+                    "maker_creations_short",
+                    "Handcrafted creations from this artisan studio",
+                  )}
                 </p>
                 <div className="maker-header-accent-line" aria-hidden="true" />
               </div>
@@ -822,7 +767,7 @@ export default function ProductDetailsPage({
               <div className="shop-controls-bar">
                 <div className="shop-sort-wrapper">
                   <label htmlFor="maker-sort-select" className="sort-label">
-                    {t('shop_sort_by', 'Sort by')}
+                    {t("shop_sort_by", "Sort by")}
                   </label>
                   <div className="sort-select-container">
                     <ArrowUpDown size={14} className="sort-prefix-icon" />
@@ -831,12 +776,20 @@ export default function ProductDetailsPage({
                       value={makerSortBy}
                       onChange={(e) => setMakerSortBy(e.target.value)}
                       className="shop-sort-select"
-                      aria-label={t('shop_sort_by', 'Sort by')}
+                      aria-label={t("shop_sort_by", "Sort by")}
                     >
-                      <option value="recommended">{t('sort_recommended', 'Recommended')}</option>
-                      <option value="price-low">{t('sort_price_low', 'Price: Low to High')}</option>
-                      <option value="price-high">{t('sort_price_high', 'Price: High to Low')}</option>
-                      <option value="rating">{t('sort_rating', 'Highest Rated')}</option>
+                      <option value="recommended">
+                        {t("sort_recommended", "Recommended")}
+                      </option>
+                      <option value="price-low">
+                        {t("sort_price_low", "Price: Low to High")}
+                      </option>
+                      <option value="price-high">
+                        {t("sort_price_high", "Price: High to Low")}
+                      </option>
+                      <option value="rating">
+                        {t("sort_rating", "Highest Rated")}
+                      </option>
                     </select>
                     <ChevronDown size={14} className="select-arrow" />
                   </div>
@@ -845,10 +798,12 @@ export default function ProductDetailsPage({
                 <button
                   type="button"
                   className="btn-maker-studio"
-                  onClick={() => maker && onOpenArtisanModal && onOpenArtisanModal(maker)}
-                  aria-label={t('view_maker_studio', 'View Maker Studio')}
+                  onClick={() =>
+                    maker && onOpenArtisanModal && onOpenArtisanModal(maker)
+                  }
+                  aria-label={t("view_maker_studio", "View Maker Studio")}
                 >
-                  <span>{t('view_maker_studio', 'View Maker Studio')}</span>
+                  <span>{t("view_maker_studio", "View Maker Studio")}</span>
                   <ArrowRight size={15} />
                 </button>
               </div>
@@ -861,17 +816,18 @@ export default function ProductDetailsPage({
                   product={makerProd}
                   isWishlisted={wishlist.includes(makerProd.id)}
                   onToggleWishlist={onToggleWishlist}
-                  onOpenProductModal={() => onOpenProductModal && onOpenProductModal(makerProd)}
+                  onOpenProductModal={() =>
+                    onOpenProductModal && onOpenProductModal(makerProd)
+                  }
                   onAddToCart={onAddToCart}
                 />
               ))}
 
               {/* Skeletons on loading more products */}
-              {isMakerLoadingMore && (
+              {isMakerLoadingMore &&
                 Array.from({ length: 4 }).map((_, idx) => (
                   <ProductCardSkeleton key={`maker-skeleton-${idx}`} />
-                ))
-              )}
+                ))}
             </div>
 
             {/* Load More Button for Maker Products */}
@@ -886,11 +842,15 @@ export default function ProductDetailsPage({
                   {isMakerLoadingMore ? (
                     <>
                       <span className="maker-spinner" />
-                      <span>{t('loading_more', 'Loading more creations...')}</span>
+                      <span>
+                        {t("loading_more", "Loading more creations...")}
+                      </span>
                     </>
                   ) : (
                     <>
-                      <span>{t('load_more_products', 'Load More Creations')}</span>
+                      <span>
+                        {t("load_more_products", "Load More Creations")}
+                      </span>
                       <ArrowRight size={15} />
                     </>
                   )}
@@ -902,7 +862,10 @@ export default function ProductDetailsPage({
       )}
 
       {/* 4. Artisan Craft Visual Showcase: 3s Autoplay Slide-by-Slide Banner (#F3EFEA) */}
-      <section className="artisan-showcase-carousel-section" aria-label={t('artisan_showcase_title', 'Artisan Craft Showcase')}>
+      <section
+        className="artisan-showcase-carousel-section"
+        aria-label={t("artisan_showcase_title", "Artisan Craft Showcase")}
+      >
         <div className="container">
           <div
             className="showcase-carousel-wrapper"
@@ -913,7 +876,7 @@ export default function ProductDetailsPage({
             }}
           >
             <div
-              className={`showcase-slide-viewport ${isDragging ? 'is-dragging' : ''}`}
+              className={`showcase-slide-viewport ${isDragging ? "is-dragging" : ""}`}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
@@ -921,15 +884,19 @@ export default function ProductDetailsPage({
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
               role="region"
-              aria-label={t('artisan_gallery_track', 'Artisan Studio Visual Gallery')}
+              aria-label={t(
+                "artisan_gallery_track",
+                "Artisan Studio Visual Gallery",
+              )}
             >
               <div
                 className="showcase-slide-strip"
                 style={{
                   transform: `translateX(calc(-${slideIndex * 100}% + ${dragOffset}px))`,
-                  transition: isTransitionEnabled && !isDragging
-                    ? 'transform 0.65s cubic-bezier(0.25, 1, 0.5, 1)'
-                    : 'none'
+                  transition:
+                    isTransitionEnabled && !isDragging
+                      ? "transform 0.65s cubic-bezier(0.25, 1, 0.5, 1)"
+                      : "none",
                 }}
                 onTransitionEnd={handleTransitionEnd}
               >
@@ -941,7 +908,7 @@ export default function ProductDetailsPage({
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
+                      if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
                         handleShowcaseCardClick(card);
                       }
@@ -961,14 +928,18 @@ export default function ProductDetailsPage({
             </div>
 
             {/* Centered Pagination Indicator Dots */}
-            <div className="showcase-pagination-dots" role="tablist" aria-label="Showcase slides">
+            <div
+              className="showcase-pagination-dots"
+              role="tablist"
+              aria-label="Showcase slides"
+            >
               {showcaseSlides.map((card, idx) => (
                 <button
                   key={`dot-${card.id}`}
                   type="button"
-                  className={`showcase-dot ${activeDotIndex === idx ? 'active' : ''}`}
+                  className={`showcase-dot ${activeDotIndex === idx ? "active" : ""}`}
                   onClick={() => handleShowcaseDotClick(idx)}
-                  aria-label={`${t('go_to_slide', 'Go to slide')} ${idx + 1}`}
+                  aria-label={`${t("go_to_slide", "Go to slide")} ${idx + 1}`}
                   aria-selected={activeDotIndex === idx}
                   role="tab"
                 />
@@ -979,22 +950,38 @@ export default function ProductDetailsPage({
       </section>
 
       {/* 5. Trending & Related Products Section (Single-Row Infinite Horizontal Scrolling) (#FAF7F2) */}
-      <section className="shop-trending-section related-products-trending-section" id="shop-trending">
+      <section
+        className="shop-trending-section related-products-trending-section"
+        id="shop-trending"
+      >
         <div className="container">
-          
           {/* Trending Header with Eyebrow, Title, Filter Strip & Nav Controls */}
           <div className="shop-trending-header">
             <div className="shop-trending-title-group">
-              <span className="eyebrow">{t('story_badge', 'Curated Selection')}</span>
-              <h2 className="heading-lg">{t('related_products_title', 'More Handcrafted in this Collection')}</h2>
+              <span className="eyebrow">
+                {t("story_badge", "Curated Selection")}
+              </span>
+              <h2 className="heading-lg">
+                {t(
+                  "related_products_title",
+                  "More Handcrafted in this Collection",
+                )}
+              </h2>
               <p className="paragraph-lg shop-trending-subtitle">
-                {t('related_products_sub', 'Curated handcrafted treasures that pair well with this aesthetic')}
+                {t(
+                  "related_products_sub",
+                  "Curated handcrafted treasures that pair well with this aesthetic",
+                )}
               </p>
             </div>
 
             {/* Filter Tabs & Quick Nav Arrows */}
             <div className="shop-trending-controls">
-              <div className="trending-badges-strip" role="tablist" aria-label="Filter trending products">
+              <div
+                className="trending-badges-strip"
+                role="tablist"
+                aria-label="Filter trending products"
+              >
                 {trendingTabs.map((tab) => {
                   const isActive = trendingTab === tab.id;
                   return (
@@ -1002,7 +989,7 @@ export default function ProductDetailsPage({
                       key={tab.id}
                       role="tab"
                       aria-selected={isActive}
-                      className={`trending-tab-btn ${isActive ? 'active' : ''}`}
+                      className={`trending-tab-btn ${isActive ? "active" : ""}`}
                       onClick={() => handleTrendingTabChange(tab.id)}
                     >
                       <span>{tab.label}</span>
@@ -1033,35 +1020,53 @@ export default function ProductDetailsPage({
             >
               {isTrendingLoading ? (
                 Array.from({ length: 6 }).map((_, idx) => (
-                  <div key={`trending-row-skeleton-${idx}`} className="trending-row-item">
+                  <div
+                    key={`trending-row-skeleton-${idx}`}
+                    className="trending-row-item"
+                  >
                     <ProductCardSkeleton />
                   </div>
                 ))
               ) : trendingProductsList.length > 0 ? (
                 <>
                   {trendingProductsList.map((relProd, idx) => (
-                    <div key={`${relProd.id}-trending-${idx}`} className="trending-row-item">
+                    <div
+                      key={`${relProd.id}-trending-${idx}`}
+                      className="trending-row-item"
+                    >
                       <ProductCard
                         product={relProd}
                         isWishlisted={wishlist.includes(relProd.id)}
                         onToggleWishlist={onToggleWishlist}
-                        onOpenProductModal={() => onOpenProductModal && onOpenProductModal(relProd)}
+                        onOpenProductModal={() =>
+                          onOpenProductModal && onOpenProductModal(relProd)
+                        }
                         onAddToCart={onAddToCart}
                       />
                     </div>
                   ))}
                   {/* Appending skeleton cards while horizontally loading more */}
-                  {isTrendingLoadingMore && (
+                  {isTrendingLoadingMore &&
                     Array.from({ length: 2 }).map((_, idx) => (
-                      <div key={`trending-more-skeleton-${idx}`} className="trending-row-item trending-skeleton-item">
+                      <div
+                        key={`trending-more-skeleton-${idx}`}
+                        className="trending-row-item trending-skeleton-item"
+                      >
                         <ProductCardSkeleton />
                       </div>
-                    ))
-                  )}
+                    ))}
                 </>
               ) : (
-                <div className="shop-no-results text-center" style={{ width: '100%', padding: '2rem 0' }}>
-                  <p>{t('no_matching_related_products', 'No related handcrafted items found in this filter.')}</p>
+                <div
+                  className="shop-no-results text-center"
+                  style={{ width: "100%", padding: "2rem 0" }}
+                >
+                  <p>
+                    {t(
+                      "no_matching_related_products",
+                      "No related handcrafted items found in this filter.",
+                    )}
+                  </p>
                 </div>
               )}
             </div>
@@ -1076,7 +1081,6 @@ export default function ProductDetailsPage({
               <ChevronRight size={20} />
             </button>
           </div>
-
         </div>
       </section>
 
@@ -1085,8 +1089,18 @@ export default function ProductDetailsPage({
         <div className="container">
           <div className="section-header-row">
             <div className="section-header-titles">
-              <h2>{t('editorial_section_title', 'Curated Artisan Stories & Craft Discoveries')}</h2>
-              <p>{t('editorial_section_sub', 'Immerse in the ancestral traditions, natural mediums, and makers behind every piece')}</p>
+              <h2>
+                {t(
+                  "editorial_section_title",
+                  "Curated Artisan Stories & Craft Discoveries",
+                )}
+              </h2>
+              <p>
+                {t(
+                  "editorial_section_sub",
+                  "Immerse in the ancestral traditions, natural mediums, and makers behind every piece",
+                )}
+              </p>
             </div>
           </div>
 
@@ -1096,13 +1110,24 @@ export default function ProductDetailsPage({
                 <div
                   key={hero.id}
                   className="editorial-hero-card"
-                  onClick={() => onNavigate && onNavigate('/shop')}
+                  onClick={() => onNavigate && onNavigate("/shop")}
                 >
-                  <img src={hero.image} alt={hero.title} className="editorial-hero-bg" loading="lazy" />
+                  <img
+                    src={hero.image}
+                    alt={hero.title}
+                    className="editorial-hero-bg"
+                    loading="lazy"
+                  />
                   <div className="editorial-hero-overlay">
-                    <span className="editorial-craft-tag">{t(hero.tagKey, hero.tag)}</span>
-                    <h3 className="editorial-hero-title">{t(hero.titleKey, hero.title)}</h3>
-                    <p className="editorial-hero-sub">{t(hero.subKey, hero.sub)}</p>
+                    <span className="editorial-craft-tag">
+                      {t(hero.tagKey, hero.tag)}
+                    </span>
+                    <h3 className="editorial-hero-title">
+                      {t(hero.titleKey, hero.title)}
+                    </h3>
+                    <p className="editorial-hero-sub">
+                      {t(hero.subKey, hero.sub)}
+                    </p>
                     <span className="editorial-hero-cta">
                       <span>{t(hero.ctaKey, hero.cta)}</span>
                       <ArrowRight size={15} />
@@ -1116,7 +1141,7 @@ export default function ProductDetailsPage({
             <button
               type="button"
               className="editorial-slider-arrow editorial-slider-arrow-prev"
-              onClick={() => handleScrollHero('prev')}
+              onClick={() => handleScrollHero("prev")}
               aria-label="Previous story"
             >
               <ChevronLeft size={20} />
@@ -1124,7 +1149,7 @@ export default function ProductDetailsPage({
             <button
               type="button"
               className="editorial-slider-arrow editorial-slider-arrow-next"
-              onClick={() => handleScrollHero('next')}
+              onClick={() => handleScrollHero("next")}
               aria-label="Next story"
             >
               <ChevronRight size={20} />
@@ -1135,7 +1160,6 @@ export default function ProductDetailsPage({
 
       {/* 7. Meet Master Artisans (#FAF7F2) */}
       <MeetMakers onOpenArtisanModal={onOpenArtisanModal} />
-      
 
       {/* 8. Brand Core Values (#F3EFEA) & 9. Community Newsletter (#FAF7F2) */}
       {/* <BrandValues />
@@ -1144,10 +1168,16 @@ export default function ProductDetailsPage({
       {/* Mobile Sticky Floating Purchase Bar */}
       <div className="product-mobile-sticky-bar">
         <div className="sticky-bar-left">
-          <img src={product.image} alt={product.name} className="sticky-bar-thumb" />
+          <img
+            src={product.image}
+            alt={product.name}
+            className="sticky-bar-thumb"
+          />
           <div className="sticky-bar-meta">
             <span className="sticky-bar-name">{product.name}</span>
-            <span className="sticky-bar-price">₹{product.price.toLocaleString('en-IN')}</span>
+            <span className="sticky-bar-price">
+              ₹{product.price.toLocaleString("en-IN")}
+            </span>
           </div>
         </div>
         <button
@@ -1156,7 +1186,7 @@ export default function ProductDetailsPage({
           onClick={() => onAddToCart && onAddToCart(product, quantity)}
         >
           <ShoppingBag size={16} />
-          <span>{t('add_to_cart', 'Add to Cart')}</span>
+          <span>{t("add_to_cart", "Add to Cart")}</span>
         </button>
       </div>
     </div>
