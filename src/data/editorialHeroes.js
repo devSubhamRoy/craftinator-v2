@@ -55,4 +55,39 @@ export const editorialHeroCards = [
   }
 ];
 
+/**
+ * Artisan Visual Showcase Cards (Moodboard / Visual Carousel)
+ * Exactly matching the handcrafted artisan craft visual showcase from the screenshot:
+ * 1. Earthenware pottery & terracotta vessels in studio
+ * 2. Handcrafted wood & brass diya candle lamp with woven cane basket
+ * 3. Stack of traditional Indian block-printed fabrics
+ */
+export const artisanShowcaseCards = [
+  {
+    id: 'showcase-pottery',
+    title: 'Earthenware & Terracotta Studio',
+    titleKey: 'showcase_pottery_title',
+    alt: 'Handcrafted terracotta pottery vases and natural clay vessels in artisan studio',
+    altKey: 'showcase_pottery_alt',
+    image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?q=80&w=1200&auto=format&fit=crop'
+  },
+  {
+    id: 'showcase-candle',
+    title: 'Turned Wood & Brass Candle Lamp',
+    titleKey: 'showcase_candle_title',
+    alt: 'Handcrafted wooden and brass diya candle stand with glowing flame and woven wicker basket',
+    altKey: 'showcase_candle_alt',
+    image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=1200&auto=format&fit=crop'
+  },
+  {
+    id: 'showcase-textiles',
+    title: 'Heritage Hand Block-Printed Textiles',
+    titleKey: 'showcase_textiles_title',
+    alt: 'Stacked traditional hand block-printed Indian cotton textiles in indigo and terracotta',
+    altKey: 'showcase_textiles_alt',
+    image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=1200&auto=format&fit=crop'
+  }
+];
+
 export default editorialHeroCards;
+

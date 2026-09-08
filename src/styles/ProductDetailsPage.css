@@ -7,11 +7,20 @@
 .product-details-page {
   background-color: var(--bg-primary);
   min-height: 100vh;
-  padding: 2rem 0 5.5rem 0;
+  padding: 0;
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
   position: relative;
+}
+
+/* ------------------------------------------------------------
+   1. Product Main Showcase & Breadcrumb Section (#FAF7F2 / --bg-primary)
+   ------------------------------------------------------------ */
+.product-showcase-section {
+  background-color: #FAF7F2;
+  padding: 2.25rem 0 4.5rem 0;
+  width: 100%;
 }
 
 /* ------------------------------------------------------------
@@ -454,15 +463,14 @@
 }
 
 /* ------------------------------------------------------------
-   3. Product Information Tabs Section
+   2. Product Information Tabs Section (#F3EFEA / --bg-secondary)
    ------------------------------------------------------------ */
 .product-tabs-section {
-  margin-bottom: 4.5rem;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-warm);
-  border-radius: var(--radius-xl);
-  padding: 2.5rem;
-  box-shadow: var(--shadow-sm);
+  background-color: #F3EFEA;
+  border-top: 1px solid var(--border-warm);
+  padding: 4.5rem 0;
+  width: 100%;
+  margin-bottom: 0;
 }
 
 .product-tabs-nav {
@@ -740,14 +748,14 @@
 }
 
 /* ------------------------------------------------------------
-   4 & 5. Products Standard Grid (Maker's Products & Related Products)
+   3. Maker's Other Creations Section (#FAF7F2 / --bg-primary)
    ------------------------------------------------------------ */
 .maker-products-section {
-  margin-bottom: 4.5rem;
-  padding-top: 2rem;
-  border: none !important;
-  border-top: none !important;
-  border-bottom: none !important;
+  background-color: #FAF7F2;
+  border-top: 1px solid var(--border-warm);
+  padding: 4.5rem 0;
+  width: 100%;
+  margin-bottom: 0;
 }
 
 /* Desktop: Header Titles on Left, Controls firmly on the Right (Green Area) */
@@ -789,8 +797,15 @@
   margin-left: auto;
 }
 
+/* ------------------------------------------------------------
+   5. Related Products Section (#FAF7F2 / --bg-primary)
+   ------------------------------------------------------------ */
 .related-products-section {
-  margin-bottom: 4.5rem;
+  background-color: #FAF7F2;
+  border-top: 1px solid var(--border-warm);
+  padding: 4.5rem 0;
+  width: 100%;
+  margin-bottom: 0;
 }
 
 .section-header-row {
@@ -913,11 +928,193 @@
 }
 
 /* ------------------------------------------------------------
-   6. Promotional / Editorial Hero Section (2.5 / 1.5 / 1.0 Carousel)
+   4. Artisan Visual Showcase Carousel Section (#F3EFEA / --bg-secondary)
+   ------------------------------------------------------------ */
+.artisan-showcase-carousel-section {
+  background-color: #F3EFEA;
+  border-top: 1px solid var(--border-warm);
+  padding: 4.5rem 0;
+  width: 100%;
+  position: relative;
+  margin-bottom: 0;
+}
+
+.showcase-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.showcase-slide-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  min-height: 180px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  background-color: var(--bg-secondary);
+  border: 1px solid rgba(224, 215, 206, 0.7);
+  box-shadow: 0 4px 18px rgba(35, 24, 21, 0.08);
+}
+
+.showcase-slide-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.showcase-slide-strip {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.showcase-single-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.showcase-single-slide:focus-visible {
+  outline: 2px solid var(--accent-terracotta);
+  outline-offset: -2px;
+}
+
+.showcase-single-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.4s ease;
+}
+
+.showcase-single-slide:hover .showcase-single-img {
+  transform: scale(1.015);
+}
+
+/* Centered Pagination Indicators with active pill transition */
+.showcase-pagination-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 1.15rem;
+}
+
+.showcase-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: #D6CEC5;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+}
+
+.showcase-dot:hover {
+  background-color: #B8ADA1;
+}
+
+.showcase-dot.active {
+  width: 26px;
+  height: 6px;
+  background-color: var(--accent-terracotta, #C36437);
+  border-radius: 999px;
+}
+
+.showcase-dot:focus-visible {
+  outline: 2px solid var(--accent-terracotta);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .artisan-showcase-carousel-section {
+    margin-bottom: 3.5rem;
+  }
+
+  .showcase-slide-viewport {
+    border-radius: 16px;
+  }
+
+  .showcase-pagination-dots {
+    margin-top: 0.95rem;
+  }
+}
+
+/* ------------------------------------------------------------
+   5. Related Products Section (#FAF7F2 / --bg-primary)
+   ------------------------------------------------------------ */
+.related-products-section,
+.related-products-trending-section {
+  background-color: #FAF7F2;
+  border-top: 1px solid var(--border-warm);
+  padding: 4.5rem 0;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.related-products-trending-section .shop-trending-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 2.25rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.related-products-trending-section .shop-trending-title-group {
+  flex: 1;
+  min-width: 280px;
+  max-width: 620px;
+}
+
+.related-products-trending-section .shop-trending-title-group .eyebrow {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: clamp(0.68rem, 1.1vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-terracotta);
+  margin-bottom: 0.35rem;
+}
+
+.related-products-trending-section .shop-trending-title-group h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 3.2vw, 2.35rem);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.45rem;
+  line-height: 1.22;
+  word-break: break-word;
+}
+
+.related-products-trending-section .shop-trending-subtitle {
+  color: var(--text-secondary);
+  font-size: clamp(0.85rem, 1.35vw, 0.95rem);
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------
+   6. Promotional / Editorial Hero Section (#F3EFEA / --bg-secondary)
    ------------------------------------------------------------ */
 .editorial-hero-section {
-  margin-bottom: 4.5rem;
+  background-color: #F3EFEA;
+  border-top: 1px solid var(--border-warm);
+  padding: 4.5rem 0;
+  width: 100%;
   position: relative;
+  margin-bottom: 0;
 }
 
 .editorial-hero-wrapper {
@@ -1070,10 +1267,15 @@
 }
 
 /* ------------------------------------------------------------
-   7. Related Artisans Section
+   7. Related Artisans Section (#FAF7F2 / --bg-primary)
    ------------------------------------------------------------ */
 .related-artisans-section {
-  margin-bottom: 4.5rem;
+  background-color: #FAF7F2;
+  border-top: 1px solid var(--border-warm);
+  padding: 4.5rem 0;
+  width: 100%;
+  position: relative;
+  margin-bottom: 0;
 }
 
 .related-artisans-track {
@@ -1381,9 +1583,7 @@
 
   /* Tabs on Mobile */
   .product-tabs-section {
-    padding: 1.5rem 1.15rem;
-    border-radius: var(--radius-lg);
-    margin-bottom: 3.5rem;
+    padding: 2.75rem 0;
   }
 
   .product-tabs-nav {
@@ -1421,17 +1621,48 @@
   }
 
 
+  .product-showcase-section,
+  .product-tabs-section,
   .maker-products-section,
-  .related-products-section {
-    margin-bottom: 3.5rem;
+  .artisan-showcase-carousel-section,
+  .related-products-section,
+  .related-products-trending-section,
+  .editorial-hero-section,
+  .related-artisans-section {
+    padding-top: 2.75rem;
+    padding-bottom: 3.25rem;
   }
 
   /* Mobile Section Header & Controls Optimization */
-  .maker-products-section .shop-products-header {
+  .maker-products-section .shop-products-header,
+  .related-products-trending-section .shop-trending-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.25rem;
-    flex-wrap: wrap;
+    gap: 1.15rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .related-products-trending-section .shop-trending-title-group {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .related-products-trending-section .shop-trending-controls {
+    width: 100%;
+  }
+
+  .related-products-trending-section .trending-badges-strip {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.35rem;
+  }
+
+  .related-products-trending-section .trending-badges-strip::-webkit-scrollbar {
+    display: none;
   }
 
   .maker-products-section .shop-controls-bar {
@@ -1477,10 +1708,6 @@
   }
 
   /* Editorial Carousel: Exactly 1.0 card visible on Mobile (with next card peek) */
-  .editorial-hero-section {
-    margin-bottom: 3.5rem;
-  }
-
   .editorial-hero-card {
     flex: 0 0 88%;
     min-width: 88%;
@@ -1506,10 +1733,6 @@
   }
 
   /* Related Artisans on Mobile */
-  .related-artisans-section {
-    margin-bottom: 3.5rem;
-  }
-
   .related-artisan-card {
     flex: 0 0 265px;
     width: 265px;
