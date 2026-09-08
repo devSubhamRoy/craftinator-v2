@@ -22,6 +22,7 @@ import './styles/ShopPage.css';
 import './styles/Modals.css';
 import './styles/LoadingScreen.css';
 import './styles/ProductDetailsPage.css';
+import './styles/ProductAccordion.css';
 
 /* Global Components */
 import Header from './components/Header';

@@ -3296,7 +3296,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/pages/ProductDetailsPage.jsx",
-      "source_location": "L268",
+      "source_location": "L280",
       "weight": 1.0
     },
     {
@@ -7719,5 +7719,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a9ba2cf77c9890047ec146c3091c1f22e6a202b0"
+  "built_at_commit": "2d4efa082a8a34d014636f5928ba0f69aa54b926"
 }
