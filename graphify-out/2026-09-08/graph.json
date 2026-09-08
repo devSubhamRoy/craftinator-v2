@@ -364,6 +364,18 @@
       "source_location": "L5"
     },
     {
+      "id": "src_components_brandvalues_brandvalues",
+      "label": "BrandValues()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "brandvalues()",
+      "source_file": "src/components/BrandValues.jsx",
+      "source_location": "L5"
+    },
+    {
       "id": "src_components_meetmakers_meetmakers",
       "label": "MeetMakers()",
       "_callable": true,
@@ -374,6 +386,42 @@
       "norm_label": "meetmakers()",
       "source_file": "src/components/MeetMakers.jsx",
       "source_location": "L7"
+    },
+    {
+      "id": "src_components_newsletter_newsletter",
+      "label": "Newsletter()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "newsletter()",
+      "source_file": "src/components/Newsletter.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_components_productcard_productcard",
+      "label": "ProductCard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "productcard()",
+      "source_file": "src/components/ProductCard.jsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_components_productcardskeleton_productcardskeleton",
+      "label": "ProductCardSkeleton()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "productcardskeleton()",
+      "source_file": "src/components/ProductCardSkeleton.jsx",
+      "source_location": "L4"
     },
     {
       "id": "src_components_shopbycategory_shopbycategory",
@@ -410,6 +458,42 @@
       "norm_label": "shophero()",
       "source_file": "src/components/ShopHero.jsx",
       "source_location": "L6"
+    },
+    {
+      "id": "src_components_trendingproducts_trendingproducts",
+      "label": "TrendingProducts()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "trendingproducts()",
+      "source_file": "src/components/TrendingProducts.jsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_data_reviews_getproductreviews",
+      "label": "getProductReviews()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "getproductreviews()",
+      "source_file": "src/data/reviews.js",
+      "source_location": "L139"
+    },
+    {
+      "id": "src_pages_productdetailspage_productdetailspage",
+      "label": "ProductDetailsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "productdetailspage()",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L40"
     },
     {
       "id": "scripts_i18n_sync_extracttranslationcalls",
@@ -458,90 +542,6 @@
       "norm_label": "scanfiles()",
       "source_file": "scripts/i18n-sync.js",
       "source_location": "L31"
-    },
-    {
-      "id": "src_components_brandvalues_brandvalues",
-      "label": "BrandValues()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "brandvalues()",
-      "source_file": "src/components/BrandValues.jsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_components_newsletter_newsletter",
-      "label": "Newsletter()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "newsletter()",
-      "source_file": "src/components/Newsletter.jsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_components_productcard_productcard",
-      "label": "ProductCard()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "productcard()",
-      "source_file": "src/components/ProductCard.jsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_components_productcardskeleton_productcardskeleton",
-      "label": "ProductCardSkeleton()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "productcardskeleton()",
-      "source_file": "src/components/ProductCardSkeleton.jsx",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_components_trendingproducts_trendingproducts",
-      "label": "TrendingProducts()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "trendingproducts()",
-      "source_file": "src/components/TrendingProducts.jsx",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_data_reviews_getproductreviews",
-      "label": "getProductReviews()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "getproductreviews()",
-      "source_file": "src/data/reviews.js",
-      "source_location": "L139"
-    },
-    {
-      "id": "src_pages_productdetailspage_productdetailspage",
-      "label": "ProductDetailsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "productdetailspage()",
-      "source_file": "src/pages/ProductDetailsPage.jsx",
-      "source_location": "L39"
     },
     {
       "id": "src_app",
@@ -1502,6 +1502,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_brandvalues",
+      "label": "BrandValues.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "brandvalues.jsx",
+      "source_file": "src/components/BrandValues.jsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_meetmakers",
       "label": "MeetMakers.jsx",
       "_origin": "ast",
@@ -1510,6 +1521,39 @@
       "file_type": "code",
       "norm_label": "meetmakers.jsx",
       "source_file": "src/components/MeetMakers.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_newsletter",
+      "label": "Newsletter.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "newsletter.jsx",
+      "source_file": "src/components/Newsletter.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_productcard",
+      "label": "ProductCard.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "productcard.jsx",
+      "source_file": "src/components/ProductCard.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_productcardskeleton",
+      "label": "ProductCardSkeleton.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "productcardskeleton.jsx",
+      "source_file": "src/components/ProductCardSkeleton.jsx",
       "source_location": "L1"
     },
     {
@@ -1543,6 +1587,17 @@
       "file_type": "code",
       "norm_label": "shophero.jsx",
       "source_file": "src/components/ShopHero.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_trendingproducts",
+      "label": "TrendingProducts.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "trendingproducts.jsx",
+      "source_file": "src/components/TrendingProducts.jsx",
       "source_location": "L1"
     },
     {
@@ -1590,6 +1645,39 @@
       "source_location": "L1"
     },
     {
+      "id": "src_data_editorialheroes",
+      "label": "editorialHeroes.js",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "editorialheroes.js",
+      "source_file": "src/data/editorialHeroes.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_editorialheroes_artisanshowcasecards",
+      "label": "artisanShowcaseCards",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "artisanshowcasecards",
+      "source_file": "src/data/editorialHeroes.js",
+      "source_location": "L65"
+    },
+    {
+      "id": "src_data_editorialheroes_editorialherocards",
+      "label": "editorialHeroCards",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "editorialherocards",
+      "source_file": "src/data/editorialHeroes.js",
+      "source_location": "L6"
+    },
+    {
       "id": "src_data_materials",
       "label": "materials.js",
       "_origin": "ast",
@@ -1609,6 +1697,39 @@
       "file_type": "code",
       "norm_label": "materials",
       "source_file": "src/data/materials.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_reviews",
+      "label": "reviews.js",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "reviews.js",
+      "source_file": "src/data/reviews.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_reviews_productreviews",
+      "label": "productReviews",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "productreviews",
+      "source_file": "src/data/reviews.js",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_pages_productdetailspage",
+      "label": "ProductDetailsPage.jsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "ShopPage.jsx",
+      "file_type": "code",
+      "norm_label": "productdetailspage.jsx",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
       "source_location": "L1"
     },
     {
@@ -2669,127 +2790,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_brandvalues",
-      "label": "BrandValues.jsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "brandvalues.jsx",
-      "source_file": "src/components/BrandValues.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_newsletter",
-      "label": "Newsletter.jsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "newsletter.jsx",
-      "source_file": "src/components/Newsletter.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_productcard",
-      "label": "ProductCard.jsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "productcard.jsx",
-      "source_file": "src/components/ProductCard.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_productcardskeleton",
-      "label": "ProductCardSkeleton.jsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "productcardskeleton.jsx",
-      "source_file": "src/components/ProductCardSkeleton.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_trendingproducts",
-      "label": "TrendingProducts.jsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "trendingproducts.jsx",
-      "source_file": "src/components/TrendingProducts.jsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_editorialheroes",
-      "label": "editorialHeroes.js",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "editorialheroes.js",
-      "source_file": "src/data/editorialHeroes.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_editorialheroes_artisanshowcasecards",
-      "label": "artisanShowcaseCards",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "artisanshowcasecards",
-      "source_file": "src/data/editorialHeroes.js",
-      "source_location": "L65"
-    },
-    {
-      "id": "src_data_editorialheroes_editorialherocards",
-      "label": "editorialHeroCards",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "editorialherocards",
-      "source_file": "src/data/editorialHeroes.js",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_data_reviews",
-      "label": "reviews.js",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "reviews.js",
-      "source_file": "src/data/reviews.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_reviews_productreviews",
-      "label": "productReviews",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "productreviews",
-      "source_file": "src/data/reviews.js",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_pages_productdetailspage",
-      "label": "ProductDetailsPage.jsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "ProductDetailsPage.jsx",
-      "file_type": "code",
-      "norm_label": "productdetailspage.jsx",
-      "source_file": "src/pages/ProductDetailsPage.jsx",
-      "source_location": "L1"
-    },
-    {
       "id": "vercel",
       "label": "vercel.json",
       "_origin": "ast",
@@ -3250,7 +3250,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/pages/ProductDetailsPage.jsx",
-      "source_location": "L267",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -3262,7 +3262,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/pages/ProductDetailsPage.jsx",
-      "source_location": "L48",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -4311,19 +4311,19 @@
     },
     {
       "source": "src_pages_productdetailspage",
-      "target": "src_components_productcard_productcard",
+      "target": "src_components_meetmakers_meetmakers",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/pages/ProductDetailsPage.jsx",
-      "source_location": "L34",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
       "source": "src_pages_productdetailspage",
-      "target": "src_components_productcardskeleton_productcardskeleton",
+      "target": "src_components_productcard_productcard",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -4335,7 +4335,7 @@
     },
     {
       "source": "src_pages_productdetailspage",
-      "target": "src_components_brandvalues_brandvalues",
+      "target": "src_components_productcardskeleton_productcardskeleton",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -4347,7 +4347,7 @@
     },
     {
       "source": "src_pages_productdetailspage",
-      "target": "src_components_newsletter_newsletter",
+      "target": "src_components_brandvalues_brandvalues",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -4355,6 +4355,18 @@
       "context": "import",
       "source_file": "src/pages/ProductDetailsPage.jsx",
       "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_components_newsletter_newsletter",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
@@ -5439,19 +5451,19 @@
     },
     {
       "source": "src_pages_productdetailspage",
-      "target": "src_components_productcard",
+      "target": "src_components_meetmakers",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/pages/ProductDetailsPage.jsx",
-      "source_location": "L34",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
       "source": "src_pages_productdetailspage",
-      "target": "src_components_productcardskeleton",
+      "target": "src_components_productcard",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -5463,7 +5475,7 @@
     },
     {
       "source": "src_pages_productdetailspage",
-      "target": "src_components_brandvalues",
+      "target": "src_components_productcardskeleton",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -5475,7 +5487,7 @@
     },
     {
       "source": "src_pages_productdetailspage",
-      "target": "src_components_newsletter",
+      "target": "src_components_brandvalues",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -5483,6 +5495,18 @@
       "context": "import",
       "source_file": "src/pages/ProductDetailsPage.jsx",
       "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_productdetailspage",
+      "target": "src_components_newsletter",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pages/ProductDetailsPage.jsx",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
@@ -7510,7 +7534,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/pages/ProductDetailsPage.jsx",
-      "source_location": "L39",
+      "source_location": "L40",
       "weight": 1.0
     },
     {

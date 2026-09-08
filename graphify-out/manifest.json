@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "src/components/ArtisanCardSkeleton.jsx": {
-    "mtime": 1788790312.5006976,
-    "seen": 1788790520.5922582,
-    "ast_hash": "0aadb9f07047730445bc0a1567de3b40",
+    "mtime": 1788865788.241002,
+    "seen": 1788868126.3415954,
+    "ast_hash": "43496c6771705c0ff8868c687a56eb91",
     "semantic_hash": ""
   },
   "src/components/ArtisanDiscoveryBanner.jsx": {
@@ -66,10 +66,10 @@
     "semantic_hash": "c10e928db20dda39814549b039b0d851"
   },
   "src/components/Footer.jsx": {
-    "mtime": 1788336698.3477225,
-    "seen": 1788613311.5185091,
-    "ast_hash": "215a6fabd35be24ba232c4d79bf0e9a0",
-    "semantic_hash": "215a6fabd35be24ba232c4d79bf0e9a0"
+    "mtime": 1788868291.3705852,
+    "seen": 1788868589.841786,
+    "ast_hash": "5e564573085680a3665bc381094a79da",
+    "semantic_hash": ""
   },
   "src/components/Header.jsx": {
     "mtime": 1788797418.7365055,
@@ -258,9 +258,9 @@
     "semantic_hash": "cd50faa6936d1b4be27ba931c883d126"
   },
   "src/i18n/translations.js": {
-    "mtime": 1788851406.3712747,
-    "seen": 1788851613.591161,
-    "ast_hash": "b6711c5290dedc2a22a831086b57a5b8",
+    "mtime": 1788868312.74686,
+    "seen": 1788868589.8418822,
+    "ast_hash": "d84aa9470ed946046376e7dc38026326",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -438,14 +438,14 @@
     "semantic_hash": ""
   },
   "src/pages/ProductDetailsPage.jsx": {
-    "mtime": 1788861977.4261262,
-    "seen": 1788862070.5997381,
-    "ast_hash": "79c0651db5aa0966d1510c98384e5e1f",
+    "mtime": 1788868116.486702,
+    "seen": 1788868126.341721,
+    "ast_hash": "7f7c621a01f4aac4fc75b96973a142c8",
     "semantic_hash": ""
   },
   "src/data/editorialHeroes.js": {
-    "mtime": 1788851059.7274656,
-    "seen": 1788851613.5911398,
+    "mtime": 1788862491.72111,
+    "seen": 1788865041.9303138,
     "ast_hash": "94654ea803dcba5b3dccd11ec2717589",
     "semantic_hash": ""
   },
@@ -453,6 +453,12 @@
     "mtime": 1788808783.3027737,
     "seen": 1788851613.5911489,
     "ast_hash": "1bdbffcb307bfba1b275d44b81f0d56f",
+    "semantic_hash": ""
+  },
+  "src/data/footerData.js": {
+    "mtime": 1788868276.13912,
+    "seen": 1788868589.8418603,
+    "ast_hash": "b644a023b83223cb12662e446c3b1e7a",
     "semantic_hash": ""
   }
 }
