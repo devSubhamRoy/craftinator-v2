@@ -1,11 +1,11 @@
 # Graph Report - Craftinator-v2  (2026-09-08)
 
 ## Corpus Check
-- 64 files · ~78,531 words
+- 64 files · ~78,358 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 245 nodes · 410 edges · 18 communities (12 shown, 3 thin omitted)
+- 245 nodes · 412 edges · 17 communities (11 shown, 3 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
@@ -23,7 +23,6 @@
 - i18n-sync.js
 - Design Tokens (`src/index.css`)
 - Example 1: New Feature Request Workflow
-- ProductDetailsPage.jsx
 - vercel.json
 - CuratedCollections.jsx
 - Graphify Cheat Sheet & Guide (Antigravity IDE)
@@ -58,7 +57,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (18 total, 3 thin omitted)
+## Communities (17 total, 3 thin omitted)
 
 ### Community 0 - "useLanguage"
 Cohesion: 0.11
@@ -73,8 +72,8 @@ Cohesion: 0.15
 Nodes (12): CommunitySection(), Hero(), PersonalizedDiscovery(), SellerCTA(), StoryBanner(), Testimonials(), communityPosts, testimonials (+4 more)
 
 ### Community 3 - "ShopPage.jsx"
-Cohesion: 0.17
-Nodes (9): ArtisanCardSkeleton(), ArtisanDiscoveryBanner(), MeetMakers(), ShopByCategory(), ShopByMaterial(), ShopHero(), artisans, categories (+1 more)
+Cohesion: 0.10
+Nodes (19): ArtisanCardSkeleton(), ArtisanDiscoveryBanner(), BrandValues(), MeetMakers(), Newsletter(), ProductCard(), ProductCardSkeleton(), ShopByCategory() (+11 more)
 
 ### Community 4 - "Safe Feature Implementation Workflow"
 Cohesion: 0.06
@@ -91,10 +90,6 @@ Nodes (28): Color Palette Tokens, Craftinator-v2 Design Tokens & Styling Guideli
 ### Community 7 - "Example 1: New Feature Request Workflow"
 Cohesion: 0.14
 Nodes (13): 1. User Prompt, 1. User Prompt, 2. Diagnosis Protocol (Zero file changes), 2. Phase 1 — Project Understanding (Zero file changes), 3. Approval Gate (Stop), 3. Phase 2 — Implementation Plan, 4. Approval Gate 1 (Stop), 5. Implementation Phase (Only after "Approved" or "Implement it") (+5 more)
-
-### Community 8 - "ProductDetailsPage.jsx"
-Cohesion: 0.18
-Nodes (10): BrandValues(), Newsletter(), ProductCard(), ProductCardSkeleton(), TrendingProducts(), artisanShowcaseCards, editorialHeroCards, getProductReviews() (+2 more)
 
 ### Community 9 - "vercel.json"
 Cohesion: 0.33
@@ -116,7 +111,7 @@ Nodes (3): Available Skills, Core Architectural Rules & Standards, Craftinator-v
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useLanguage()` connect `useLanguage` to `ProductDetailsPage.jsx`, `LanguageContext.jsx`, `ShopPage.jsx`?**
+- **Why does `useLanguage()` connect `useLanguage` to `LanguageContext.jsx`, `ShopPage.jsx`?**
   _High betweenness centrality (0.068) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _95 weakly-connected nodes found - possible documentation gaps or missing edges._
@@ -124,9 +119,9 @@ _Questions this graph is uniquely positioned to answer:_
   _Cohesion score 0.11336032388663968 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.07142857142857142 - nodes in this community are weakly interconnected._
+- **Should `ShopPage.jsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.1036036036036036 - nodes in this community are weakly interconnected._
 - **Should `Safe Feature Implementation Workflow` be split into smaller, more focused modules?**
   _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._
 - **Should `Design Tokens (`src/index.css`)` be split into smaller, more focused modules?**
   _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
-- **Should `Example 1: New Feature Request Workflow` be split into smaller, more focused modules?**
-  _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._

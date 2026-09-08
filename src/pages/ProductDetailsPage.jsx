@@ -1138,8 +1138,8 @@ export default function ProductDetailsPage({
       
 
       {/* 8. Brand Core Values (#F3EFEA) & 9. Community Newsletter (#FAF7F2) */}
-      <BrandValues />
-      <Newsletter />
+      {/* <BrandValues />
+       */}
 
       {/* Mobile Sticky Floating Purchase Bar */}
       <div className="product-mobile-sticky-bar">

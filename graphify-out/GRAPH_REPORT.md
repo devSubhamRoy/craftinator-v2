@@ -1,23 +1,23 @@
 # Graph Report - Craftinator-v2  (2026-09-08)
 
 ## Corpus Check
-- 64 files · ~78,358 words
+- 65 files · ~78,873 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 245 nodes · 412 edges · 17 communities (11 shown, 3 thin omitted)
+- 248 nodes · 417 edges · 17 communities (11 shown, 3 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `00f49346`
+- Built from commit: `a9ba2cf7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - useLanguage
 - package.json
-- LanguageContext.jsx
+- HomePage.jsx
 - ShopPage.jsx
 - Safe Feature Implementation Workflow
 - i18n-sync.js
@@ -60,20 +60,20 @@
 ## Communities (17 total, 3 thin omitted)
 
 ### Community 0 - "useLanguage"
-Cohesion: 0.11
-Nodes (21): App(), AppContent(), ArtisanModal(), AuthModal(), CartDrawer(), Footer(), Header(), Hero() (+13 more)
+Cohesion: 0.10
+Nodes (28): App(), AppContent(), ArtisanModal(), AuthModal(), CartDrawer(), Footer(), Header(), Hero() (+20 more)
 
 ### Community 1 - "package.json"
 Cohesion: 0.07
 Nodes (27): lucide-react, dependencies, lucide-react, react, react-dom, devDependencies, @types/react, @types/react-dom (+19 more)
 
-### Community 2 - "LanguageContext.jsx"
-Cohesion: 0.15
-Nodes (12): CommunitySection(), Hero(), PersonalizedDiscovery(), SellerCTA(), StoryBanner(), Testimonials(), communityPosts, testimonials (+4 more)
+### Community 2 - "HomePage.jsx"
+Cohesion: 0.18
+Nodes (8): CommunitySection(), Hero(), SellerCTA(), StoryBanner(), Testimonials(), communityPosts, testimonials, HomePage()
 
 ### Community 3 - "ShopPage.jsx"
 Cohesion: 0.10
-Nodes (19): ArtisanCardSkeleton(), ArtisanDiscoveryBanner(), BrandValues(), MeetMakers(), Newsletter(), ProductCard(), ProductCardSkeleton(), ShopByCategory() (+11 more)
+Nodes (18): ArtisanCardSkeleton(), ArtisanDiscoveryBanner(), BrandValues(), MeetMakers(), Newsletter(), PersonalizedDiscovery(), ProductCardSkeleton(), ShopByCategory() (+10 more)
 
 ### Community 4 - "Safe Feature Implementation Workflow"
 Cohesion: 0.06
@@ -104,23 +104,23 @@ Cohesion: 0.50
 Nodes (3): Available Skills, Core Architectural Rules & Standards, Craftinator-v2 Workspace Guidelines & Agent Instructions
 
 ## Knowledge Gaps
-- **95 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+90 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 105 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **96 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+91 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 106 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useLanguage()` connect `useLanguage` to `LanguageContext.jsx`, `ShopPage.jsx`?**
-  _High betweenness centrality (0.068) - this node is a cross-community bridge._
+- **Why does `useLanguage()` connect `useLanguage` to `HomePage.jsx`, `ShopPage.jsx`?**
+  _High betweenness centrality (0.071) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _95 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _96 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `useLanguage` be split into smaller, more focused modules?**
-  _Cohesion score 0.11336032388663968 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09568627450980392 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.07142857142857142 - nodes in this community are weakly interconnected._
 - **Should `ShopPage.jsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.1036036036036036 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10420168067226891 - nodes in this community are weakly interconnected._
 - **Should `Safe Feature Implementation Workflow` be split into smaller, more focused modules?**
   _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._
 - **Should `Design Tokens (`src/index.css`)` be split into smaller, more focused modules?**

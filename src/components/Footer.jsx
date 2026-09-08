@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ChevronDown, Instagram, Facebook, Youtube, Share2 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { getFooterSections } from '../data/footerData';
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -10,28 +11,9 @@ export default function Footer() {
     setOpenSection(openSection === key ? null : key);
   };
 
-  const footerSections = [
-    {
-      key: 'shop',
-      title: t('footer_craft_categories'),
-      links: [t('nav_explore'), t('nav_trending'), t('nav_categories')]
-    },
-    {
-      key: 'discover',
-      title: t('footer_quick_links'),
-      links: [t('nav_makers'), t('nav_community'), t('nav_story')]
-    },
-    {
-      key: 'sell',
-      title: 'CRAFTINATOR',
-      links: [t('seller_cta'), t('bv_1_title'), t('bv_2_title')]
-    },
-    {
-      key: 'help',
-      title: t('footer_customer_care'),
-      links: [t('footer_customer_care'), t('bv_3_title'), t('bv_4_title')]
-    }
-  ];
+  const footerSections = useMemo(() => {
+    return getFooterSections(t);
+  }, [t]);
 
   return (
     <footer className="footer-root">

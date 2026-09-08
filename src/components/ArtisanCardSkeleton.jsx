@@ -35,6 +35,7 @@ export default function ArtisanCardSkeleton() {
         <div className="skeleton-artisan-quote-group">
           <div className="skeleton-artisan-line skeleton-quote-l1" />
           <div className="skeleton-artisan-line skeleton-quote-l2" />
+          <div className="skeleton-artisan-line skeleton-quote-l3" />
         </div>
       </div>
     </div>
