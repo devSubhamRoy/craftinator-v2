@@ -6,8 +6,8 @@
 
 .scroll-to-top-btn {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
+  bottom: 38px;
+  right: 32px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -19,19 +19,20 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 8px 24px rgba(35, 24, 21, 0.35);
-  z-index: 995;
+  z-index: 1000;
   outline: none;
   touch-action: manipulation;
-  will-change: opacity, transform, visibility;
+  will-change: opacity, transform, visibility, bottom;
 
   /* Default Hidden State (in DOM for smooth transition) */
   opacity: 0;
   transform: translateY(14px) scale(0.9);
   pointer-events: none;
   visibility: hidden;
-  transition: opacity 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
-              transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
-              visibility 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+  transition: opacity 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+              visibility 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+              bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1),
               background-color 0.25s ease,
               box-shadow 0.25s ease;
 }
@@ -42,21 +43,12 @@
   transform: translateY(0) scale(1);
   pointer-events: auto;
   visibility: visible;
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1),
               background-color 0.25s ease,
               box-shadow 0.25s ease;
-}
-
-/* Ultra-smooth Fade-Out Transition over ~2 seconds (from 3s mark to 5s mark) */
-.scroll-to-top-btn.fading {
-  opacity: 0;
-  transform: translateY(10px) scale(0.92);
-  pointer-events: none;
-  visibility: visible;
-  transition: opacity 1.9s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 1.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scroll-to-top-btn:hover {
@@ -69,13 +61,19 @@
   transform: translateY(0) scale(0.95);
 }
 
-/* Responsive adjustment for Mobile (< 768px) */
-@media (max-width: 767px) {
+/* Responsive adjustment for Mobile & Tablet (< 900px) */
+@media (max-width: 900px) {
   .scroll-to-top-btn {
-    bottom: 22px;
-    right: 18px;
+    bottom: 34px;
+    right: 20px;
     width: 44px;
     height: 44px;
     box-shadow: 0 6px 20px rgba(35, 24, 21, 0.38);
+  }
+
+  /* Automatically elevate ScrollToTop button higher above mobile sticky purchase bar when visible */
+  body:has(.product-mobile-sticky-bar.is-visible) .scroll-to-top-btn,
+  body.has-sticky-bar-visible .scroll-to-top-btn {
+    bottom: 98px !important;
   }
 }

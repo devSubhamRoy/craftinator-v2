@@ -28,6 +28,50 @@ export default function ProductAccordion({
   // Show More toggle state for Showcase / Content expansion
   const [isShowMoreExpanded, setIsShowMoreExpanded] = useState(false);
 
+  // Showcase Subtab Image Slider & Touch Swipe State
+  const [currentShowcaseSlide, setCurrentShowcaseSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+
+  const showcaseImages = [
+    maker?.studioImage && {
+      src: maker.studioImage,
+      caption: `${maker.name} working inside the studio`
+    },
+    product?.image && {
+      src: product.image,
+      caption: `${product.name} — Studio details`
+    },
+    {
+      src: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=800&auto=format&fit=crop",
+      caption: "Authentic studio craftsmanship & hand finishing"
+    }
+  ].filter(Boolean);
+
+  const handleNextSlide = (e) => {
+    if (e) e.stopPropagation();
+    setCurrentShowcaseSlide((prev) => (prev + 1) % showcaseImages.length);
+  };
+
+  const handlePrevSlide = (e) => {
+    if (e) e.stopPropagation();
+    setCurrentShowcaseSlide((prev) => (prev - 1 + showcaseImages.length) % showcaseImages.length);
+  };
+
+  const handleSliderTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleSliderTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const diffX = e.changedTouches[0].clientX - touchStartX;
+    if (diffX < -30) {
+      handleNextSlide();
+    } else if (diffX > 30) {
+      handlePrevSlide();
+    }
+    setTouchStartX(null);
+  };
+
   // Reviews Slider Scroll Ref & Handler
   const reviewsTrackRef = useRef(null);
   const handleScrollReviews = (dir) => {
@@ -168,68 +212,131 @@ export default function ProductAccordion({
               {/* 1. Showcase Subtab */}
               {activeSubTab === 'showcase' && (
                 <div className="subtab-showcase-view">
-                  {/* Hero Showcase Banner */}
-                  <div className="showcase-banner-card">
-                    <div className="showcase-banner-overlay">
-                      <span className="showcase-badge">{product.category}</span>
-                      <h4 className="showcase-headline">
-                        {t('showcase_tagline', 'Future-crafted with Human Soul')}
-                      </h4>
-                      <p className="showcase-description">
-                        With traditional vision and precision craftsmanship, {product.artisan} shapes an enduring heritage piece for contemporary living spaces.
-                      </p>
-                    </div>
+                  {/* Left Column: Text Details (Scrollable Up-Down) */}
+                  <div className="showcase-text-col">
+                    <h3 className="showcase-grid-title">
+                      {t('showcase_headline', 'Shaped with Human Soul & Heritage')}
+                    </h3>
 
-                    {maker?.studioImage ? (
-                      <img
-                        src={maker.studioImage}
-                        alt={`${maker.name} studio showcase`}
-                        className="showcase-bg-image"
-                      />
-                    ) : (
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="showcase-bg-image"
-                      />
-                    )}
+                    <div className="showcase-text-scrollable">
+                      {/* Desktop Full Description */}
+                      <p className="showcase-paragraph showcase-desktop-desc">
+                        {product.description}
+                      </p>
+
+                      {/* Mobile/Tablet Description (Truncated to 110 chars when collapsed) */}
+                      <p className="showcase-paragraph showcase-mobile-desc">
+                        {!isShowMoreExpanded ? (
+                          <>
+                            <span>
+                              {product.description.length > 110
+                                ? `${product.description.slice(0, 110)}... `
+                                : product.description}
+                            </span>
+                            {product.description.length > 110 && (
+                              <button
+                                type="button"
+                                className="inline-more-btn"
+                                onClick={() => setIsShowMoreExpanded(true)}
+                              >
+                                More
+                              </button>
+                            )}
+                          </>
+                        ) : (
+                          <span>{product.description}</span>
+                        )}
+                      </p>
+
+                      {/* Smooth expandable container for remaining story details, quote & Show Less button */}
+                      <div className={`showcase-expandable-content ${isShowMoreExpanded ? 'is-expanded' : 'is-collapsed'}`}>
+                        <div className="showcase-expandable-inner">
+                          <p className="showcase-paragraph">
+                            {t('craft_narrative_p2', 'Each creation is individually shaped in independent artisan studios. Because natural materials respond uniquely to heat and touch, minor textural variances are celebrated as the hallmark of authentic handcrafted art.')}
+                          </p>
+                          {maker?.bio && (
+                            <p className="showcase-paragraph">
+                              {maker.bio}
+                            </p>
+                          )}
+
+                          <div className="showcase-quote-accent">
+                            <strong>{maker?.name || product.artisan}: </strong>
+                            <em>"{maker?.quote || maker?.bio || 'Specializing in recycled sterling silver and botanical impression metalsmithing. Collaborates directly with tribal silversmiths to preserve endangered casting techniques.'}"</em>
+                          </div>
+
+                          {/* Show Less button aligned to the right */}
+                          <div className="showcase-less-wrapper">
+                            <button
+                              type="button"
+                              className="btn-show-less-inline"
+                              onClick={() => setIsShowMoreExpanded(false)}
+                            >
+                              <span>{t('show_less', 'Show Less')}</span>
+                              <ChevronUp size={14} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Text Details & Expandable Story */}
-                  <div className="showcase-story-block">
-                    <p className="showcase-story-paragraph">
-                      {product.description}
-                    </p>
+                  {/* Right Column: Image Showcase Card with Slider (Left-Right Swipe) */}
+                  <div className="showcase-media-col">
+                    <div className="showcase-slider-card">
+                      <div
+                        className="showcase-slider-frame"
+                        onTouchStart={handleSliderTouchStart}
+                        onTouchEnd={handleSliderTouchEnd}
+                      >
+                        <img
+                          src={showcaseImages[currentShowcaseSlide]?.src || product.image}
+                          alt={showcaseImages[currentShowcaseSlide]?.caption || product.name}
+                          className="showcase-slider-img img-cover"
+                        />
 
-                    {isShowMoreExpanded && (
-                      <div className="expanded-story-details">
-                        <p>
-                          {t('craft_narrative_p2', 'Each creation is individually shaped in independent artisan studios. Because natural materials respond uniquely to heat and touch, minor textural variances are celebrated as the hallmark of authentic handcrafted art.')}
-                        </p>
-                        {maker?.bio && (
-                          <blockquote className="showcase-quote">
-                            "{maker.bio}" — <strong>{maker.name}</strong>
-                          </blockquote>
+                        {showcaseImages.length > 1 && (
+                          <>
+                            <button
+                              type="button"
+                              className="showcase-slide-arrow arrow-left"
+                              onClick={handlePrevSlide}
+                              aria-label="Previous image"
+                            >
+                              <ChevronLeft size={16} />
+                            </button>
+                            <button
+                              type="button"
+                              className="showcase-slide-arrow arrow-right"
+                              onClick={handleNextSlide}
+                              aria-label="Next image"
+                            >
+                              <ChevronRight size={16} />
+                            </button>
+
+                            <div className="showcase-slide-dots">
+                              {showcaseImages.map((_, idx) => (
+                                <span
+                                  key={idx}
+                                  className={`dot ${idx === currentShowcaseSlide ? 'active' : ''}`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setCurrentShowcaseSlide(idx);
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          </>
                         )}
                       </div>
-                    )}
-                  </div>
 
-                  {/* Show More / Show Less Toggle Button */}
-                  <button
-                    type="button"
-                    className="btn-show-more-toggle"
-                    onClick={() => setIsShowMoreExpanded((prev) => !prev)}
-                  >
-                    <span>{isShowMoreExpanded ? t('show_less', 'Show Less') : t('show_more', 'Show More')}</span>
-                    <ChevronRight
-                      size={16}
-                      style={{
-                        transform: isShowMoreExpanded ? 'rotate(-90deg)' : 'rotate(90deg)',
-                        transition: 'transform 0.2s ease'
-                      }}
-                    />
-                  </button>
+                      <div className="showcase-card-caption">
+                        <span>
+                          {showcaseImages[currentShowcaseSlide]?.caption || `${maker?.name || product.artisan} working inside the studio`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 

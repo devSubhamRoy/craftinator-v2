@@ -356,7 +356,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -600,7 +602,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -844,7 +848,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "es": {
     "nav_explore": "Explorar",
@@ -1088,7 +1094,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -1332,7 +1340,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -1576,7 +1586,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -1820,7 +1832,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -2064,7 +2078,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "ja": {
     "nav_explore": "探す",
@@ -2308,7 +2324,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "ko": {
     "nav_explore": "탐색",
@@ -2552,7 +2570,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -2796,7 +2816,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -3040,7 +3062,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "it": {
     "nav_explore": "Esplora",
@@ -3284,7 +3308,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -3532,7 +3558,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -3780,7 +3808,9 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -4034,6 +4064,8 @@ export const translations = {
     "spec_city": "Studio Location",
     "spec_materials": "Natural Mediums",
     "spec_dimensions": "Dimensions",
-    "spec_stock": "Studio Stock"
+    "spec_stock": "Studio Stock",
+    "showcase_headline": "Shaped with Human Soul & Heritage",
+    "load_more": "Load More"
   }
 };
