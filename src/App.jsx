@@ -24,16 +24,19 @@ import './styles/LoadingScreen.css';
 import './styles/ProductDetailsPage.css';
 import './styles/ProductAccordion.css';
 
-/* Global Components */
-import Header from './components/Header';
-import MobileDrawer from './components/MobileDrawer';
-import Footer from './components/Footer';
-import ToastNotification from './components/ToastNotification';
-import ProductModal from './components/ProductModal';
-import ArtisanModal from './components/ArtisanModal';
-import AuthModal from './components/AuthModal';
-import ScrollToTop from './components/ScrollToTop';
-import LoadingScreen from './components/LoadingScreen';
+import {
+  Header,
+  MobileDrawer,
+  Footer,
+  ToastNotification,
+  ProductModal,
+  ArtisanModal,
+  AuthModal,
+  ScrollToTop,
+  LoadingScreen,
+  CartDrawer,
+  WishlistDrawer
+} from './components';
 
 /* Pages */
 import HomePage from './pages/HomePage';
