@@ -5,18 +5,19 @@ import { SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, Search, X, A
 import { useLanguage } from '../i18n/LanguageContext';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
-/* Shop Page Specific Components */
-import ShopHero from '../components/ShopHero';
-import BrandValues from '../components/BrandValues';
-import ShopByCategory from '../components/ShopByCategory';
-import ProductCard from '../components/ProductCard';
-import ProductCardSkeleton from '../components/ProductCardSkeleton';
-import ArtisanDiscoveryBanner from '../components/ArtisanDiscoveryBanner';
-import MeetMakers from '../components/MeetMakers';
-import ShopByMaterial from '../components/ShopByMaterial';
-import PersonalizedDiscovery from '../components/PersonalizedDiscovery';
-import SellerCTA from '../components/SellerCTA';
-import Newsletter from '../components/Newsletter';
+import {
+  ShopHero,
+  BrandValues,
+  ShopByCategory,
+  ProductCard,
+  ProductCardSkeleton,
+  ArtisanDiscoveryBanner,
+  MeetMakers,
+  ShopByMaterial,
+  PersonalizedDiscovery,
+  SellerCTA,
+  Newsletter
+} from '../components';
 
 export default function ShopPage({
   wishlist,

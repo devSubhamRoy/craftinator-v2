@@ -32,14 +32,14 @@ import {
 } from "../data/editorialHeroes";
 import { getProductReviews } from "../data/reviews";
 import { useLanguage } from "../i18n/LanguageContext";
-import MeetMakers from "../components/MeetMakers";
-import ProductAccordion from "../components/ProductAccordion";
-
-/* Reusable Components for Consistency */
-import ProductCard from "../components/ProductCard";
-import ProductCardSkeleton from "../components/ProductCardSkeleton";
-import BrandValues from "../components/BrandValues";
-import Newsletter from "../components/Newsletter";
+import {
+  MeetMakers,
+  ProductAccordion,
+  ProductCard,
+  ProductCardSkeleton,
+  BrandValues,
+  Newsletter
+} from "../components";
 
 export default function ProductDetailsPage({
   productId,

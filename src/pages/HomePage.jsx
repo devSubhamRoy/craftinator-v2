@@ -1,18 +1,19 @@
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 
-/* Global Section Components */
-import Hero from '../components/Hero';
-import BrandValues from '../components/BrandValues';
-import ShopByCategory from '../components/ShopByCategory';
-import TrendingProducts from '../components/TrendingProducts';
-import MeetMakers from '../components/MeetMakers';
-import CommunitySection from '../components/CommunitySection';
-import StoryBanner from '../components/StoryBanner';
-import PersonalizedDiscovery from '../components/PersonalizedDiscovery';
-import SellerCTA from '../components/SellerCTA';
-import Testimonials from '../components/Testimonials';
-import Newsletter from '../components/Newsletter';
+import {
+  Hero,
+  BrandValues,
+  ShopByCategory,
+  TrendingProducts,
+  MeetMakers,
+  CommunitySection,
+  StoryBanner,
+  PersonalizedDiscovery,
+  SellerCTA,
+  Testimonials,
+  Newsletter
+} from '../components';
 
 /* Datasets */
 import { artisans } from '../data/artisans';
