@@ -1,7 +1,7 @@
 # Graph Report - Craftinator-v2  (2026-09-09)
 
 ## Corpus Check
-- 99 files · ~81,605 words
+- 99 files · ~82,117 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `94c8661d`
+- Built from commit: `06d1846b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

@@ -469,13 +469,14 @@
 .product-accordion-section {
     background-color: #F3EFEA;
     border-top: 1px solid var(--border-warm);
-    padding: 4rem 0;
+    padding: 0 0 4rem 0;
     width: 100%;
     margin-bottom: 0;
 }
 
 .product-tabs-section {
-    padding-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 4rem;
 }
 
 .product-accordion-nav {
@@ -1609,9 +1610,13 @@
   }
 
   /* Accordion on Mobile */
-  .product-tabs-section,
   .product-accordion-section {
     padding-top: 2.75rem;
+    padding-bottom: 3.25rem;
+  }
+
+  .product-tabs-section {
+    padding-top: 0;
     padding-bottom: 3.25rem;
   }
 
@@ -1796,13 +1801,13 @@
 }
 
 /* ------------------------------------------------------------
-   Mobile Floating Bottom Sticky Purchase Bar
+   Mobile & Tablet Floating Bottom Sticky Purchase Bar
    ------------------------------------------------------------ */
 .product-mobile-sticky-bar {
   display: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .product-mobile-sticky-bar {
     display: flex;
     align-items: center;
@@ -1818,16 +1823,23 @@
     padding: 0.65rem 1.1rem;
     box-shadow: 0 -4px 18px rgba(35, 24, 21, 0.08);
     gap: 0.85rem;
-    animation: stickySlideUp 0.3s ease;
+    transform: translateY(0);
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+    will-change: transform;
+    opacity: 1;
+    pointer-events: auto;
   }
 
-  @keyframes stickySlideUp {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
+  .product-mobile-sticky-bar.is-hidden {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .product-mobile-sticky-bar.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .sticky-bar-left {

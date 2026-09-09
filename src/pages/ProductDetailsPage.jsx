@@ -89,6 +89,86 @@ export default function ProductDetailsPage({
   const [isTrendingLoadingMore, setIsTrendingLoadingMore] = useState(false);
   const trendingTrackRef = useRef(null);
 
+  // Mobile & Tablet Floating Purchase Bar Scroll Visibility State
+  const [isStickyBarVisible, setIsStickyBarVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
+  const hasScrolledManuallyRef = useRef(false);
+
+  useEffect(() => {
+    // Initial State: 100% SHOW BAR on page load / refresh
+    setIsStickyBarVisible(true);
+    hasScrolledManuallyRef.current = false;
+    lastScrollYRef.current = window.scrollY || document.documentElement.scrollTop || 0;
+
+    // Listen ONLY for genuine manual user gestures (touchmove or wheel)
+    const handleManualGesture = () => {
+      if (!hasScrolledManuallyRef.current) {
+        hasScrolledManuallyRef.current = true;
+        lastScrollYRef.current = window.scrollY || document.documentElement.scrollTop || 0;
+      }
+    };
+
+    window.addEventListener("touchmove", handleManualGesture, { passive: true });
+    window.addEventListener("wheel", handleManualGesture, { passive: true });
+
+    let ticking = false;
+    const scrollThreshold = 12;
+
+    const handleScroll = () => {
+      // DO NOT HIDE on page refresh / load if user hasn't manually touched/scrolled yet
+      if (!hasScrolledManuallyRef.current) {
+        setIsStickyBarVisible(true);
+        lastScrollYRef.current = window.scrollY || document.documentElement.scrollTop || 0;
+        return;
+      }
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+          const lastScrollY = lastScrollYRef.current;
+          const diff = currentScrollY - lastScrollY;
+
+          // 1. Near top of page (scrollY <= 50px): Always SHOW BAR
+          if (currentScrollY <= 50) {
+            setIsStickyBarVisible(true);
+          }
+          // 2. Manual Downward scroll (> 12px): HIDE BAR (slide down)
+          else if (diff > scrollThreshold) {
+            setIsStickyBarVisible(false);
+          }
+          // 3. Manual Upward scroll (< -12px): SHOW BAR (slide up)
+          else if (diff < -scrollThreshold) {
+            setIsStickyBarVisible(true);
+          }
+
+          lastScrollYRef.current = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("touchmove", handleManualGesture);
+      window.removeEventListener("wheel", handleManualGesture);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [productId]);
+
+  // Sync body class for ScrollToTop button elevation when sticky bar is visible on mobile/tablet
+  useEffect(() => {
+    if (isStickyBarVisible) {
+      document.body.classList.add("has-sticky-bar-visible");
+    } else {
+      document.body.classList.remove("has-sticky-bar-visible");
+    }
+    return () => {
+      document.body.classList.remove("has-sticky-bar-visible");
+    };
+  }, [isStickyBarVisible]);
+
   // Reset when viewing a different product
   useEffect(() => {
     if (product) {
@@ -101,6 +181,7 @@ export default function ProductDetailsPage({
       setTrendingTab("All Related");
       setVisibleTrendingCount(12);
       setIsTrendingLoadingMore(false);
+      setIsStickyBarVisible(true);
       if (trendingTrackRef.current) {
         trendingTrackRef.current.scrollTo({ left: 0, behavior: "instant" });
       }
@@ -1166,7 +1247,7 @@ export default function ProductDetailsPage({
        */}
 
       {/* Mobile Sticky Floating Purchase Bar */}
-      <div className="product-mobile-sticky-bar">
+      <div className={`product-mobile-sticky-bar ${isStickyBarVisible ? 'is-visible' : 'is-hidden'}`}>
         <div className="sticky-bar-left">
           <img
             src={product.image}
