@@ -25,7 +25,8 @@ export default function ShopPage({
   onOpenProductModal,
   onAddToCart,
   onOpenArtisanModal,
-  onNavigateHome
+  onNavigateHome,
+  initialSearchQuery = ''
 }) {
   const { t } = useLanguage();
 
@@ -34,8 +35,21 @@ export default function ShopPage({
   const [selectedMaterial, setSelectedMaterial] = useState('All');
   const [selectedStyle, setSelectedStyle] = useState('All');
   const [sortBy, setSortBy] = useState('recommended');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (initialSearchQuery) return initialSearchQuery;
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('q') || params.get('search') || '';
+    }
+    return '';
+  });
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    if (initialSearchQuery) {
+      setSearchQuery(initialSearchQuery);
+    }
+  }, [initialSearchQuery]);
 
   /* Trending Section Infinite Horizontal Row State */
   const [trendingTab, setTrendingTab] = useState('All');

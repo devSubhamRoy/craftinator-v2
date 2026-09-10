@@ -20,6 +20,7 @@ import './styles/Footer.css';
 import './styles/LanguageSelector.css';
 import './styles/ShopPage.css';
 import './styles/Modals.css';
+import './styles/SearchModal.css';
 import './styles/LoadingScreen.css';
 import './styles/ProductDetailsPage.css';
 import './styles/ProductAccordion.css';
@@ -35,7 +36,8 @@ import {
   ScrollToTop,
   LoadingScreen,
   CartDrawer,
-  WishlistDrawer
+  WishlistDrawer,
+  SearchModal
 } from './components';
 
 /* Pages */
@@ -141,6 +143,8 @@ function AppContent() {
 
   /* Modals Control State */
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [shopSearchQuery, setShopSearchQuery] = useState('');
   const [selectedProductModal, setSelectedProductModal] = useState(null);
   const [selectedArtisanModal, setSelectedArtisanModal] = useState(null);
   const [authModalMode, setAuthModalMode] = useState(null); // 'login' | 'signup' | null
@@ -214,7 +218,7 @@ function AppContent() {
         onOpenWishlist={() => showToast(`Wishlist contains ${wishlist.length} items`)}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
         onOpenAuth={(mode) => setAuthModalMode(mode)}
-        onOpenSearch={() => showToast(t('search_placeholder'))}
+        onOpenSearch={() => setIsSearchOpen(true)}
       />
 
       {/* 2. Main Page View Architecture */}
@@ -234,6 +238,7 @@ function AppContent() {
           /* Dedicated Independent Shop Page (/shop) */
           <ShopPage
             wishlist={wishlist}
+            initialSearchQuery={shopSearchQuery}
             onToggleWishlist={handleToggleWishlist}
             onOpenProductModal={handleProductClick}
             onAddToCart={handleAddToCart}
@@ -295,6 +300,25 @@ function AppContent() {
           onSuccess={(msg) => showToast(msg)}
         />
       )}
+
+      {/* Real-time Search & Suggestions Overlay */}
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onSelectProduct={(product) => {
+          setIsSearchOpen(false);
+          handleProductClick(product);
+        }}
+        onSelectArtisan={(artisan) => {
+          setIsSearchOpen(false);
+          setSelectedArtisanModal(artisan);
+        }}
+        onNavigateToShop={(searchQuery) => {
+          setIsSearchOpen(false);
+          setShopSearchQuery(searchQuery);
+          handleNavigate('/shop');
+        }}
+      />
 
       {/* Global Toast Notifications */}
       <ToastNotification

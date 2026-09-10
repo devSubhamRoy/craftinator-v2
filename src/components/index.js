@@ -27,6 +27,7 @@ export { default as ProductModal } from './overlays/ProductModal';
 export { default as ArtisanModal } from './overlays/ArtisanModal';
 export { default as AuthModal } from './overlays/AuthModal';
 export { default as StoryModal } from './overlays/StoryModal';
+export { default as SearchModal } from './overlays/SearchModal';
 
 // High-level Configurable Page Sections
 export { default as Hero } from './sections/Hero';
@@ -43,4 +44,5 @@ export { default as PersonalizedDiscovery } from './sections/PersonalizedDiscove
 export { default as SellerCTA } from './sections/SellerCTA';
 export { default as Testimonials } from './sections/Testimonials';
 export { default as CuratedCollections } from './sections/CuratedCollections';
+
 export { default as Newsletter } from './sections/Newsletter';
