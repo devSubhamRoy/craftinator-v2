@@ -18,18 +18,18 @@ export default function MobileDrawer({ isOpen, onClose, onOpenAuth, onNavigate }
   if (!isOpen) return null;
 
   const menuItems = [
-    { label: t('nav_home'), path: '/', tag: 'Main' },
-    { label: t('nav_shop'), path: '/shop', tag: 'Handmade' },
-    { label: t('nav_makers'), path: '/#meet-makers', anchor: 'meet-makers', tag: 'Artisans' },
-    { label: t('nav_community'), path: '/#community-section', anchor: 'community-section', tag: 'Community' },
-    { label: t('nav_story'), path: '/#story-banner', anchor: 'story-banner', tag: 'Craft' }
+    { label: t('nav_home', 'Home'), path: '/', tag: 'Main' },
+    { label: t('nav_shop', 'Shop'), path: '/shop', tag: 'Handmade' },
+    { label: t('nav_makers', 'Meet the Makers'), path: '/makers', tag: 'Artisans' },
+    { label: t('nav_community', 'Community'), path: '/#community-section', anchor: 'community-section', tag: 'Community' },
+    { label: t('nav_story', 'Heritage Stories'), path: '/#story-banner', anchor: 'story-banner', tag: 'Craft' }
   ];
 
   const handleItemClick = (e, item) => {
     e.preventDefault();
     onClose();
-    if (item.path === '/shop') {
-      onNavigate && onNavigate('/shop');
+    if (item.path === '/shop' || item.path === '/makers') {
+      onNavigate && onNavigate(item.path);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (item.path === '/') {
       onNavigate && onNavigate('/');

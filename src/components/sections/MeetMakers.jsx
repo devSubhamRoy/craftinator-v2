@@ -4,7 +4,7 @@ import { MapPin, ArrowRight, ChevronRight, ChevronLeft, UserPlus, Check } from '
 import { useLanguage } from '../../i18n/LanguageContext';
 import ArtisanCardSkeleton from '../ui/ArtisanCardSkeleton';
 
-export default function MeetMakers({ onOpenArtisanModal }) {
+export default function MeetMakers({ onOpenArtisanModal, onNavigate }) {
   const { t } = useLanguage();
   const sliderRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -147,9 +147,9 @@ export default function MeetMakers({ onOpenArtisanModal }) {
         <div className="makers-bottom-cta text-center">
           <button
             className="btn btn-primary btn-more-artisans"
-            onClick={() => onOpenArtisanModal && onOpenArtisanModal(artisans[0])}
+            onClick={() => onNavigate ? onNavigate('/makers') : onOpenArtisanModal && onOpenArtisanModal(artisans[0])}
           >
-            <span>{t('makers_title')}</span>
+            <span>{t('view_all_makers', 'Explore All Master Artisans')}</span>
             <ArrowRight size={18} />
           </button>
         </div>

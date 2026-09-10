@@ -24,6 +24,7 @@ import './styles/SearchModal.css';
 import './styles/LoadingScreen.css';
 import './styles/ProductDetailsPage.css';
 import './styles/ProductAccordion.css';
+import './styles/MeetMakersPage.css';
 
 import {
   Header,
@@ -44,6 +45,7 @@ import {
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
+import MeetMakersPage from './pages/MeetMakersPage';
 
 /* Datasets */
 import { products } from './data/products';
@@ -58,6 +60,7 @@ function AppContent() {
     const search = window.location.search;
     if (path.startsWith('/product')) return path + search;
     if (path === '/shop') return '/shop';
+    if (path === '/makers' || path === '/meet-makers') return '/makers';
     if (path === '/home') return '/home';
     return '/';
   });
@@ -90,6 +93,8 @@ function AppContent() {
         nextPath = pathname + search;
       } else if (pathname === '/shop') {
         nextPath = '/shop';
+      } else if (pathname === '/makers' || pathname === '/meet-makers') {
+        nextPath = '/makers';
       } else if (pathname === '/home') {
         nextPath = '/home';
       }
@@ -245,6 +250,14 @@ function AppContent() {
             onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
             onNavigateHome={() => handleNavigate('/')}
             onNavigate={handleNavigate}
+          />
+        ) : (currentPath === '/makers' || currentPath === '/meet-makers') ? (
+          /* Dedicated Independent Meet the Makers Page (/makers) */
+          <MeetMakersPage
+            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenProductModal={handleProductClick}
+            onNavigate={handleNavigate}
+            showToast={showToast}
           />
         ) : (
           /* Dedicated Homepage (/ and /home) */
