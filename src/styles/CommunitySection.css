@@ -1,6 +1,6 @@
 /* Community Section Component Styles */
 .community-section {
-  padding: 4.5rem 0;
+  padding: 4rem 0 4.25rem;
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-warm);
   overflow: hidden; /* Prevents 3D card stack horizontal overflow on all devices */
@@ -104,7 +104,7 @@
 .community-deck-container {
   position: relative;
   width: 100%;
-  height: 460px;
+  height: 485px;
   perspective: 1000px;
   cursor: grab;
   user-select: none;
@@ -124,7 +124,7 @@
   background-color: var(--bg-card);
   border-radius: var(--radius-xl);
   border: 1px solid var(--border-warm);
-  padding: 1.25rem;
+  padding: 1.15rem;
   box-shadow: 0 10px 28px rgba(35, 24, 21, 0.1), 0 2px 6px rgba(35, 24, 21, 0.04);
   transform-origin: center bottom;
   box-sizing: border-box;
@@ -240,14 +240,20 @@
 
 /* Post Content & Media */
 .post-body {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .post-text {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   color: var(--text-primary);
-  line-height: 1.45;
-  margin-bottom: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 2.8em;
 }
 
 .post-media {
@@ -287,7 +293,7 @@
   display: flex;
   align-items: center;
   gap: 1.1rem;
-  padding-top: 0.75rem;
+  padding-top: 0.65rem;
   border-top: 1px solid var(--border-light);
 }
 
@@ -359,28 +365,28 @@
 @media (max-width: 1024px) {
   .community-container {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2.2rem;
   }
   .community-deck-wrapper {
     max-width: 400px;
   }
   .community-deck-container {
-    height: 440px;
+    height: 475px;
   }
 }
 
 @media (max-width: 640px) {
   .community-section {
-    padding: 3rem 0;
+    padding: 2.75rem 0 3rem;
   }
   .community-deck-wrapper {
     max-width: 320px;
   }
   .community-deck-container {
-    height: 410px;
+    height: 440px;
   }
   .community-stacked-card {
-    padding: 1rem;
+    padding: 0.95rem;
   }
   .post-media {
     aspect-ratio: 16 / 10;
@@ -402,10 +408,10 @@
     max-width: 290px;
   }
   .community-deck-container {
-    height: 395px;
+    height: 415px;
   }
   .post-text {
-    font-size: 0.84rem;
+    font-size: 0.82rem;
   }
   .post-author-info strong {
     font-size: 0.8rem;
