@@ -62,6 +62,7 @@ export default function HomePage({
       {/* 5. Meet the Makers / Artisan Grid */}
       <MeetMakers
         onOpenArtisanModal={onOpenArtisanModal}
+        onNavigate={onNavigate}
       />
 
       {/* 6. Maker Community Interactive Feed */}

@@ -26,17 +26,17 @@ export default function Header({
   }, []);
 
   const navItems = [
-    { id: 'home', label: t('nav_home'), path: '/' },
-    { id: 'shop', label: t('nav_shop'), path: '/shop' },
-    { id: 'artisans', label: t('nav_makers'), path: '/#meet-makers', anchor: 'meet-makers' },
-    { id: 'community', label: t('nav_community'), path: '/#community-section', anchor: 'community-section' },
-    { id: 'stories', label: t('nav_story'), path: '/#story-banner', anchor: 'story-banner' }
+    { id: 'home', label: t('nav_home', 'Home'), path: '/' },
+    { id: 'shop', label: t('nav_shop', 'Shop'), path: '/shop' },
+    { id: 'makers', label: t('nav_makers', 'Meet the Makers'), path: '/makers' },
+    { id: 'community', label: t('nav_community', 'Community'), path: '/#community-section', anchor: 'community-section' },
+    { id: 'stories', label: t('nav_story', 'Heritage Stories'), path: '/#story-banner', anchor: 'story-banner' }
   ];
 
   const handleNavClick = (e, item) => {
     e.preventDefault();
-    if (item.path === '/shop') {
-      onNavigate && onNavigate('/shop');
+    if (item.path === '/shop' || item.path === '/makers') {
+      onNavigate && onNavigate(item.path);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (item.path === '/') {
       onNavigate && onNavigate('/');
@@ -51,6 +51,7 @@ export default function Header({
   };
 
   const isShopActive = currentPath === '/shop';
+  const isMakersActive = currentPath === '/makers' || currentPath === '/meet-makers';
   const isHomeActive = currentPath === '/' || currentPath === '/home';
 
   return (
@@ -84,7 +85,9 @@ export default function Header({
         <nav className="header-nav-desktop" aria-label="Main Navigation">
           <ul className="header-nav-list">
             {navItems.map((item) => {
-              const isActive = item.id === 'shop' ? isShopActive : (item.id === 'home' && isHomeActive);
+              const isActive = item.id === 'shop'
+                ? isShopActive
+                : (item.id === 'makers' ? isMakersActive : (item.id === 'home' && isHomeActive));
 
               return (
                 <li key={item.id}>
