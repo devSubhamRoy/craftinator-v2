@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
 
 /* Styles */
@@ -25,6 +25,7 @@ import './styles/LoadingScreen.css';
 import './styles/ProductDetailsPage.css';
 import './styles/ProductAccordion.css';
 import './styles/MeetMakersPage.css';
+import './styles/CommunityPage.css';
 
 import {
   Header,
@@ -46,6 +47,7 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import MeetMakersPage from './pages/MeetMakersPage';
+import CommunityPage from './pages/CommunityPage';
 
 /* Datasets */
 import { products } from './data/products';
@@ -61,6 +63,7 @@ function AppContent() {
     if (path.startsWith('/product')) return path + search;
     if (path === '/shop') return '/shop';
     if (path === '/makers' || path === '/meet-makers') return '/makers';
+    if (path === '/community') return '/community';
     if (path === '/home') return '/home';
     return '/';
   });
@@ -68,6 +71,31 @@ function AppContent() {
   /* App & Route Loading State */
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [loadingKey, setLoadingKey] = useState(0);
+
+  /* Scroll Restoration and Position Registry */
+  const scrollPositionsRef = useRef({});
+  const isPopStateNav = useRef(false);
+  const pendingScrollY = useRef(null);
+
+  // Enable manual browser scroll restoration so we control exact coordinates
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
+  // Continuously record active page scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!isPopStateNav.current) {
+        const currentY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+        scrollPositionsRef.current[currentPath] = currentY;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [currentPath]);
 
   /* Extract Product ID if on /product route */
   const currentProductId = useMemo(() => {
@@ -84,8 +112,9 @@ function AppContent() {
     return products[0]?.id || null;
   }, [currentPath]);
 
+  /* Browser Back / Forward (popstate) Handler */
   useEffect(() => {
-    const handlePopState = () => {
+    const handlePopState = (event) => {
       const pathname = window.location.pathname;
       const search = window.location.search;
       let nextPath = '/';
@@ -95,27 +124,58 @@ function AppContent() {
         nextPath = '/shop';
       } else if (pathname === '/makers' || pathname === '/meet-makers') {
         nextPath = '/makers';
+      } else if (pathname === '/community') {
+        nextPath = '/community';
       } else if (pathname === '/home') {
         nextPath = '/home';
       }
 
-      const normalize = (p) => (p === '/home' || p === '') ? '/' : p;
-      if (normalize(nextPath) !== normalize(currentPath)) {
-        setLoadingKey((prev) => prev + 1);
-        setIsAppLoading(true);
+      // Mark this navigation as Back / Forward (PopState)
+      isPopStateNav.current = true;
+
+      // Retrieve saved scroll position
+      let targetY = 0;
+      if (event && event.state && typeof event.state.scrollY === 'number') {
+        targetY = event.state.scrollY;
+      } else if (typeof scrollPositionsRef.current[nextPath] === 'number') {
+        targetY = scrollPositionsRef.current[nextPath];
+      } else {
+        try {
+          const cached = sessionStorage.getItem('craft_scroll_' + nextPath);
+          if (cached) targetY = parseInt(cached, 10) || 0;
+        } catch (e) {}
       }
+      pendingScrollY.current = targetY;
+
       setCurrentPath(nextPath);
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     };
+
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [currentPath]);
+  }, []);
 
-  /* Always scroll to top whenever the page/route redirects */
+  /* Scroll Positioning Effect on Route Changes */
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    if (isPopStateNav.current) {
+      // BROWSER BACK: Restore previous exact scroll position
+      const targetY = pendingScrollY.current ?? (scrollPositionsRef.current[currentPath] || 0);
+
+      // Multi-pass execution ensures DOM layout calculations are completed
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: targetY, left: 0, behavior: 'instant' });
+        setTimeout(() => {
+          window.scrollTo({ top: targetY, left: 0, behavior: 'instant' });
+          isPopStateNav.current = false;
+          pendingScrollY.current = null;
+        }, 50);
+      });
+    } else {
+      // FORWARD NAVIGATION / PAGE REDIRECT / REFRESH: Always start at TOP (0)
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
   }, [currentPath]);
 
+  /* Forward Navigation Handler (Option click, Product Card click, Link click) */
   const handleNavigate = (path) => {
     const normalize = (p) => (p === '/home' || p === '') ? '/' : p;
     if (normalize(path) === normalize(currentPath)) {
@@ -123,12 +183,26 @@ function AppContent() {
       return;
     }
 
-    // Trigger loading screen during redirect between /home and /shop
+    // 1. Save scroll position of current page before leaving
+    const currentScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    scrollPositionsRef.current[currentPath] = currentScrollY;
+    try {
+      sessionStorage.setItem('craft_scroll_' + currentPath, String(currentScrollY));
+      window.history.replaceState({ path: currentPath, scrollY: currentScrollY }, '');
+    } catch (e) {}
+
+    // 2. Mark this navigation as forward (New Page -> Always Top)
+    isPopStateNav.current = false;
+    pendingScrollY.current = 0;
+
+    // 3. Trigger transition loading
     setLoadingKey((prev) => prev + 1);
     setIsAppLoading(true);
+
+    // 4. Update route & history
     setCurrentPath(path);
     if (typeof window !== 'undefined') {
-      window.history.pushState({}, '', path);
+      window.history.pushState({ path, scrollY: 0 }, '', path);
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
   };
@@ -192,7 +266,7 @@ function AppContent() {
     }
   };
 
-  /* Product Navigation Handler - Direct to Product Details Page */
+  /* Product Navigation Handler - Direct to Product Details Page (Opens at TOP) */
   const handleProductClick = (product) => {
     if (!product) return;
     const prodId = typeof product === 'string' ? product : product.id;
@@ -208,8 +282,13 @@ function AppContent() {
       {isAppLoading && (
         <LoadingScreen
           key={`app-loading-${loadingKey}`}
-          minDuration={loadingKey === 0 ? 1100 : 750}
-          onComplete={() => setIsAppLoading(false)}
+          minDuration={loadingKey === 0 ? 1000 : 650}
+          onComplete={() => {
+            setIsAppLoading(false);
+            if (!isPopStateNav.current) {
+              window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            }
+          }}
         />
       )}
       
@@ -259,6 +338,14 @@ function AppContent() {
             onNavigate={handleNavigate}
             showToast={showToast}
           />
+        ) : currentPath === '/community' ? (
+          /* Dedicated Independent Community Social Feed Page (/community) */
+          <CommunityPage
+            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenProductModal={handleProductClick}
+            onNavigate={handleNavigate}
+            showToast={showToast}
+          />
         ) : (
           /* Dedicated Homepage (/ and /home) */
           <HomePage
@@ -273,8 +360,8 @@ function AppContent() {
         )}
       </main>
 
-      {/* 3. Reusable Global Footer */}
-      <Footer />
+      {/* 3. Reusable Global Footer (Hidden on /community for full social media app experience) */}
+      {currentPath !== '/community' && <Footer />}
 
       {/* Mobile Navigation Drawer */}
       <MobileDrawer
@@ -310,22 +397,18 @@ function AppContent() {
         <AuthModal
           initialMode={authModalMode}
           onClose={() => setAuthModalMode(null)}
-          onSuccess={(msg) => showToast(msg)}
+          onSuccess={(user) => {
+            showToast(`Welcome back, ${user.name || 'Artisan Friend'}!`);
+            setAuthModalMode(null);
+          }}
         />
       )}
 
-      {/* Real-time Search & Suggestions Overlay */}
+      {/* Interactive Global Search Overlay Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-        onSelectProduct={(product) => {
-          setIsSearchOpen(false);
-          handleProductClick(product);
-        }}
-        onSelectArtisan={(artisan) => {
-          setIsSearchOpen(false);
-          setSelectedArtisanModal(artisan);
-        }}
+        onOpenProductModal={handleProductClick}
         onNavigateToShop={(searchQuery) => {
           setIsSearchOpen(false);
           setShopSearchQuery(searchQuery);
@@ -333,15 +416,17 @@ function AppContent() {
         }}
       />
 
-      {/* Global Toast Notifications */}
-      <ToastNotification
-        toast={toast}
-        onClose={() => setToast(null)}
-      />
-
       {/* Floating Scroll To Top Button */}
       <ScrollToTop />
 
+      {/* Global Interactive Toast Notification */}
+      {toast && (
+        <ToastNotification
+          key={toast.id}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

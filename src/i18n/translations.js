@@ -393,7 +393,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -674,7 +684,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -955,7 +975,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "es": {
     "nav_explore": "Explorar",
@@ -1236,7 +1266,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -1517,7 +1557,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -1798,7 +1848,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -2079,7 +2139,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -2360,7 +2430,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "ja": {
     "nav_explore": "探す",
@@ -2641,7 +2721,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "ko": {
     "nav_explore": "탐색",
@@ -2922,7 +3012,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -3203,7 +3303,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -3484,7 +3594,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "it": {
     "nav_explore": "Esplora",
@@ -3765,7 +3885,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -4050,7 +4180,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -4335,7 +4475,17 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -4626,6 +4776,16 @@ export const translations = {
     "makers_hero_title": "Meet the Hands Behind the Craft.",
     "makers_hero_desc": "Discover independent artisans, makers and creative minds turning traditional skills and personal stories into beautiful things made by hand.",
     "explore_artisans": "Explore Artisans",
-    "become_artisan": "Become an Artisan"
+    "become_artisan": "Become an Artisan",
+    "community_circle_eyebrow": "The Artisan & Collector Circle",
+    "community_page_title": "Behind the Studio Curtain",
+    "community_page_desc": "Explore daily maker logs, slow craft techniques, work-in-progress reveals, and heartfelt discussions from master artisans and collectors across India.",
+    "stat_members": "Circle Members",
+    "stat_stories": "Maker Logs",
+    "stat_handmade": "Slow & Handcrafted",
+    "stat_drops": "Live Studio Drops",
+    "search_community": "Search discussions, makers, tags...",
+    "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
+    "publish_story": "Publish Story"
   }
 };

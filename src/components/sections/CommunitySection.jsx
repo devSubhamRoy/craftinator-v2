@@ -5,7 +5,8 @@ import { communityPosts } from '../../data/communityPosts';
 
 export default function CommunitySection({ onExploreClick }) {
   const { t } = useLanguage();
-  const [posts, setPosts] = useState(communityPosts);
+  // Use first 8 curated posts for the 3D stacked deck on homepage
+  const [posts, setPosts] = useState(() => (communityPosts && communityPosts.length > 0 ? communityPosts.slice(0, 8) : []));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isUserAutoPlay, setIsUserAutoPlay] = useState(true);
@@ -31,23 +32,25 @@ export default function CommunitySection({ onExploreClick }) {
 
   /* Slide controls */
   const handlePrev = () => {
+    if (posts.length === 0) return;
     setCurrentIndex(prev => (prev > 0 ? prev - 1 : posts.length - 1));
   };
 
   const handleNext = () => {
+    if (posts.length === 0) return;
     setCurrentIndex(prev => (prev < posts.length - 1 ? prev + 1 : 0));
   };
 
   /* Auto-Swipe Timer (Every 4 Seconds) */
   useEffect(() => {
-    if (isPaused || !isUserAutoPlay || isDragging) return;
+    if (isPaused || !isUserAutoPlay || isDragging || posts.length === 0) return;
 
     const timer = setInterval(() => {
       handleNext();
     }, 4000);
 
     return () => clearInterval(timer);
-  }, [currentIndex, isPaused, isUserAutoPlay, isDragging]);
+  }, [currentIndex, isPaused, isUserAutoPlay, isDragging, posts.length]);
 
   /* Touch / Mouse Drag Handlers */
   const handleTouchStart = (e) => {
@@ -107,10 +110,11 @@ export default function CommunitySection({ onExploreClick }) {
       prev.map(p => {
         if (p.id === id) {
           const isLiked = !p.isLiked;
+          const currentLikes = parseInt(String(p.likes).replace(/[^0-9]/g, '')) || 0;
           return {
             ...p,
             isLiked,
-            likes: isLiked ? p.likes + 1 : p.likes - 1,
+            likes: isLiked ? (currentLikes + 1).toLocaleString() : Math.max(0, currentLikes - 1).toLocaleString(),
           };
         }
         return p;
@@ -133,6 +137,7 @@ export default function CommunitySection({ onExploreClick }) {
   /* Card Stacking Style Calculation (Responsive Compact Offsets) */
   const getCardStyle = (index) => {
     const total = posts.length;
+    if (total === 0) return {};
     const offset = (index - currentIndex + total) % total;
 
     const step1X = isMobileScreen ? 14 : 20;
@@ -180,6 +185,8 @@ export default function CommunitySection({ onExploreClick }) {
       transition: isDragging ? 'none' : 'transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.45s ease',
     };
   };
+
+  if (posts.length === 0) return null;
 
   return (
     <section className="community-section" id="community-section">
@@ -263,6 +270,12 @@ export default function CommunitySection({ onExploreClick }) {
               {posts.map((post, idx) => {
                 const style = getCardStyle(idx);
                 const isFront = (idx - currentIndex + posts.length) % posts.length === 0;
+                const authorName = post.authorName || post.author || 'Artisan Maker';
+                const authorAvatar = post.authorAvatar || post.avatar || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop';
+                const authorRole = post.authorRole || 'Studio Drop';
+                const postText = post.text || post.caption || '';
+                const mediaImg = post.mediaImg || (post.images && post.images[0]) || post.mainImg || '';
+                const tags = Array.isArray(post.tags) ? post.tags : (Array.isArray(post.hashtags) ? post.hashtags : []);
 
                 return (
                   <div
@@ -279,12 +292,12 @@ export default function CommunitySection({ onExploreClick }) {
                     <div className="post-header">
                       <div className="post-author">
                         <img
-                          src={post.authorAvatar}
-                          alt={post.authorName}
+                          src={authorAvatar}
+                          alt={authorName}
                           className="post-avatar"
                         />
                         <div className="post-author-info">
-                          <strong>{post.authorRole} • {post.authorName}</strong>
+                          <strong>{authorRole} • {authorName}</strong>
                           <span className="post-handle">{post.handle}</span>
                         </div>
                       </div>
@@ -309,21 +322,23 @@ export default function CommunitySection({ onExploreClick }) {
 
                     {/* Post Content & Media */}
                     <div className="post-body">
-                      <p className="post-text">{post.text}</p>
+                      <p className="post-text">{postText}</p>
                       
                       <div className="post-media">
                         <img
-                          src={post.mediaImg}
-                          alt={post.mediaAlt}
+                          src={mediaImg}
+                          alt={post.mediaAlt || `${authorName} craft work`}
                           className="post-img img-cover"
                           loading="lazy"
                           draggable={false}
                         />
-                        <div className="post-tags-overlay">
-                          {post.tags.map((tag, tIdx) => (
-                            <span className="post-tag-pill" key={tIdx}>{tag}</span>
-                          ))}
-                        </div>
+                        {tags.length > 0 && (
+                          <div className="post-tags-overlay">
+                            {tags.map((tag, tIdx) => (
+                              <span className="post-tag-pill" key={tIdx}>{tag}</span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -356,7 +371,7 @@ export default function CommunitySection({ onExploreClick }) {
                         }}
                       >
                         <Bookmark size={16} fill={post.isSaved ? '#231815' : 'none'} />
-                        <span>{post.isSaved ? post.savedCount + 1 : post.savedCount}</span>
+                        <span>{post.isSaved ? (parseInt(String(post.savedCount)) || 0) + 1 : (parseInt(String(post.savedCount)) || 0)}</span>
                       </button>
 
                       <button

@@ -29,13 +29,13 @@ export default function Header({
     { id: 'home', label: t('nav_home', 'Home'), path: '/' },
     { id: 'shop', label: t('nav_shop', 'Shop'), path: '/shop' },
     { id: 'makers', label: t('nav_makers', 'Meet the Makers'), path: '/makers' },
-    { id: 'community', label: t('nav_community', 'Community'), path: '/#community-section', anchor: 'community-section' },
+    { id: 'community', label: t('nav_community', 'Community'), path: '/community' },
     { id: 'stories', label: t('nav_story', 'Heritage Stories'), path: '/#story-banner', anchor: 'story-banner' }
   ];
 
   const handleNavClick = (e, item) => {
     e.preventDefault();
-    if (item.path === '/shop' || item.path === '/makers') {
+    if (item.path === '/shop' || item.path === '/makers' || item.path === '/community') {
       onNavigate && onNavigate(item.path);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (item.path === '/') {
@@ -52,6 +52,7 @@ export default function Header({
 
   const isShopActive = currentPath === '/shop';
   const isMakersActive = currentPath === '/makers' || currentPath === '/meet-makers';
+  const isCommunityActive = currentPath === '/community';
   const isHomeActive = currentPath === '/' || currentPath === '/home';
 
   return (
@@ -87,7 +88,11 @@ export default function Header({
             {navItems.map((item) => {
               const isActive = item.id === 'shop'
                 ? isShopActive
-                : (item.id === 'makers' ? isMakersActive : (item.id === 'home' && isHomeActive));
+                : (item.id === 'makers'
+                  ? isMakersActive
+                  : (item.id === 'community'
+                    ? isCommunityActive
+                    : (item.id === 'home' && isHomeActive)));
 
               return (
                 <li key={item.id}>
