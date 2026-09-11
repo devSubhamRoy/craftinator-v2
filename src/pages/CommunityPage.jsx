@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
   Heart,
   MessageCircle,
+  MessageSquare,
   Bookmark,
   Plus,
   Search,
@@ -21,7 +22,11 @@ import {
   ArrowRight,
   Star,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Bell,
+  Rocket,
+  BadgeCheck,
+  User
 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { communityPosts } from '../data/communityPosts';
@@ -96,7 +101,6 @@ function PostCard({
   onOpenProductModal,
   onNavigate,
   showToast,
-  onOpenStory,
   onFilterTag
 }) {
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -210,12 +214,18 @@ function PostCard({
             <div
               key={idx}
               className="soc-media-slider-slide"
-              onClick={() => onOpenStory({
-                author: post.author,
-                storyImg: imgUrl,
-                caption: post.caption,
-                avatar: post.avatar
-              })}
+              onClick={() => {
+                if (post.product && onOpenProductModal) {
+                  onOpenProductModal(post.product);
+                } else if (onOpenArtisanModal) {
+                  onOpenArtisanModal({
+                    name: post.author,
+                    specialty: post.authorRole || 'Artisan Maker',
+                    image: post.avatar,
+                    location: 'Jaipur, India'
+                  });
+                }
+              }}
             >
               <img
                 src={imgUrl}
@@ -453,49 +463,6 @@ export default function CommunityPage({
   // Posts Stream Data (Initialized with 104+ posts from data module)
   const [posts, setPosts] = useState(communityPosts);
 
-  // Stories Data (Middle Column)
-  const stories = [
-    {
-      id: 1,
-      name: 'Gladys',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop',
-      storyImg: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=800&auto=format&fit=crop'
-    },
-    {
-      id: 2,
-      name: 'Kristin',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
-      storyImg: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800&auto=format&fit=crop'
-    },
-    {
-      id: 3,
-      name: 'Priscilla',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop',
-      storyImg: 'https://images.unsplash.com/photo-1528458876861-544fd1761a91?q=80&w=800&auto=format&fit=crop'
-    },
-    {
-      id: 4,
-      name: 'Connie',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
-      storyImg: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop'
-    },
-    {
-      id: 5,
-      name: 'Brandie',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop',
-      storyImg: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=800&auto=format&fit=crop'
-    },
-    {
-      id: 6,
-      name: 'Lily',
-      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop',
-      storyImg: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=800&auto=format&fit=crop'
-    }
-  ];
-
-  // Story Viewer Overlay State
-  const [activeStoryModal, setActiveStoryModal] = useState(null);
-
   // Left Sidebar Contacts Data
   const contacts = [
     { id: 1, name: 'Julie Mendez', loc: 'Memphis, TN, US', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop', online: true },
@@ -649,143 +616,188 @@ export default function CommunityPage({
       <div className="soc-app-grid">
         
         {/* ============================================================
-            1. LEFT SIDEBAR (Profile Card + Nav Menu + Contacts)
+            1. LEFT SIDEBAR (Sticky Card Container)
             ============================================================ */}
-        <aside className="soc-left-sidebar">
+        <aside className="soc-left-sidebar x-sidebar-layout">
           
-          {/* User Profile Card */}
-          <div className="soc-profile-card">
-            <div className="soc-avatar-wrapper">
-              <img
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"
-                alt="Cyndy Lillibridge"
-                className="soc-avatar-img"
-              />
-              <span className="soc-verified-badge" title="Verified Artisan Community Member">
-                <Check size={12} strokeWidth={3} />
-              </span>
-            </div>
-
-            <h3 className="soc-profile-name">Cyndy Lillibridge</h3>
-            <p className="soc-profile-location">Torrance, CA, United States</p>
-
-            <div className="soc-stats-row">
-              <div className="soc-stat-item">
-                <span className="soc-stat-num">368</span>
-                <span className="soc-stat-lbl">Posts</span>
-              </div>
-              <div className="soc-stat-item">
-                <span className="soc-stat-num">184.3K</span>
-                <span className="soc-stat-lbl">Followers</span>
-              </div>
-              <div className="soc-stat-item">
-                <span className="soc-stat-num">1.04M</span>
-                <span className="soc-stat-lbl">Following</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Social Navigation Menu */}
-          <nav className="soc-nav-menu">
+          {/* Artisan & Project-Specific Navigation Menu */}
+          <nav className="x-nav-menu">
+            {/* 1. Community Feed */}
             <button
-              className={`soc-nav-btn ${activeNav === 'feed' ? 'active' : ''}`}
-              onClick={() => setActiveNav('feed')}
+              className={`x-nav-item ${(activeNav === 'home' || activeNav === 'feed') ? 'active' : ''}`}
+              onClick={() => {
+                setActiveNav('feed');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
             >
-              <Home size={18} />
-              <span>Feed</span>
+              <div className="x-nav-icon-wrap">
+                <Home size={22} strokeWidth={(activeNav === 'home' || activeNav === 'feed') ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">Community Feed</span>
             </button>
 
+            {/* 2. Explore Makers */}
             <button
-              className={`soc-nav-btn ${activeNav === 'explore' ? 'active' : ''}`}
+              className={`x-nav-item ${activeNav === 'explore' ? 'active' : ''}`}
               onClick={() => {
                 setActiveNav('explore');
                 if (onNavigate) onNavigate('/makers');
               }}
             >
-              <Compass size={18} />
-              <span>Explore Makers</span>
+              <div className="x-nav-icon-wrap">
+                <Compass size={22} strokeWidth={activeNav === 'explore' ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">Meet Makers</span>
             </button>
 
+            {/* 3. Shop & Studio Drops */}
             <button
-              className={`soc-nav-btn ${activeNav === 'favorites' ? 'active' : ''}`}
-              onClick={() => setActiveNav('favorites')}
-            >
-              <Bookmark size={18} />
-              <span>My Favorites ({posts.filter(p => p.isSaved).length})</span>
-            </button>
-
-            <button
-              className={`soc-nav-btn ${activeNav === 'direct' ? 'active' : ''}`}
+              className={`x-nav-item ${activeNav === 'shop' ? 'active' : ''}`}
               onClick={() => {
-                setActiveNav('direct');
-                if (showToast) showToast('Direct Messages inbox opened');
+                setActiveNav('shop');
+                if (onNavigate) onNavigate('/shop');
               }}
             >
-              <Send size={18} />
-              <span>Direct</span>
+              <div className="x-nav-icon-wrap">
+                <ShoppingBag size={22} strokeWidth={activeNav === 'shop' ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">Shop Handcrafts</span>
             </button>
 
+            {/* 4. Notifications */}
             <button
-              className={`soc-nav-btn ${activeNav === 'stats' ? 'active' : ''}`}
+              className={`x-nav-item ${activeNav === 'notifications' ? 'active' : ''}`}
               onClick={() => {
-                setActiveNav('stats');
-                if (showToast) showToast('Profile Analytics: +14.2% engagement this week');
+                setActiveNav('notifications');
+                if (showToast) showToast('Notifications: 2 new artisan craft drops & restocks');
               }}
             >
-              <BarChart2 size={18} />
-              <span>Stats</span>
+              <div className="x-nav-icon-wrap">
+                <Bell size={22} strokeWidth={activeNav === 'notifications' ? 2.5 : 2} />
+                <span className="x-nav-badge">2</span>
+              </div>
+              <span className="x-nav-label">Notifications</span>
             </button>
 
+            {/* 5. Maker Chat / Direct */}
             <button
-              className={`soc-nav-btn ${activeNav === 'settings' ? 'active' : ''}`}
+              className={`x-nav-item ${activeNav === 'chat' ? 'active' : ''}`}
               onClick={() => {
-                setActiveNav('settings');
-                if (showToast) showToast('Settings modal ready');
+                setActiveNav('chat');
+                if (showToast) showToast('Maker Direct Messages: Chat directly with master craftspeople');
               }}
             >
-              <Settings size={18} />
-              <span>Settings</span>
+              <div className="x-nav-icon-wrap">
+                <MessageSquare size={22} strokeWidth={activeNav === 'chat' ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">Artisan Chat</span>
+            </button>
+
+            {/* 6. Saved & Favorites */}
+            <button
+              className={`x-nav-item ${activeNav === 'favorites' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveNav('favorites');
+                if (showToast) showToast(`Viewing saved craft stories (${posts.filter(p => p.isSaved).length} saved)`);
+              }}
+            >
+              <div className="x-nav-icon-wrap">
+                <Bookmark size={22} strokeWidth={activeNav === 'favorites' ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">Saved Stories</span>
+            </button>
+
+            {/* 7. Creator / Artisan Studio */}
+            <button
+              className={`x-nav-item ${activeNav === 'creator-studio' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveNav('creator-studio');
+                if (showToast) showToast('Artisan Studio: Manage studio drops, listings & craft storytelling');
+              }}
+            >
+              <div className="x-nav-icon-wrap">
+                <Rocket size={22} strokeWidth={activeNav === 'creator-studio' ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">Artisan Studio</span>
+            </button>
+
+            {/* 8. Craft Club & Perks */}
+            <button
+              className={`x-nav-item ${activeNav === 'premium' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveNav('premium');
+                if (showToast) showToast('Craftinator Club: Early access to limited handcrafted batches & workshops');
+              }}
+            >
+              <div className="x-nav-icon-wrap">
+                <BadgeCheck size={22} strokeWidth={activeNav === 'premium' ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">Craft Club</span>
+            </button>
+
+            {/* 9. Profile */}
+            <button
+              className={`x-nav-item ${activeNav === 'profile' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveNav('profile');
+                if (showToast) showToast('Profile: Subham Roy Avi (@Subham_Roy_Avi)');
+              }}
+            >
+              <div className="x-nav-icon-wrap">
+                <User size={22} strokeWidth={activeNav === 'profile' ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">My Profile</span>
+            </button>
+
+            {/* 10. More Settings */}
+            <button
+              className={`x-nav-item ${activeNav === 'more' ? 'active' : ''}`}
+              onClick={() => {
+                if (showToast) showToast('Settings: Artisan guidelines, Language preferences & Help Desk');
+              }}
+            >
+              <div className="x-nav-icon-wrap">
+                <MoreHorizontal size={22} />
+              </div>
+              <span className="x-nav-label">More</span>
             </button>
           </nav>
 
-          {/* Contacts List Card */}
-          <div className="soc-contacts-card">
-            <h4 className="soc-contacts-header">Contacts</h4>
-            <div className="soc-contact-list">
-              {contacts.map(c => (
-                <div key={c.id} className="soc-contact-item">
-                  <div className="soc-contact-info">
-                    <div className="soc-contact-avatar-box">
-                      <img src={c.avatar} alt={c.name} className="soc-contact-avatar" />
-                      {c.online && <span className="soc-online-dot" />}
-                    </div>
-                    <div>
-                      <h5 className="soc-contact-name">{c.name}</h5>
-                      <span className="soc-contact-loc">{c.loc}</span>
-                    </div>
-                  </div>
+          {/* Primary Action Button - Share Craft Story */}
+          <button
+            type="button"
+            className="x-post-primary-btn craft-post-btn"
+            onClick={() => {
+              if (showToast) showToast('Story composer opened! Share your handmade craft journey...');
+            }}
+          >
+            <Sparkles size={16} />
+            <span>Share Craft Story</span>
+          </button>
 
-                  <button
-                    className="soc-chat-icon-btn"
-                    onClick={() => {
-                      if (showToast) showToast(`Chat opened with ${c.name}`);
-                    }}
-                    aria-label={`Chat with ${c.name}`}
-                  >
-                    <MessageCircle size={17} />
-                  </button>
-                </div>
-              ))}
+          {/* Bottom Artisan Profile Pill */}
+          <div
+            className="x-user-account-pill craft-user-pill"
+            onClick={() => {
+              if (showToast) showToast('Active as Subham Roy Avi • Artisan Enthusiast');
+            }}
+          >
+            <div className="x-user-pill-left">
+              <img
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop"
+                alt="Subham Roy Avi"
+                className="x-user-pill-avatar"
+              />
+              <div className="x-user-pill-info">
+                <strong className="x-user-pill-name">
+                  Subham Roy Avi 🇮🇳
+                </strong>
+                <span className="x-user-pill-handle">Artisan Collector</span>
+              </div>
             </div>
-
-            <span
-              className="soc-view-all-link"
-              onClick={() => {
-                if (showToast) showToast('Showing all 42 contacts');
-              }}
-            >
-              View All
-            </span>
+            <div className="x-user-pill-dots">
+              <MoreHorizontal size={16} />
+            </div>
           </div>
 
         </aside>
@@ -801,92 +813,103 @@ export default function CommunityPage({
               <Search size={18} className="soc-search-icon" />
               <input
                 type="text"
-                className="soc-search-input"
-                placeholder="Search posts, artisans, tags or products..."
+                placeholder="Search craft stories, artisans, materials, #pottery..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                className="soc-search-input"
               />
               {searchQuery && (
                 <button
                   type="button"
-                  onClick={() => setSearchQuery('')}
                   className="soc-search-clear-btn"
+                  onClick={() => setSearchQuery('')}
                   aria-label="Clear search"
                 >
-                  <X size={15} />
+                  <X size={14} />
                 </button>
               )}
             </div>
 
             <button
+              type="button"
               className="soc-create-post-btn"
               onClick={() => {
-                if (showToast) showToast('Story & Post composer opened!');
+                if (showToast) showToast('Story composer opened! Share your handmade craft journey...');
               }}
             >
-              <Plus size={18} />
-              <span>Create new post</span>
+              <Sparkles size={16} />
+              <span>Share Story</span>
             </button>
           </div>
 
-          {/* Stories Section */}
-          <div className="soc-stories-section">
-            <div className="soc-stories-header">
-              <h3 className="soc-section-heading">Stories</h3>
-              <span
-                className="soc-watch-all-link"
-                onClick={() => setActiveStoryModal(stories[0])}
-              >
-                Watch all
-              </span>
-            </div>
-
-            <div className="soc-stories-strip">
-              {/* Add Story Item */}
-              <div
-                className="soc-story-item"
-                onClick={() => {
-                  if (showToast) showToast('Camera / Story uploader ready');
-                }}
-              >
-                <div className="soc-add-story-ring">
-                  <Plus size={22} />
-                </div>
-                <span className="soc-story-author">Add story</span>
-              </div>
-
-              {/* Story Avatars */}
-              {stories.map(s => (
-                <div
-                  key={s.id}
-                  className="soc-story-item"
-                  onClick={() => setActiveStoryModal(s)}
-                >
-                  <div className="soc-story-ring">
-                    <img src={s.avatar} alt={s.name} className="soc-story-img" />
-                  </div>
-                  <span className="soc-story-author">{s.name}</span>
-                </div>
-              ))}
-            </div>
+          {/* Mobile Quick Category Navigation Strip (Visible on Mobile/Tablet) */}
+          <div className="soc-mobile-nav-chips">
+            <button
+              type="button"
+              className={`soc-mobile-chip ${(activeNav === 'feed' || activeNav === 'home') ? 'active' : ''}`}
+              onClick={() => setActiveNav('feed')}
+            >
+              <Home size={14} />
+              <span>Feed</span>
+            </button>
+            <button
+              type="button"
+              className={`soc-mobile-chip ${activeNav === 'favorites' ? 'active' : ''}`}
+              onClick={() => setActiveNav('favorites')}
+            >
+              <Bookmark size={14} />
+              <span>Saved</span>
+            </button>
+            <button
+              type="button"
+              className={`soc-mobile-chip ${activeNav === 'explore' ? 'active' : ''}`}
+              onClick={() => onNavigate && onNavigate('/makers')}
+            >
+              <Compass size={14} />
+              <span>Makers</span>
+            </button>
+            <button
+              type="button"
+              className={`soc-mobile-chip ${activeNav === 'shop' ? 'active' : ''}`}
+              onClick={() => onNavigate && onNavigate('/shop')}
+            >
+              <ShoppingBag size={14} />
+              <span>Shop</span>
+            </button>
+            <button
+              type="button"
+              className={`soc-mobile-chip ${activeNav === 'creator-studio' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveNav('creator-studio');
+                if (showToast) showToast('Artisan Studio: Manage studio drops');
+              }}
+            >
+              <Rocket size={14} />
+              <span>Studio</span>
+            </button>
           </div>
+
+          
 
           {/* Feeds Section Header (Popular / Latest Filter + Live Feed Count) */}
           <div className="soc-feeds-header">
             <div className="soc-feeds-heading-wrap">
-              <h3 className="soc-section-heading">Feeds</h3>
-              <span className="soc-feeds-badge-counter">
-                {filteredPosts.length} {filteredPosts.length === 1 ? 'post' : 'posts'}
-              </span>
+              <h3 className="soc-section-heading">
+                {activeNav === 'favorites' ? 'Saved Stories' : 'Community Feed'}
+              </h3>
+              <span className="soc-feeds-badge-counter">{filteredPosts.length}</span>
             </div>
+
             <div className="soc-feed-toggle-group">
               <button
+                type="button"
                 className={`soc-feed-toggle-btn ${feedFilter === 'popular' ? 'active' : ''}`}
                 onClick={() => setFeedFilter('popular')}
               >
                 Popular
               </button>
               <button
+                type="button"
                 className={`soc-feed-toggle-btn ${feedFilter === 'latest' ? 'active' : ''}`}
                 onClick={() => setFeedFilter('latest')}
               >
@@ -919,22 +942,58 @@ export default function CommunityPage({
             </div>
           ) : (
             <div className="soc-posts-container">
-              {visiblePosts.map(post => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  onToggleLike={handleToggleLike}
-                  onToggleSave={handleToggleSave}
-                  onOpenArtisanModal={onOpenArtisanModal}
-                  onOpenProductModal={onOpenProductModal}
-                  onNavigate={onNavigate}
-                  showToast={showToast}
-                  onOpenStory={setActiveStoryModal}
-                  onFilterTag={(ht) => {
-                    setSearchQuery(ht.replace('#', ''));
-                    if (showToast) showToast(`Filtering by tag ${ht}`);
-                  }}
-                />
+              {visiblePosts.map((post, idx) => (
+                <React.Fragment key={post.id}>
+                  <PostCard
+                    post={post}
+                    onToggleLike={handleToggleLike}
+                    onToggleSave={handleToggleSave}
+                    onOpenArtisanModal={onOpenArtisanModal}
+                    onOpenProductModal={onOpenProductModal}
+                    onNavigate={onNavigate}
+                    showToast={showToast}
+                    onFilterTag={(ht) => {
+                      setSearchQuery(ht.replace('#', ''));
+                      if (showToast) showToast(`Filtering by tag ${ht}`);
+                    }}
+                  />
+
+                  {/* Responsive In-Feed Suggested Creators Strip (Rendered after 2nd post) */}
+                  {idx === 1 && suggestions.length > 0 && (
+                    <div className="soc-infeed-discovery-card">
+                      <div className="soc-infeed-discovery-header">
+                        <div className="soc-infeed-title-wrap">
+                          <Sparkles size={16} className="soc-infeed-icon" />
+                          <h4 className="soc-infeed-title">Featured Master Artisans</h4>
+                        </div>
+                        <span
+                          className="soc-view-all-link"
+                          onClick={() => onNavigate && onNavigate('/makers')}
+                        >
+                          Explore All Makers →
+                        </span>
+                      </div>
+                      <div className="soc-infeed-creators-strip">
+                        {suggestions.map(s => (
+                          <div key={`infeed-${s.id}`} className="soc-infeed-creator-card">
+                            <div className="soc-infeed-avatar-box">
+                              <img src={s.avatar} alt={s.name} className="soc-infeed-avatar" />
+                            </div>
+                            <h5 className="soc-infeed-name">{s.name}</h5>
+                            <span className="soc-infeed-loc">{s.loc}</span>
+                            <button
+                              type="button"
+                              className={`soc-infeed-follow-btn ${s.followed ? 'followed' : ''}`}
+                              onClick={() => handleToggleSuggestion(s.id)}
+                            >
+                              {s.followed ? 'Following' : '+ Follow'}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </React.Fragment>
               ))}
 
               {/* ============================================================
@@ -1088,38 +1147,18 @@ export default function CommunityPage({
 
       </div>
 
-      {/* ============================================================
-          4. FULL-SCREEN STORY VIEWER MODAL
-          ============================================================ */}
-      {activeStoryModal && (
-        <div className="cap-story-modal-overlay animate-fade-in" onClick={() => setActiveStoryModal(null)}>
-          <div className="cap-story-modal-content" onClick={(e) => e.stopPropagation()}>
-            
-            <div className="cap-story-progress-bar">
-              <div className="cap-story-progress-fill" />
-            </div>
-
-            <div className="cap-story-modal-header">
-              <div className="cap-story-modal-author">
-                <img src={activeStoryModal.avatar || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop'} alt={activeStoryModal.name || activeStoryModal.author} className="cap-story-modal-avatar" />
-                <span>{activeStoryModal.name || activeStoryModal.author}</span>
-              </div>
-              <button className="cap-story-modal-close" onClick={() => setActiveStoryModal(null)}>
-                <X size={16} />
-              </button>
-            </div>
-
-            <img src={activeStoryModal.storyImg} alt="Story" className="cap-story-modal-media" />
-
-            {activeStoryModal.caption && (
-              <div className="cap-story-modal-footer">
-                <p className="cap-story-modal-caption">{activeStoryModal.caption}</p>
-              </div>
-            )}
-
-          </div>
-        </div>
-      )}
+      {/* 5. MOBILE FLOATING ACTION BUTTON (Post / Share Craft Story) */}
+      <button
+        type="button"
+        className="soc-mobile-fab-btn"
+        onClick={() => {
+          if (showToast) showToast('Story composer opened! Share your handmade craft journey...');
+        }}
+        aria-label="Share craft story"
+      >
+        <Sparkles size={18} />
+        <span>Post Story</span>
+      </button>
 
     </div>
   );
