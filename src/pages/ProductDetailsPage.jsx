@@ -49,6 +49,7 @@ export default function ProductDetailsPage({
   onOpenArtisanModal,
   onOpenProductModal,
   onNavigate,
+  onGoBack,
 }) {
   const { t } = useLanguage();
 
@@ -642,7 +643,10 @@ export default function ProductDetailsPage({
               <button
                 type="button"
                 className="breadcrumb-link"
-                onClick={() => onNavigate && onNavigate("/shop")}
+                onClick={() => {
+                  if (onGoBack) onGoBack('/shop');
+                  else if (onNavigate) onNavigate('/shop');
+                }}
               >
                 {t("nav_shop", "Shop")}
               </button>
@@ -650,14 +654,18 @@ export default function ProductDetailsPage({
               <span className="breadcrumb-current">{product.name}</span>
             </nav>
 
-            {/* <button
+            <button
               type="button"
               className="btn-back-to-shop"
-              onClick={() => onNavigate && onNavigate("/shop")}
+              onClick={() => {
+                if (onGoBack) onGoBack('/shop');
+                else if (onNavigate) onNavigate('/shop');
+              }}
+              aria-label={t("back_to_shop", "Back to Catalog")}
             >
               <ArrowLeft size={16} />
               <span>{t("back_to_shop", "Back to Catalog")}</span>
-            </button> */}
+            </button>
           </div>
 
           <div className="product-showcase-grid">
