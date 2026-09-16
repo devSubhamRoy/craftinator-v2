@@ -3,20 +3,22 @@ import { products } from '../data/products';
 import { artisans } from '../data/artisans';
 import { SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, Search, X, ArrowUpDown, ArrowRight, Loader2 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useNavigation } from '../context/NavigationContext';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
 
-/* Shop Page Specific Components */
-import ShopHero from '../components/ShopHero';
-import BrandValues from '../components/BrandValues';
-import ShopByCategory from '../components/ShopByCategory';
-import ProductCard from '../components/ProductCard';
-import ProductCardSkeleton from '../components/ProductCardSkeleton';
-import ArtisanDiscoveryBanner from '../components/ArtisanDiscoveryBanner';
-import MeetMakers from '../components/MeetMakers';
-import ShopByMaterial from '../components/ShopByMaterial';
-import PersonalizedDiscovery from '../components/PersonalizedDiscovery';
-import SellerCTA from '../components/SellerCTA';
-import Newsletter from '../components/Newsletter';
+import {
+  ShopHero,
+  BrandValues,
+  ShopByCategory,
+  ProductCard,
+  ProductCardSkeleton,
+  ArtisanDiscoveryBanner,
+  MeetMakers,
+  ShopByMaterial,
+  PersonalizedDiscovery,
+  SellerCTA,
+  Newsletter
+} from '../components';
 
 export default function ShopPage({
   wishlist,
@@ -24,23 +26,40 @@ export default function ShopPage({
   onOpenProductModal,
   onAddToCart,
   onOpenArtisanModal,
-  onNavigateHome
+  onNavigateHome,
+  initialSearchQuery = ''
 }) {
   const { t } = useLanguage();
+  const { getPageState, savePageState } = useNavigation();
+  const initialSavedState = useRef(getPageState('shop') || {}).current;
 
   /* State Management */
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedMaterial, setSelectedMaterial] = useState('All');
-  const [selectedStyle, setSelectedStyle] = useState('All');
-  const [sortBy, setSortBy] = useState('recommended');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(initialSavedState.selectedCategory || 'All');
+  const [selectedMaterial, setSelectedMaterial] = useState(initialSavedState.selectedMaterial || 'All');
+  const [selectedStyle, setSelectedStyle] = useState(initialSavedState.selectedStyle || 'All');
+  const [sortBy, setSortBy] = useState(initialSavedState.sortBy || 'recommended');
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (initialSearchQuery) return initialSearchQuery;
+    if (initialSavedState.searchQuery) return initialSavedState.searchQuery;
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('q') || params.get('search') || '';
+    }
+    return '';
+  });
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
+  useEffect(() => {
+    if (initialSearchQuery) {
+      setSearchQuery(initialSearchQuery);
+    }
+  }, [initialSearchQuery]);
+
   /* Trending Section Infinite Horizontal Row State */
-  const [trendingTab, setTrendingTab] = useState('All');
-  const [isTrendingLoading, setIsTrendingLoading] = useState(true);
+  const [trendingTab, setTrendingTab] = useState(initialSavedState.trendingTab || 'All');
+  const [isTrendingLoading, setIsTrendingLoading] = useState(!initialSavedState.trendingTab);
   const [isTrendingLoadingMore, setIsTrendingLoadingMore] = useState(false);
-  const [visibleTrendingCount, setVisibleTrendingCount] = useState(12);
+  const [visibleTrendingCount, setVisibleTrendingCount] = useState(initialSavedState.visibleTrendingCount || 12);
   const trendingTrackRef = useRef(null);
 
   /* Initial mount skeleton shimmer effect for trending section */
@@ -79,9 +98,33 @@ export default function ShopPage({
      ------------------------------------------------------------- */
   const PAGE_SIZE = 12;
 
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [visibleCount, setVisibleCount] = useState(initialSavedState.visibleCount || PAGE_SIZE);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isFilterLoading, setIsFilterLoading] = useState(false);
+
+  // Sync Shop UI state to Navigation cache
+  useEffect(() => {
+    savePageState('shop', {
+      selectedCategory,
+      selectedMaterial,
+      selectedStyle,
+      sortBy,
+      searchQuery,
+      visibleCount,
+      trendingTab,
+      visibleTrendingCount
+    });
+  }, [
+    selectedCategory,
+    selectedMaterial,
+    selectedStyle,
+    sortBy,
+    searchQuery,
+    visibleCount,
+    trendingTab,
+    visibleTrendingCount,
+    savePageState
+  ]);
 
   const sentinelRef = useRef(null);
   const isLoadingMoreRef = useRef(false);

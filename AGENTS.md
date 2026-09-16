@@ -25,3 +25,6 @@ This repository contains **Craftinator-v2**, a curated artisan and handcrafted g
 6. **Internationalization (i18n)**:
    - Always wrap user-facing text with `t('key', 'Default Text')`.
    - Run `npm run i18n:sync` whenever new UI sections, components, or pages are introduced to automatically synchronize translation keys across all languages.
+7. **Graphify-First Workflow**:
+   - For ANY task/edit/refactor on existing code: `Task` → `Graphify first` → `Understand component & file relationships` → `Read only specific target file(s)/ranges if necessary` → `Make changes` → `Verify` → `graphify update .`.
+   - Never do redundant or full-file inspection upfront when Graphify graph query/path/explain can pinpoint the exact dependency path.

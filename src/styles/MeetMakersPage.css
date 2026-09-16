@@ -1,0 +1,1125 @@
+/* ============================================================
+   MEET MAKERS PAGE - FULL ARTISAN DIRECTORY & STORIES STYLESHEET
+   Matches exact reference design with Craftinator's visual system
+   ============================================================ */
+
+.makers-page-root {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+/* ------------------------------------------------------------
+   1. HERO SECTION (Split Left Text + Right Collage Grid)
+   ------------------------------------------------------------ */
+.mm-hero-section {
+  padding: 3.5rem 0 3rem;
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border-warm);
+  overflow: hidden;
+}
+
+.mm-hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1.15fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.mm-hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mm-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-terracotta);
+  margin-bottom: 0.85rem;
+}
+
+.mm-hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.mm-hero-desc {
+  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.85rem;
+  max-width: 520px;
+}
+
+.mm-hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.mm-hero-subtext {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* Right Collage Grid */
+.mm-collage-container {
+  position: relative;
+  width: 100%;
+}
+
+.mm-collage-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr 0.9fr;
+  grid-template-rows: 140px 140px;
+  gap: 0.85rem;
+}
+
+.mm-collage-tile {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+  background-color: var(--bg-secondary);
+}
+
+.mm-collage-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.mm-collage-tile:hover img {
+  transform: scale(1.05);
+}
+
+.mm-tile-main {
+  grid-row: span 2;
+}
+
+.mm-floating-badge {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-full);
+  padding: 0.5rem 1.1rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  z-index: 5;
+  white-space: nowrap;
+}
+
+.mm-badge-top-left {
+  top: -12px;
+  left: 20px;
+}
+
+.mm-badge-bottom-right {
+  bottom: -14px;
+  right: 15px;
+}
+
+@media (max-width: 960px) {
+  .mm-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* ------------------------------------------------------------
+   2. SEARCH & FILTER BAR ("Find an Artisan You'll Love")
+   ------------------------------------------------------------ */
+.mm-search-filter-section {
+  padding: 3rem 0 2rem;
+  background-color: var(--bg-primary);
+}
+
+.mm-search-box-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.mm-search-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.mm-search-input-box {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.mm-search-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.mm-search-input {
+  width: 100%;
+  padding: 1rem 1.25rem 1rem 3.25rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-warm);
+  background-color: var(--bg-card);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.mm-search-clear {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Filter Chips & Dropdowns Row */
+.mm-filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.mm-chip {
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-warm);
+  background-color: var(--bg-card);
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.mm-chip:hover {
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
+}
+
+.mm-chip.active {
+  background-color: var(--text-primary);
+  border-color: var(--text-primary);
+  color: #FFFFFF;
+}
+
+.mm-dropdown-select {
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-warm);
+  background-color: var(--bg-card);
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------
+   3. FEATURED MAKERS ("Artisans Worth Discovering")
+   ------------------------------------------------------------ */
+.mm-section {
+  padding: 3.5rem 0;
+}
+
+.mm-section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+}
+
+.mm-section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+.mm-section-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.mm-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1080px) {
+  .mm-featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .mm-featured-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mm-featured-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.mm-featured-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+}
+
+.mm-featured-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.mm-featured-card:hover .mm-featured-media img {
+  transform: scale(1.05);
+}
+
+.mm-featured-body {
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.mm-featured-author-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.mm-featured-avatar-info {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.mm-featured-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #FFFFFF;
+  box-shadow: var(--shadow-sm);
+}
+
+.mm-featured-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mm-featured-craft {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.mm-follow-pill {
+  padding: 0.28rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-warm);
+  background-color: var(--bg-card);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.mm-follow-pill.following {
+  background-color: rgba(122, 134, 106, 0.15);
+  border-color: var(--bg-sage);
+  color: var(--bg-sage);
+}
+
+.mm-featured-snippet {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mm-featured-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.8rem;
+}
+
+.mm-featured-stats {
+  color: var(--text-muted);
+}
+
+.mm-featured-link {
+  font-weight: 600;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: none;
+}
+
+.mm-featured-card:hover .mm-featured-link {
+  color: var(--accent-terracotta);
+}
+
+/* ------------------------------------------------------------
+   4. EXPLORE BY CRAFT (12 Craft Visual Tiles)
+   ------------------------------------------------------------ */
+.mm-craft-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1080px) {
+  .mm-craft-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .mm-craft-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.mm-craft-tile {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 1 / 1.05;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.mm-craft-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s var(--ease-out);
+}
+
+.mm-craft-tile:hover img {
+  transform: scale(1.08);
+}
+
+.mm-craft-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(35, 24, 21, 0.1) 0%, rgba(35, 24, 21, 0.8) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem 0.85rem;
+  color: #FFFFFF;
+}
+
+.mm-craft-name {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 0.2rem;
+}
+
+.mm-craft-count {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 0.35rem;
+}
+
+.mm-craft-action {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #FAF7F2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ------------------------------------------------------------
+   5. ALL ARTISANS DIRECTORY (Toolbar + 4-Col Grid)
+   ------------------------------------------------------------ */
+.mm-directory-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.25rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+}
+
+.mm-toolbar-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.mm-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-warm);
+  background-color: var(--bg-primary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.mm-toolbar-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.mm-artisans-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1080px) {
+  .mm-artisans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .mm-artisans-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mm-artisan-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.mm-artisan-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+}
+
+.mm-artisan-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s var(--ease-out);
+}
+
+.mm-artisan-card:hover .mm-artisan-media img {
+  transform: scale(1.05);
+}
+
+.mm-artisan-avatar-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2.5px solid #FFFFFF;
+  object-fit: cover;
+  box-shadow: var(--shadow-sm);
+}
+
+.mm-artisan-verified {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  color: var(--accent-terracotta);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.mm-artisan-body {
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.mm-artisan-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.mm-artisan-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.mm-artisan-role {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.mm-artisan-loc {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.mm-artisan-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.mm-artisan-rating {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.mm-artisan-rating svg {
+  fill: #E6A23C;
+  color: #E6A23C;
+}
+
+/* ------------------------------------------------------------
+   6. SPOTLIGHT STORY & SOCIAL FEED ("Meet Maya")
+   ------------------------------------------------------------ */
+.mm-spotlight-feed-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 960px) {
+  .mm-spotlight-feed-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mm-maya-spotlight-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.mm-maya-media {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.mm-maya-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mm-maya-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.mm-maya-title {
+  font-family: var(--font-serif);
+  font-size: 1.65rem;
+  margin-bottom: 0.35rem;
+}
+
+.mm-maya-quote {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-bottom: 1.15rem;
+}
+
+.mm-maya-stats-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.35rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.mm-maya-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.mm-maya-stat-num {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--accent-terracotta);
+}
+
+.mm-maya-stat-lbl {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.mm-social-post-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.mm-social-header {
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.mm-social-user {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.mm-social-media {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.mm-social-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mm-social-body {
+  padding: 1.15rem;
+}
+
+.mm-social-caption {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.85rem;
+}
+
+.mm-social-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   7. REGIONAL CRAFT MAP & STORY SPLIT
+   ------------------------------------------------------------ */
+.mm-map-story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 880px) {
+  .mm-map-story-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mm-story-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+}
+
+.mm-story-card-body {
+  padding: 2.5rem;
+}
+
+.mm-story-card-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+  line-height: 1.15;
+  margin-bottom: 0.85rem;
+}
+
+.mm-story-card-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.mm-story-card-img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  margin-top: auto;
+}
+
+/* Regional Map Graphic Card */
+.mm-map-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.mm-map-interactive-box {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  background: radial-gradient(circle, rgba(168, 88, 56, 0.06) 0%, transparent 70%);
+  border-radius: var(--radius-lg);
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.mm-map-pin {
+  position: absolute;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-warm);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mm-map-pin:hover {
+  background-color: var(--accent-terracotta);
+  border-color: var(--accent-terracotta);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.mm-pin-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent-terracotta);
+}
+
+.mm-map-pin:hover .mm-pin-dot {
+  background-color: #FFFFFF;
+}
+
+/* Pin Positions */
+.mm-pin-rajasthan { top: 25%; left: 15%; }
+.mm-pin-kashmir   { top: 8%;  left: 28%; }
+.mm-pin-bengal    { top: 38%; right: 18%; }
+.mm-pin-odisha    { top: 52%; right: 28%; }
+.mm-pin-tamil     { bottom: 12%; left: 38%; }
+.mm-pin-kerala    { bottom: 18%; left: 24%; }
+.mm-pin-assam     { top: 28%; right: 5%; }
+
+/* ------------------------------------------------------------
+   8. CRAFTS THAT CARRY GENERATIONS (6 Strip Cards)
+   ------------------------------------------------------------ */
+.mm-generations-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1080px) {
+  .mm-generations-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .mm-generations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.mm-gen-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 1 / 1.15;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.mm-gen-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s var(--ease-out);
+}
+
+.mm-gen-card:hover img {
+  transform: scale(1.08);
+}
+
+.mm-gen-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(35, 24, 21, 0.05) 0%, rgba(35, 24, 21, 0.85) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem 0.85rem;
+  color: #FFFFFF;
+}
+
+.mm-gen-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.mm-gen-link {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #FAF7F2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ------------------------------------------------------------
+   9. SELLER ONBOARDING TERRACOTTA RIBBON
+   ------------------------------------------------------------ */
+.mm-seller-banner {
+  background-color: var(--accent-terracotta);
+  color: #FFFFFF;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin: 3rem 0;
+  box-shadow: var(--shadow-lg);
+}
+
+.mm-seller-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: center;
+}
+
+@media (max-width: 880px) {
+  .mm-seller-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mm-seller-body {
+  padding: 3.5rem 3rem 2.5rem;
+}
+
+.mm-seller-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.5vw, 2.85rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  color: #FFFFFF;
+}
+
+.mm-seller-desc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 540px;
+}
+
+.mm-seller-ctas {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.mm-seller-steps-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .mm-seller-steps-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.mm-seller-media {
+  height: 100%;
+  min-height: 320px;
+}
+
+.mm-seller-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ------------------------------------------------------------
+   10. TESTIMONIALS ("Made by Makers. Loved by People.")
+   ------------------------------------------------------------ */
+.mm-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 880px) {
+  .mm-testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mm-testimonial-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.mm-test-quote {
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.mm-test-author {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.mm-test-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}

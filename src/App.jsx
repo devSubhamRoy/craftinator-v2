@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext';
+import { NavigationProvider, useNavigation } from './context/NavigationContext';
 
 /* Styles */
 import './index.css';
@@ -20,45 +21,44 @@ import './styles/Footer.css';
 import './styles/LanguageSelector.css';
 import './styles/ShopPage.css';
 import './styles/Modals.css';
+import './styles/SearchModal.css';
 import './styles/LoadingScreen.css';
 import './styles/ProductDetailsPage.css';
+import './styles/ProductAccordion.css';
+import './styles/MeetMakersPage.css';
+import './styles/CommunityPage.css';
 
-/* Global Components */
-import Header from './components/Header';
-import MobileDrawer from './components/MobileDrawer';
-import Footer from './components/Footer';
-import ToastNotification from './components/ToastNotification';
-import ProductModal from './components/ProductModal';
-import ArtisanModal from './components/ArtisanModal';
-import AuthModal from './components/AuthModal';
-import ScrollToTop from './components/ScrollToTop';
-import LoadingScreen from './components/LoadingScreen';
+import {
+  Header,
+  MobileDrawer,
+  Footer,
+  ToastNotification,
+  ProductModal,
+  ArtisanModal,
+  AuthModal,
+  ScrollToTop,
+  LoadingScreen,
+  CartDrawer,
+  WishlistDrawer,
+  SearchModal
+} from './components';
 
 /* Pages */
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
+import MeetMakersPage from './pages/MeetMakersPage';
+import CommunityPage from './pages/CommunityPage';
 
 /* Datasets */
 import { products } from './data/products';
 
 function AppContent() {
   const { t } = useLanguage();
-
-  /* Route State */
-  const [currentPath, setCurrentPath] = useState(() => {
-    if (typeof window === 'undefined') return '/';
-    const path = window.location.pathname;
-    const search = window.location.search;
-    if (path.startsWith('/product')) return path + search;
-    if (path === '/shop') return '/shop';
-    if (path === '/home') return '/home';
-    return '/';
-  });
+  const { currentPath, navigate, goBack } = useNavigation();
 
   /* App & Route Loading State */
   const [isAppLoading, setIsAppLoading] = useState(true);
-  const [loadingKey, setLoadingKey] = useState(0);
 
   /* Extract Product ID if on /product route */
   const currentProductId = useMemo(() => {
@@ -75,51 +75,9 @@ function AppContent() {
     return products[0]?.id || null;
   }, [currentPath]);
 
-  useEffect(() => {
-    const handlePopState = () => {
-      const pathname = window.location.pathname;
-      const search = window.location.search;
-      let nextPath = '/';
-      if (pathname.startsWith('/product')) {
-        nextPath = pathname + search;
-      } else if (pathname === '/shop') {
-        nextPath = '/shop';
-      } else if (pathname === '/home') {
-        nextPath = '/home';
-      }
-
-      const normalize = (p) => (p === '/home' || p === '') ? '/' : p;
-      if (normalize(nextPath) !== normalize(currentPath)) {
-        setLoadingKey((prev) => prev + 1);
-        setIsAppLoading(true);
-      }
-      setCurrentPath(nextPath);
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, [currentPath]);
-
-  /* Always scroll to top whenever the page/route redirects */
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [currentPath]);
-
-  const handleNavigate = (path) => {
-    const normalize = (p) => (p === '/home' || p === '') ? '/' : p;
-    if (normalize(path) === normalize(currentPath)) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      return;
-    }
-
-    // Trigger loading screen during redirect between /home and /shop
-    setLoadingKey((prev) => prev + 1);
-    setIsAppLoading(true);
-    setCurrentPath(path);
-    if (typeof window !== 'undefined') {
-      window.history.pushState({}, '', path);
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    }
+  /* Forward Navigation Handler */
+  const handleNavigate = (path, options = {}) => {
+    navigate(path, options);
   };
 
   /* Cart State */
@@ -137,6 +95,8 @@ function AppContent() {
 
   /* Modals Control State */
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [shopSearchQuery, setShopSearchQuery] = useState('');
   const [selectedProductModal, setSelectedProductModal] = useState(null);
   const [selectedArtisanModal, setSelectedArtisanModal] = useState(null);
   const [authModalMode, setAuthModalMode] = useState(null); // 'login' | 'signup' | null
@@ -179,24 +139,26 @@ function AppContent() {
     }
   };
 
-  /* Product Navigation Handler - Direct to Product Details Page */
+  /* Product Navigation Handler - Direct to Product Details Page (Opens at TOP) */
   const handleProductClick = (product) => {
     if (!product) return;
     const prodId = typeof product === 'string' ? product : product.id;
     setSelectedProductModal(null);
     setSelectedArtisanModal(null);
     setIsMobileMenuOpen(false);
-    handleNavigate(`/product?id=${prodId}`);
+    handleNavigate(`/product?id=${prodId}`, { targetId: `product-card-${prodId}` });
   };
 
   return (
     <div className="app-root">
-      {/* 0. Artisan Initial & Route Redirect Loading Screen */}
+      {/* 0. Artisan Initial Loading Screen */}
       {isAppLoading && (
         <LoadingScreen
-          key={`app-loading-${loadingKey}`}
-          minDuration={loadingKey === 0 ? 1100 : 750}
-          onComplete={() => setIsAppLoading(false)}
+          minDuration={800}
+          onComplete={() => {
+            setIsAppLoading(false);
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+          }}
         />
       )}
       
@@ -210,7 +172,7 @@ function AppContent() {
         onOpenWishlist={() => showToast(`Wishlist contains ${wishlist.length} items`)}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
         onOpenAuth={(mode) => setAuthModalMode(mode)}
-        onOpenSearch={() => showToast(t('search_placeholder'))}
+        onOpenSearch={() => setIsSearchOpen(true)}
       />
 
       {/* 2. Main Page View Architecture */}
@@ -225,17 +187,35 @@ function AppContent() {
             onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
             onOpenProductModal={handleProductClick}
             onNavigate={handleNavigate}
+            onGoBack={goBack}
           />
         ) : currentPath === '/shop' ? (
           /* Dedicated Independent Shop Page (/shop) */
           <ShopPage
             wishlist={wishlist}
+            initialSearchQuery={shopSearchQuery}
             onToggleWishlist={handleToggleWishlist}
             onOpenProductModal={handleProductClick}
             onAddToCart={handleAddToCart}
             onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
             onNavigateHome={() => handleNavigate('/')}
             onNavigate={handleNavigate}
+          />
+        ) : (currentPath === '/makers' || currentPath === '/meet-makers') ? (
+          /* Dedicated Independent Meet the Makers Page (/makers) */
+          <MeetMakersPage
+            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenProductModal={handleProductClick}
+            onNavigate={handleNavigate}
+            showToast={showToast}
+          />
+        ) : currentPath === '/community' ? (
+          /* Dedicated Independent Community Social Feed Page (/community) */
+          <CommunityPage
+            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenProductModal={handleProductClick}
+            onNavigate={handleNavigate}
+            showToast={showToast}
           />
         ) : (
           /* Dedicated Homepage (/ and /home) */
@@ -251,8 +231,8 @@ function AppContent() {
         )}
       </main>
 
-      {/* 3. Reusable Global Footer */}
-      <Footer />
+      {/* 3. Reusable Global Footer (Hidden on /community for full social media app experience) */}
+      {currentPath !== '/community' && <Footer />}
 
       {/* Mobile Navigation Drawer */}
       <MobileDrawer
@@ -288,19 +268,36 @@ function AppContent() {
         <AuthModal
           initialMode={authModalMode}
           onClose={() => setAuthModalMode(null)}
-          onSuccess={(msg) => showToast(msg)}
+          onSuccess={(user) => {
+            showToast(`Welcome back, ${user.name || 'Artisan Friend'}!`);
+            setAuthModalMode(null);
+          }}
         />
       )}
 
-      {/* Global Toast Notifications */}
-      <ToastNotification
-        toast={toast}
-        onClose={() => setToast(null)}
+      {/* Interactive Global Search Overlay Modal */}
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onOpenProductModal={handleProductClick}
+        onNavigateToShop={(searchQuery) => {
+          setIsSearchOpen(false);
+          setShopSearchQuery(searchQuery);
+          handleNavigate('/shop');
+        }}
       />
 
       {/* Floating Scroll To Top Button */}
       <ScrollToTop />
 
+      {/* Global Interactive Toast Notification */}
+      {toast && (
+        <ToastNotification
+          key={toast.id}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }
@@ -308,7 +305,9 @@ function AppContent() {
 export default function App() {
   return (
     <LanguageProvider>
-      <AppContent />
+      <NavigationProvider>
+        <AppContent />
+      </NavigationProvider>
     </LanguageProvider>
   );
 }
