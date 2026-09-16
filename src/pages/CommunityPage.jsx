@@ -238,18 +238,6 @@ function PostCard({
             <div
               key={idx}
               className="soc-media-slider-slide"
-              onClick={() => {
-                if (post.product && onOpenProductModal) {
-                  onOpenProductModal(post.product);
-                } else if (onOpenArtisanModal) {
-                  onOpenArtisanModal({
-                    name: post.author,
-                    specialty: post.authorRole || 'Artisan Maker',
-                    image: post.avatar,
-                    location: 'Jaipur, India'
-                  });
-                }
-              }}
             >
               <img
                 src={imgUrl}
@@ -310,16 +298,7 @@ function PostCard({
       {/* 3. Tagged "View Product" Box - Rendered ONLY if post has a linked product */}
       {post.product && (
         <div className="soc-product-card-attachment">
-          <div
-            className="soc-product-card-left"
-            onClick={() => {
-              if (onOpenProductModal) {
-                onOpenProductModal(post.product);
-              } else if (onNavigate) {
-                onNavigate(`/product?id=${post.product.id}`);
-              }
-            }}
-          >
+          <div className="soc-product-card-left">
             <img
               src={post.product.image}
               alt={post.product.name}
@@ -531,6 +510,26 @@ export default function CommunityPage({
     setVisibleCount(PAGE_SIZE);
   }, [activeNav, feedFilter, searchQuery]);
 
+  // Tab change skeleton shimmer loading state
+  const [isTabLoading, setIsTabLoading] = useState(false);
+
+  // Trigger skeleton loading whenever active tab changes
+  useEffect(() => {
+    setIsTabLoading(true);
+    const timer = setTimeout(() => {
+      setIsTabLoading(false);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, [activeNav]);
+
+  const handleTabSelect = (tabName) => {
+    setIsTabLoading(true);
+    setActiveNav(tabName);
+    const timer = setTimeout(() => {
+      setIsTabLoading(false);
+    }, 450);
+  };
+
   // Handle Like
   const handleToggleLike = (postId) => {
     setPosts(prev =>
@@ -580,9 +579,16 @@ export default function CommunityPage({
   const filteredPosts = useMemo(() => {
     let result = [...posts];
 
-    // Left navigation tab filters
+    // Left navigation & mobile chip tab filters
     if (activeNav === 'favorites') {
       result = result.filter(p => p.isSaved);
+    } else if (activeNav === 'liked') {
+      result = result.filter(p => p.isLiked);
+    } else if (activeNav === 'comments') {
+      result = result.filter(p => {
+        const count = parseInt(String(p.comments).replace(/[^0-9]/g, '')) || 0;
+        return count > 0;
+      });
     }
 
     // Search query filter across author, caption, handle, hashtags, and product title
@@ -665,7 +671,7 @@ export default function CommunityPage({
             <button
               className={`x-nav-item ${(activeNav === 'home' || activeNav === 'feed') ? 'active' : ''}`}
               onClick={() => {
-                setActiveNav('feed');
+                handleTabSelect('feed');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
@@ -736,7 +742,7 @@ export default function CommunityPage({
             <button
               className={`x-nav-item ${activeNav === 'favorites' ? 'active' : ''}`}
               onClick={() => {
-                setActiveNav('favorites');
+                handleTabSelect('favorites');
                 if (showToast) showToast(`Viewing saved craft stories (${posts.filter(p => p.isSaved).length} saved)`);
               }}
             >
@@ -886,7 +892,7 @@ export default function CommunityPage({
             <button
               type="button"
               className={`soc-mobile-chip ${(activeNav === 'feed' || activeNav === 'home') ? 'active' : ''}`}
-              onClick={() => setActiveNav('feed')}
+              onClick={() => handleTabSelect('feed')}
             >
               <Home size={14} />
               <span>Feed</span>
@@ -894,44 +900,39 @@ export default function CommunityPage({
             <button
               type="button"
               className={`soc-mobile-chip ${activeNav === 'favorites' ? 'active' : ''}`}
-              onClick={() => setActiveNav('favorites')}
+              onClick={() => handleTabSelect('favorites')}
             >
               <Bookmark size={14} />
               <span>Saved</span>
             </button>
             <button
               type="button"
-              className={`soc-mobile-chip ${activeNav === 'explore' ? 'active' : ''}`}
-              onClick={() => onNavigate && onNavigate('/makers')}
-            >
-              <Compass size={14} />
-              <span>Makers</span>
-            </button>
-            <button
-              type="button"
-              className={`soc-mobile-chip ${activeNav === 'shop' ? 'active' : ''}`}
-              onClick={() => onNavigate && onNavigate('/shop')}
-            >
-              <ShoppingBag size={14} />
-              <span>Shop</span>
-            </button>
-            <button
-              type="button"
-              className={`soc-mobile-chip ${activeNav === 'creator-studio' ? 'active' : ''}`}
+              className={`soc-mobile-chip ${activeNav === 'liked' ? 'active' : ''}`}
               onClick={() => {
-                setActiveNav('creator-studio');
-                if (showToast) showToast('Artisan Studio: Manage studio drops');
+                handleTabSelect('liked');
+                if (showToast) showToast(`Viewing liked craft stories (${posts.filter(p => p.isLiked).length} liked)`);
               }}
             >
-              <Rocket size={14} />
-              <span>Studio</span>
+              <Heart size={14} />
+              <span>Liked</span>
+            </button>
+            <button
+              type="button"
+              className={`soc-mobile-chip ${activeNav === 'comments' ? 'active' : ''}`}
+              onClick={() => {
+                handleTabSelect('comments');
+                if (showToast) showToast('Viewing craft stories with community discussions');
+              }}
+            >
+              <MessageCircle size={14} />
+              <span>Comments</span>
             </button>
           </div>
 
           
 
           {/* Feeds Section Header (Popular / Latest Filter + Live Feed Count) */}
-          <div className="soc-feeds-header">
+          {/* <div className="soc-feeds-header">
             <div className="soc-feeds-heading-wrap">
               <h3 className="soc-section-heading">
                 {activeNav === 'favorites' ? 'Saved Stories' : 'Community Feed'}
@@ -955,10 +956,16 @@ export default function CommunityPage({
                 Latest
               </button>
             </div>
-          </div>
+          </div> */}
 
           {/* Continuous Posts Stream with Strong Horizontal Line Separator */}
-          {visiblePosts.length === 0 ? (
+          {isTabLoading ? (
+            <div className="soc-posts-container">
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+            </div>
+          ) : visiblePosts.length === 0 ? (
             <div className="soc-no-posts-card">
               <div className="soc-no-posts-icon">🏺</div>
               <h4>No posts found</h4>
@@ -967,6 +974,10 @@ export default function CommunityPage({
                   ? `No matching craft stories found for "${searchQuery}". Try a different keyword.`
                   : activeNav === 'favorites'
                   ? 'You haven’t saved any posts yet. Click the bookmark icon on any post to add it here!'
+                  : activeNav === 'liked'
+                  ? 'You haven’t liked any craft stories yet. Click the heart icon on any post to see it here!'
+                  : activeNav === 'comments'
+                  ? 'No posts with community discussions found yet. Be the first to start a conversation!'
                   : 'Check back soon for new artisan updates.'}
               </p>
               {searchQuery && (
