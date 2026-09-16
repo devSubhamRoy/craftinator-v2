@@ -449,8 +449,8 @@
 .soc-post-card {
   background-color: var(--bg-card);
   border: none;
-  /* Strong Horizontal Divider between posts */
-  border-bottom: 2px solid var(--border-warm);
+  /* Crisp, higher-contrast horizontal divider between posts */
+  border-bottom: 2px solid rgba(35, 24, 21, 0.22);
   border-radius: 0;
   box-shadow: none;
   display: flex;
@@ -507,6 +507,45 @@
   color: var(--accent-terracotta);
   padding: 0.15rem 0.45rem;
   border-radius: var(--radius-sm);
+}
+
+.soc-post-author-badge-desktop {
+  display: inline-flex;
+}
+
+/* Mobile Top Shop / Craft Specialty Banner (Full-width with background) */
+.soc-post-seller-strip {
+  display: none;
+  width: 100%;
+  background-color: rgba(168, 88, 56, 0.09);
+  border-bottom: 1px solid rgba(168, 88, 56, 0.16);
+  padding: 0.45rem 1rem;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.soc-post-seller-strip:hover {
+  background-color: rgba(168, 88, 56, 0.14);
+}
+
+.soc-post-seller-strip .soc-post-author-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-terracotta);
+  background: transparent;
+  padding: 0;
+  letter-spacing: 0.02em;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .soc-post-meta-sub {
@@ -1426,7 +1465,7 @@
    ------------------------------------------------------------ */
 .soc-infeed-discovery-card {
   background-color: var(--bg-card);
-  border-bottom: 2px solid var(--border-warm);
+  border-bottom: 2px solid rgba(35, 24, 21, 0.22);
   padding: 1.25rem 1.15rem;
   box-sizing: border-box;
 }
@@ -1734,6 +1773,14 @@
 
   .soc-post-card {
     border-radius: 0;
+  }
+
+  .soc-post-seller-strip {
+    display: flex !important;
+  }
+
+  .soc-post-author-badge-desktop {
+    display: none !important;
   }
 
   .soc-post-author-row {

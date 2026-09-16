@@ -153,6 +153,28 @@ function PostCard({
   return (
     <article className="soc-post-card">
       
+      {/* Top Shop / Craft Specialty Banner (Mobile Mode - Full Width) */}
+      {post.authorRole && (
+        <div
+          className="soc-post-seller-strip"
+          onClick={() => {
+            if (onOpenArtisanModal) {
+              onOpenArtisanModal({
+                name: post.author,
+                specialty: post.authorRole || 'Artisan Maker',
+                image: post.avatar,
+                location: 'Jaipur, India'
+              });
+            } else if (showToast) {
+              showToast(`Viewing ${post.author}'s artisan shop`);
+            }
+          }}
+          title={`View ${post.author}'s artisan shop`}
+        >
+          <span className="soc-post-author-badge" title={post.authorRole}>{post.authorRole}</span>
+        </div>
+      )}
+
       {/* 1. Post Author Header */}
       <div className="soc-post-author-row">
         <div
@@ -175,7 +197,7 @@ function PostCard({
             <div className="soc-post-author-name-wrap">
               <h4 className="soc-post-name">{post.author}</h4>
               {post.authorRole && (
-                <span className="soc-post-author-badge">{post.authorRole}</span>
+                <span className="soc-post-author-badge soc-post-author-badge-desktop">{post.authorRole}</span>
               )}
             </div>
             <div className="soc-post-meta-sub">
