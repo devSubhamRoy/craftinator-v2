@@ -26,10 +26,12 @@ import {
   Bell,
   Rocket,
   BadgeCheck,
-  User
+  User,
+  MapPin
 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { communityPosts } from '../data/communityPosts';
+import { artisans } from '../data/artisans';
 
 const PAGE_SIZE = 8;
 
@@ -151,6 +153,28 @@ function PostCard({
   return (
     <article className="soc-post-card">
       
+      {/* Top Shop / Craft Specialty Banner (Mobile Mode - Full Width) */}
+      {post.authorRole && (
+        <div
+          className="soc-post-seller-strip"
+          onClick={() => {
+            if (onOpenArtisanModal) {
+              onOpenArtisanModal({
+                name: post.author,
+                specialty: post.authorRole || 'Artisan Maker',
+                image: post.avatar,
+                location: 'Jaipur, India'
+              });
+            } else if (showToast) {
+              showToast(`Viewing ${post.author}'s artisan shop`);
+            }
+          }}
+          title={`View ${post.author}'s artisan shop`}
+        >
+          <span className="soc-post-author-badge" title={post.authorRole}>{post.authorRole}</span>
+        </div>
+      )}
+
       {/* 1. Post Author Header */}
       <div className="soc-post-author-row">
         <div
@@ -173,7 +197,7 @@ function PostCard({
             <div className="soc-post-author-name-wrap">
               <h4 className="soc-post-name">{post.author}</h4>
               {post.authorRole && (
-                <span className="soc-post-author-badge">{post.authorRole}</span>
+                <span className="soc-post-author-badge soc-post-author-badge-desktop">{post.authorRole}</span>
               )}
             </div>
             <div className="soc-post-meta-sub">
@@ -214,18 +238,6 @@ function PostCard({
             <div
               key={idx}
               className="soc-media-slider-slide"
-              onClick={() => {
-                if (post.product && onOpenProductModal) {
-                  onOpenProductModal(post.product);
-                } else if (onOpenArtisanModal) {
-                  onOpenArtisanModal({
-                    name: post.author,
-                    specialty: post.authorRole || 'Artisan Maker',
-                    image: post.avatar,
-                    location: 'Jaipur, India'
-                  });
-                }
-              }}
             >
               <img
                 src={imgUrl}
@@ -286,16 +298,7 @@ function PostCard({
       {/* 3. Tagged "View Product" Box - Rendered ONLY if post has a linked product */}
       {post.product && (
         <div className="soc-product-card-attachment">
-          <div
-            className="soc-product-card-left"
-            onClick={() => {
-              if (onOpenProductModal) {
-                onOpenProductModal(post.product);
-              } else if (onNavigate) {
-                onNavigate(`/product?id=${post.product.id}`);
-              }
-            }}
-          >
+          <div className="soc-product-card-left">
             <img
               src={post.product.image}
               alt={post.product.name}
@@ -478,19 +481,54 @@ export default function CommunityPage({
     { id: 2, name: 'Brittni Landoma', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop' }
   ]);
 
-  // Right Sidebar Suggestions for You Data
-  const [suggestions, setSuggestions] = useState([
-    { id: 1, name: 'Chantal Shelburne', loc: 'Memphis, TN, US', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop', followed: false },
-    { id: 2, name: 'Marci Senter', loc: 'Newark, NJ, US', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop', followed: false },
-    { id: 3, name: 'Janetta Rotolo', loc: 'Fort Worth, TX, US', avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100&auto=format&fit=crop', followed: false },
-    { id: 4, name: 'Tyra Dhillon', loc: 'Springfield, MA, US', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop', followed: false },
-    { id: 5, name: 'Marielle Wigington', loc: 'Honolulu, HI, US', avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop', followed: false }
-  ]);
+  // Right Sidebar & In-Feed Suggestions Data (Powered by authentic master artisans)
+  const [suggestions, setSuggestions] = useState(() =>
+    artisans.map(a => ({
+      ...a,
+      loc: `${a.city}, ${a.state}`,
+      followed: false
+    }))
+  );
+
+  // In-Feed Suggested Creators Slider Ref & Handlers (Desktop & Tablet)
+  const infeedSliderRef = useRef(null);
+
+  const handleInfeedScrollPrev = () => {
+    if (infeedSliderRef.current) {
+      infeedSliderRef.current.scrollBy({ left: -280, behavior: 'smooth' });
+    }
+  };
+
+  const handleInfeedScrollNext = () => {
+    if (infeedSliderRef.current) {
+      infeedSliderRef.current.scrollBy({ left: 280, behavior: 'smooth' });
+    }
+  };
 
   // Reset infinite scroll count when filtering or searching
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
   }, [activeNav, feedFilter, searchQuery]);
+
+  // Tab change skeleton shimmer loading state
+  const [isTabLoading, setIsTabLoading] = useState(false);
+
+  // Trigger skeleton loading whenever active tab changes
+  useEffect(() => {
+    setIsTabLoading(true);
+    const timer = setTimeout(() => {
+      setIsTabLoading(false);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, [activeNav]);
+
+  const handleTabSelect = (tabName) => {
+    setIsTabLoading(true);
+    setActiveNav(tabName);
+    const timer = setTimeout(() => {
+      setIsTabLoading(false);
+    }, 450);
+  };
 
   // Handle Like
   const handleToggleLike = (postId) => {
@@ -541,9 +579,16 @@ export default function CommunityPage({
   const filteredPosts = useMemo(() => {
     let result = [...posts];
 
-    // Left navigation tab filters
+    // Left navigation & mobile chip tab filters
     if (activeNav === 'favorites') {
       result = result.filter(p => p.isSaved);
+    } else if (activeNav === 'liked') {
+      result = result.filter(p => p.isLiked);
+    } else if (activeNav === 'comments') {
+      result = result.filter(p => {
+        const count = parseInt(String(p.comments).replace(/[^0-9]/g, '')) || 0;
+        return count > 0;
+      });
     }
 
     // Search query filter across author, caption, handle, hashtags, and product title
@@ -626,7 +671,7 @@ export default function CommunityPage({
             <button
               className={`x-nav-item ${(activeNav === 'home' || activeNav === 'feed') ? 'active' : ''}`}
               onClick={() => {
-                setActiveNav('feed');
+                handleTabSelect('feed');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
@@ -697,7 +742,7 @@ export default function CommunityPage({
             <button
               className={`x-nav-item ${activeNav === 'favorites' ? 'active' : ''}`}
               onClick={() => {
-                setActiveNav('favorites');
+                handleTabSelect('favorites');
                 if (showToast) showToast(`Viewing saved craft stories (${posts.filter(p => p.isSaved).length} saved)`);
               }}
             >
@@ -847,7 +892,7 @@ export default function CommunityPage({
             <button
               type="button"
               className={`soc-mobile-chip ${(activeNav === 'feed' || activeNav === 'home') ? 'active' : ''}`}
-              onClick={() => setActiveNav('feed')}
+              onClick={() => handleTabSelect('feed')}
             >
               <Home size={14} />
               <span>Feed</span>
@@ -855,44 +900,39 @@ export default function CommunityPage({
             <button
               type="button"
               className={`soc-mobile-chip ${activeNav === 'favorites' ? 'active' : ''}`}
-              onClick={() => setActiveNav('favorites')}
+              onClick={() => handleTabSelect('favorites')}
             >
               <Bookmark size={14} />
               <span>Saved</span>
             </button>
             <button
               type="button"
-              className={`soc-mobile-chip ${activeNav === 'explore' ? 'active' : ''}`}
-              onClick={() => onNavigate && onNavigate('/makers')}
-            >
-              <Compass size={14} />
-              <span>Makers</span>
-            </button>
-            <button
-              type="button"
-              className={`soc-mobile-chip ${activeNav === 'shop' ? 'active' : ''}`}
-              onClick={() => onNavigate && onNavigate('/shop')}
-            >
-              <ShoppingBag size={14} />
-              <span>Shop</span>
-            </button>
-            <button
-              type="button"
-              className={`soc-mobile-chip ${activeNav === 'creator-studio' ? 'active' : ''}`}
+              className={`soc-mobile-chip ${activeNav === 'liked' ? 'active' : ''}`}
               onClick={() => {
-                setActiveNav('creator-studio');
-                if (showToast) showToast('Artisan Studio: Manage studio drops');
+                handleTabSelect('liked');
+                if (showToast) showToast(`Viewing liked craft stories (${posts.filter(p => p.isLiked).length} liked)`);
               }}
             >
-              <Rocket size={14} />
-              <span>Studio</span>
+              <Heart size={14} />
+              <span>Liked</span>
+            </button>
+            <button
+              type="button"
+              className={`soc-mobile-chip ${activeNav === 'comments' ? 'active' : ''}`}
+              onClick={() => {
+                handleTabSelect('comments');
+                if (showToast) showToast('Viewing craft stories with community discussions');
+              }}
+            >
+              <MessageCircle size={14} />
+              <span>Comments</span>
             </button>
           </div>
 
           
 
           {/* Feeds Section Header (Popular / Latest Filter + Live Feed Count) */}
-          <div className="soc-feeds-header">
+          {/* <div className="soc-feeds-header">
             <div className="soc-feeds-heading-wrap">
               <h3 className="soc-section-heading">
                 {activeNav === 'favorites' ? 'Saved Stories' : 'Community Feed'}
@@ -916,10 +956,16 @@ export default function CommunityPage({
                 Latest
               </button>
             </div>
-          </div>
+          </div> */}
 
           {/* Continuous Posts Stream with Strong Horizontal Line Separator */}
-          {visiblePosts.length === 0 ? (
+          {isTabLoading ? (
+            <div className="soc-posts-container">
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+            </div>
+          ) : visiblePosts.length === 0 ? (
             <div className="soc-no-posts-card">
               <div className="soc-no-posts-icon">🏺</div>
               <h4>No posts found</h4>
@@ -928,6 +974,10 @@ export default function CommunityPage({
                   ? `No matching craft stories found for "${searchQuery}". Try a different keyword.`
                   : activeNav === 'favorites'
                   ? 'You haven’t saved any posts yet. Click the bookmark icon on any post to add it here!'
+                  : activeNav === 'liked'
+                  ? 'You haven’t liked any craft stories yet. Click the heart icon on any post to see it here!'
+                  : activeNav === 'comments'
+                  ? 'No posts with community discussions found yet. Be the first to start a conversation!'
                   : 'Check back soon for new artisan updates.'}
               </p>
               {searchQuery && (
@@ -973,23 +1023,57 @@ export default function CommunityPage({
                           Explore All Makers →
                         </span>
                       </div>
-                      <div className="soc-infeed-creators-strip">
-                        {suggestions.map(s => (
-                          <div key={`infeed-${s.id}`} className="soc-infeed-creator-card">
-                            <div className="soc-infeed-avatar-box">
-                              <img src={s.avatar} alt={s.name} className="soc-infeed-avatar" />
-                            </div>
-                            <h5 className="soc-infeed-name">{s.name}</h5>
-                            <span className="soc-infeed-loc">{s.loc}</span>
-                            <button
-                              type="button"
-                              className={`soc-infeed-follow-btn ${s.followed ? 'followed' : ''}`}
-                              onClick={() => handleToggleSuggestion(s.id)}
+
+                      {/* Slider Wrapper with Desktop & Tablet Left/Right Controls */}
+                      <div className="soc-infeed-slider-wrapper">
+                        <button
+                          type="button"
+                          className="soc-infeed-slider-arrow soc-infeed-slider-arrow-prev"
+                          onClick={handleInfeedScrollPrev}
+                          aria-label="Previous artisans"
+                        >
+                          <ChevronLeft size={18} />
+                        </button>
+
+                        <div className="soc-infeed-creators-strip" ref={infeedSliderRef}>
+                          {suggestions.map(artisan => (
+                            <div
+                              key={`infeed-${artisan.id}`}
+                              className="soc-infeed-creator-card"
+                              onClick={() => onOpenArtisanModal && onOpenArtisanModal(artisan)}
+                              title={`View ${artisan.name}'s craft profile`}
                             >
-                              {s.followed ? 'Following' : '+ Follow'}
-                            </button>
-                          </div>
-                        ))}
+                              <div className="soc-infeed-avatar-box">
+                                <img src={artisan.avatar} alt={artisan.name} className="soc-infeed-avatar" />
+                              </div>
+                              <h5 className="soc-infeed-name" title={artisan.name}>{artisan.name}</h5>
+                              <span className="soc-infeed-craft" title={artisan.craft}>{artisan.craft}</span>
+                              <span className="soc-infeed-loc" title={`${artisan.city}, ${artisan.state}`}>
+                                <MapPin size={11} className="soc-infeed-pin-icon" />
+                                <span className="soc-infeed-loc-text">{artisan.city}, {artisan.state}</span>
+                              </span>
+                              <button
+                                type="button"
+                                className={`soc-infeed-follow-btn ${artisan.followed ? 'followed' : ''}`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleToggleSuggestion(artisan.id);
+                                }}
+                              >
+                                {artisan.followed ? 'Following' : '+ Follow'}
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+
+                        <button
+                          type="button"
+                          className="soc-infeed-slider-arrow soc-infeed-slider-arrow-next"
+                          onClick={handleInfeedScrollNext}
+                          aria-label="Next artisans"
+                        >
+                          <ChevronRight size={18} />
+                        </button>
                       </div>
                     </div>
                   )}
@@ -1081,15 +1165,20 @@ export default function CommunityPage({
           <div className="soc-widget-box">
             <h4 className="soc-contacts-header">Suggestions for you</h4>
             <div className="soc-suggestion-list">
-              {suggestions.map(s => (
+              {suggestions.slice(0, 5).map(s => (
                 <div key={s.id} className="soc-suggestion-item">
-                  <div className="soc-suggest-info">
+                  <div
+                    className="soc-suggest-info"
+                    onClick={() => onOpenArtisanModal && onOpenArtisanModal(s)}
+                    style={{ cursor: 'pointer' }}
+                    title={`View ${s.name}'s profile`}
+                  >
                     <div className="soc-suggest-avatar-box">
                       <img src={s.avatar} alt={s.name} className="soc-suggest-avatar" />
                     </div>
                     <div>
                       <h5 className="soc-suggest-name">{s.name}</h5>
-                      <span className="soc-suggest-loc">{s.loc}</span>
+                      <span className="soc-suggest-loc">{s.craft || s.loc}</span>
                     </div>
                   </div>
 
