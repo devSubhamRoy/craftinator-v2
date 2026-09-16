@@ -12,7 +12,7 @@ export default function ProductCard({
   const { t } = useLanguage();
 
   return (
-    <div className="product-card">
+    <div className="product-card" id={`product-card-${product.id}`}>
       
       {/* Card Top Media Container */}
       <div className="product-media" onClick={() => onOpenProductModal && onOpenProductModal(product)}>
