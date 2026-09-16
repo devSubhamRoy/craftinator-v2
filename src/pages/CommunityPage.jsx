@@ -26,10 +26,12 @@ import {
   Bell,
   Rocket,
   BadgeCheck,
-  User
+  User,
+  MapPin
 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { communityPosts } from '../data/communityPosts';
+import { artisans } from '../data/artisans';
 
 const PAGE_SIZE = 8;
 
@@ -478,14 +480,29 @@ export default function CommunityPage({
     { id: 2, name: 'Brittni Landoma', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop' }
   ]);
 
-  // Right Sidebar Suggestions for You Data
-  const [suggestions, setSuggestions] = useState([
-    { id: 1, name: 'Chantal Shelburne', loc: 'Memphis, TN, US', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop', followed: false },
-    { id: 2, name: 'Marci Senter', loc: 'Newark, NJ, US', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop', followed: false },
-    { id: 3, name: 'Janetta Rotolo', loc: 'Fort Worth, TX, US', avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100&auto=format&fit=crop', followed: false },
-    { id: 4, name: 'Tyra Dhillon', loc: 'Springfield, MA, US', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop', followed: false },
-    { id: 5, name: 'Marielle Wigington', loc: 'Honolulu, HI, US', avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop', followed: false }
-  ]);
+  // Right Sidebar & In-Feed Suggestions Data (Powered by authentic master artisans)
+  const [suggestions, setSuggestions] = useState(() =>
+    artisans.map(a => ({
+      ...a,
+      loc: `${a.city}, ${a.state}`,
+      followed: false
+    }))
+  );
+
+  // In-Feed Suggested Creators Slider Ref & Handlers (Desktop & Tablet)
+  const infeedSliderRef = useRef(null);
+
+  const handleInfeedScrollPrev = () => {
+    if (infeedSliderRef.current) {
+      infeedSliderRef.current.scrollBy({ left: -280, behavior: 'smooth' });
+    }
+  };
+
+  const handleInfeedScrollNext = () => {
+    if (infeedSliderRef.current) {
+      infeedSliderRef.current.scrollBy({ left: 280, behavior: 'smooth' });
+    }
+  };
 
   // Reset infinite scroll count when filtering or searching
   useEffect(() => {
@@ -973,23 +990,57 @@ export default function CommunityPage({
                           Explore All Makers →
                         </span>
                       </div>
-                      <div className="soc-infeed-creators-strip">
-                        {suggestions.map(s => (
-                          <div key={`infeed-${s.id}`} className="soc-infeed-creator-card">
-                            <div className="soc-infeed-avatar-box">
-                              <img src={s.avatar} alt={s.name} className="soc-infeed-avatar" />
-                            </div>
-                            <h5 className="soc-infeed-name">{s.name}</h5>
-                            <span className="soc-infeed-loc">{s.loc}</span>
-                            <button
-                              type="button"
-                              className={`soc-infeed-follow-btn ${s.followed ? 'followed' : ''}`}
-                              onClick={() => handleToggleSuggestion(s.id)}
+
+                      {/* Slider Wrapper with Desktop & Tablet Left/Right Controls */}
+                      <div className="soc-infeed-slider-wrapper">
+                        <button
+                          type="button"
+                          className="soc-infeed-slider-arrow soc-infeed-slider-arrow-prev"
+                          onClick={handleInfeedScrollPrev}
+                          aria-label="Previous artisans"
+                        >
+                          <ChevronLeft size={18} />
+                        </button>
+
+                        <div className="soc-infeed-creators-strip" ref={infeedSliderRef}>
+                          {suggestions.map(artisan => (
+                            <div
+                              key={`infeed-${artisan.id}`}
+                              className="soc-infeed-creator-card"
+                              onClick={() => onOpenArtisanModal && onOpenArtisanModal(artisan)}
+                              title={`View ${artisan.name}'s craft profile`}
                             >
-                              {s.followed ? 'Following' : '+ Follow'}
-                            </button>
-                          </div>
-                        ))}
+                              <div className="soc-infeed-avatar-box">
+                                <img src={artisan.avatar} alt={artisan.name} className="soc-infeed-avatar" />
+                              </div>
+                              <h5 className="soc-infeed-name" title={artisan.name}>{artisan.name}</h5>
+                              <span className="soc-infeed-craft" title={artisan.craft}>{artisan.craft}</span>
+                              <span className="soc-infeed-loc" title={`${artisan.city}, ${artisan.state}`}>
+                                <MapPin size={11} className="soc-infeed-pin-icon" />
+                                <span className="soc-infeed-loc-text">{artisan.city}, {artisan.state}</span>
+                              </span>
+                              <button
+                                type="button"
+                                className={`soc-infeed-follow-btn ${artisan.followed ? 'followed' : ''}`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleToggleSuggestion(artisan.id);
+                                }}
+                              >
+                                {artisan.followed ? 'Following' : '+ Follow'}
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+
+                        <button
+                          type="button"
+                          className="soc-infeed-slider-arrow soc-infeed-slider-arrow-next"
+                          onClick={handleInfeedScrollNext}
+                          aria-label="Next artisans"
+                        >
+                          <ChevronRight size={18} />
+                        </button>
                       </div>
                     </div>
                   )}
@@ -1081,15 +1132,20 @@ export default function CommunityPage({
           <div className="soc-widget-box">
             <h4 className="soc-contacts-header">Suggestions for you</h4>
             <div className="soc-suggestion-list">
-              {suggestions.map(s => (
+              {suggestions.slice(0, 5).map(s => (
                 <div key={s.id} className="soc-suggestion-item">
-                  <div className="soc-suggest-info">
+                  <div
+                    className="soc-suggest-info"
+                    onClick={() => onOpenArtisanModal && onOpenArtisanModal(s)}
+                    style={{ cursor: 'pointer' }}
+                    title={`View ${s.name}'s profile`}
+                  >
                     <div className="soc-suggest-avatar-box">
                       <img src={s.avatar} alt={s.name} className="soc-suggest-avatar" />
                     </div>
                     <div>
                       <h5 className="soc-suggest-name">{s.name}</h5>
-                      <span className="soc-suggest-loc">{s.loc}</span>
+                      <span className="soc-suggest-loc">{s.craft || s.loc}</span>
                     </div>
                   </div>
 

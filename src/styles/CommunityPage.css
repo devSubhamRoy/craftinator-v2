@@ -1455,13 +1455,62 @@
   margin: 0;
 }
 
+/* In-feed Slider Wrapper & Arrow Controls */
+.soc-infeed-slider-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.soc-infeed-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-warm);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(35, 24, 21, 0.16);
+  z-index: 10;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.soc-infeed-slider-arrow:hover {
+  background-color: var(--accent-terracotta);
+  color: #FFFFFF;
+  border-color: var(--accent-terracotta);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 16px rgba(168, 88, 56, 0.32);
+}
+
+.soc-infeed-slider-arrow:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.soc-infeed-slider-arrow-prev {
+  left: -10px;
+}
+
+.soc-infeed-slider-arrow-next {
+  right: -10px;
+}
+
 .soc-infeed-creators-strip {
   display: flex;
   gap: 0.95rem;
   overflow-x: auto;
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 0.5rem;
+  padding: 0.35rem 0.25rem 0.65rem;
   scrollbar-width: none;
+  width: 100%;
 }
 
 .soc-infeed-creators-strip::-webkit-scrollbar {
@@ -1469,7 +1518,8 @@
 }
 
 .soc-infeed-creator-card {
-  flex: 0 0 155px;
+  flex: 0 0 165px;
+  min-width: 165px;
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-warm);
   border-radius: var(--radius-lg);
@@ -1479,11 +1529,12 @@
   align-items: center;
   text-align: center;
   box-sizing: border-box;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .soc-infeed-creator-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
   border-color: var(--accent-terracotta);
 }
@@ -1494,8 +1545,8 @@
 }
 
 .soc-infeed-avatar {
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #FFFFFF;
@@ -1503,11 +1554,22 @@
 }
 
 .soc-infeed-name {
-  font-size: 0.84rem;
+  font-size: 0.86rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 0 0 0.2rem;
-  max-width: 140px;
+  margin: 0 0 0.15rem;
+  max-width: 145px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.soc-infeed-craft {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-terracotta);
+  margin-bottom: 0.25rem;
+  max-width: 145px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1517,10 +1579,26 @@
   font-size: 0.72rem;
   color: var(--text-muted);
   margin-bottom: 0.75rem;
-  max-width: 140px;
-  white-space: nowrap;
+  width: 100%;
+  max-width: 145px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  justify-content: center;
+  min-width: 0;
+}
+
+.soc-infeed-pin-icon {
+  color: var(--accent-terracotta);
+  flex-shrink: 0;
+}
+
+.soc-infeed-loc-text {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  display: block;
 }
 
 .soc-infeed-follow-btn {
@@ -1535,6 +1613,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-top: auto;
 }
 
 .soc-infeed-follow-btn:hover {
@@ -1546,6 +1625,13 @@
   background-color: #27AE60;
   border-color: #27AE60;
   color: #FFFFFF;
+}
+
+/* Hide Slider Arrows on Mobile Mode (<= 768px), keep ONLY on Desktop & Tablet */
+@media (max-width: 768px) {
+  .soc-infeed-slider-arrow {
+    display: none !important;
+  }
 }
 
 /* ------------------------------------------------------------
