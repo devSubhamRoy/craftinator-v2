@@ -1,9 +1,16 @@
 import React from 'react';
-import { X } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
 import { products } from '../../data/products';
 import { useLanguage } from '../../i18n/LanguageContext';
 
-export default function ArtisanModal({ artisan, isOpen, onClose, onAddToCart, onOpenProductModal }) {
+export default function ArtisanModal({
+  artisan,
+  isOpen = true,
+  onClose,
+  onAddToCart,
+  onOpenProductModal,
+  onNavigateToArtisan
+}) {
   const { t } = useLanguage();
   if (!isOpen || !artisan) return null;
 
@@ -45,7 +52,32 @@ export default function ArtisanModal({ artisan, isOpen, onClose, onAddToCart, on
 
           {/* Featured Craft Products */}
           <div className="artisan-products-block">
-            <h4 className="block-title">{t('makers_title')} — {artisan.name}</h4>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
+              <h4 className="block-title" style={{ margin: 0 }}>{t('makers_title')} — {artisan.name}</h4>
+              {onNavigateToArtisan && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose && onClose();
+                    onNavigateToArtisan();
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--accent-terracotta)',
+                    fontSize: '0.88rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <span>{t('view_full_profile', 'View Full Profile')}</span>
+                  <ArrowRight size={14} />
+                </button>
+              )}
+            </div>
             <div className="artisan-products-mini-grid">
               {artisanProducts.map((prod) => (
                 <div key={prod.id} className="mini-product-card" onClick={() => onOpenProductModal(prod)}>
@@ -58,9 +90,27 @@ export default function ArtisanModal({ artisan, isOpen, onClose, onAddToCart, on
               ))}
             </div>
           </div>
+
+          {onNavigateToArtisan && (
+            <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+              <button
+                type="button"
+                className="btn btn-terracotta"
+                style={{ width: '100%', justifyContent: 'center', gap: '0.5rem' }}
+                onClick={() => {
+                  onClose && onClose();
+                  onNavigateToArtisan();
+                }}
+              >
+                <span>{t('visit_artisan_studio_page', 'Explore Full Artisan Studio Page')}</span>
+                <ArrowRight size={16} />
+              </button>
+            </div>
+          )}
         </div>
 
       </div>
     </div>
   );
 }
+

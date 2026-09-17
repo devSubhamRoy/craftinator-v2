@@ -15,6 +15,7 @@ export function NavigationProvider({ children }) {
     const path = window.location.pathname;
     const search = window.location.search;
     if (path.startsWith('/product')) return sanitizePath(path + search);
+    if (path.startsWith('/artisan') || path.startsWith('/maker')) return sanitizePath(path + search);
     if (path === '/shop') return '/shop';
     if (path === '/makers' || path === '/meet-makers') return '/makers';
     if (path === '/community') return '/community';
@@ -104,6 +105,8 @@ export function NavigationProvider({ children }) {
       const search = window.location.search;
       let nextPath = '/';
       if (pathname.startsWith('/product')) {
+        nextPath = pathname + search;
+      } else if (pathname.startsWith('/artisan') || pathname.startsWith('/maker')) {
         nextPath = pathname + search;
       } else if (pathname === '/shop') {
         nextPath = '/shop';

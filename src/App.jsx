@@ -26,6 +26,7 @@ import './styles/LoadingScreen.css';
 import './styles/ProductDetailsPage.css';
 import './styles/ProductAccordion.css';
 import './styles/MeetMakersPage.css';
+import './styles/ArtisanDetailsPage.css';
 import './styles/CommunityPage.css';
 
 import {
@@ -48,10 +49,12 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import MeetMakersPage from './pages/MeetMakersPage';
+import ArtisanDetailsPage from './pages/ArtisanDetailsPage';
 import CommunityPage from './pages/CommunityPage';
 
 /* Datasets */
 import { products } from './data/products';
+import { artisans } from './data/artisans';
 
 function AppContent() {
   const { t } = useLanguage();
@@ -73,6 +76,21 @@ function AppContent() {
       return segments[2].split('?')[0];
     }
     return products[0]?.id || null;
+  }, [currentPath]);
+
+  /* Extract Artisan ID if on /artisan or /maker route */
+  const currentArtisanId = useMemo(() => {
+    if (!currentPath.startsWith('/artisan') && !currentPath.startsWith('/maker')) return null;
+    if (currentPath.includes('?')) {
+      const queryPart = currentPath.split('?')[1];
+      const params = new URLSearchParams(queryPart);
+      if (params.get('id')) return params.get('id');
+    }
+    const segments = currentPath.split('/');
+    if (segments.length >= 3 && segments[2]) {
+      return segments[2].split('?')[0];
+    }
+    return artisans[0]?.id || null;
   }, [currentPath]);
 
   /* Forward Navigation Handler */
@@ -149,6 +167,16 @@ function AppContent() {
     handleNavigate(`/product?id=${prodId}`, { targetId: `product-card-${prodId}` });
   };
 
+  /* Artisan Navigation Handler - Direct to Artisan Details Page */
+  const handleArtisanClick = (artisan) => {
+    if (!artisan) return;
+    const artId = typeof artisan === 'string' ? artisan : (artisan.id || artisan.name);
+    setSelectedProductModal(null);
+    setSelectedArtisanModal(null);
+    setIsMobileMenuOpen(false);
+    handleNavigate(`/artisan?id=${artId}`, { targetId: `artisan-card-${artId}` });
+  };
+
   return (
     <div className="app-root">
       {/* 0. Artisan Initial Loading Screen */}
@@ -184,10 +212,22 @@ function AppContent() {
             wishlist={wishlist}
             onToggleWishlist={handleToggleWishlist}
             onAddToCart={handleAddToCart}
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onOpenProductModal={handleProductClick}
             onNavigate={handleNavigate}
             onGoBack={goBack}
+          />
+        ) : (currentPath.startsWith('/artisan') || currentPath.startsWith('/maker')) ? (
+          /* Dedicated Independent Artisan Details Page (/artisan?id=...) */
+          <ArtisanDetailsPage
+            artisanId={currentArtisanId}
+            wishlist={wishlist}
+            onToggleWishlist={handleToggleWishlist}
+            onAddToCart={handleAddToCart}
+            onOpenProductModal={handleProductClick}
+            onNavigate={handleNavigate}
+            onGoBack={goBack}
+            showToast={showToast}
           />
         ) : currentPath === '/shop' ? (
           /* Dedicated Independent Shop Page (/shop) */
@@ -197,14 +237,14 @@ function AppContent() {
             onToggleWishlist={handleToggleWishlist}
             onOpenProductModal={handleProductClick}
             onAddToCart={handleAddToCart}
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onNavigateHome={() => handleNavigate('/')}
             onNavigate={handleNavigate}
           />
         ) : (currentPath === '/makers' || currentPath === '/meet-makers') ? (
           /* Dedicated Independent Meet the Makers Page (/makers) */
           <MeetMakersPage
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onOpenProductModal={handleProductClick}
             onNavigate={handleNavigate}
             showToast={showToast}
@@ -212,7 +252,7 @@ function AppContent() {
         ) : currentPath === '/community' ? (
           /* Dedicated Independent Community Social Feed Page (/community) */
           <CommunityPage
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onOpenProductModal={handleProductClick}
             onNavigate={handleNavigate}
             showToast={showToast}
@@ -224,7 +264,7 @@ function AppContent() {
             onToggleWishlist={handleToggleWishlist}
             onOpenProductModal={handleProductClick}
             onAddToCart={handleAddToCart}
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onNavigate={handleNavigate}
             showToast={showToast}
           />
@@ -258,8 +298,10 @@ function AppContent() {
       {selectedArtisanModal && (
         <ArtisanModal
           artisan={selectedArtisanModal}
+          isOpen={true}
           onClose={() => setSelectedArtisanModal(null)}
           onOpenProductModal={handleProductClick}
+          onNavigateToArtisan={() => handleArtisanClick(selectedArtisanModal)}
         />
       )}
 
