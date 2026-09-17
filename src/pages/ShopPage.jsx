@@ -495,9 +495,7 @@ export default function ShopPage({
           {/* Primary Product Grid with Skeleton Loading States */}
           {isFilterLoading ? (
             <div className="product-grid shop-product-grid" aria-label="Loading products">
-              {Array.from({ length: 8 }).map((_, idx) => (
-                <ProductCardSkeleton key={`filter-skeleton-${idx}`} />
-              ))}
+              <ProductCardSkeleton count={8} />
             </div>
           ) : visibleProducts.length > 0 ? (
             <>
@@ -518,9 +516,7 @@ export default function ShopPage({
 
                 {/* Skeleton Cards Appended Seamlessly During Infinite Scroll Loading */}
                 {isLoadingMore && (
-                  Array.from({ length: 6 }).map((_, idx) => (
-                    <ProductCardSkeleton key={`scroll-skeleton-${idx}`} />
-                  ))
+                  <ProductCardSkeleton count={6} />
                 )}
               </div>
 

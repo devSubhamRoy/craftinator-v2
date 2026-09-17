@@ -23,6 +23,7 @@ import {
 import { useLanguage } from '../i18n/LanguageContext';
 import { artisans } from '../data/artisans';
 import { products as allCatalogProducts } from '../data/products';
+import { trendingCrafts } from '../data/trendingCrafts';
 import { ProductCard, ProductCardSkeleton } from '../components';
 
 // Dynamic formatter turning any artisan into the harmonized profile format
@@ -224,28 +225,6 @@ function formatArtisanProfile(artisanData) {
     ]
   };
 }
-
-// Sidebar Trending in Crafting items (Screenshot 1)
-const trendingCrafts = [
-  {
-    category: 'Trending in Pottery',
-    tag: '#terracotta',
-    count: '1,240 creations',
-    navCategory: 'Pottery'
-  },
-  {
-    category: 'Trending in Textiles',
-    tag: '#handloom',
-    count: '942 creations',
-    navCategory: 'Textiles'
-  },
-  {
-    category: 'Trending in Jewelry',
-    tag: '#silver',
-    count: '651 creations',
-    navCategory: 'Jewelry'
-  }
-];
 
 export default function ArtisanDetailsPage({
   artisanId,
@@ -748,9 +727,7 @@ export default function ArtisanDetailsPage({
                   {/* Primary Product Grid with Skeleton Loading States */}
                   {isFilterLoading ? (
                     <div className="product-grid shop-product-grid" aria-label="Loading products">
-                      {Array.from({ length: 8 }).map((_, idx) => (
-                        <ProductCardSkeleton key={`filter-skeleton-${idx}`} />
-                      ))}
+                      <ProductCardSkeleton count={8} />
                     </div>
                   ) : visibleProducts.length > 0 ? (
                     <>
@@ -771,9 +748,7 @@ export default function ArtisanDetailsPage({
 
                         {/* Skeleton Cards Appended Seamlessly During Infinite Scroll Loading */}
                         {isLoadingMore && (
-                          Array.from({ length: 6 }).map((_, idx) => (
-                            <ProductCardSkeleton key={`scroll-skeleton-${idx}`} />
-                          ))
+                          <ProductCardSkeleton count={6} />
                         )}
                       </div>
 

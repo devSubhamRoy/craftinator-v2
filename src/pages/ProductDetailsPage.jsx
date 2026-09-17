@@ -913,10 +913,9 @@ export default function ProductDetailsPage({
               ))}
 
               {/* Skeletons on loading more products */}
-              {isMakerLoadingMore &&
-                Array.from({ length: 4 }).map((_, idx) => (
-                  <ProductCardSkeleton key={`maker-skeleton-${idx}`} />
-                ))}
+              {isMakerLoadingMore && (
+                <ProductCardSkeleton count={4} />
+              )}
             </div>
 
             {/* Load More Button for Maker Products */}

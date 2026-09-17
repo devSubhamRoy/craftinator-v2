@@ -7,18 +7,18 @@
   overflow: hidden;
   position: relative;
   box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.04));
-  border-radius: var(--radius-lg, 20px);
+  border-radius: var(--radius-md);
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
 }
 
-/* Media Skeleton - matches .product-media aspect-ratio (4/3 desktop, 3/4 mobile) */
+/* Media Skeleton - matches .product-media aspect-ratio (3/4 across all breakpoints) */
 .product-card-skeleton .skeleton-media {
   position: relative;
   background-color: #EFE7DE;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4 !important;
   width: 100%;
   overflow: hidden;
 }
@@ -71,11 +71,11 @@
 
 /* Info Skeleton - matches .product-info */
 .product-card-skeleton .skeleton-info {
-  padding: 1rem;
+  padding: 0.85rem 0.75rem;
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 0.65rem;
+  gap: 0.5rem;
   background-color: #FFFFFF;
 }
 
@@ -132,8 +132,7 @@
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
-  padding-top: 0.65rem;
-  border-top: 1px dashed var(--border-light, #F0EAE1);
+  padding-top: 0.35rem;
 }
 
 .product-card-skeleton .skeleton-price {
@@ -147,10 +146,15 @@
   height: 13px;
 }
 
-/* Tablet Responsive Breakpoint (768px - 1120px) */
-@media (max-width: 1120px) {
+/* Tablet Responsive Breakpoint (768px - 1024px) */
+@media (max-width: 1024px) {
   .product-card-skeleton .skeleton-media {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
+  }
+
+  .product-card-skeleton .skeleton-info,
+  .product-card.product-card-skeleton .product-info {
+    padding: 0.75rem 0.65rem;
   }
 }
 
@@ -158,13 +162,13 @@
 @media (max-width: 767px) {
   .product-card-skeleton .skeleton-media,
   .product-card.product-card-skeleton .product-media {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 3 / 4 !important;
   }
 
   .product-card-skeleton .skeleton-info,
   .product-card.product-card-skeleton .product-info {
-    padding: 0.75rem;
-    gap: 0.45rem;
+    padding: 0.5rem 0.45rem !important;
+    gap: 0.35rem;
   }
 
   .product-card-skeleton .skeleton-badge {
