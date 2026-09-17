@@ -1,4 +1,4 @@
-/* Mobile Drawer Component Styles */
+/* Mobile Drawer Component Styles - Earthy Artisan Design System */
 .mobile-drawer-backdrop {
   position: fixed;
   inset: 0;
@@ -22,7 +22,7 @@
   left: 0;
   bottom: 0;
   width: 320px;
-  max-width: 84vw;
+  max-width: 86vw;
   height: 100vh;
   height: 100dvh;
   background-color: var(--bg-primary);
@@ -80,56 +80,242 @@
   letter-spacing: 0.04em;
 }
 
-.mobile-drawer-nav {
-  flex: 1;
-  padding: 1rem 0;
+.mobile-drawer-lang-wrapper {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-light);
 }
 
-.mobile-drawer-nav ul {
+/* Hierarchical Navigation Tree */
+.mobile-drawer-nav {
+  flex: 1;
+  padding: 0.85rem 0;
+}
+
+.mobile-nav-root-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.35rem;
+  padding: 0;
+  margin: 0;
 }
 
+.mobile-nav-root-item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Root Drawer Links & Accordion Buttons */
 .mobile-drawer-link {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   padding: 0.75rem 0.85rem;
+  min-height: 48px;
   border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
   color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
   font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
   text-decoration: none;
-  transition: background-color var(--transition-fast);
 }
 
 .mobile-drawer-link:hover {
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-card);
+  color: var(--accent-terracotta);
 }
 
-.mobile-drawer-link.highlight {
-  background-color: rgba(168, 88, 56, 0.1);
+.mobile-drawer-link.active,
+.mobile-drawer-link.active-parent {
+  background-color: rgba(168, 88, 56, 0.08);
   color: var(--accent-terracotta);
   font-weight: 600;
+}
+
+.mobile-link-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mobile-link-icon {
+  color: var(--accent-terracotta);
+  flex-shrink: 0;
 }
 
 .mobile-link-text {
   font-size: 0.95rem;
 }
 
-.mobile-link-tag {
-  font-size: 0.7rem;
+.mobile-link-arrow {
   color: var(--text-muted);
-  background: var(--bg-warm-badge);
-  padding: 0.2rem 0.55rem;
+  flex-shrink: 0;
+}
+
+.mobile-link-dot-indicator {
+  width: 7px;
+  height: 7px;
+  background: var(--accent-terracotta);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Accordion Chevron with spring animation */
+.mobile-accordion-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  transition: background-color var(--transition-fast);
+}
+
+.mobile-accordion-trigger:hover .mobile-accordion-chevron {
+  background-color: rgba(168, 88, 56, 0.08);
+}
+
+.accordion-chevron-icon {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+}
+
+.accordion-chevron-icon.rotated {
+  transform: rotate(180deg);
+  color: var(--accent-terracotta);
+}
+
+/* Open Accordion Trigger styling */
+.mobile-accordion-trigger.open-trigger {
+  background-color: rgba(168, 88, 56, 0.08);
+  color: var(--accent-terracotta);
+  font-weight: 600;
+}
+
+/* Fluid Smooth Collapsible Sub-Navigation Panel */
+.mobile-accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.38s cubic-bezier(0.2, 0.9, 0.3, 1);
+  overflow: hidden;
+}
+
+.mobile-accordion-panel.open {
+  grid-template-rows: 1fr;
+}
+
+/* Sub-Navigation Enclosed Card Container */
+.mobile-subnav-list {
+  min-height: 0;
+  list-style: none;
+  padding: 0.4rem 0.5rem 0.45rem 0.85rem;
+  margin: 0.25rem 0 0.5rem 1.15rem;
+  background: rgba(168, 88, 56, 0.035);
+  border-left: 2.5px solid var(--accent-terracotta);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.mobile-accordion-panel.open .mobile-subnav-list {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-subnav-item {
+  display: flex;
+}
+
+.mobile-subnav-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+  gap: 0.75rem;
+}
+
+.mobile-subnav-link:hover {
+  background-color: var(--bg-card);
+  color: var(--accent-terracotta);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-subnav-link.active {
+  background-color: rgba(168, 88, 56, 0.12);
+  color: var(--accent-terracotta);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(168, 88, 56, 0.2);
+}
+
+.subnav-bullet {
+  font-size: 1.1rem;
+  color: var(--accent-terracotta);
+  line-height: 1;
+}
+
+.mobile-sublink-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.mobile-subnav-link:hover .mobile-sublink-icon {
+  color: var(--accent-terracotta);
+}
+
+.icon-wishlist {
+  color: var(--accent-terracotta);
+}
+
+.icon-cart {
+  color: var(--text-primary);
+}
+
+.mobile-sublink-text {
+  flex: 1;
+}
+
+/* Sub-Item Count Badges */
+.mobile-subnav-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
   border-radius: var(--radius-full);
 }
 
-.mobile-link-arrow {
-  color: var(--text-muted);
+.mobile-subnav-badge.badge-terracotta {
+  background: rgba(168, 88, 56, 0.15);
+  color: var(--accent-terracotta);
 }
 
+.mobile-subnav-badge.badge-warm {
+  background: var(--bg-warm-badge);
+  color: var(--text-primary);
+  border: 1px solid var(--border-warm);
+}
+
+/* Auth Buttons */
 .mobile-drawer-auth {
   display: flex;
   flex-direction: column;
@@ -140,4 +326,9 @@
 
 .mobile-auth-btn {
   width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
 }

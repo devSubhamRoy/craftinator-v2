@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Heart, ShoppingBag, Menu } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, MessageSquare, Bell } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
 import LanguageSelector from '../ui/LanguageSelector';
 
@@ -12,7 +12,9 @@ export default function Header({
   onOpenWishlist,
   onOpenMobileMenu,
   onOpenAuth,
-  onOpenSearch
+  onOpenSearch,
+  onOpenChat,
+  onOpenNotifications
 }) {
   const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
@@ -112,10 +114,12 @@ export default function Header({
 
         {/* Right Header Actions */}
         <div className="header-actions">
-          {/* i18n Language Selector Dropdown */}
-          <LanguageSelector />
+          {/* i18n Language Selector Dropdown (Desktop Only - Mobile/Tablet has it in Drawer) */}
+          <div className="header-desktop-only">
+            <LanguageSelector />
+          </div>
 
-          {/* Search Button */}
+          {/* 1. Search Button (Mobile + Tablet + Desktop) */}
           <button
             className="header-icon-btn"
             onClick={onOpenSearch}
@@ -125,9 +129,35 @@ export default function Header({
             <Search size={19} />
           </button>
 
-          {/* Wishlist Button */}
+          {/* 2. Chat Button (Mobile & Tablet Mode Only) */}
           <button
-            className="header-icon-btn wishlist-btn"
+            className="header-icon-btn header-mobile-tablet-only"
+            onClick={() => {
+              if (onOpenChat) onOpenChat();
+              else if (onNavigate) onNavigate('/community');
+            }}
+            aria-label="Artisan Chat"
+            title="Artisan Chat"
+          >
+            <MessageSquare size={19} />
+          </button>
+
+          {/* 3. Notification Button (Mobile & Tablet Mode Only) */}
+          <button
+            className="header-icon-btn header-mobile-tablet-only notification-btn"
+            onClick={() => {
+              if (onOpenNotifications) onOpenNotifications();
+            }}
+            aria-label="Notifications"
+            title="Notifications"
+          >
+            <Bell size={19} />
+            <span className="header-badge badge-terracotta">2</span>
+          </button>
+
+          {/* Wishlist Button (Desktop Only) */}
+          <button
+            className="header-icon-btn wishlist-btn header-desktop-only"
             onClick={onOpenWishlist}
             aria-label={`${t('wishlist')} (${wishlistCount})`}
             title={t('wishlist')}
@@ -136,7 +166,7 @@ export default function Header({
             {wishlistCount > 0 && <span className="header-badge">{wishlistCount}</span>}
           </button>
 
-          {/* Cart Button */}
+          {/* 4. Cart Button (Mobile + Tablet + Desktop) */}
           <button
             className="header-icon-btn cart-btn"
             onClick={onOpenCart}
@@ -147,8 +177,8 @@ export default function Header({
             {cartCount > 0 && <span className="header-badge badge-terracotta">{cartCount}</span>}
           </button>
 
-          {/* Desktop Auth Actions */}
-          <div className="header-auth-desktop">
+          {/* Desktop Auth Actions (Desktop Only) */}
+          <div className="header-auth-desktop header-desktop-only">
             <button
               className="header-login-btn"
               onClick={() => onOpenAuth('login')}

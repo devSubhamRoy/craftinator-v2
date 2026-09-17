@@ -441,6 +441,17 @@ function PostCard({
 /* ============================================================
    MAIN COMMUNITY PAGE COMPONENT
    ============================================================ */
+function getTabFromUrl() {
+  if (typeof window === 'undefined') return 'feed';
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get('tab');
+  if (tab === 'saved' || tab === 'favorites') return 'favorites';
+  if (tab === 'liked') return 'liked';
+  if (tab === 'comment' || tab === 'comments') return 'comments';
+  if (tab === 'feed' || tab === 'home') return 'feed';
+  return 'feed';
+}
+
 export default function CommunityPage({
   onOpenArtisanModal,
   onOpenProductModal,
@@ -449,8 +460,18 @@ export default function CommunityPage({
 }) {
   const { t } = useLanguage();
 
-  // Active Navigation Tab (Left Sidebar)
-  const [activeNav, setActiveNav] = useState('feed');
+  // Active Navigation Tab (Left Sidebar & URL Sync)
+  const [activeNav, setActiveNav] = useState(() => getTabFromUrl());
+
+  useEffect(() => {
+    const syncFromUrl = () => {
+      const tab = getTabFromUrl();
+      setActiveNav(tab);
+    };
+    syncFromUrl();
+    window.addEventListener('popstate', syncFromUrl);
+    return () => window.removeEventListener('popstate', syncFromUrl);
+  }, []);
 
   // Feeds Filter Toggle (Middle Column: 'popular' | 'latest')
   const [feedFilter, setFeedFilter] = useState('popular');

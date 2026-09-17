@@ -158,7 +158,17 @@
   white-space: nowrap;
 }
 
-/* Tablet Responsive Breakpoint (768px - 1023px) */
+/* Visibility Utilities for Mobile/Tablet vs Desktop Header Actions */
+.header-mobile-tablet-only {
+  display: none !important;
+}
+
+.header-desktop-only {
+  display: flex;
+  align-items: center;
+}
+
+/* Tablet & Mobile Responsive Breakpoint (<= 1023px) */
 @media (max-width: 1023px) {
   .header-nav-desktop {
     display: none;
@@ -168,6 +178,12 @@
   }
   .header-mobile-toggle {
     display: flex;
+  }
+  .header-desktop-only {
+    display: none !important;
+  }
+  .header-mobile-tablet-only {
+    display: flex !important;
   }
 }
 

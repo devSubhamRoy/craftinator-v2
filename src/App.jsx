@@ -28,6 +28,8 @@ import './styles/ProductAccordion.css';
 import './styles/MeetMakersPage.css';
 import './styles/ArtisanDetailsPage.css';
 import './styles/CommunityPage.css';
+import './styles/ProfilePage.css';
+import './styles/SettingsPage.css';
 
 import {
   Header,
@@ -51,6 +53,8 @@ import ProductDetailsPage from './pages/ProductDetailsPage';
 import MeetMakersPage from './pages/MeetMakersPage';
 import ArtisanDetailsPage from './pages/ArtisanDetailsPage';
 import CommunityPage from './pages/CommunityPage';
+import ProfilePage from './pages/ProfilePage';
+import SettingsPage from './pages/SettingsPage';
 
 /* Datasets */
 import { products } from './data/products';
@@ -114,6 +118,8 @@ function AppContent() {
   /* Modals Control State */
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [shopSearchQuery, setShopSearchQuery] = useState('');
   const [selectedProductModal, setSelectedProductModal] = useState(null);
   const [selectedArtisanModal, setSelectedArtisanModal] = useState(null);
@@ -144,6 +150,30 @@ function AppContent() {
     });
 
     showToast(`Added "${product.name}" to your cart`);
+  };
+
+  const handleUpdateCartQuantity = (productId, delta) => {
+    setCartItems((prevItems) => {
+      return prevItems
+        .map(item => {
+          if (item.id === productId) {
+            const newQty = item.quantity + delta;
+            return newQty > 0 ? { ...item, quantity: newQty } : null;
+          }
+          return item;
+        })
+        .filter(Boolean);
+    });
+  };
+
+  const handleRemoveCartItem = (productId) => {
+    setCartItems(prev => prev.filter(item => item.id !== productId));
+    showToast(t('cart_item_removed', 'Item removed from cart'));
+  };
+
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    showToast(t('checkout_initiated', 'Proceeding to secure checkout...'));
   };
 
   /* Wishlist Handlers */
@@ -196,11 +226,17 @@ function AppContent() {
         wishlistCount={wishlist.length}
         currentPath={currentPath}
         onNavigate={handleNavigate}
-        onOpenCart={() => showToast(`Cart contains ${cartItems.length} items`)}
-        onOpenWishlist={() => showToast(`Wishlist contains ${wishlist.length} items`)}
+        onOpenCart={() => setIsCartOpen(true)}
+        onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
         onOpenAuth={(mode) => setAuthModalMode(mode)}
         onOpenSearch={() => setIsSearchOpen(true)}
+        onOpenChat={() => {
+          showToast('Artisan Chat: Chat directly with master craftspeople');
+        }}
+        onOpenNotifications={() => {
+          showToast('Notifications: 2 new artisan craft drops & restocks');
+        }}
       />
 
       {/* 2. Main Page View Architecture */}
@@ -249,12 +285,31 @@ function AppContent() {
             onNavigate={handleNavigate}
             showToast={showToast}
           />
-        ) : currentPath === '/community' ? (
+        ) : currentPath.startsWith('/community') ? (
           /* Dedicated Independent Community Social Feed Page (/community) */
           <CommunityPage
             onOpenArtisanModal={handleArtisanClick}
             onOpenProductModal={handleProductClick}
             onNavigate={handleNavigate}
+            showToast={showToast}
+          />
+        ) : currentPath === '/profile' ? (
+          /* Dedicated Independent Profile Page (/profile) */
+          <ProfilePage
+            wishlist={wishlist}
+            onToggleWishlist={handleToggleWishlist}
+            onAddToCart={handleAddToCart}
+            onOpenProductModal={handleProductClick}
+            onOpenArtisanModal={handleArtisanClick}
+            onNavigate={handleNavigate}
+            onGoBack={goBack}
+            showToast={showToast}
+          />
+        ) : currentPath === '/settings' ? (
+          /* Dedicated Independent Settings Page (/settings) */
+          <SettingsPage
+            onNavigate={handleNavigate}
+            onGoBack={goBack}
             showToast={showToast}
           />
         ) : (
@@ -272,7 +327,7 @@ function AppContent() {
       </main>
 
       {/* 3. Reusable Global Footer (Hidden on /community for full social media app experience) */}
-      {currentPath !== '/community' && <Footer />}
+      {!currentPath.startsWith('/community') && <Footer />}
 
       {/* Mobile Navigation Drawer */}
       <MobileDrawer
@@ -280,6 +335,31 @@ function AppContent() {
         onClose={() => setIsMobileMenuOpen(false)}
         onOpenAuth={(mode) => setAuthModalMode(mode)}
         onNavigate={handleNavigate}
+        currentPath={currentPath}
+        cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+        wishlistCount={wishlist.length}
+        onOpenCart={() => setIsCartOpen(true)}
+        onOpenWishlist={() => setIsWishlistOpen(true)}
+      />
+
+      {/* Interactive Cart Slide-in Drawer */}
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cartItems}
+        onUpdateQuantity={handleUpdateCartQuantity}
+        onRemoveItem={handleRemoveCartItem}
+        onCheckout={handleCheckout}
+      />
+
+      {/* Interactive Wishlist Slide-in Drawer */}
+      <WishlistDrawer
+        isOpen={isWishlistOpen}
+        onClose={() => setIsWishlistOpen(false)}
+        wishlistIds={wishlist}
+        onToggleWishlist={handleToggleWishlist}
+        onAddToCart={handleAddToCart}
+        onOpenProductModal={handleProductClick}
       />
 
       {/* Product Quick-View Details Modal */}

@@ -403,7 +403,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -694,7 +704,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -985,7 +1005,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "es": {
     "nav_explore": "Explorar",
@@ -1276,7 +1306,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -1567,7 +1607,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -1858,7 +1908,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -2149,7 +2209,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -2440,7 +2510,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "ja": {
     "nav_explore": "探す",
@@ -2731,7 +2811,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "ko": {
     "nav_explore": "탐색",
@@ -3022,7 +3112,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -3313,7 +3413,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -3604,7 +3714,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "it": {
     "nav_explore": "Esplora",
@@ -3895,7 +4015,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -4190,7 +4320,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -4485,7 +4625,17 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -4786,6 +4936,16 @@ export const translations = {
     "stat_drops": "Live Studio Drops",
     "search_community": "Search discussions, makers, tags...",
     "composer_placeholder": "Share a studio update, craft technique, or ask a question to master makers...",
-    "publish_story": "Publish Story"
+    "publish_story": "Publish Story",
+    "cart_item_removed": "Item removed from cart",
+    "checkout_initiated": "Proceeding to secure checkout...",
+    "view_full_profile": "View Full Profile",
+    "visit_artisan_studio_page": "Explore Full Artisan Studio Page",
+    "all_products": "All Products",
+    "profile": "Profile",
+    "settings": "Settings",
+    "btn_back": "Back",
+    "share": "Share",
+    "my_orders": "Orders"
   }
 };

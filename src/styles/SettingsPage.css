@@ -1,0 +1,309 @@
+/* Settings Page Styles - Earthy Artisan Design System */
+.settings-page-root {
+  min-height: calc(100vh - 80px);
+  background-color: var(--bg-primary);
+  padding: 1.5rem 0 4rem 0;
+  color: var(--text-primary);
+}
+
+.settings-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* Top Back Navigation Bar */
+.settings-top-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.settings-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.settings-back-btn:hover {
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
+  background: var(--bg-warm-badge);
+}
+
+.settings-title-group {
+  flex: 1;
+}
+
+.settings-page-title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.settings-page-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Settings Layout */
+.settings-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Nav Sidebar */
+.settings-nav-sidebar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.settings-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.settings-nav-item:hover {
+  background: var(--bg-warm-badge);
+  color: var(--text-primary);
+}
+
+.settings-nav-item.active {
+  background: rgba(168, 88, 56, 0.12);
+  color: var(--accent-terracotta);
+  font-weight: 600;
+}
+
+/* Content Card */
+.settings-content-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.settings-section-heading {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.4rem 0;
+}
+
+.settings-section-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+}
+
+/* Form Controls */
+.settings-form-group {
+  margin-bottom: 1.35rem;
+}
+
+.settings-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.settings-input,
+.settings-textarea,
+.settings-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: var(--font-sans);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.settings-input:focus,
+.settings-textarea:focus,
+.settings-select:focus {
+  outline: none;
+  border-color: var(--accent-terracotta);
+  box-shadow: 0 0 0 3px rgba(168, 88, 56, 0.15);
+}
+
+.settings-language-picker-box {
+  background: var(--bg-primary);
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  display: inline-block;
+}
+
+/* Toggle Switches */
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.settings-toggle-row:last-of-type {
+  border-bottom: none;
+}
+
+.settings-toggle-info h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.2rem 0;
+}
+
+.settings-toggle-info p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Switch styling */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--border-warm);
+  transition: .25s ease;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .25s ease;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+  background-color: var(--accent-terracotta);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Banner Box */
+.settings-banner-box {
+  background: var(--bg-warm-badge);
+  border: 1px dashed var(--accent-terracotta);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.settings-banner-box h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-terracotta);
+  margin: 0 0 0.35rem 0;
+}
+
+.settings-banner-box p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+/* Actions Footer */
+.settings-actions-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.settings-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .settings-layout {
+    grid-template-columns: 1fr;
+  }
+  .settings-nav-sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .settings-nav-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+  .settings-nav-item {
+    white-space: nowrap;
+    padding: 0.6rem 0.85rem;
+  }
+  .settings-content-card {
+    padding: 1.25rem;
+  }
+}
