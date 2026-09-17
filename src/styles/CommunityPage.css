@@ -1211,6 +1211,12 @@
 
 /* ------------------------------------------------------------
    3. RIGHT SIDEBAR (Requests, Suggestions, Activity, Links)
+   - Dynamic 2-Way Sticky Scroll:
+     * Left sidebar = permanently fixed
+     * Middle content = main scrolling area
+     * Right sidebar = scrolls naturally until footer reaches bottom,
+       then sticks with footer visible while middle content continues scrolling.
+     * On scroll up, releases immediately to reveal previous content.
    ------------------------------------------------------------ */
 .soc-right-sidebar {
   position: sticky;
@@ -1218,6 +1224,9 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  height: fit-content;
+  align-self: flex-start;
+  will-change: top, position;
 }
 
 /* Requests Widget */

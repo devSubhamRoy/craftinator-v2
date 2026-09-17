@@ -822,6 +822,74 @@
   flex: 1;
 }
 
+/* For You | Connection Products Filter Group Styling */
+.filter-connection-group {
+  background: linear-gradient(135deg, rgba(168, 88, 56, 0.05) 0%, rgba(239, 232, 223, 0.5) 100%);
+  padding: 1.15rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(168, 88, 56, 0.18);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.filter-group-header-with-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.filter-group-header-with-badge .filter-group-title {
+  margin-bottom: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.filter-status-pill {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-terracotta);
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(168, 88, 56, 0.25);
+}
+
+.filter-group-subtitle {
+  font-size: 0.77rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 0.85rem;
+}
+
+.filter-connection-toggle-bar {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.filter-pill-iconic {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-inline-icon {
+  flex-shrink: 0;
+}
+
+.filter-pill-highlight {
+  background-color: rgba(168, 88, 56, 0.12) !important;
+  border-color: var(--accent-terracotta) !important;
+  color: var(--accent-terracotta) !important;
+  font-weight: 600 !important;
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .shop-hero-container {

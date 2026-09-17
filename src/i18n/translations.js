@@ -413,7 +413,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -714,7 +723,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -1015,7 +1033,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "es": {
     "nav_explore": "Explorar",
@@ -1316,7 +1343,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -1617,7 +1653,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -1918,7 +1963,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -2219,7 +2273,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -2520,7 +2583,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "ja": {
     "nav_explore": "探す",
@@ -2821,7 +2893,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "ko": {
     "nav_explore": "탐색",
@@ -3122,7 +3203,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -3423,7 +3513,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -3724,7 +3823,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "it": {
     "nav_explore": "Esplora",
@@ -4025,7 +4133,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -4330,7 +4447,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -4635,7 +4761,16 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -4946,6 +5081,15 @@ export const translations = {
     "settings": "Settings",
     "btn_back": "Back",
     "share": "Share",
-    "my_orders": "Orders"
+    "my_orders": "Orders",
+    "shop_filter_feed_prefix": "Feed:",
+    "filter_feed_for_you": "For You",
+    "filter_feed_connections": "Connection Products",
+    "shop_filter_connection_title": "For You | Connection Products",
+    "shop_filter_active_status": "Active",
+    "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
+    "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
+    "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
+    "filter_feed_all": "All Products"
   }
 };
