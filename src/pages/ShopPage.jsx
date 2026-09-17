@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { products } from '../data/products';
 import { artisans } from '../data/artisans';
-import { SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, Search, X, ArrowUpDown, ArrowRight, Loader2 } from 'lucide-react';
+import { SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, Search, X, ArrowUpDown, ArrowRight, Loader2, Sparkles, Users } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useNavigation } from '../context/NavigationContext';
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock';
@@ -37,6 +37,21 @@ export default function ShopPage({
   const [selectedCategory, setSelectedCategory] = useState(initialSavedState.selectedCategory || 'All');
   const [selectedMaterial, setSelectedMaterial] = useState(initialSavedState.selectedMaterial || 'All');
   const [selectedStyle, setSelectedStyle] = useState(initialSavedState.selectedStyle || 'All');
+  const [connectionFilter, setConnectionFilter] = useState(initialSavedState.connectionFilter || 'all');
+  const [followedArtisans] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem('craftinator_followed_artisans');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {
+        // Fallback gracefully
+      }
+    }
+    return ['Maya Sharma', 'Elena Fernandes', 'Arjun Das', 'Asha Mehta'];
+  });
   const [sortBy, setSortBy] = useState(initialSavedState.sortBy || 'recommended');
   const [searchQuery, setSearchQuery] = useState(() => {
     if (initialSearchQuery) return initialSearchQuery;
@@ -108,6 +123,7 @@ export default function ShopPage({
       selectedCategory,
       selectedMaterial,
       selectedStyle,
+      connectionFilter,
       sortBy,
       searchQuery,
       visibleCount,
@@ -118,6 +134,7 @@ export default function ShopPage({
     selectedCategory,
     selectedMaterial,
     selectedStyle,
+    connectionFilter,
     sortBy,
     searchQuery,
     visibleCount,
@@ -172,6 +189,21 @@ export default function ShopPage({
       result = result.filter(p => p.styleTag === selectedStyle);
     }
 
+    // Connection / Feed Filter (For You | Connection Products)
+    if (connectionFilter === 'for-you') {
+      // For You: All connection pieces across the artisan & community network
+      result = result.filter(p =>
+        p.badge === 'Community Pick' ||
+        p.badge === 'Artisan Original' ||
+        p.badge === 'Masterwork' ||
+        p.isTrending ||
+        p.rating >= 4.85
+      );
+    } else if (connectionFilter === 'connection-products') {
+      // Connection Products: Handcrafted goods strictly from artisans the user follows
+      result = result.filter(p => followedArtisans.includes(p.artisan));
+    }
+
     // Search Query Filter
     if (searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase();
@@ -194,7 +226,7 @@ export default function ShopPage({
     }
 
     return result;
-  }, [selectedCategory, selectedMaterial, selectedStyle, searchQuery, sortBy]);
+  }, [selectedCategory, selectedMaterial, selectedStyle, connectionFilter, followedArtisans, searchQuery, sortBy]);
 
   /* Total matching products after filters and sorting */
   const totalFilteredCount = processedProducts.length;
@@ -217,7 +249,7 @@ export default function ShopPage({
     }, 280);
 
     return () => clearTimeout(timer);
-  }, [selectedCategory, selectedMaterial, selectedStyle, searchQuery, sortBy]);
+  }, [selectedCategory, selectedMaterial, selectedStyle, connectionFilter, searchQuery, sortBy]);
 
   /* Progressive batch loading handler with skeleton cards */
   const loadNextRecords = useCallback(() => {
@@ -282,6 +314,7 @@ export default function ShopPage({
     setSelectedCategory('All');
     setSelectedMaterial('All');
     setSelectedStyle('All');
+    setConnectionFilter('all');
     setSearchQuery('');
     setSortBy('recommended');
   };
@@ -354,6 +387,7 @@ export default function ShopPage({
   const activeFilterCount = (selectedCategory !== 'All' ? 1 : 0) +
     (selectedMaterial !== 'All' ? 1 : 0) +
     (selectedStyle !== 'All' ? 1 : 0) +
+    (connectionFilter !== 'all' ? 1 : 0) +
     (searchQuery !== '' ? 1 : 0);
 
   return (
@@ -438,6 +472,14 @@ export default function ShopPage({
                   <X size={14} onClick={() => setSelectedStyle('All')} />
                 </span>
               )}
+              {connectionFilter !== 'all' && (
+                <span className="filter-pill filter-pill-highlight">
+                  {connectionFilter === 'for-you'
+                    ? `${t('shop_filter_feed_prefix', 'Feed:')} ${t('filter_feed_for_you', 'For You')}`
+                    : `${t('shop_filter_feed_prefix', 'Feed:')} ${t('filter_feed_connections', 'Connection Products')}`}
+                  <X size={14} onClick={() => setConnectionFilter('all')} />
+                </span>
+              )}
               {searchQuery && (
                 <span className="filter-pill">
                   {t('shop_filter_search_label')} "{searchQuery}"
@@ -453,9 +495,7 @@ export default function ShopPage({
           {/* Primary Product Grid with Skeleton Loading States */}
           {isFilterLoading ? (
             <div className="product-grid shop-product-grid" aria-label="Loading products">
-              {Array.from({ length: 8 }).map((_, idx) => (
-                <ProductCardSkeleton key={`filter-skeleton-${idx}`} />
-              ))}
+              <ProductCardSkeleton count={8} />
             </div>
           ) : visibleProducts.length > 0 ? (
             <>
@@ -476,9 +516,7 @@ export default function ShopPage({
 
                 {/* Skeleton Cards Appended Seamlessly During Infinite Scroll Loading */}
                 {isLoadingMore && (
-                  Array.from({ length: 6 }).map((_, idx) => (
-                    <ProductCardSkeleton key={`scroll-skeleton-${idx}`} />
-                  ))
+                  <ProductCardSkeleton count={6} />
                 )}
               </div>
 
@@ -680,6 +718,50 @@ export default function ShopPage({
             </div>
 
             <div className="filter-drawer-body">
+              {/* For You | Connection Products Filter Group */}
+              <div className="filter-group filter-connection-group">
+                <div className="filter-group-header-with-badge">
+                  <label className="filter-group-title">
+                    {t('shop_filter_connection_title', 'For You | Connection Products')}
+                  </label>
+                  {connectionFilter !== 'all' && (
+                    <span className="filter-status-pill">{t('shop_filter_active_status', 'Active')}</span>
+                  )}
+                </div>
+                <p className="filter-group-subtitle">
+                  {connectionFilter === 'for-you'
+                    ? t('shop_filter_for_you_desc', 'Showing all community connection products & artisan masterworks.')
+                    : connectionFilter === 'connection-products'
+                    ? t('shop_filter_followed_desc', 'Showing handcrafted pieces only from artisans you follow.')
+                    : t('shop_filter_all_connections_desc', 'Switch between all curated connection goods or your followed artisans.')}
+                </p>
+                <div className="filter-options-grid filter-connection-toggle-bar">
+                  <button
+                    type="button"
+                    className={`filter-option-btn ${connectionFilter === 'all' ? 'active' : ''}`}
+                    onClick={() => setConnectionFilter('all')}
+                  >
+                    {t('filter_feed_all', 'All Products')}
+                  </button>
+                  <button
+                    type="button"
+                    className={`filter-option-btn filter-pill-iconic ${connectionFilter === 'for-you' ? 'active' : ''}`}
+                    onClick={() => setConnectionFilter(connectionFilter === 'for-you' ? 'all' : 'for-you')}
+                  >
+                    <Sparkles size={13} className="btn-inline-icon" />
+                    {t('filter_feed_for_you', 'For You')}
+                  </button>
+                  <button
+                    type="button"
+                    className={`filter-option-btn filter-pill-iconic ${connectionFilter === 'connection-products' ? 'active' : ''}`}
+                    onClick={() => setConnectionFilter(connectionFilter === 'connection-products' ? 'all' : 'connection-products')}
+                  >
+                    <Users size={13} className="btn-inline-icon" />
+                    {t('filter_feed_connections', 'Connection Products')}
+                  </button>
+                </div>
+              </div>
+
               {/* Category Filter */}
               <div className="filter-group">
                 <label className="filter-group-title">{t('shop_filter_drawer_cat')}</label>

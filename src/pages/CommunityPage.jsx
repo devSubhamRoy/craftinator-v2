@@ -483,6 +483,7 @@ export default function CommunityPage({
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const sentinelRef = useRef(null);
+  const rightSidebarRef = useRef(null);
 
   // Posts Stream Data (Initialized with 104+ posts from data module)
   const [posts, setPosts] = useState(communityPosts);
@@ -542,6 +543,100 @@ export default function CommunityPage({
     }, 450);
     return () => clearTimeout(timer);
   }, [activeNav]);
+
+  // Dynamic 2-Way Sticky Scroll for Right Sidebar (Desktop mode)
+  useEffect(() => {
+    const sidebar = rightSidebarRef.current;
+    if (!sidebar) return;
+
+    let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0;
+    let mode = 'stick-top'; // 'stick-top' | 'stick-bottom' | 'relative'
+    const HEADER_OFFSET = 88;
+    const BOTTOM_SPACING = 24;
+
+    const handleScroll = () => {
+      if (typeof window === 'undefined') return;
+
+      // Disable on tablet/mobile where right sidebar is hidden or stacked
+      if (window.innerWidth <= 1180) {
+        sidebar.style.position = '';
+        sidebar.style.top = '';
+        return;
+      }
+
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY;
+      const viewportHeight = window.innerHeight;
+      const sidebarHeight = sidebar.offsetHeight;
+
+      // If sidebar fits entirely in the viewport, keep it cleanly stuck to the top
+      if (sidebarHeight <= viewportHeight - HEADER_OFFSET - BOTTOM_SPACING) {
+        sidebar.style.position = 'sticky';
+        sidebar.style.top = `${HEADER_OFFSET}px`;
+        lastScrollY = currentScrollY;
+        return;
+      }
+
+      const sidebarRect = sidebar.getBoundingClientRect();
+      const parentRect = sidebar.parentElement ? sidebar.parentElement.getBoundingClientRect() : null;
+      if (!parentRect) {
+        lastScrollY = currentScrollY;
+        return;
+      }
+
+      const minTopSticky = viewportHeight - sidebarHeight - BOTTOM_SPACING;
+
+      if (currentScrollY <= HEADER_OFFSET) {
+        // At or near page top: stick to normal starting position
+        mode = 'stick-top';
+        sidebar.style.position = 'sticky';
+        sidebar.style.top = `${HEADER_OFFSET}px`;
+      } else if (scrollDelta > 0) {
+        // Scrolling DOWN
+        if (mode === 'stick-top') {
+          // Release from top-sticky so sidebar moves naturally with the page
+          mode = 'relative';
+          const relativeTop = Math.max(0, sidebarRect.top - parentRect.top);
+          sidebar.style.position = 'relative';
+          sidebar.style.top = `${relativeTop}px`;
+        } else if (mode === 'relative') {
+          // Check if footer reached the bottom viewport boundary
+          if (sidebarRect.top <= minTopSticky) {
+            mode = 'stick-bottom';
+            sidebar.style.position = 'sticky';
+            sidebar.style.top = `${minTopSticky}px`;
+          }
+        }
+      } else if (scrollDelta < 0) {
+        // Scrolling UP
+        if (mode === 'stick-bottom') {
+          // Release from bottom-sticky so sidebar moves down with the page
+          mode = 'relative';
+          const relativeTop = Math.max(0, sidebarRect.top - parentRect.top);
+          sidebar.style.position = 'relative';
+          sidebar.style.top = `${relativeTop}px`;
+        } else if (mode === 'relative') {
+          // Check if top reached header offset
+          if (sidebarRect.top >= HEADER_OFFSET) {
+            mode = 'stick-top';
+            sidebar.style.position = 'sticky';
+            sidebar.style.top = `${HEADER_OFFSET}px`;
+          }
+        }
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
 
   const handleTabSelect = (tabName) => {
     setIsTabLoading(true);
@@ -1141,7 +1236,7 @@ export default function CommunityPage({
         {/* ============================================================
             3. RIGHT SIDEBAR (Requests, Suggestions, Activity, Links)
             ============================================================ */}
-        <aside className="soc-right-sidebar">
+        <aside ref={rightSidebarRef} className="soc-right-sidebar">
           
           {/* Requests Section */}
           <div className="soc-widget-box">

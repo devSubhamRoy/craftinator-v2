@@ -21,6 +21,10 @@ export default function ProductCard({
           alt={product.name}
           className="product-img img-cover"
           loading="lazy"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?q=80&w=800&auto=format&fit=crop';
+          }}
         />
         
         {/* Badge */}

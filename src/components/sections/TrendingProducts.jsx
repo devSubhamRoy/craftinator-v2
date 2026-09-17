@@ -62,9 +62,7 @@ export default function TrendingProducts({
         {/* Product Grid */}
         <div className="product-grid">
           {isLoading ? (
-            Array.from({ length: 8 }).map((_, idx) => (
-              <ProductCardSkeleton key={`trending-skeleton-${idx}`} />
-            ))
+            <ProductCardSkeleton count={8} />
           ) : (
             filteredProducts.map((product) => {
               const isWishlisted = wishlist.includes(product.id);

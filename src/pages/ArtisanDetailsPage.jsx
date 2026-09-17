@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import {
   ArrowLeft,
   CheckCircle2,
@@ -16,11 +16,15 @@ import {
   Briefcase,
   HeartHandshake,
   ArrowRight,
-  MoreHorizontal
+  MoreHorizontal,
+  Globe,
+  Loader2
 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { artisans } from '../data/artisans';
 import { products as allCatalogProducts } from '../data/products';
+import { trendingCrafts } from '../data/trendingCrafts';
+import { ProductCard, ProductCardSkeleton } from '../components';
 
 // Dynamic formatter turning any artisan into the harmonized profile format
 function formatArtisanProfile(artisanData) {
@@ -48,62 +52,91 @@ function formatArtisanProfile(artisanData) {
     );
   });
 
-  // Map to card format
+  // Map to card format ensuring standard ProductCard contract
   let productsList = catalogProductsForArtisan.map((p) => ({
-    id: p.id,
-    name: p.name,
+    ...p,
+    artisan: artisanData.name,
+    artisanCity: p.artisanCity || artisanData.city,
     brand: brandPill,
     price: p.price,
     originalPrice: p.originalPrice || (p.price > 1800 ? Math.round(p.price * 1.25) : null),
     rating: p.rating || artisanData.rating || 4.8,
-    location: `${artisanData.city}, ${artisanData.state ? artisanData.state.slice(0, 2) : 'IN'}...`,
+    reviewsCount: p.reviewsCount || 24,
+    location: `${artisanData.city}, ${artisanData.state ? artisanData.state.slice(0, 2) : 'IN'}`,
     fullLocation: `${artisanData.city}, ${artisanData.state || 'India'}`,
     badge: p.badge || 'HANDMADE',
     image: p.image,
     category: p.category
   }));
 
-  // If catalog has no products for this artisan, synthesize based on work images
+  // If catalog has no products for this artisan, synthesize based on artisan's studio work
   if (productsList.length === 0) {
     productsList = [
       {
         id: `${artId}-prod-1`,
-        name: `${artisanData.name.split(' ')[0]} Signature ${artisanData.craft.split(' ')[0]}`,
+        name: `${artisanData.name.split(' ')[0]} Signature ${artisanData.craft ? artisanData.craft.split(' ')[0] : 'Artisan'} Piece`,
+        artisan: artisanData.name,
+        artisanCity: artisanData.city,
         brand: brandPill,
-        price: 1450,
-        originalPrice: null,
-        rating: artisanData.rating || 4.8,
-        location: `${artisanData.city}, ${artisanData.state ? artisanData.state.slice(0, 2) : 'IN'}...`,
+        price: 1850,
+        originalPrice: 2250,
+        rating: artisanData.rating || 4.9,
+        reviewsCount: 38,
+        location: `${artisanData.city}, ${artisanData.state || 'India'}`,
         fullLocation: `${artisanData.city}, ${artisanData.state || 'India'}`,
-        badge: 'HANDMADE',
+        badge: 'MASTERPIECE',
         image: artisanData.workImage1 || artisanData.studioImage,
-        category: artisanData.craft
+        category: artisanData.craft || 'Craft',
+        description: `Handcrafted with care by ${artisanData.name} in ${artisanData.city}.`
       },
       {
         id: `${artId}-prod-2`,
-        name: `Handcrafted ${artisanData.specialties ? artisanData.specialties[0] : 'Artisan Creation'}`,
+        name: `Handcrafted ${artisanData.specialties ? artisanData.specialties[0] : 'Studio Creation'}`,
+        artisan: artisanData.name,
+        artisanCity: artisanData.city,
         brand: brandPill,
-        price: 1290,
-        originalPrice: 1600,
-        rating: 4.75,
-        location: `${artisanData.city}, ${artisanData.state ? artisanData.state.slice(0, 2) : 'IN'}...`,
+        price: 2450,
+        originalPrice: 2800,
+        rating: 4.85,
+        reviewsCount: 29,
+        location: `${artisanData.city}, ${artisanData.state || 'India'}`,
         fullLocation: `${artisanData.city}, ${artisanData.state || 'India'}`,
         badge: 'HANDMADE',
         image: artisanData.workImage2 || artisanData.studioImage,
-        category: artisanData.craft
+        category: artisanData.craft || 'Craft',
+        description: `Authentic artisan technique by ${artisanData.name}.`
       },
       {
         id: `${artId}-prod-3`,
         name: `Heritage Studio Original`,
+        artisan: artisanData.name,
+        artisanCity: artisanData.city,
         brand: brandPill,
-        price: 1150,
+        price: 1650,
         originalPrice: null,
-        rating: 4.8,
-        location: `${artisanData.city}, ${artisanData.state ? artisanData.state.slice(0, 2) : 'IN'}...`,
+        rating: 4.9,
+        reviewsCount: 44,
+        location: `${artisanData.city}, ${artisanData.state || 'India'}`,
         fullLocation: `${artisanData.city}, ${artisanData.state || 'India'}`,
-        badge: 'HANDMADE',
-        image: artisanData.studioImage,
-        category: artisanData.craft
+        badge: 'ORIGINAL',
+        image: artisanData.studioImage || artisanData.workImage1,
+        category: artisanData.craft || 'Craft',
+        description: `Studio original piece made by ${artisanData.name}.`
+      },
+      {
+        id: `${artId}-prod-4`,
+        name: `${artisanData.craftSpecialty || artisanData.craft || 'Artisan'} Form No. 4`,
+        artisan: artisanData.name,
+        artisanCity: artisanData.city,
+        brand: brandPill,
+        price: 3100,
+        originalPrice: 3650,
+        rating: 5.0,
+        reviewsCount: 21,
+        badge: 'LIMITED',
+        image: artisanData.workImage1 || artisanData.studioImage,
+        category: artisanData.craft || 'Craft',
+        description: `Limited studio release by ${artisanData.name}.`
       }
     ];
   }
@@ -166,7 +199,9 @@ function formatArtisanProfile(artisanData) {
     yearsOfExperience: artisanData.yearsOfExperience || 6,
     rating: artisanData.rating || 4.8,
     reviewsCount: artisanData.reviewsCount || 168,
+    followingCount: artisanData.followingCount || Math.max(14, Math.floor(followersNum / 5.5)),
     followersCount: followersNum,
+    website: artisanData.website || `${(artisanData.handle || artisanData.name).toLowerCase().replace(/[^a-z0-9]/g, '')}.craftinator.in`,
     creationsCount: productsList.length,
     avatar: artisanData.avatar,
     banner: artisanData.studioImage || artisanData.workImage1,
@@ -190,28 +225,6 @@ function formatArtisanProfile(artisanData) {
     ]
   };
 }
-
-// Sidebar Trending in Crafting items (Screenshot 1)
-const trendingCrafts = [
-  {
-    category: 'Trending in Pottery',
-    tag: '#terracotta',
-    count: '1,240 creations',
-    navCategory: 'Pottery'
-  },
-  {
-    category: 'Trending in Textiles',
-    tag: '#handloom',
-    count: '942 creations',
-    navCategory: 'Textiles'
-  },
-  {
-    category: 'Trending in Jewelry',
-    tag: '#silver',
-    count: '651 creations',
-    navCategory: 'Jewelry'
-  }
-];
 
 export default function ArtisanDetailsPage({
   artisanId,
@@ -273,6 +286,7 @@ export default function ArtisanDetailsPage({
   const [isFollowing, setIsFollowing] = useState(false);
   const [followersCount, setFollowersCount] = useState(artisan?.followersCount || 2450);
   const [followingSuggestedIds, setFollowingSuggestedIds] = useState({});
+  const rightSidebarRef = useRef(null);
 
   // Inquiry Modal State
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
@@ -280,13 +294,175 @@ export default function ArtisanDetailsPage({
   const [inquiryEmail, setInquiryEmail] = useState('');
   const [inquiryMessage, setInquiryMessage] = useState('');
 
-  // Reset scroll & followers on artisan switch
+  // State for Artisan Products Infinite Scroll & Skeletons
+  const PAGE_SIZE = 6;
+  const [isFilterLoading, setIsFilterLoading] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const isLoadingMoreRef = useRef(false);
+  const sentinelRef = useRef(null);
+
+  const artisanProducts = useMemo(() => {
+    return artisan?.products || [];
+  }, [artisan]);
+
+  const totalFilteredCount = artisanProducts.length;
+
+  const visibleProducts = useMemo(() => {
+    return artisanProducts.slice(0, Math.min(visibleCount, totalFilteredCount));
+  }, [artisanProducts, visibleCount, totalFilteredCount]);
+
+  const hasMore = visibleProducts.length < totalFilteredCount;
+
+  // Reset scroll, followers, & pagination on artisan switch
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     setFollowersCount(artisan?.followersCount || 2450);
     setIsFollowing(false);
     setActiveTab('Products');
+    setIsFilterLoading(true);
+    setVisibleCount(PAGE_SIZE);
+    setIsLoadingMore(false);
+    isLoadingMoreRef.current = false;
+
+    const timer = setTimeout(() => {
+      setIsFilterLoading(false);
+    }, 280);
+
+    return () => clearTimeout(timer);
   }, [artisan?.id]);
+
+  // Progressive batch loading handler with skeleton cards
+  const loadNextRecords = useCallback(() => {
+    if (isLoadingMoreRef.current || !hasMore) return;
+
+    isLoadingMoreRef.current = true;
+    setIsLoadingMore(true);
+
+    setTimeout(() => {
+      setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, totalFilteredCount));
+      setIsLoadingMore(false);
+      isLoadingMoreRef.current = false;
+    }, 550);
+  }, [hasMore, totalFilteredCount]);
+
+  // IntersectionObserver sentinel near the bottom of list
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel || !hasMore || activeTab !== 'Products') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !isLoadingMoreRef.current) {
+          loadNextRecords();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, loadNextRecords, activeTab]);
+
+  const resetAllFilters = useCallback(() => {
+    setVisibleCount(PAGE_SIZE);
+    setIsFilterLoading(false);
+  }, []);
+
+  // Dynamic 2-Way Sticky Scroll for Right Sidebar (Desktop mode > 1024px)
+  useEffect(() => {
+    const sidebar = rightSidebarRef.current;
+    if (!sidebar) return;
+
+    let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0;
+    let mode = 'stick-top'; // 'stick-top' | 'stick-bottom' | 'relative'
+    const HEADER_OFFSET = 88;
+    const BOTTOM_SPACING = 24;
+
+    const handleScroll = () => {
+      if (typeof window === 'undefined') return;
+
+      // Disable on tablet/mobile where layout collapses to single column (<= 1024px)
+      if (window.innerWidth <= 1024) {
+        sidebar.style.position = '';
+        sidebar.style.top = '';
+        return;
+      }
+
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY;
+      const viewportHeight = window.innerHeight;
+      const sidebarHeight = sidebar.offsetHeight;
+
+      // If sidebar fits entirely in viewport, keep cleanly stuck to top
+      if (sidebarHeight <= viewportHeight - HEADER_OFFSET - BOTTOM_SPACING) {
+        sidebar.style.position = 'sticky';
+        sidebar.style.top = `${HEADER_OFFSET}px`;
+        lastScrollY = currentScrollY;
+        return;
+      }
+
+      const sidebarRect = sidebar.getBoundingClientRect();
+      const parentRect = sidebar.parentElement ? sidebar.parentElement.getBoundingClientRect() : null;
+      if (!parentRect) {
+        lastScrollY = currentScrollY;
+        return;
+      }
+
+      const minTopSticky = viewportHeight - sidebarHeight - BOTTOM_SPACING;
+
+      if (currentScrollY <= HEADER_OFFSET) {
+        // At or near page top: stick to normal starting position
+        mode = 'stick-top';
+        sidebar.style.position = 'sticky';
+        sidebar.style.top = `${HEADER_OFFSET}px`;
+      } else if (scrollDelta > 0) {
+        // Scrolling DOWN
+        if (mode === 'stick-top') {
+          // Release from top-sticky so sidebar moves naturally with the page
+          mode = 'relative';
+          const relativeTop = Math.max(0, sidebarRect.top - parentRect.top);
+          sidebar.style.position = 'relative';
+          sidebar.style.top = `${relativeTop}px`;
+        } else if (mode === 'relative') {
+          // Check if footer/bottom reached viewport bottom boundary
+          if (sidebarRect.top <= minTopSticky) {
+            mode = 'stick-bottom';
+            sidebar.style.position = 'sticky';
+            sidebar.style.top = `${minTopSticky}px`;
+          }
+        }
+      } else if (scrollDelta < 0) {
+        // Scrolling UP
+        if (mode === 'stick-bottom') {
+          // Release from bottom-sticky so sidebar moves down with the page
+          mode = 'relative';
+          const relativeTop = Math.max(0, sidebarRect.top - parentRect.top);
+          sidebar.style.position = 'relative';
+          sidebar.style.top = `${relativeTop}px`;
+        } else if (mode === 'relative') {
+          // Check if top reached header offset
+          if (sidebarRect.top >= HEADER_OFFSET) {
+            mode = 'stick-top';
+            sidebar.style.position = 'sticky';
+            sidebar.style.top = `${HEADER_OFFSET}px`;
+          }
+        }
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [artisan?.id, activeTab]);
 
   // Main Artisan Follow Toggle
   const handleToggleFollow = () => {
@@ -360,46 +536,18 @@ export default function ArtisanDetailsPage({
     <main className="artisan-page-root animate-fade-in">
       <div className="ap-page-container">
         
-        {/* ============================================================
-            1. TOP NAVIGATION BAR (Back Button, Title & Breadcrumbs)
-            ============================================================ */}
-        <div className="ap-top-nav-row">
-          <div className="ap-top-back-bar">
-            <button
-              className="ap-back-icon-btn"
-              onClick={() => {
-                if (onGoBack) onGoBack();
-                else if (onNavigate) onNavigate('/makers');
-                else window.history.back();
-              }}
-              aria-label="Go back"
-            >
-              <ArrowLeft size={18} />
-            </button>
-
-            <div className="ap-top-maker-title-group">
-              <div className="ap-top-maker-name-row">
-                <span className="ap-top-maker-name">{artisan.name}</span>
-                <CheckCircle2 size={16} className="ap-verified-check-icon" fill="#2563EB" color="#FFFFFF" />
-              </div>
-              <span className="ap-top-creations-count">
-                {artisan.creationsCount} Creations
-              </span>
-            </div>
-          </div>
-
-          <nav className="ap-breadcrumb-list" aria-label="Breadcrumb navigation">
-            <button className="ap-breadcrumb-btn" onClick={() => onNavigate && onNavigate('/')}>
-              Home
-            </button>
-            <span>/</span>
-            <button className="ap-breadcrumb-btn" onClick={() => onNavigate && onNavigate('/makers')}>
-              Artisans
-            </button>
-            <span>/</span>
-            <span className="ap-breadcrumb-active">{artisan.name}</span>
-          </nav>
-        </div>
+        {/* Breadcrumb Navigation - ALWAYS AT THE VERY TOP ACROSS ALL MODES */}
+        <nav className="shop-hero-breadcrumb" aria-label="Breadcrumb">
+          <button type="button" className="breadcrumb-link" onClick={() => onNavigate ? onNavigate('/') : onGoBack && onGoBack()}>
+            {t('nav_home', 'Home')}
+          </button>
+          <span className="breadcrumb-sep">/</span>
+          <button type="button" className="breadcrumb-link" onClick={() => onNavigate ? onNavigate('/makers') : onGoBack && onGoBack()}>
+            {t('nav_artisans', 'Artisans')}
+          </button>
+          <span className="breadcrumb-sep">/</span>
+          <span className="breadcrumb-current">{artisan.name}</span>
+        </nav>
 
         {/* ============================================================
             2. MAIN 2-COLUMN LAYOUT (Screenshot 1)
@@ -481,12 +629,26 @@ export default function ArtisanDetailsPage({
                 {/* Bio */}
                 <p className="ap-profile-bio">{artisan.bio}</p>
 
-                {/* Meta Row: Location, Joined Year, Rating */}
+                {/* Meta Row: Location, Website, Joined Year, Rating */}
                 <div className="ap-profile-meta-row">
                   <div className="ap-meta-detail">
                     <MapPin size={15} />
                     <span>{artisan.city}, {artisan.state}</span>
                   </div>
+
+                  {artisan.website && (
+                    <div className="ap-meta-detail ap-meta-website">
+                      <Globe size={15} />
+                      <a
+                        href={`https://${artisan.website.replace(/^https?:\/\//, '')}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="ap-meta-link"
+                      >
+                        {artisan.website.replace(/^https?:\/\//, '')}
+                      </a>
+                    </div>
+                  )}
 
                   <div className="ap-meta-detail">
                     <Calendar size={15} />
@@ -496,15 +658,15 @@ export default function ArtisanDetailsPage({
                   <div className="ap-meta-detail">
                     <Star size={15} className="ap-meta-rating-star" fill="#D97706" color="#D97706" />
                     <span className="ap-meta-rating-text">{artisan.rating}</span>
-                    <span>Rating</span>
+                    <span>Rating ( {artisan.reviewsCount} Reviews )</span>
                   </div>
                 </div>
 
-                {/* Stats Row: Creations & Followers */}
+                {/* Stats Row: Following, Followers, Creations & Reviews */}
                 <div className="ap-profile-stats-row">
                   <div className="ap-stat-item-inline">
-                    <span className="ap-stat-num">{artisan.creationsCount}</span>
-                    <span className="ap-stat-lbl">Creations</span>
+                    <span className="ap-stat-num">{artisan.followingCount}</span>
+                    <span className="ap-stat-lbl">Following</span>
                   </div>
 
                   <div className="ap-stat-item-inline">
@@ -513,8 +675,8 @@ export default function ArtisanDetailsPage({
                   </div>
 
                   <div className="ap-stat-item-inline">
-                    <span className="ap-stat-num">{artisan.reviewsCount}</span>
-                    <span className="ap-stat-lbl">Reviews</span>
+                    <span className="ap-stat-num">{artisan.creationsCount}</span>
+                    <span className="ap-stat-lbl">Creations</span>
                   </div>
                 </div>
 
@@ -547,127 +709,137 @@ export default function ArtisanDetailsPage({
 
             {/* TAB CONTENT: PRODUCTS */}
             {activeTab === 'Products' && (
-              <div className="animate-fade-in">
+              <div className="animate-fade-in ap-tab-content-pane">
                 
-                {/* 3-Column Products Grid (Screenshot 1) */}
-                <div className="ap-tab-products-grid">
-                  {artisan.products?.map((item) => {
-                    const isWishlisted = wishlist.includes(item.id);
+                {/* SECTION 1: Artisan Products Catalog */}
+                <section className="ap-tab-section ap-products-section">
+                  <div className="ap-tab-section-header">
+                    <div className="ap-eyebrow-row">
+                      <span className="ap-section-eyebrow">Studio Catalog</span>
+                      <span className="ap-count-badge">{totalFilteredCount} Pieces</span>
+                    </div>
+                    <h2 className="ap-section-title">Handcrafted by {artisan.name}</h2>
+                    <p className="ap-section-subtitle">
+                      Authentic creations originating from {artisan.city}, {artisan.state}. Individually shaped by hand.
+                    </p>
+                  </div>
 
-                    return (
-                      <article key={item.id} className="ap-item-card">
-                        
-                        {/* Media Container */}
-                        <div
-                          className="ap-item-media"
-                          onClick={() => onOpenProductModal && onOpenProductModal(item)}
-                        >
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            loading="lazy"
-                          />
-                          <span className="ap-item-badge-pill">{item.badge || 'HANDMADE'}</span>
-                          
-                          <button
-                            className="ap-item-wish-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onToggleWishlist && onToggleWishlist(item.id);
-                            }}
-                            aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                          >
-                            <Heart
-                              size={16}
-                              fill={isWishlisted ? '#A85838' : 'none'}
-                              color={isWishlisted ? '#A85838' : 'currentColor'}
+                  {/* Primary Product Grid with Skeleton Loading States */}
+                  {isFilterLoading ? (
+                    <div className="product-grid shop-product-grid" aria-label="Loading products">
+                      <ProductCardSkeleton count={8} />
+                    </div>
+                  ) : visibleProducts.length > 0 ? (
+                    <>
+                      <div className="product-grid shop-product-grid">
+                        {visibleProducts.map((product) => {
+                          const isWishlisted = wishlist.includes(product.id);
+                          return (
+                            <ProductCard
+                              key={product.id}
+                              product={product}
+                              isWishlisted={isWishlisted}
+                              onToggleWishlist={onToggleWishlist}
+                              onOpenProductModal={onOpenProductModal}
+                              onAddToCart={onAddToCart}
                             />
-                          </button>
-                        </div>
+                          );
+                        })}
 
-                        {/* Content Body */}
-                        <div className="ap-item-body">
-                          
-                          <div className="ap-item-meta-top">
-                            <span className="ap-item-brand">{item.brand}</span>
-                            <div className="ap-item-rating">
-                              <Star size={13} fill="#D97706" color="#D97706" />
-                              <span>{item.rating}</span>
-                            </div>
-                          </div>
-
-                          <h3
-                            className="ap-item-title"
-                            title={item.name}
-                            onClick={() => onOpenProductModal && onOpenProductModal(item)}
-                          >
-                            {item.name}
-                          </h3>
-
-                          <div className="ap-item-price-loc-row">
-                            <div className="ap-item-loc" title={item.fullLocation || item.location}>
-                              <MapPin size={13} />
-                              <span>{item.location}</span>
-                            </div>
-
-                            <div className="ap-item-price-wrap">
-                              <span className="ap-item-price">
-                                ₹{item.price.toLocaleString('en-IN')}
-                              </span>
-                              {item.originalPrice && (
-                                <span className="ap-item-original-price">
-                                  ₹{item.originalPrice.toLocaleString('en-IN')}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-
-                          <button
-                            className="ap-item-view-btn"
-                            onClick={() => onOpenProductModal && onOpenProductModal(item)}
-                          >
-                            VIEW CREATION
-                          </button>
-
-                        </div>
-
-                      </article>
-                    );
-                  })}
-                </div>
-
-                {/* Dark Feature Collection Banner (Screenshot 2) */}
-                <div className="ap-dark-collection-banner">
-                  <div>
-                    <h3 className="ap-dark-banner-title">
-                      The {artisan.brandName} Signature Line
-                    </h3>
-                    <button
-                      className="ap-btn-shop-collection"
-                      onClick={() => onNavigate && onNavigate('/shop')}
-                    >
-                      <span>Explore Full Catalog</span>
-                      <ArrowRight size={14} />
-                    </button>
-                  </div>
-
-                  <div className="ap-dark-banner-thumbs">
-                    {artisan.products.slice(0, 3).map((p, idx) => (
-                      <div key={idx} className="ap-dark-thumb-item">
-                        <img src={p.image} alt={p.name} />
+                        {/* Skeleton Cards Appended Seamlessly During Infinite Scroll Loading */}
+                        {isLoadingMore && (
+                          <ProductCardSkeleton count={6} />
+                        )}
                       </div>
-                    ))}
-                  </div>
+
+                      {/* Infinite Scroll Sentinel Element */}
+                      <div ref={sentinelRef} className="infinite-scroll-sentinel" aria-hidden="true" />
+
+                      {/* Small Unobtrusive Loading Indicator & Load More Action */}
+                      {isLoadingMore ? (
+                        <div className="infinite-loading-indicator" role="status" aria-live="polite">
+                          <Loader2 size={19} className="infinite-spinner" />
+                          <span>Loading more Pieces...</span>
+                        </div>
+                      ) : hasMore && (
+                        <div className="text-center" style={{ marginTop: '1.75rem', marginBottom: '1.25rem' }}>
+                          <button
+                            className="btn btn-secondary"
+                            onClick={loadNextRecords}
+                            style={{ minWidth: '240px', padding: '0.75rem 1.75rem', cursor: 'pointer' }}
+                          >
+                            Load More Pieces ({totalFilteredCount - visibleProducts.length} remaining)
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Natural End of Catalog Indicator */}
+                      {!hasMore && visibleProducts.length > 0 && (
+                        <div className="infinite-end-indicator">
+                          <span className="end-divider-line" />
+                          <span className="end-badge">
+                            {t('shop_showing_all', 'Showing all')} ({totalFilteredCount})
+                          </span>
+                          <span className="end-divider-line" />
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="shop-no-results text-center" style={{ padding: '3rem 0', width: '100%' }}>
+                      <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                        {t('shop_no_products', 'No creations found')}
+                      </h3>
+                      <p style={{ color: 'var(--text-muted)', marginBottom: '1.25rem', fontSize: '0.92rem' }}>
+                        {t('shop_reset_filters', 'Reset filters')}
+                      </p>
+                      <button className="btn btn-primary" onClick={resetAllFilters}>
+                        {t('shop_reset_filters', 'Reset filters')}
+                      </button>
+                    </div>
+                  )}
+                </section>
+
+                {/* Section Divider Line (Matching /shop & /home styling) */}
+                <div className="ap-section-divider">
+                  <span className="ap-divider-line" />
+                  <span className="ap-divider-text">Signature Line Collection</span>
+                  <span className="ap-divider-line" />
                 </div>
+
+                {/* SECTION 2: Dark Feature Collection Banner */}
+                <section className="ap-tab-section ap-signature-section">
+                  <div className="ap-dark-collection-banner">
+                    <div>
+                      <h3 className="ap-dark-banner-title">
+                        The {artisan.brandName} Signature Line
+                      </h3>
+                      <button
+                        className="ap-btn-shop-collection"
+                        onClick={() => onNavigate && onNavigate('/shop')}
+                      >
+                        <span>Explore Full Catalog</span>
+                        <ArrowRight size={14} />
+                      </button>
+                    </div>
+
+                    <div className="ap-dark-banner-thumbs">
+                      {artisan.products.slice(0, 3).map((p, idx) => (
+                        <div key={idx} className="ap-dark-thumb-item">
+                          <img src={p.image} alt={p.name} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
 
               </div>
             )}
 
             {/* TAB CONTENT: ABOUT & PROCESS (Screenshot 2 Harmonized) */}
             {activeTab === 'About' && (
-              <div className="animate-fade-in">
+              <div className="animate-fade-in ap-tab-content-pane">
                 
-                {/* Split Meet the Maker Card */}
+                {/* Section 1: Meet the Maker Card */}
                 <section className="ap-meet-card-section">
                   <div className="ap-meet-card">
                     <div className="ap-meet-media">
@@ -705,58 +877,81 @@ export default function ArtisanDetailsPage({
                   </div>
                 </section>
 
-                {/* About Specs Grid */}
-                <div className="ap-about-specs-grid">
-                  <div className="ap-spec-item">
-                    <Sparkles size={16} className="ap-spec-icon" />
-                    <div>
-                      <div className="ap-spec-key">Craft Discipline</div>
-                      <div className="ap-spec-val">{artisan.craft}</div>
-                    </div>
-                  </div>
-
-                  <div className="ap-spec-item">
-                    <Clock size={16} className="ap-spec-icon" />
-                    <div>
-                      <div className="ap-spec-key">Experience</div>
-                      <div className="ap-spec-val">{artisan.yearsOfExperience} Years</div>
-                    </div>
-                  </div>
-
-                  <div className="ap-spec-item">
-                    <MapPin size={16} className="ap-spec-icon" />
-                    <div>
-                      <div className="ap-spec-key">Workshop Location</div>
-                      <div className="ap-spec-val">{artisan.city}, {artisan.state}</div>
-                    </div>
-                  </div>
-
-                  <div className="ap-spec-item">
-                    <Briefcase size={16} className="ap-spec-icon" />
-                    <div>
-                      <div className="ap-spec-key">Specialty</div>
-                      <div className="ap-spec-val">{artisan.craftSpecialty}</div>
-                    </div>
-                  </div>
-
-                  <div className="ap-spec-item">
-                    <HeartHandshake size={16} className="ap-spec-icon" />
-                    <div>
-                      <div className="ap-spec-key">Studio Brand</div>
-                      <div className="ap-spec-val">{artisan.brandName}</div>
-                    </div>
-                  </div>
-
-                  <div className="ap-spec-item">
-                    <Layers size={16} className="ap-spec-icon" />
-                    <div>
-                      <div className="ap-spec-key">Materials Used</div>
-                      <div className="ap-spec-val">100% Sustainable & Hand-sourced</div>
-                    </div>
-                  </div>
+                {/* Section Divider */}
+                <div className="ap-section-divider">
+                  <span className="ap-divider-line" />
+                  <span className="ap-divider-text">Studio Specifications</span>
+                  <span className="ap-divider-line" />
                 </div>
 
-                {/* How It's Made: 5-Step Process */}
+                {/* Section 2: About Specs Surface */}
+                <section className="ap-surface-container">
+                  <div className="ap-tab-section-header" style={{ marginBottom: '1.25rem' }}>
+                    <div className="ap-eyebrow-row">
+                      <span className="ap-section-eyebrow">Atelier Standards</span>
+                    </div>
+                    <h3 className="ap-section-title" style={{ fontSize: '1.3rem' }}>Studio & Craft Details</h3>
+                  </div>
+
+                  <div className="ap-about-specs-grid">
+                    <div className="ap-spec-item">
+                      <Sparkles size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Craft Discipline</div>
+                        <div className="ap-spec-val">{artisan.craft}</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <Clock size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Experience</div>
+                        <div className="ap-spec-val">{artisan.yearsOfExperience} Years</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <MapPin size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Workshop Location</div>
+                        <div className="ap-spec-val">{artisan.city}, {artisan.state}</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <Briefcase size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Specialty</div>
+                        <div className="ap-spec-val">{artisan.craftSpecialty}</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <HeartHandshake size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Studio Brand</div>
+                        <div className="ap-spec-val">{artisan.brandName}</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <Layers size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Materials Used</div>
+                        <div className="ap-spec-val">100% Sustainable & Hand-sourced</div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Section Divider */}
+                <div className="ap-section-divider">
+                  <span className="ap-divider-line" />
+                  <span className="ap-divider-text">Ancestral Craft Process</span>
+                  <span className="ap-divider-line" />
+                </div>
+
+                {/* Section 3: How It's Made: 5-Step Process */}
                 <section className="ap-how-section">
                   <div className="ap-how-header">
                     <h3 className="ap-how-title">How It's Made</h3>
@@ -778,8 +973,15 @@ export default function ArtisanDetailsPage({
                   </div>
                 </section>
 
-                {/* Studio Moments Photo Strip */}
-                <div>
+                {/* Section Divider */}
+                <div className="ap-section-divider">
+                  <span className="ap-divider-line" />
+                  <span className="ap-divider-text">Studio Moments</span>
+                  <span className="ap-divider-line" />
+                </div>
+
+                {/* Section 4: Studio Moments Photo Strip */}
+                <section className="ap-moments-section">
                   <h3 className="ap-how-title" style={{ marginBottom: '1rem' }}>Studio Moments</h3>
                   <div className="ap-moments-strip">
                     {artisan.moments.map((img, idx) => (
@@ -788,52 +990,62 @@ export default function ArtisanDetailsPage({
                       </div>
                     ))}
                   </div>
-                </div>
+                </section>
 
               </div>
             )}
 
             {/* TAB CONTENT: STUDIO FEED */}
             {activeTab === 'Posts' && (
-              <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2.5rem' }}>
+              <div className="animate-fade-in ap-studio-feed-container">
+                <div className="ap-tab-section-header">
+                  <div className="ap-eyebrow-row">
+                    <span className="ap-section-eyebrow">Studio Dispatches</span>
+                    <span className="ap-count-badge">{artisan.posts?.length || 1} Updates</span>
+                  </div>
+                  <h2 className="ap-section-title">Live From {artisan.name}'s Workshop</h2>
+                  <p className="ap-section-subtitle">
+                    Behind-the-scenes progress, freshly fired or shaped works, and atelier notes.
+                  </p>
+                </div>
+
                 {artisan.posts?.map((post) => (
                   <div
                     key={post.id}
-                    className="ap-profile-card"
-                    style={{ padding: '1.75rem', marginBottom: 0 }}
+                    className="ap-profile-card ap-feed-post-card"
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.15rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <div className="ap-post-header-row">
+                      <div className="ap-post-author-box">
                         <img
                           src={artisan.avatar}
                           alt={artisan.name}
-                          style={{ width: '42px', height: '42px', borderRadius: '50%', objectFit: 'cover' }}
+                          className="ap-post-author-avatar"
                         />
                         <div>
-                          <div style={{ fontWeight: 700, fontSize: '0.96rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <div className="ap-post-author-name-row">
                             <span>{artisan.name}</span>
                             <CheckCircle2 size={14} fill="#2563EB" color="#FFFFFF" />
                           </div>
-                          <div style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{post.date}</div>
+                          <div className="ap-post-date">{post.date}</div>
                         </div>
                       </div>
                       <MoreHorizontal size={18} color="var(--text-muted)" />
                     </div>
 
-                    <p style={{ fontSize: '0.94rem', lineHeight: '1.65', color: 'var(--text-secondary)', marginBottom: '1.15rem' }}>
+                    <p className="ap-post-caption">
                       {post.caption}
                     </p>
 
                     {post.image && (
-                      <div style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden', maxHeight: '440px', marginBottom: '1.15rem', backgroundColor: 'var(--bg-secondary)' }}>
-                        <img src={post.image} alt="Studio update" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div className="ap-post-image-wrap">
+                        <img src={post.image} alt="Studio update" className="ap-post-image" />
                       </div>
                     )}
 
-                    <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.86rem', color: 'var(--text-muted)', paddingTop: '0.85rem', borderTop: '1px solid var(--border-light)' }}>
+                    <div className="ap-post-actions-row">
                       <span>♡ {post.likes} Likes</span>
                       <span>💬 {post.comments} Comments</span>
-                      <span style={{ marginLeft: 'auto', color: 'var(--accent-terracotta)', fontWeight: 600 }}>Artisan Verified Post</span>
+                      <span className="ap-post-verified-badge">Artisan Verified Post</span>
                     </div>
                   </div>
                 ))}
@@ -845,7 +1057,7 @@ export default function ArtisanDetailsPage({
           {/* ----------------------------------------------------------
               RIGHT COLUMN: Sidebar ("You might like" & "Trending in Crafting")
               ---------------------------------------------------------- */}
-          <aside className="ap-sidebar-column">
+          <aside ref={rightSidebarRef} className="ap-sidebar-column">
             
             {/* SIDEBAR CARD 1: You might like (Screenshot 1) */}
             <div className="ap-sidebar-card">
