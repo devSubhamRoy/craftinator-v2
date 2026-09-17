@@ -15,9 +15,12 @@ export function NavigationProvider({ children }) {
     const path = window.location.pathname;
     const search = window.location.search;
     if (path.startsWith('/product')) return sanitizePath(path + search);
+    if (path.startsWith('/artisan') || path.startsWith('/maker')) return sanitizePath(path + search);
     if (path === '/shop') return '/shop';
     if (path === '/makers' || path === '/meet-makers') return '/makers';
-    if (path === '/community') return '/community';
+    if (path.startsWith('/community')) return sanitizePath(path + search);
+    if (path === '/profile') return '/profile';
+    if (path === '/settings') return '/settings';
     return sanitizePath(path);
   });
 
@@ -105,12 +108,18 @@ export function NavigationProvider({ children }) {
       let nextPath = '/';
       if (pathname.startsWith('/product')) {
         nextPath = pathname + search;
+      } else if (pathname.startsWith('/artisan') || pathname.startsWith('/maker')) {
+        nextPath = pathname + search;
       } else if (pathname === '/shop') {
         nextPath = '/shop';
       } else if (pathname === '/makers' || pathname === '/meet-makers') {
         nextPath = '/makers';
-      } else if (pathname === '/community') {
-        nextPath = '/community';
+      } else if (pathname.startsWith('/community')) {
+        nextPath = sanitizePath(pathname + search);
+      } else if (pathname === '/profile') {
+        nextPath = '/profile';
+      } else if (pathname === '/settings') {
+        nextPath = '/settings';
       } else {
         nextPath = sanitizePath(pathname);
       }

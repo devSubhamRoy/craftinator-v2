@@ -26,7 +26,10 @@ import './styles/LoadingScreen.css';
 import './styles/ProductDetailsPage.css';
 import './styles/ProductAccordion.css';
 import './styles/MeetMakersPage.css';
+import './styles/ArtisanDetailsPage.css';
 import './styles/CommunityPage.css';
+import './styles/ProfilePage.css';
+import './styles/SettingsPage.css';
 
 import {
   Header,
@@ -48,10 +51,14 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import MeetMakersPage from './pages/MeetMakersPage';
+import ArtisanDetailsPage from './pages/ArtisanDetailsPage';
 import CommunityPage from './pages/CommunityPage';
+import ProfilePage from './pages/ProfilePage';
+import SettingsPage from './pages/SettingsPage';
 
 /* Datasets */
 import { products } from './data/products';
+import { artisans } from './data/artisans';
 
 function AppContent() {
   const { t } = useLanguage();
@@ -75,6 +82,21 @@ function AppContent() {
     return products[0]?.id || null;
   }, [currentPath]);
 
+  /* Extract Artisan ID if on /artisan or /maker route */
+  const currentArtisanId = useMemo(() => {
+    if (!currentPath.startsWith('/artisan') && !currentPath.startsWith('/maker')) return null;
+    if (currentPath.includes('?')) {
+      const queryPart = currentPath.split('?')[1];
+      const params = new URLSearchParams(queryPart);
+      if (params.get('id')) return params.get('id');
+    }
+    const segments = currentPath.split('/');
+    if (segments.length >= 3 && segments[2]) {
+      return segments[2].split('?')[0];
+    }
+    return artisans[0]?.id || null;
+  }, [currentPath]);
+
   /* Forward Navigation Handler */
   const handleNavigate = (path, options = {}) => {
     navigate(path, options);
@@ -96,6 +118,8 @@ function AppContent() {
   /* Modals Control State */
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [shopSearchQuery, setShopSearchQuery] = useState('');
   const [selectedProductModal, setSelectedProductModal] = useState(null);
   const [selectedArtisanModal, setSelectedArtisanModal] = useState(null);
@@ -128,6 +152,30 @@ function AppContent() {
     showToast(`Added "${product.name}" to your cart`);
   };
 
+  const handleUpdateCartQuantity = (productId, delta) => {
+    setCartItems((prevItems) => {
+      return prevItems
+        .map(item => {
+          if (item.id === productId) {
+            const newQty = item.quantity + delta;
+            return newQty > 0 ? { ...item, quantity: newQty } : null;
+          }
+          return item;
+        })
+        .filter(Boolean);
+    });
+  };
+
+  const handleRemoveCartItem = (productId) => {
+    setCartItems(prev => prev.filter(item => item.id !== productId));
+    showToast(t('cart_item_removed', 'Item removed from cart'));
+  };
+
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    showToast(t('checkout_initiated', 'Proceeding to secure checkout...'));
+  };
+
   /* Wishlist Handlers */
   const handleToggleWishlist = (productId) => {
     if (wishlist.includes(productId)) {
@@ -149,6 +197,16 @@ function AppContent() {
     handleNavigate(`/product?id=${prodId}`, { targetId: `product-card-${prodId}` });
   };
 
+  /* Artisan Navigation Handler - Direct to Artisan Details Page */
+  const handleArtisanClick = (artisan) => {
+    if (!artisan) return;
+    const artId = typeof artisan === 'string' ? artisan : (artisan.id || artisan.name);
+    setSelectedProductModal(null);
+    setSelectedArtisanModal(null);
+    setIsMobileMenuOpen(false);
+    handleNavigate(`/artisan?id=${artId}`, { targetId: `artisan-card-${artId}` });
+  };
+
   return (
     <div className="app-root">
       {/* 0. Artisan Initial Loading Screen */}
@@ -168,11 +226,17 @@ function AppContent() {
         wishlistCount={wishlist.length}
         currentPath={currentPath}
         onNavigate={handleNavigate}
-        onOpenCart={() => showToast(`Cart contains ${cartItems.length} items`)}
-        onOpenWishlist={() => showToast(`Wishlist contains ${wishlist.length} items`)}
+        onOpenCart={() => setIsCartOpen(true)}
+        onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
         onOpenAuth={(mode) => setAuthModalMode(mode)}
         onOpenSearch={() => setIsSearchOpen(true)}
+        onOpenChat={() => {
+          showToast('Artisan Chat: Chat directly with master craftspeople');
+        }}
+        onOpenNotifications={() => {
+          showToast('Notifications: 2 new artisan craft drops & restocks');
+        }}
       />
 
       {/* 2. Main Page View Architecture */}
@@ -184,10 +248,22 @@ function AppContent() {
             wishlist={wishlist}
             onToggleWishlist={handleToggleWishlist}
             onAddToCart={handleAddToCart}
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onOpenProductModal={handleProductClick}
             onNavigate={handleNavigate}
             onGoBack={goBack}
+          />
+        ) : (currentPath.startsWith('/artisan') || currentPath.startsWith('/maker')) ? (
+          /* Dedicated Independent Artisan Details Page (/artisan?id=...) */
+          <ArtisanDetailsPage
+            artisanId={currentArtisanId}
+            wishlist={wishlist}
+            onToggleWishlist={handleToggleWishlist}
+            onAddToCart={handleAddToCart}
+            onOpenProductModal={handleProductClick}
+            onNavigate={handleNavigate}
+            onGoBack={goBack}
+            showToast={showToast}
           />
         ) : currentPath === '/shop' ? (
           /* Dedicated Independent Shop Page (/shop) */
@@ -197,24 +273,43 @@ function AppContent() {
             onToggleWishlist={handleToggleWishlist}
             onOpenProductModal={handleProductClick}
             onAddToCart={handleAddToCart}
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onNavigateHome={() => handleNavigate('/')}
             onNavigate={handleNavigate}
           />
         ) : (currentPath === '/makers' || currentPath === '/meet-makers') ? (
           /* Dedicated Independent Meet the Makers Page (/makers) */
           <MeetMakersPage
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onOpenProductModal={handleProductClick}
             onNavigate={handleNavigate}
             showToast={showToast}
           />
-        ) : currentPath === '/community' ? (
+        ) : currentPath.startsWith('/community') ? (
           /* Dedicated Independent Community Social Feed Page (/community) */
           <CommunityPage
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onOpenProductModal={handleProductClick}
             onNavigate={handleNavigate}
+            showToast={showToast}
+          />
+        ) : currentPath === '/profile' ? (
+          /* Dedicated Independent Profile Page (/profile) */
+          <ProfilePage
+            wishlist={wishlist}
+            onToggleWishlist={handleToggleWishlist}
+            onAddToCart={handleAddToCart}
+            onOpenProductModal={handleProductClick}
+            onOpenArtisanModal={handleArtisanClick}
+            onNavigate={handleNavigate}
+            onGoBack={goBack}
+            showToast={showToast}
+          />
+        ) : currentPath === '/settings' ? (
+          /* Dedicated Independent Settings Page (/settings) */
+          <SettingsPage
+            onNavigate={handleNavigate}
+            onGoBack={goBack}
             showToast={showToast}
           />
         ) : (
@@ -224,7 +319,7 @@ function AppContent() {
             onToggleWishlist={handleToggleWishlist}
             onOpenProductModal={handleProductClick}
             onAddToCart={handleAddToCart}
-            onOpenArtisanModal={(artisan) => setSelectedArtisanModal(artisan)}
+            onOpenArtisanModal={handleArtisanClick}
             onNavigate={handleNavigate}
             showToast={showToast}
           />
@@ -232,7 +327,7 @@ function AppContent() {
       </main>
 
       {/* 3. Reusable Global Footer (Hidden on /community for full social media app experience) */}
-      {currentPath !== '/community' && <Footer />}
+      {!currentPath.startsWith('/community') && <Footer />}
 
       {/* Mobile Navigation Drawer */}
       <MobileDrawer
@@ -240,6 +335,31 @@ function AppContent() {
         onClose={() => setIsMobileMenuOpen(false)}
         onOpenAuth={(mode) => setAuthModalMode(mode)}
         onNavigate={handleNavigate}
+        currentPath={currentPath}
+        cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+        wishlistCount={wishlist.length}
+        onOpenCart={() => setIsCartOpen(true)}
+        onOpenWishlist={() => setIsWishlistOpen(true)}
+      />
+
+      {/* Interactive Cart Slide-in Drawer */}
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cartItems}
+        onUpdateQuantity={handleUpdateCartQuantity}
+        onRemoveItem={handleRemoveCartItem}
+        onCheckout={handleCheckout}
+      />
+
+      {/* Interactive Wishlist Slide-in Drawer */}
+      <WishlistDrawer
+        isOpen={isWishlistOpen}
+        onClose={() => setIsWishlistOpen(false)}
+        wishlistIds={wishlist}
+        onToggleWishlist={handleToggleWishlist}
+        onAddToCart={handleAddToCart}
+        onOpenProductModal={handleProductClick}
       />
 
       {/* Product Quick-View Details Modal */}
@@ -258,8 +378,10 @@ function AppContent() {
       {selectedArtisanModal && (
         <ArtisanModal
           artisan={selectedArtisanModal}
+          isOpen={true}
           onClose={() => setSelectedArtisanModal(null)}
           onOpenProductModal={handleProductClick}
+          onNavigateToArtisan={() => handleArtisanClick(selectedArtisanModal)}
         />
       )}
 
