@@ -521,8 +521,21 @@
   margin-right: auto;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+/* Responsive adjustments matching ArtisanDetailsPage mobile width */
+@media (max-width: 767px) {
+  .profile-page-root {
+    padding-top: 0.65rem;
+  }
+
+  .profile-container {
+    padding: 0 0.35rem;
+  }
+
+  .profile-top-bar {
+    padding: 0 0.25rem;
+    margin-bottom: 1rem;
+  }
+
   .profile-order-card {
     flex-direction: column;
     align-items: flex-start;
