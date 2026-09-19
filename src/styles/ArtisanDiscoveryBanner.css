@@ -325,14 +325,18 @@
   transform: scale(1.08);
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
+/* Mobile Responsiveness matching ArtisanDetailsPage mobile width */
+@media (max-width: 767px) {
   .artisan-trailer-section {
-    padding: 4rem 1.25rem 4.5rem;
+    padding: 3rem 0 3.5rem;
+  }
+
+  .artisan-trailer-container {
+    padding: 0 0.35rem;
   }
 
   .artisan-trailer-media-wrapper {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
     border-radius: var(--radius-lg, 20px);
   }
 

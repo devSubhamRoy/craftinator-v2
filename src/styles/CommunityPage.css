@@ -1753,7 +1753,7 @@
 /* Mobile Mode (<= 860px) -> Middle Feed Only (Both Left & Right Hidden) */
 @media (max-width: 860px) {
   .community-app-root {
-    padding: 0.85rem 0.75rem 4.5rem;
+    padding: 0.65rem 0.35rem 4.5rem;
   }
 
   .soc-app-grid {
@@ -1761,7 +1761,7 @@
     max-width: 100%;
     gap: 1rem;
     width: 100%;
-    margin: 0;
+    margin: 0 auto;
   }
 
   .soc-left-sidebar,
@@ -1769,8 +1769,17 @@
     display: none !important;
   }
 
+  .soc-top-bar {
+    padding: 0 0.25rem;
+  }
+
+  .soc-feeds-header {
+    padding: 0 0.25rem;
+  }
+
   .soc-mobile-nav-chips {
     display: flex;
+    padding: 0 0.25rem;
   }
 
   .soc-mobile-fab-btn {
@@ -1782,7 +1791,7 @@
   }
 
   .soc-post-card {
-    border-radius: 0;
+    border-radius: var(--radius-md);
   }
 
   .soc-post-seller-strip {
@@ -1809,7 +1818,7 @@
 /* Small Smartphone Breakpoint (<= 480px) */
 @media (max-width: 480px) {
   .community-app-root {
-    padding: 0.5rem 0 4.5rem;
+    padding: 0.65rem 0.35rem 4.5rem;
   }
 
   .soc-product-card-attachment {
@@ -1826,17 +1835,15 @@
   }
 
   .soc-top-bar {
-    padding: 0 0.75rem;
+    padding: 0 0.25rem;
   }
 
   .soc-feeds-header {
-    padding: 0 0.75rem;
+    padding: 0 0.25rem;
   }
 
   .soc-posts-container {
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
+    border-radius: var(--radius-md);
   }
 
   .soc-slider-arrow-btn {
