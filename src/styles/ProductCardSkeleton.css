@@ -14,11 +14,11 @@
   height: 100%;
 }
 
-/* Media Skeleton - matches .product-media aspect-ratio (3/4 across all breakpoints) */
+/* Media Skeleton - matches .product-media aspect-ratio (fixed across all breakpoints) */
 .product-card-skeleton .skeleton-media {
   position: relative;
   background-color: #EFE7DE;
-  aspect-ratio: 3 / 4 !important;
+  aspect-ratio: var(--aspect-product, 3 / 4) !important;
   width: 100%;
   overflow: hidden;
 }
@@ -149,7 +149,7 @@
 /* Tablet Responsive Breakpoint (768px - 1024px) */
 @media (max-width: 1024px) {
   .product-card-skeleton .skeleton-media {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: var(--aspect-product, 3 / 4) !important;
   }
 
   .product-card-skeleton .skeleton-info,
@@ -162,7 +162,7 @@
 @media (max-width: 767px) {
   .product-card-skeleton .skeleton-media,
   .product-card.product-card-skeleton .product-media {
-    aspect-ratio: 3 / 4 !important;
+    aspect-ratio: var(--aspect-product, 3 / 4) !important;
   }
 
   .product-card-skeleton .skeleton-info,

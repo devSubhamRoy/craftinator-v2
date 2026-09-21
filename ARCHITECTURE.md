@@ -1,0 +1,139 @@
+# Craftinator-v2 Project Architecture
+
+> **Last Updated**: 2026-09-19 (After Layout Standardization & Mobile Width Alignment)
+
+Craftinator-v2 is a curated artisan and handcrafted e-commerce & community SPA (Single Page Application) built with **React 18**, **Vite**, and an earthy **Pure Vanilla CSS Design System**.
+
+---
+
+## 1. High-Level System Architecture Diagram
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 ENTRY POINT & ROUTING                                  │
+│                 main.jsx ──▶ App.jsx (History API Client-Side Routing)                 │
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │
+                    ┌───────────────────────┴───────────────────────┐
+                    ▼                                               ▼
+┌───────────────────────────────────────┐       ┌───────────────────────────────────────┐
+│           GLOBAL CONTEXTS             │       │             GLOBAL HOOKS              │
+│  - LanguageContext (i18n System)      │       │  - useBodyScrollLock (Modals/Drawers) │
+│  - NavigationContext (Page State)     │       │  - useDebounce, etc.                  │
+└───────────────────┬───────────────────┘       └───────────────────┬───────────────────┘
+                    │                                               │
+                    └───────────────────────┬───────────────────────┘
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                       PAGES                                            │
+│  ├─ HomePage.jsx            ├─ ShopPage.jsx           ├─ ProductDetailsPage.jsx        │
+│  ├─ MeetMakersPage.jsx      ├─ ArtisanDetailsPage.jsx ├─ CommunityPage.jsx             │
+│  ├─ ProfilePage.jsx         └─ SettingsPage.jsx                                        │
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │
+                    ┌───────────────────────┴───────────────────────┐
+                    ▼                                               ▼
+┌───────────────────────────────────────┐       ┌───────────────────────────────────────┐
+│             COMPONENTS                │       │             DATA LAYER                │
+│  ├─ /sections (Hero, MeetMakers, etc.)│       │  ├─ products.js (Catalog)             │
+│  ├─ /cards (ProductCard, etc.)        │       │  ├─ artisans.js (Maker Profiles)      │
+│  ├─ /modals (CartDrawer, SearchModal) │       │  ├─ communityPosts.js (Feed Data)     │
+│  └─ /ui (Buttons, Badges, Skeletons)  │       │  └─ reviews.js, categories.js         │
+└───────────────────────────────────────┘       └───────────────────────────────────────┘
+                                            │
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   STYLING LAYER                                        │
+│  ├─ src/index.css (Design Tokens, Palette, Typography, Container System)               │
+│  └─ src/styles/*.css (Pure Vanilla Component & Page Specific CSS Modules)              │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 2. Directory Structure & File Map
+
+```
+Craftinator-v2/
+├── public/                 # Static public assets, favicon & fonts
+├── scripts/
+│   └── i18n-sync.js        # Automated script to scan codebase and sync translation keys
+├── src/
+│   ├── components/
+│   │   ├── cards/          # ProductCard, ArtisanCard, ReviewCard
+│   │   ├── modals/         # CartDrawer, SearchModal, ProductQuickView, StoryModal
+│   │   ├── sections/       # Hero, MeetMakers, ShopByCategory, TrendingProducts, etc.
+│   │   └── ui/             # Reusable UI primitives (Skeletons, Badges, Dropdowns)
+│   ├── context/
+│   │   └── NavigationContext.jsx # Page navigation state & history caching
+│   ├── data/
+│   │   ├── products.js     # Catalog datasets with pricing, materials, tags
+│   │   ├── artisans.js     # Master artisans bios, craft categories, location
+│   │   ├── communityPosts.js # Social craft stories, feeds & reactions
+│   │   └── reviews.js      # Customer reviews & craft ratings
+│   ├── hooks/
+│   │   ├── useBodyScrollLock.js # Accessible modal backdrop scroll prevention
+│   │   └── useDebounce.js  # Search & input optimization
+│   ├── i18n/
+│   │   ├── LanguageContext.jsx # t('key', 'Default') translation provider
+│   │   └── translations.json   # Multi-language dictionary (EN, HI, ES, FR, DE, JA)
+│   ├── pages/
+│   │   ├── HomePage.jsx
+│   │   ├── ShopPage.jsx
+│   │   ├── ProductDetailsPage.jsx
+│   │   ├── ArtisanDetailsPage.jsx
+│   │   ├── MeetMakersPage.jsx
+│   │   ├── CommunityPage.jsx
+│   │   ├── ProfilePage.jsx
+│   │   └── SettingsPage.jsx
+│   ├── services/           # Socket & API service abstractions (Real-time ready)
+│   ├── styles/             # Dedicated Pure Vanilla CSS files per component/page
+│   ├── App.jsx             # Root Component: Routing, Cart, Wishlist, Global Modals
+│   ├── index.css           # Global Design Tokens (Colors, Typography, Layout Tokens)
+│   └── main.jsx            # Vite DOM React Root mount
+├── vite.config.js          # Vite config (port 3000, host: true, React plugin)
+├── vercel.json             # SPA rewrites configuration for production deployment
+├── ARCHITECTURE.md         # Living Architecture Documentation
+└── package.json
+```
+
+---
+
+## 3. Core Architectural Principles
+
+### 3.1. Zero-Dependency Client-Side Routing
+- **Mechanism**: Managed inside `src/App.jsx` using the native HTML5 History API (`window.location.pathname`, `pushState`, `popstate`).
+- **Benefits**: Zero bundle overhead compared to large router packages, instantaneous transitions, and full native browser history behavior.
+- **SPA Rewrites**: Handled by `vercel.json` (`{"source": "/(.*)", "destination": "/index.html"}`) for deep linking without 404s.
+
+### 3.2. Centralized State & Data Flow
+- **Cart State**: Managed centrally in `src/App.jsx` with persistent `localStorage` synchronization and quantity update/remove handlers.
+- **Wishlist State**: Global item ID array toggled across cards and pages.
+- **Catalog & Social Data**: Static, strongly-typed JS modules in `src/data/` allowing instant client-side filtering, sorting, and search.
+
+### 3.3. Pure Vanilla CSS & Design Tokens
+- **Design Tokens (`src/index.css`)**:
+  - **Palette**: Terracotta (`--accent-terracotta: #A85838`), Sand/Cream (`--bg-primary: #FAF7F2`), Dark Charcoal (`--text-primary: #231815`), Sage (`--accent-sage: #7A866A`).
+  - **Typography**: Editorial Serif (`Cormorant Garamond`) + Clean Sans (`Plus Jakarta Sans`).
+  - **Mobile Container Standard**: Universal `0.35rem` left/right gutter on `@media (max-width: 767px)` aligned with `ArtisanDetailsPage`.
+  - **Product Media Standard**: Universal fixed `aspect-ratio: 3 / 4` portrait proportion across all cards (`ProductCard`, `ProductCardSkeleton`), Product Details (`.product-main-frame`), Wishlist, and Quick View Modals across Mobile, Tablet, and Desktop with `object-fit: cover`.
+- **Zero Utility Library Overhead**: No Tailwind CSS or Bootstrap; component styles reside in dedicated `src/styles/*.css` files imported centrally.
+
+### 3.4. Internationalization (i18n) Engine
+- Managed via `src/i18n/LanguageContext.jsx` using `t('key', 'Default Text')`.
+- Maintained via automated script `npm run i18n:sync` that scans `src/` and updates `translations.json` across all supported languages.
+
+### 3.5. Accessible Drawers & Modals
+- All overlays (Cart Drawer, Search Modal, Quick View, Story Modal) use `src/hooks/useBodyScrollLock.js` to prevent background page scroll while retaining touch accessibility.
+
+### 3.6. Real-Time Extension Blueprint
+- Documented in `REALTIME_ARCHITECTURE_PLAN.md` with an event-driven `src/services/` abstraction layer for bi-directional WebSockets (live stock, direct artisan chat, community reactions).
+
+---
+
+## 4. Maintenance & Evolution Guide
+When introducing new features or refactoring:
+1. Always keep component styles in `src/styles/<ComponentName>.css`.
+2. Wrap user-facing text with `t('key', 'Default Text')` and run `npm run i18n:sync`.
+3. Keep container widths consistent with the `0.35rem` mobile standard.
+4. Update this `ARCHITECTURE.md` file whenever architectural patterns or routing structures evolve.

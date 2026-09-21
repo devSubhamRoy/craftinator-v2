@@ -499,11 +499,11 @@
   border-color: var(--accent-terracotta);
 }
 
-/* 3 / 4 Portrait Aspect Ratio on Desktop */
+/* Fixed Product Aspect Ratio on Desktop */
 .ap-main-column .product-media,
 .ap-main-column .product-card-skeleton .skeleton-media {
   position: relative;
-  aspect-ratio: 3 / 4 !important;
+  aspect-ratio: var(--aspect-product, 3 / 4) !important;
   width: 100%;
   overflow: hidden;
   background-color: var(--bg-secondary);
@@ -1527,7 +1527,7 @@
 
   .ap-main-column .product-media,
   .ap-main-column .product-card-skeleton .skeleton-media {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: var(--aspect-product, 3 / 4) !important;
   }
 
   .ap-main-column .product-info,
@@ -1841,7 +1841,7 @@
 
   .ap-main-column .product-media,
   .ap-main-column .product-card-skeleton .skeleton-media {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: var(--aspect-product, 3 / 4) !important;
   }
 
   .ap-main-column .product-info,

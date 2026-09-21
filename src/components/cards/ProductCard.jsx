@@ -15,11 +15,11 @@ export default function ProductCard({
     <div className="product-card" id={`product-card-${product.id}`}>
       
       {/* Card Top Media Container */}
-      <div className="product-media" onClick={() => onOpenProductModal && onOpenProductModal(product)}>
+      <div className="product-media product-image-container" onClick={() => onOpenProductModal && onOpenProductModal(product)}>
         <img
           src={product.image}
           alt={product.name}
-          className="product-img img-cover"
+          className="product-img product-image img-cover"
           loading="lazy"
           onError={(e) => {
             e.target.onerror = null;

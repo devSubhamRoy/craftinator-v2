@@ -406,10 +406,10 @@
 
 @media (max-width: 860px) {
   .soc-posts-container {
+    background-color: transparent;
+    border: none;
     border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-top: 2px solid rgba(35, 24, 21, 0.22);
+    gap: 0.35rem;
     box-shadow: none;
   }
 }
@@ -519,7 +519,13 @@
   display: none;
   width: 100%;
   background-color: rgba(168, 88, 56, 0.09);
+  border-top: 1px solid rgba(168, 88, 56, 0.16);
   border-bottom: 1px solid rgba(168, 88, 56, 0.16);
+  border-left: 1px solid rgba(168, 88, 56, 0.16);
+  border-right: 1px solid rgba(168, 88, 56, 0.16);
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+  overflow: hidden;
   padding: 0.45rem 1rem;
   box-sizing: border-box;
   align-items: center;
@@ -1790,12 +1796,34 @@
     display: none; /* Replaced by Floating FAB on mobile */
   }
 
+  .soc-posts-container {
+    background-color: transparent !important;
+    border: none !important;
+    gap: 0.35rem !important;
+    box-shadow: none !important;
+  }
+
   .soc-post-card {
     border-radius: var(--radius-md);
+    border: 1px solid var(--border-warm);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .soc-infeed-discovery-card {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-warm);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
   }
 
   .soc-post-seller-strip {
     display: flex !important;
+    border-top: 1px solid rgba(168, 88, 56, 0.16);
+    border-bottom: 1px solid rgba(168, 88, 56, 0.16);
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+    overflow: hidden;
   }
 
   .soc-post-author-badge-desktop {
@@ -1842,9 +1870,7 @@
     padding: 0 0.25rem;
   }
 
-  .soc-posts-container {
-    border-radius: var(--radius-md);
-  }
+
 
   .soc-slider-arrow-btn {
     width: 32px;
