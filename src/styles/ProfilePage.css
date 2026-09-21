@@ -368,7 +368,7 @@
 
 .profile-wish-img-box {
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: var(--aspect-product, 3 / 4);
   overflow: hidden;
   cursor: pointer;
 }

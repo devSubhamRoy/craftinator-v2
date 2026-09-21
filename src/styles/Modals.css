@@ -69,7 +69,9 @@
 .product-modal-media {
   position: relative;
   background-color: var(--bg-secondary);
-  min-height: 480px;
+  aspect-ratio: var(--aspect-product, 3 / 4);
+  width: 100%;
+  overflow: hidden;
 }
 
 .modal-badge {
@@ -594,7 +596,8 @@
     grid-template-columns: 1fr;
   }
   .product-modal-media {
-    min-height: 280px;
+    aspect-ratio: var(--aspect-product, 3 / 4);
+    min-height: auto;
   }
   .product-modal-info {
     padding: 1.5rem;

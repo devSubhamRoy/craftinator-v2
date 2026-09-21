@@ -28,3 +28,9 @@ This repository contains **Craftinator-v2**, a curated artisan and handcrafted g
 7. **Graphify-First Workflow**:
    - For ANY task/edit/refactor on existing code: `Task` → `Graphify first` → `Understand component & file relationships` → `Read only specific target file(s)/ranges if necessary` → `Make changes` → `Verify` → `graphify update .`.
    - Never do redundant or full-file inspection upfront when Graphify graph query/path/explain can pinpoint the exact dependency path.
+8. **Living Architecture Documentation**:
+   - Maintain `ARCHITECTURE.md` as the living source of truth for high-level architecture, directory map, state flow, and design patterns. Keep it synchronized after any structural updates or milestone commits.
+9. **Commit Message Prompting**
+   - Whenever a task or piece of work is completed, always provide a professional commit message along with a one-line explanation of the changes made. This should apply to all types of updates, including Graphify updates.
+   - After the latest commit, clearly mention what work has been completed since that commit, so the latest changes/work are easy to track.
+

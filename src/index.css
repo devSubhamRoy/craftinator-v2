@@ -56,6 +56,9 @@
 
   /* Container Max Width */
   --container-max: 1320px;
+
+  /* Product Media Aspect Ratio Token */
+  --aspect-product: 3 / 4;
 }
 
 /* Reset & Global Base */
@@ -78,6 +81,13 @@
 
 html {
   accent-color: var(--accent-terracotta);
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 html, body {
@@ -514,8 +524,24 @@ a:active,
   animation: cartPop 0.35s var(--ease-spring) forwards;
 }
 
-/* Custom Image Wrapper */
+/* Custom Image Wrapper & Universal Product Image Standards */
 .img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-image-container,
+.product-details-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--aspect-product, 3 / 4);
+  overflow: hidden;
+}
+
+.product-image,
+.product-details-image {
   width: 100%;
   height: 100%;
   object-fit: cover;

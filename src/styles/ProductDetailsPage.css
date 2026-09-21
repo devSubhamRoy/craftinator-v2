@@ -8,10 +8,11 @@
   background-color: var(--bg-primary);
   min-height: 100vh;
   padding: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   max-width: 100vw;
   position: relative;
+  scroll-behavior: smooth;
 }
 
 /* ------------------------------------------------------------
@@ -108,7 +109,8 @@
   grid-template-columns: 1.05fr 1fr;
   gap: 3.5rem;
   align-items: start;
-  margin-bottom: 4.5rem;
+  max-width: 1180px;
+  margin: 0 auto 3.5rem;
 }
 
 /* Media Column */
@@ -117,13 +119,15 @@
   flex-direction: column;
   gap: 1.15rem;
   position: relative;
+  width: 100%;
 }
 
-.product-main-frame {
+.product-main-frame,
+.product-details-image-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  background-color: var(--bg-secondary);
+  aspect-ratio: 1 / 1 !important;
+  background-color: var(--bg-card);
   border-radius: var(--radius-xl);
   overflow: hidden;
   border: 1px solid var(--border-warm);
@@ -133,14 +137,17 @@
   justify-content: center;
 }
 
-.product-main-img {
+.product-main-img,
+.product-details-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
   transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.product-main-frame:hover .product-main-img {
+.product-main-frame:hover .product-main-img,
+.product-details-image-container:hover .product-details-image {
   transform: scale(1.045);
 }
 
@@ -167,6 +174,7 @@
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   scroll-padding: 0.5rem;
   padding-bottom: 0.35rem;
@@ -203,10 +211,31 @@
   box-shadow: 0 4px 12px rgba(168, 88, 56, 0.22);
 }
 
-/* Product Info Column */
+/* Product Info Column (Independently Scrollable matching showcase-text-scrollable) */
 .product-info-column {
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  padding-right: 0.75rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-warm, #E5DED5) transparent;
+}
+
+.product-info-column::-webkit-scrollbar {
+  width: 5px;
+}
+
+.product-info-column::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.product-info-column::-webkit-scrollbar-thumb {
+  background-color: var(--border-warm, #E5DED5);
+  border-radius: 4px;
+}
+
+.product-info-column::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-terracotta);
 }
 
 .product-meta-pills {
@@ -444,16 +473,21 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.85rem;
-  padding-top: 1.4rem;
-  border-top: 1px solid var(--border-light);
+  padding: 1.15rem 1.25rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  margin-top: 1.35rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .trust-item {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.65rem;
   font-family: var(--font-sans);
   font-size: 0.82rem;
+  font-weight: 500;
   color: var(--text-secondary);
 }
 
@@ -1476,13 +1510,117 @@
 /* Tablet Viewport (641px - 1024px) */
 @media (min-width: 641px) and (max-width: 1024px) {
   .product-showcase-grid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+    align-items: start;
+    max-width: 100%;
+    margin-bottom: 2.5rem;
   }
 
-  .product-main-frame {
-    max-width: 580px;
-    margin: 0 auto;
+  .product-media-column {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+  }
+
+  .product-main-frame,
+  .product-details-image-container {
+    max-width: 100%;
+    width: 100%;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: var(--radius-lg);
+  }
+
+  .product-info-column {
+    width: 100%;
+    padding-right: 0.4rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .product-meta-pills {
+    margin-bottom: 0.45rem;
+  }
+
+  .product-page-title {
+    font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+    line-height: 1.18;
+    margin-bottom: 0.45rem;
+  }
+
+  .product-maker-row {
+    margin-bottom: 0.6rem;
+    font-size: 0.84rem;
+  }
+
+  .product-rating-box {
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .product-price-box {
+    margin-bottom: 0.65rem;
+    gap: 0.65rem;
+  }
+
+  .product-currency-price {
+    font-size: 1.65rem;
+  }
+
+  .product-hero-summary {
+    font-size: 0.84rem;
+    line-height: 1.48;
+    margin-bottom: 0.85rem;
+  }
+
+  .product-actions-cluster {
+    margin-bottom: 0.85rem;
+  }
+
+  /* Tablet Responsive Stepper & Purchase Buttons */
+  .product-stepper-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: 100%;
+  }
+
+  .product-qty-selector {
+    height: 44px;
+    padding: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .qty-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .qty-number {
+    padding: 0 0.35rem;
+    min-width: 24px;
+    font-size: 0.85rem;
+  }
+
+  .btn-add-cart-main {
+    flex: 1;
+    min-width: 0;
+    height: 44px;
+    font-size: 0.84rem;
+    padding: 0 0.65rem;
+    gap: 0.35rem;
+  }
+
+  .btn-wishlist-circle {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .artisan-trust-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    padding: 0.85rem 1rem;
+    margin-top: 0.5rem;
   }
 
   .tab-description-content {
@@ -1551,8 +1689,25 @@
     margin-bottom: 3rem;
   }
 
-  .product-main-frame {
+  .product-media-column {
+    max-width: 340px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .product-main-frame,
+  .product-details-image-container {
+    max-width: 340px;
+    width: 100%;
+    margin: 0 auto;
     border-radius: var(--radius-lg);
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  .product-info-column {
+    overflow-y: visible !important;
+    max-height: none !important;
+    padding-right: 0 !important;
   }
 
   .product-thumb-btn {

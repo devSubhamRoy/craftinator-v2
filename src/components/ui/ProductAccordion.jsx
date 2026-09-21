@@ -2,13 +2,8 @@ import React, { useState, useRef } from 'react';
 import {
   ChevronDown,
   ChevronUp,
-  Sparkles,
-  Leaf,
   Star,
   CheckCircle2,
-  ShieldCheck,
-  Truck,
-  RotateCcw,
   ChevronRight,
   ChevronLeft
 } from 'lucide-react';
@@ -426,26 +421,6 @@ export default function ProductAccordion({
             </div>
           </div>
         )}
-      </div>
-
-      {/* Artisan Trust Guarantees */}
-      <div className="artisan-trust-grid">
-        <div className="trust-item">
-          <ShieldCheck size={18} className="trust-icon" />
-          <span>{t('trust_100_handcrafted', '100% Verified Handcrafted')}</span>
-        </div>
-        <div className="trust-item">
-          <Truck size={18} className="trust-icon" />
-          <span>{t('trust_direct_shipping', 'Direct Studio Dispatch')}</span>
-        </div>
-        <div className="trust-item">
-          <RotateCcw size={18} className="trust-icon" />
-          <span>{t('trust_returns', '14-Day Artisan Return Guarantee')}</span>
-        </div>
-        <div className="trust-item">
-          <Leaf size={18} className="trust-icon" />
-          <span>{t('trust_eco_packaging', 'Plastic-Free Eco Packaging')}</span>
-        </div>
       </div>
     </div>
   );

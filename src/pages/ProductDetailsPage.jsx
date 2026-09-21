@@ -192,12 +192,56 @@ export default function ProductDetailsPage({
   // Gallery thumbnails
   const thumbnails = useMemo(() => {
     if (!product) return [];
-    const list = [product.image];
-    if (maker?.workImage1) list.push(maker.workImage1);
-    if (maker?.workImage2) list.push(maker.workImage2);
-    if (maker?.studioImage) list.push(maker.studioImage);
-    return list;
+    const list = [
+      product.image,
+      maker?.workImage1,
+      maker?.workImage2,
+      maker?.studioImage
+    ].filter(Boolean);
+    return Array.from(new Set(list));
   }, [product, maker]);
+
+  // Independent scroll for Product Details right section bounded by left media gallery baseline
+  const mediaColumnRef = useRef(null);
+  const infoColumnRef = useRef(null);
+  const [mediaHeight, setMediaHeight] = useState(null);
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (typeof window !== "undefined" && window.innerWidth > 640) {
+        if (mediaColumnRef.current) {
+          const h = mediaColumnRef.current.offsetHeight;
+          if (h > 0) {
+            // Guarantee at least 460px on tablet/desktop so Add to Cart controls are never clipped
+            setMediaHeight(Math.max(h, 460));
+          }
+        }
+      } else {
+        setMediaHeight(null);
+      }
+    };
+
+    updateHeight();
+
+    let ro;
+    if (typeof ResizeObserver !== "undefined" && mediaColumnRef.current) {
+      ro = new ResizeObserver(updateHeight);
+      ro.observe(mediaColumnRef.current);
+    }
+    window.addEventListener("resize", updateHeight);
+
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener("resize", updateHeight);
+    };
+  }, [selectedImg, thumbnails]);
+
+  // Reset scroll position of right info column when product changes
+  useEffect(() => {
+    if (infoColumnRef.current) {
+      infoColumnRef.current.scrollTop = 0;
+    }
+  }, [product?.id]);
 
   // 3. All Products Section (The Same Maker's Other Creations)
   const makerOtherProducts = useMemo(() => {
@@ -653,29 +697,16 @@ export default function ProductDetailsPage({
               <span className="breadcrumb-sep">/</span>
               <span className="breadcrumb-current">{product.name}</span>
             </nav>
-
-            <button
-              type="button"
-              className="btn-back-to-shop"
-              onClick={() => {
-                if (onGoBack) onGoBack('/shop');
-                else if (onNavigate) onNavigate('/shop');
-              }}
-              aria-label={t("back_to_shop", "Back to Catalog")}
-            >
-              <ArrowLeft size={16} />
-              <span>{t("back_to_shop", "Back to Catalog")}</span>
-            </button>
           </div>
 
           <div className="product-showcase-grid">
             {/* Left Media Gallery */}
-            <div className="product-media-column">
-              <div className="product-main-frame">
+            <div className="product-media-column" ref={mediaColumnRef}>
+              <div className="product-main-frame product-details-image-container">
                 <img
                   src={selectedImg || product.image}
                   alt={product.name}
-                  className="product-main-img"
+                  className="product-main-img product-details-image img-cover"
                 />
                 {product.badge && (
                   <span className="product-detail-badge">{product.badge}</span>
@@ -702,8 +733,14 @@ export default function ProductDetailsPage({
               )}
             </div>
 
-            {/* Right Product Information & Actions */}
-            <div className="product-info-column">
+            {/* Right Product Information & Actions (Independently scrollable bounded by left media gallery) */}
+            <div
+              className="product-info-column"
+              ref={infoColumnRef}
+              style={{
+                maxHeight: mediaHeight ? `${mediaHeight}px` : undefined
+              }}
+            >
               <div className="product-meta-pills">
                 <span className="product-category-pill">
                   {product.category}
@@ -812,6 +849,26 @@ export default function ProductDetailsPage({
                   >
                     <Heart size={20} fill={isWishlisted ? "#A85838" : "none"} />
                   </button>
+                </div>
+              </div>
+
+              {/* Artisan Trust & Authenticity Badges */}
+              <div className="artisan-trust-grid">
+                <div className="trust-item">
+                  <ShieldCheck size={18} className="trust-icon" />
+                  <span>{t("trust_authentic", "100% Authentic Handcrafted")}</span>
+                </div>
+                <div className="trust-item">
+                  <Leaf size={18} className="trust-icon" />
+                  <span>{t("trust_sustainable", "Ethical & Natural Materials")}</span>
+                </div>
+                <div className="trust-item">
+                  <Truck size={18} className="trust-icon" />
+                  <span>{t("trust_shipping", "Free Insured Delivery in 3-5 Days")}</span>
+                </div>
+                <div className="trust-item">
+                  <RotateCcw size={18} className="trust-icon" />
+                  <span>{t("trust_returns", "7-Day Easy Artisan Returns")}</span>
                 </div>
               </div>
             </div>
