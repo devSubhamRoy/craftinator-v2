@@ -886,17 +886,17 @@ export default function CommunityPage({
 
           const diff = currentScrollY - lastScrollYRef.current;
 
-          // 2. Scrolling DOWN -> Smoothly show strip
+          // 2. Feed ke niche jaane par (reading down into posts) -> Hide strip
           if (diff > SCROLL_THRESHOLD) {
-            if (!isNavStripVisibleRef.current) {
-              setIsNavStripVisible(true);
+            if (isNavStripVisibleRef.current) {
+              setIsNavStripVisible(false);
             }
             lastScrollYRef.current = currentScrollY;
           }
-          // 3. Scrolling UP -> Smoothly hide strip
+          // 3. Feed ke upar aane par (scrolling back up towards top) -> Show strip
           else if (diff < -SCROLL_THRESHOLD) {
-            if (isNavStripVisibleRef.current) {
-              setIsNavStripVisible(false);
+            if (!isNavStripVisibleRef.current) {
+              setIsNavStripVisible(true);
             }
             lastScrollYRef.current = currentScrollY;
           }
