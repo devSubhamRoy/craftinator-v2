@@ -30,6 +30,7 @@ import {
   MapPin
 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useNavigation } from '../context/NavigationContext';
 import { communityPosts } from '../data/communityPosts';
 import { artisans } from '../data/artisans';
 
@@ -459,14 +460,53 @@ export default function CommunityPage({
   showToast
 }) {
   const { t } = useLanguage();
+  const navigation = useNavigation ? useNavigation() : null;
+  const navContextNavigate = navigation?.navigate;
 
   // Active Navigation Tab (Left Sidebar & URL Sync)
   const [activeNav, setActiveNav] = useState(() => getTabFromUrl());
+  // Tab change skeleton shimmer loading state
+  const [isTabLoading, setIsTabLoading] = useState(false);
+
+  // Set of tabs already visited in this session
+  const visitedTabsRef = useRef(new Set([getTabFromUrl()]));
+  // In-memory scroll coordinates per tab ('feed', 'favorites', 'liked', 'comments')
+  const tabScrollMapRef = useRef({ [getTabFromUrl()]: 0 });
+
+  /* Scroll-direction detection for Mobile/Tablet Quick Nav Strip */
+  const [isNavStripVisible, setIsNavStripVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
+  const isNavStripVisibleRef = useRef(true);
+
+  useEffect(() => {
+    isNavStripVisibleRef.current = isNavStripVisible;
+  }, [isNavStripVisible]);
+
+  // Passive scroll listener to continuously record scroll position of the current active tab
+  useEffect(() => {
+    const handleTabScroll = () => {
+      if (typeof window === 'undefined') return;
+      const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      tabScrollMapRef.current[activeNav] = currentScrollY;
+    };
+    window.addEventListener('scroll', handleTabScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleTabScroll);
+  }, [activeNav]);
 
   useEffect(() => {
     const syncFromUrl = () => {
       const tab = getTabFromUrl();
       setActiveNav(tab);
+      visitedTabsRef.current.add(tab);
+      // On browser popstate navigation (Back / Forward), do NOT show blocking skeleton
+      // so layout stays fully expanded and previous scroll position is restored immediately
+      setIsTabLoading(false);
+      // Keep mobile quick nav strip visible on back/forward navigation until user scrolls
+      setIsNavStripVisible(true);
+      isNavStripVisibleRef.current = true;
+      if (typeof window !== 'undefined') {
+        lastScrollYRef.current = window.scrollY || 0;
+      }
     };
     syncFromUrl();
     window.addEventListener('popstate', syncFromUrl);
@@ -531,18 +571,6 @@ export default function CommunityPage({
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
   }, [activeNav, feedFilter, searchQuery]);
-
-  // Tab change skeleton shimmer loading state
-  const [isTabLoading, setIsTabLoading] = useState(false);
-
-  // Trigger skeleton loading whenever active tab changes
-  useEffect(() => {
-    setIsTabLoading(true);
-    const timer = setTimeout(() => {
-      setIsTabLoading(false);
-    }, 450);
-    return () => clearTimeout(timer);
-  }, [activeNav]);
 
   // Dynamic 2-Way Sticky Scroll for Right Sidebar (Desktop mode)
   useEffect(() => {
@@ -639,11 +667,72 @@ export default function CommunityPage({
   }, []);
 
   const handleTabSelect = (tabName) => {
-    setIsTabLoading(true);
-    setActiveNav(tabName);
-    const timer = setTimeout(() => {
+    const targetTab = (tabName === 'home' || tabName === 'feed') ? 'feed' : tabName;
+    const currentScroll = typeof window !== 'undefined' ? (window.scrollY || document.documentElement.scrollTop || 0) : 0;
+
+    // Keep mobile quick navigation strip visible on any tab switch until user scrolls
+    setIsNavStripVisible(true);
+    isNavStripVisibleRef.current = true;
+
+    // CASE 1: Clicking the ALREADY ACTIVE TAB -> Smoothly scroll to TOP & reset that tab's saved offset
+    if (activeNav === targetTab) {
+      tabScrollMapRef.current[targetTab] = 0;
+      lastScrollYRef.current = 0;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // Save previous active tab's scroll position before leaving
+    tabScrollMapRef.current[activeNav] = currentScroll;
+
+    const isNewlyVisited = !visitedTabsRef.current.has(targetTab);
+    const targetUrl = targetTab === 'feed' ? '/community?tab=feed' : `/community?tab=${targetTab}`;
+
+    if (isNewlyVisited) {
+      // CASE 2: NEW TAB (First time visiting this tab in this session)
+      // -> Mark as visited
+      visitedTabsRef.current.add(targetTab);
+      tabScrollMapRef.current[targetTab] = 0;
+      lastScrollYRef.current = 0;
+
+      // -> Show skeleton shimmer state
+      setIsTabLoading(true);
+      setActiveNav(targetTab);
+
+      // -> Navigate and reset strictly to TOP (0, 0)
+      if (navContextNavigate) {
+        navContextNavigate(targetUrl);
+      } else if (onNavigate) {
+        onNavigate(targetUrl);
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+      // -> Reveal content smoothly after preparation delay (~380ms)
+      setTimeout(() => {
+        setIsTabLoading(false);
+      }, 380);
+    } else {
+      // CASE 3: ALREADY VISITED TAB
+      // -> Retrieve previously saved scroll position for this tab
+      const savedScrollY = tabScrollMapRef.current[targetTab] || 0;
+      lastScrollYRef.current = savedScrollY;
+
+      // -> Do not block with skeleton so layout is immediately rendered
       setIsTabLoading(false);
-    }, 450);
+      setActiveNav(targetTab);
+
+      // -> Navigate with preserveScroll flag so global navigation doesn't force top (0)
+      if (navContextNavigate) {
+        navContextNavigate(targetUrl, { preserveScroll: true, targetScrollY: savedScrollY });
+      } else if (onNavigate) {
+        onNavigate(targetUrl);
+      }
+
+      // -> Restore exact previous position
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: savedScrollY, left: 0, behavior: 'instant' });
+      });
+    }
   };
 
   // Handle Like
@@ -770,6 +859,58 @@ export default function CommunityPage({
     };
   }, [visibleCount, filteredPosts.length, isLoadingMore]);
 
+  /* Scroll-direction detection for Mobile/Tablet Quick Nav Strip */
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    let ticking = false;
+    const SCROLL_THRESHOLD = 8; // Avoid micro-jitter / rubber-banding
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = Math.max(
+            0,
+            window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0
+          );
+
+          // 1. Always visible near top of page (page load / reload / top of feed)
+          if (currentScrollY <= 60) {
+            if (!isNavStripVisibleRef.current) {
+              setIsNavStripVisible(true);
+            }
+            lastScrollYRef.current = currentScrollY;
+            ticking = false;
+            return;
+          }
+
+          const diff = currentScrollY - lastScrollYRef.current;
+
+          // 2. Feed ke niche jaane par (reading down into posts) -> Hide strip
+          if (diff > SCROLL_THRESHOLD) {
+            if (isNavStripVisibleRef.current) {
+              setIsNavStripVisible(false);
+            }
+            lastScrollYRef.current = currentScrollY;
+          }
+          // 3. Feed ke upar aane par (scrolling back up towards top) -> Show strip
+          else if (diff < -SCROLL_THRESHOLD) {
+            if (!isNavStripVisibleRef.current) {
+              setIsNavStripVisible(true);
+            }
+            lastScrollYRef.current = currentScrollY;
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="community-app-root animate-fade-in">
       
@@ -866,6 +1007,34 @@ export default function CommunityPage({
                 <Bookmark size={22} strokeWidth={activeNav === 'favorites' ? 2.5 : 2} />
               </div>
               <span className="x-nav-label">Saved Stories</span>
+            </button>
+
+            {/* 7. Liked Stories */}
+            <button
+              className={`x-nav-item ${activeNav === 'liked' ? 'active' : ''}`}
+              onClick={() => {
+                handleTabSelect('liked');
+                if (showToast) showToast(`Viewing liked craft stories (${posts.filter(p => p.isLiked).length} liked)`);
+              }}
+            >
+              <div className="x-nav-icon-wrap">
+                <Heart size={22} strokeWidth={activeNav === 'liked' ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">Liked Stories</span>
+            </button>
+
+            {/* 8. Discussions & Comments */}
+            <button
+              className={`x-nav-item ${activeNav === 'comments' ? 'active' : ''}`}
+              onClick={() => {
+                handleTabSelect('comments');
+                if (showToast) showToast('Viewing craft stories with community discussions');
+              }}
+            >
+              <div className="x-nav-icon-wrap">
+                <MessageCircle size={22} strokeWidth={activeNav === 'comments' ? 2.5 : 2} />
+              </div>
+              <span className="x-nav-label">Discussions</span>
             </button>
 
             {/* 7. Creator / Artisan Studio */}
@@ -1004,7 +1173,7 @@ export default function CommunityPage({
           </div>
 
           {/* Mobile Quick Category Navigation Strip (Visible on Mobile/Tablet) */}
-          <div className="soc-mobile-nav-chips">
+          <div className={`soc-mobile-nav-chips ${isNavStripVisible ? 'visible' : ''}`}>
             <button
               type="button"
               className={`soc-mobile-chip ${(activeNav === 'feed' || activeNav === 'home') ? 'active' : ''}`}
@@ -1074,15 +1243,15 @@ export default function CommunityPage({
             </div>
           </div> */}
 
-          {/* Continuous Posts Stream with Strong Horizontal Line Separator */}
+          {/* Continuous Posts Stream with Smooth Tab Transitions */}
           {isTabLoading ? (
-            <div className="soc-posts-container">
+            <div className="soc-posts-container tab-loading animate-fade-in" key="tab-skeleton">
               <PostSkeleton />
               <PostSkeleton />
               <PostSkeleton />
             </div>
           ) : visiblePosts.length === 0 ? (
-            <div className="soc-no-posts-card">
+            <div className="soc-no-posts-card animate-fade-in" key={`tab-empty-${activeNav}`}>
               <div className="soc-no-posts-icon">🏺</div>
               <h4>No posts found</h4>
               <p>
@@ -1107,7 +1276,7 @@ export default function CommunityPage({
               )}
             </div>
           ) : (
-            <div className="soc-posts-container">
+            <div className="soc-posts-container tab-ready animate-fade-in" key={`tab-posts-${activeNav}`}>
               {visiblePosts.map((post, idx) => (
                 <React.Fragment key={post.id}>
                   <PostCard

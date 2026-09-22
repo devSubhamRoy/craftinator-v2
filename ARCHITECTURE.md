@@ -139,6 +139,22 @@ Craftinator-v2/
   - Natural browser 60fps scrolling momentum is strictly preserved (zero custom scroll-jacking or artificial scroll delays).
 - **Reusable Skeletons (`SectionSkeleton`)**: Earthy artisan pulse shimmer placeholders prevent Cumulative Layout Shift (CLS).
 
+### 3.8. Universal Tab Lifecycle & State Preservation
+- **NEW TAB (First time visiting in session)**:
+  - Preserves previous tab's scroll position in memory and `sessionStorage`.
+  - Displays instant shimmer skeleton placeholders (`PostSkeleton`) during content loading (`isTabLoading = true`).
+  - Pushes clean history state (`/community?tab=<tabName>`).
+  - Opens strictly from **TOP** (`scrollTop = 0`), preventing previous scroll positions from carrying over.
+  - Smoothly reveals content via `@keyframes tabFadeIn` CSS crossfade.
+- **ALREADY VISITED TAB (Revisiting a previously browsed tab)**:
+  - Restores the saved scroll position for that specific tab without resetting to top.
+  - Renders content immediately without blocking shimmer loaders.
+- **ACTIVE TAB (Clicking the currently open tab button)**:
+  - Smoothly scrolls to TOP (`scrollTop = 0`) and updates the tab's saved offset.
+- **BROWSER BACK / POPSTATE RESTORATION**:
+  - Restores the previous tab and uses `NavigationContext`'s multi-frame engine to return smoothly to the exact prior scroll position.
+  - 100% compatible across Mobile, Tablet, and Desktop, preserving direction-aware sticky chips (`.soc-mobile-nav-chips.visible`) and natural 60fps scrolling.
+
 ---
 
 ## 4. Maintenance & Evolution Guide
