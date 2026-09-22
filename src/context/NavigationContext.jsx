@@ -34,6 +34,8 @@ export function NavigationProvider({ children }) {
   const pageStateRegistryRef = useRef({});
   // Flag to avoid scroll listener recording during programmatic restoration
   const isRestoringScroll = useRef(false);
+  // Flag to skip zeroing scroll when navigating with preserved scroll
+  const skipScrollResetRef = useRef(false);
 
   /* Force manual browser scroll restoration across all devices */
   useEffect(() => {
@@ -138,9 +140,18 @@ export function NavigationProvider({ children }) {
       } else if (scrollRegistryRef.current[nextPath]) {
         targetY = scrollRegistryRef.current[nextPath].scrollY || 0;
         targetId = scrollRegistryRef.current[nextPath].targetId || null;
+      } else if (nextPath === '/community' && scrollRegistryRef.current['/community?tab=feed']) {
+        targetY = scrollRegistryRef.current['/community?tab=feed'].scrollY || 0;
+        targetId = scrollRegistryRef.current['/community?tab=feed'].targetId || null;
+      } else if (nextPath === '/community?tab=feed' && scrollRegistryRef.current['/community']) {
+        targetY = scrollRegistryRef.current['/community'].scrollY || 0;
+        targetId = scrollRegistryRef.current['/community'].targetId || null;
       } else {
         try {
-          const cached = sessionStorage.getItem(`craft_scroll_${nextPath}`);
+          const cached =
+            sessionStorage.getItem(`craft_scroll_${nextPath}`) ||
+            (nextPath === '/community' ? sessionStorage.getItem('craft_scroll_/community?tab=feed') : null) ||
+            (nextPath === '/community?tab=feed' ? sessionStorage.getItem('craft_scroll_/community') : null);
           if (cached) {
             const parsed = JSON.parse(cached);
             targetY = parsed.scrollY || 0;
@@ -215,23 +226,26 @@ export function NavigationProvider({ children }) {
         timeoutIds.forEach(clearTimeout);
       };
     } else {
-      // NEW PAGE NAVIGATION / REDIRECT: ALWAYS reset strictly to TOP (0, 0)
+      // NEW PAGE NAVIGATION / REDIRECT: ALWAYS reset strictly to TOP (0, 0) unless preserved
       isRestoringScroll.current = false;
       isPopStateNav.current = false;
       pendingScrollRef.current = null;
 
-      // Execute immediate reset and frame-level safety zeroing
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      requestAnimationFrame(() => {
+      if (!skipScrollResetRef.current) {
+        // Execute immediate reset and frame-level safety zeroing
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      });
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        });
+      }
+      skipScrollResetRef.current = false;
     }
   }, [currentPath, getNormalizedScrollY]);
 
   /* Central Forward Navigation Method */
   const navigate = useCallback(
     (path, options = {}) => {
-      const { targetId = null, replace = false, preserveScroll = false } = options;
+      const { targetId = null, targetScrollY = null, replace = false, preserveScroll = false } = options;
       const nextPath = sanitizePath(path);
       const activeNormalized = sanitizePath(currentPath);
 
@@ -256,20 +270,30 @@ export function NavigationProvider({ children }) {
         );
       } catch (e) {}
 
-      // 2. Mark this navigation as forward (New Page -> ALWAYS TOP)
-      isPopStateNav.current = false;
-      isRestoringScroll.current = false;
-      pendingScrollRef.current = null;
+      // 2. Mark navigation state
+      if (preserveScroll || typeof targetScrollY === 'number') {
+        skipScrollResetRef.current = true;
+        if (typeof targetScrollY === 'number') {
+          pendingScrollRef.current = { scrollY: targetScrollY, targetId };
+          isPopStateNav.current = true;
+          isRestoringScroll.current = true;
+        }
+      } else {
+        skipScrollResetRef.current = false;
+        isPopStateNav.current = false;
+        isRestoringScroll.current = false;
+        pendingScrollRef.current = null;
 
-      // 3. Immediately reset scroll before route change for instantaneous response
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        // 3. Immediately reset scroll before route change for instantaneous response
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
 
       // 4. Update browser history
       if (typeof window !== 'undefined') {
         if (replace) {
-          window.history.replaceState({ path: nextPath, scrollY: 0 }, '', nextPath);
+          window.history.replaceState({ path: nextPath, scrollY: typeof targetScrollY === 'number' ? targetScrollY : 0 }, '', nextPath);
         } else {
-          window.history.pushState({ path: nextPath, scrollY: 0 }, '', nextPath);
+          window.history.pushState({ path: nextPath, scrollY: typeof targetScrollY === 'number' ? targetScrollY : 0 }, '', nextPath);
         }
       }
 
