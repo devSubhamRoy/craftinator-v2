@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
-import { 
-  User, 
-  ArrowLeft, 
-  ShoppingBag, 
-  Heart, 
-  Sparkles, 
-  Package, 
-  MapPin, 
-  Calendar, 
-  Award, 
-  CheckCircle2, 
-  Share2, 
-  ChevronRight
+import React, { useState, useMemo } from 'react';
+import {
+  ArrowLeft,
+  Share2,
+  CheckCircle2,
+  MessageSquare,
+  Sparkles,
+  MapPin,
+  Calendar,
+  Award,
+  Package,
+  Heart,
+  Truck,
+  Layers,
+  ChevronRight,
+  ExternalLink,
+  Edit3,
+  ShieldCheck,
+  HeartHandshake,
+  Clock,
+  Briefcase
 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
-import { products } from '../data/products';
-import { artisans } from '../data/artisans';
+import { products as allCatalogProducts } from '../data/products';
+import { artisans as allArtisans } from '../data/artisans';
+import { ProductCard } from '../components';
 
 export default function ProfilePage({
   wishlist = [],
@@ -29,344 +37,775 @@ export default function ProfilePage({
 }) {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'wishlist' | 'artisans' | 'perks'
+  const [isFollowingSuggested, setIsFollowingSuggested] = useState({});
 
-  // Filter wishlisted products from global products dataset
-  const wishlistedProducts = products.filter(p => wishlist.includes(p.id));
+  // Filter wishlisted products from global catalog
+  const wishlistedProducts = useMemo(() => {
+    return allCatalogProducts.filter((p) => wishlist.includes(p.id));
+  }, [wishlist]);
 
-  // Mock authentic handcrafted orders
+  // Mock authentic handcrafted orders with full maker details
   const orders = [
     {
       id: 'CRFT-84920',
       date: 'Sep 12, 2026',
       status: 'Delivered',
-      artisan: artisans[0]?.name || 'Elena Rostova',
-      item: products[0]?.name || 'Nordic Glazed Ceramic Vase',
-      image: products[0]?.image || 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?q=80&w=300&auto=format&fit=crop',
-      price: products[0]?.price || 84,
-      material: products[0]?.material || 'Hand-thrown Stoneware'
+      artisan: allArtisans[0]?.name || 'Elena Rostova',
+      artisanData: allArtisans[0],
+      item: allCatalogProducts[0]?.name || 'Nordic Glazed Ceramic Vase',
+      image: allCatalogProducts[0]?.image || 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?q=80&w=600&auto=format&fit=crop',
+      price: allCatalogProducts[0]?.price || 4850,
+      material: 'Hand-thrown Stoneware & Natural Mineral Glaze',
+      trackingNumber: 'TRK-IN-982341'
     },
     {
       id: 'CRFT-72104',
       date: 'Aug 28, 2026',
       status: 'In Transit',
-      artisan: artisans[1]?.name || 'Mateo Morales',
-      item: products[2]?.name || 'Scented Soy Botanical Candle',
-      image: products[2]?.image || 'https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=300&auto=format&fit=crop',
-      price: products[2]?.price || 42,
-      material: products[2]?.material || '100% Organic Soy'
+      artisan: allArtisans[1]?.name || 'Mateo Morales',
+      artisanData: allArtisans[1],
+      item: allCatalogProducts[2]?.name || 'Scented Soy Botanical Candle',
+      image: allCatalogProducts[2]?.image || 'https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=600&auto=format&fit=crop',
+      price: allCatalogProducts[2]?.price || 2200,
+      material: '100% Organic Soy Wax & Pure Botanical Essences',
+      trackingNumber: 'TRK-IN-449102'
     }
   ];
 
-  const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
+  // Suggested makers for right sidebar
+  const suggestedMakers = useMemo(() => {
+    return allArtisans.slice(0, 4);
+  }, []);
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Aarav Sharma • Craftinator Patron Profile',
+          text: 'Explore handcrafted artisan collections and saved favorites on Craftinator',
+          url
+        });
+        return;
+      } catch (err) {}
     }
-    if (showToast) showToast('Profile link copied to clipboard!');
+    try {
+      await navigator.clipboard.writeText(url);
+      if (showToast) showToast('Profile link copied to clipboard!');
+    } catch (e) {
+      if (showToast) showToast('Share link: ' + url);
+    }
+  };
+
+  const handleToggleSuggestedFollow = (makerId, makerName) => {
+    setIsFollowingSuggested((prev) => {
+      const next = !prev[makerId];
+      if (showToast) {
+        showToast(
+          next
+            ? `You are now following ${makerName}`
+            : `Unfollowed ${makerName}`
+        );
+      }
+      return { ...prev, [makerId]: next };
+    });
   };
 
   return (
-    <div className="profile-page-root">
-      <div className="container profile-container">
+    <main className="artisan-page-root profile-page-root animate-fade-in">
+      <div className="ap-page-container">
         
-        {/* Top Navigation Bar */}
-        <div className="profile-top-bar">
-          <button 
-            type="button"
-            className="profile-back-btn" 
-            onClick={() => {
-              if (onGoBack) onGoBack();
-              else if (onNavigate) onNavigate('/');
-            }}
-            aria-label="Go back"
-          >
-            <ArrowLeft size={18} />
-            <span>{t('btn_back', 'Back')}</span>
-          </button>
-
+        {/* Breadcrumb Navigation matching ArtisanDetailsPage */}
+        <nav className="shop-hero-breadcrumb" aria-label="Breadcrumb">
           <button
             type="button"
-            className="profile-share-btn"
-            onClick={handleShare}
-            aria-label="Share profile"
-            title="Share profile"
+            className="breadcrumb-link"
+            onClick={() => (onNavigate ? onNavigate('/') : onGoBack && onGoBack())}
           >
-            <Share2 size={16} />
-            <span>{t('share', 'Share')}</span>
+            {t('nav_home', 'Home')}
           </button>
-        </div>
+          <span className="breadcrumb-sep">/</span>
+          <span className="breadcrumb-current">My Patron Profile</span>
+        </nav>
 
-        {/* User Hero Banner & Card */}
-        <div className="profile-card">
-          <div className="profile-card-cover">
-            <div className="profile-card-badge">
-              <Award size={14} />
-              <span>Artisan Patron • Tier II</span>
-            </div>
-          </div>
-
-          <div className="profile-card-header">
-            <div className="profile-avatar-wrapper">
-              <img 
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop" 
-                alt="Member Profile" 
-                className="profile-avatar-img"
-              />
-              <span className="profile-verified-dot" title="Verified Collector">
-                <CheckCircle2 size={16} />
-              </span>
-            </div>
-
-            <div className="profile-main-meta">
-              <div className="profile-name-row">
-                <h1 className="profile-display-name">Aarav Sharma</h1>
-                <span className="profile-handle">@aarav_crafts</span>
-              </div>
-              <p className="profile-bio">
-                Collector of heritage pottery, organic linen & woodworks. Passionate supporter of indigenous master craftspeople across the globe.
-              </p>
-              <div className="profile-tags-row">
-                <span className="profile-meta-item">
-                  <MapPin size={14} /> Portland, OR, USA
-                </span>
-                <span className="profile-meta-item">
-                  <Calendar size={14} /> Member since 2024
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Stats Strip */}
-          <div className="profile-stats-grid">
-            <div className="profile-stat-box" onClick={() => setActiveTab('orders')}>
-              <span className="profile-stat-number">{orders.length}</span>
-              <span className="profile-stat-label">{t('my_orders', 'Orders')}</span>
-            </div>
-            <div className="profile-stat-box" onClick={() => setActiveTab('wishlist')}>
-              <span className="profile-stat-number">{wishlist.length}</span>
-              <span className="profile-stat-label">{t('wishlist', 'Saved Crafts')}</span>
-            </div>
-            <div className="profile-stat-box" onClick={() => setActiveTab('artisans')}>
-              <span className="profile-stat-number">{artisans.length}</span>
-              <span className="profile-stat-label">Artisans Followed</span>
-            </div>
-            <div className="profile-stat-box" onClick={() => setActiveTab('perks')}>
-              <span className="profile-stat-number">100%</span>
-              <span className="profile-stat-label">Fair Trade Impact</span>
-            </div>
-          </div>
-
-          {/* Navigation Sub-Tabs */}
-          <div className="profile-tabs-strip">
-            <button
-              type="button"
-              className={`profile-tab-btn ${activeTab === 'orders' ? 'active' : ''}`}
-              onClick={() => setActiveTab('orders')}
-            >
-              <Package size={16} />
-              <span>{t('my_orders', 'Orders & Deliveries')}</span>
-              <span className="profile-tab-badge">{orders.length}</span>
-            </button>
-            <button
-              type="button"
-              className={`profile-tab-btn ${activeTab === 'wishlist' ? 'active' : ''}`}
-              onClick={() => setActiveTab('wishlist')}
-            >
-              <Heart size={16} />
-              <span>{t('wishlist_title', 'Saved Wishlist')}</span>
-              <span className="profile-tab-badge">{wishlist.length}</span>
-            </button>
-            <button
-              type="button"
-              className={`profile-tab-btn ${activeTab === 'artisans' ? 'active' : ''}`}
-              onClick={() => setActiveTab('artisans')}
-            >
-              <Sparkles size={16} />
-              <span>Makers Supported</span>
-            </button>
-            <button
-              type="button"
-              className={`profile-tab-btn ${activeTab === 'perks' ? 'active' : ''}`}
-              onClick={() => setActiveTab('perks')}
-            >
-              <Award size={16} />
-              <span>Patron Perks</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Tab Content Section */}
-        <div className="profile-tab-content">
+        {/* ============================================================
+            MAIN 2-COLUMN LAYOUT (1fr 340px)
+            ============================================================ */}
+        <div className="ap-layout-grid">
           
-          {/* TAB 1: ORDERS */}
-          {activeTab === 'orders' && (
-            <div className="profile-orders-list">
-              <h2 className="profile-section-title">Your Handcrafted Purchases</h2>
-              {orders.map((order) => (
-                <div key={order.id} className="profile-order-card">
-                  <img src={order.image} alt={order.item} className="profile-order-img" />
-                  <div className="profile-order-info">
-                    <div className="profile-order-header">
-                      <span className="profile-order-id">{order.id}</span>
-                      <span className={`profile-status-badge ${order.status.toLowerCase().replace(' ', '-')}`}>
-                        {order.status}
-                      </span>
-                    </div>
-                    <h3 className="profile-order-title">{order.item}</h3>
-                    <p className="profile-order-maker">Handcrafted by <strong>{order.artisan}</strong></p>
-                    <div className="profile-order-meta">
-                      <span>Ordered on {order.date}</span>
-                      <span>•</span>
-                      <span>{order.material}</span>
-                      <span>•</span>
-                      <strong>${order.price}.00</strong>
-                    </div>
-                  </div>
-                  <div className="profile-order-action">
-                    <button 
-                      type="button"
-                      className="btn btn-secondary btn-sm"
-                      onClick={() => {
-                        if (showToast) showToast(`Tracking dispatched for ${order.id}`);
-                      }}
-                    >
-                      Track Package
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* TAB 2: WISHLIST */}
-          {activeTab === 'wishlist' && (
-            <div className="profile-wishlist-view">
-              <div className="profile-section-header">
-                <h2 className="profile-section-title">Saved Wishlist ({wishlistedProducts.length})</h2>
-                {wishlistedProducts.length > 0 && (
-                  <button 
-                    type="button"
-                    className="btn btn-secondary btn-sm"
-                    onClick={() => {
-                      if (onNavigate) onNavigate('/shop');
-                    }}
-                  >
-                    Browse More Crafts →
-                  </button>
-                )}
+          {/* ----------------------------------------------------------
+              LEFT COLUMN: Profile Card, Tabs & Content Panes
+              ---------------------------------------------------------- */}
+          <div className="ap-main-column">
+            
+            {/* PROFILE CARD matching ArtisanDetailsPage */}
+            <section className="ap-profile-card">
+              
+              {/* Banner Image */}
+              <div className="ap-profile-banner">
+                <img
+                  src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?q=80&w=1400&auto=format&fit=crop"
+                  alt="Craft Studio & Pottery Collection"
+                  loading="eager"
+                />
               </div>
 
-              {wishlistedProducts.length === 0 ? (
-                <div className="profile-empty-state">
-                  <Heart size={44} className="profile-empty-icon" />
-                  <h3>No saved crafts yet</h3>
-                  <p>Discover one-of-a-kind handmade crafts and click the heart icon to save them.</p>
-                  <button 
-                    type="button"
-                    className="btn btn-primary"
+              {/* Avatar & Action Buttons Row (Overlaps Banner) */}
+              <div className="ap-profile-actions-bar">
+                <div className="ap-profile-avatar-box">
+                  <img
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop"
+                    alt="Aarav Sharma"
+                  />
+                </div>
+
+                <div className="ap-profile-btns-group">
+                  <button
+                    className="ap-message-btn"
+                    onClick={() => showToast && showToast('Studio messaging is active for Patron members')}
+                    aria-label="Studio messages"
+                    title="Studio Messages"
+                  >
+                    <MessageSquare size={18} />
+                  </button>
+
+                  <button
+                    className="ap-share-btn"
+                    onClick={handleShare}
+                    aria-label="Share profile"
+                    title="Share Profile"
+                  >
+                    <Share2 size={18} />
+                  </button>
+
+                  <button
+                    className="ap-follow-pill-btn"
                     onClick={() => {
-                      if (onNavigate) onNavigate('/shop');
+                      if (onNavigate) onNavigate('/settings');
+                      else if (showToast) showToast('Account Settings opened');
                     }}
                   >
-                    Explore Shop
+                    <Edit3 size={15} style={{ marginRight: '5px' }} />
+                    Edit Profile
                   </button>
                 </div>
-              ) : (
-                <div className="profile-wishlist-grid">
-                  {wishlistedProducts.map((prod) => (
-                    <div key={prod.id} className="profile-wish-card">
-                      <div className="profile-wish-img-box">
-                        <img 
-                          src={prod.image} 
-                          alt={prod.name} 
-                          className="profile-wish-img"
-                          onClick={() => onOpenProductModal && onOpenProductModal(prod)}
-                        />
-                      </div>
-                      <div className="profile-wish-body">
-                        <h3 
-                          className="profile-wish-title"
-                          onClick={() => onOpenProductModal && onOpenProductModal(prod)}
-                        >
-                          {prod.name}
-                        </h3>
-                        <p className="profile-wish-price">${prod.price}.00</p>
-                        <div className="profile-wish-actions">
-                          <button 
-                            type="button"
-                            className="btn btn-primary btn-sm"
-                            onClick={() => onAddToCart && onAddToCart(prod)}
-                          >
-                            <ShoppingBag size={14} /> Add to Cart
-                          </button>
-                          <button 
-                            type="button"
-                            className="btn btn-secondary btn-sm"
-                            onClick={() => onToggleWishlist && onToggleWishlist(prod.id)}
-                            title="Remove from saved"
-                          >
-                            Remove
-                          </button>
+              </div>
+
+              {/* Profile Details Body */}
+              <div className="ap-profile-body">
+                
+                {/* Name & Verified Badge */}
+                <div className="ap-profile-name-row">
+                  <h1 className="ap-profile-name">Aarav Sharma</h1>
+                  <CheckCircle2
+                    size={20}
+                    className="ap-verified-check-icon"
+                    fill="#2563EB"
+                    color="#FFFFFF"
+                    title="Verified Artisan Patron"
+                  />
+                </div>
+
+                {/* Handle */}
+                <div className="ap-profile-handle">@aarav_crafts</div>
+
+                {/* Brand Tag Pill & Specialty Italics */}
+                <div className="ap-brand-tag-row">
+                  <span className="ap-brand-pill">Artisan Patron • Tier II</span>
+                  <span className="ap-craft-desc-italics">Heritage Pottery & Handloom Collector</span>
+                </div>
+
+                {/* Bio */}
+                <p className="ap-profile-bio">
+                  Collector of heritage pottery, organic linen & woodworks. Passionate supporter of indigenous master craftspeople across the globe.
+                </p>
+
+                {/* Meta Row: Location, Member Since, Impact */}
+                <div className="ap-profile-meta-row">
+                  <div className="ap-meta-detail">
+                    <MapPin size={15} />
+                    <span>Portland, OR, USA</span>
+                  </div>
+
+                  <div className="ap-meta-detail">
+                    <Calendar size={15} />
+                    <span>Member since 2024</span>
+                  </div>
+
+                  <div className="ap-meta-detail">
+                    <HeartHandshake size={15} color="#A85838" />
+                    <span>100% Fair Trade Impact</span>
+                  </div>
+
+                  <div className="ap-meta-detail">
+                    <Award size={15} color="#D97706" />
+                    <span>Member ID: CRFT-PATRON-88</span>
+                  </div>
+                </div>
+
+                {/* Stats Row: Orders, Saved, Makers Supported, Impact */}
+                <div className="ap-profile-stats-row">
+                  <div
+                    className="ap-stat-item-inline"
+                    onClick={() => setActiveTab('orders')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <span className="ap-stat-num">{orders.length}</span>
+                    <span className="ap-stat-lbl">Orders</span>
+                  </div>
+
+                  <div
+                    className="ap-stat-item-inline"
+                    onClick={() => setActiveTab('wishlist')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <span className="ap-stat-num">{wishlist.length}</span>
+                    <span className="ap-stat-lbl">Saved Crafts</span>
+                  </div>
+
+                  <div
+                    className="ap-stat-item-inline"
+                    onClick={() => setActiveTab('artisans')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <span className="ap-stat-num">{allArtisans.length}</span>
+                    <span className="ap-stat-lbl">Makers Supported</span>
+                  </div>
+
+                  <div
+                    className="ap-stat-item-inline"
+                    onClick={() => setActiveTab('perks')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <span className="ap-stat-num">100%</span>
+                    <span className="ap-stat-lbl">Fair Trade</span>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+            {/* NAVIGATION TABS matching ArtisanDetailsPage */}
+            <nav className="ap-nav-tabs-bar" aria-label="Profile navigation tabs">
+              <button
+                type="button"
+                className={`ap-nav-tab-btn ${activeTab === 'orders' ? 'active' : ''}`}
+                onClick={() => setActiveTab('orders')}
+              >
+                Orders & Deliveries ({orders.length})
+              </button>
+
+              <button
+                type="button"
+                className={`ap-nav-tab-btn ${activeTab === 'wishlist' ? 'active' : ''}`}
+                onClick={() => setActiveTab('wishlist')}
+              >
+                Saved Wishlist ({wishlist.length})
+              </button>
+
+              <button
+                type="button"
+                className={`ap-nav-tab-btn ${activeTab === 'artisans' ? 'active' : ''}`}
+                onClick={() => setActiveTab('artisans')}
+              >
+                Makers Supported ({allArtisans.length})
+              </button>
+
+              <button
+                type="button"
+                className={`ap-nav-tab-btn ${activeTab === 'perks' ? 'active' : ''}`}
+                onClick={() => setActiveTab('perks')}
+              >
+                Patron Perks (4)
+              </button>
+            </nav>
+
+            {/* ========================================================
+                TAB 1: ORDERS & DELIVERIES
+                ======================================================== */}
+            {activeTab === 'orders' && (
+              <div className="animate-fade-in ap-tab-content-pane">
+                <section className="ap-tab-section">
+                  <div className="ap-tab-section-header">
+                    <div className="ap-eyebrow-row">
+                      <span className="ap-section-eyebrow">Studio Purchases</span>
+                      <span className="ap-count-badge">{orders.length} Recorded</span>
+                    </div>
+                    <h2 className="ap-section-title">Your Handcrafted Orders</h2>
+                    <p className="ap-section-subtitle">
+                      Direct from independent artisan workshops. Every order is verified with carbon-neutral transit.
+                    </p>
+                  </div>
+
+                  <div className="profile-orders-stack">
+                    {orders.map((order) => (
+                      <div key={order.id} className="profile-order-card-harmonized">
+                        <div className="profile-order-card-top">
+                          <div className="profile-order-id-group">
+                            <span className="profile-order-id-label">Order</span>
+                            <span className="profile-order-id-code">{order.id}</span>
+                            <span className="profile-order-dot">•</span>
+                            <span className="profile-order-date">{order.date}</span>
+                          </div>
+
+                          <div className={`profile-order-status-badge ${order.status.toLowerCase().replace(' ', '-')}`}>
+                            <span className="status-indicator-dot" />
+                            <span>{order.status}</span>
+                          </div>
+                        </div>
+
+                        <div className="profile-order-card-main">
+                          <div className="profile-order-thumb-box">
+                            <img src={order.image} alt={order.item} />
+                          </div>
+
+                          <div className="profile-order-details">
+                            <h3 className="profile-order-item-name">{order.item}</h3>
+                            <div className="profile-order-maker-line">
+                              <span>Handcrafted by </span>
+                              <button
+                                type="button"
+                                className="profile-order-maker-btn"
+                                onClick={() =>
+                                  order.artisanData &&
+                                  onOpenArtisanModal &&
+                                  onOpenArtisanModal(order.artisanData)
+                                }
+                              >
+                                {order.artisan}
+                              </button>
+                            </div>
+                            <p className="profile-order-material-tag">
+                              {order.material}
+                            </p>
+                            <div className="profile-order-price-row">
+                              <span className="profile-order-price-val">
+                                ₹{order.price.toLocaleString('en-IN')}
+                              </span>
+                              <span className="profile-order-tax-tag">Inclusive of taxes & shipping</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="profile-order-card-footer">
+                          <div className="profile-order-tracking-info">
+                            <Truck size={15} color="var(--accent-terracotta)" />
+                            <span>Tracking: <strong>{order.trackingNumber}</strong></span>
+                          </div>
+
+                          <div className="profile-order-actions-cluster">
+                            <button
+                              type="button"
+                              className="btn-profile-order-action btn-secondary-order"
+                              onClick={() => {
+                                if (showToast) showToast(`Provenance certificate generated for ${order.id}`);
+                              }}
+                            >
+                              <ShieldCheck size={14} />
+                              Certificate
+                            </button>
+
+                            <button
+                              type="button"
+                              className="btn-profile-order-action btn-primary-order"
+                              onClick={() => {
+                                if (showToast) showToast(`Live tracking for ${order.trackingNumber} opened`);
+                              }}
+                            >
+                              <Truck size={14} />
+                              Track Package
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+                    ))}
+                  </div>
+                </section>
+              </div>
+            )}
 
-          {/* TAB 3: ARTISANS */}
-          {activeTab === 'artisans' && (
-            <div className="profile-artisans-view">
-              <h2 className="profile-section-title">Master Artisans You Follow</h2>
-              <div className="profile-artisans-grid">
-                {artisans.map((artisan) => (
-                  <div key={artisan.id} className="profile-artisan-card">
-                    <img src={artisan.avatar} alt={artisan.name} className="profile-artisan-avatar" />
-                    <div className="profile-artisan-info">
-                      <h3 className="profile-artisan-name">{artisan.name}</h3>
-                      <p className="profile-artisan-craft">{artisan.craft || artisan.discipline} • {artisan.city}, {artisan.country}</p>
+            {/* ========================================================
+                TAB 2: SAVED WISHLIST (Standard ProductCard Grid)
+                ======================================================== */}
+            {activeTab === 'wishlist' && (
+              <div className="animate-fade-in ap-tab-content-pane">
+                <section className="ap-tab-section">
+                  <div className="ap-tab-section-header">
+                    <div className="ap-eyebrow-row">
+                      <span className="ap-section-eyebrow">Curated Collection</span>
+                      <span className="ap-count-badge">{wishlistedProducts.length} Saved</span>
                     </div>
-                    <button 
-                      type="button"
-                      className="btn btn-secondary btn-sm"
-                      onClick={() => onOpenArtisanModal && onOpenArtisanModal(artisan)}
+                    <h2 className="ap-section-title">Your Saved Wishlist</h2>
+                    <p className="ap-section-subtitle">
+                      One-of-a-kind handcrafted pieces you have favorited. Add them to your collection before they sell out.
+                    </p>
+                  </div>
+
+                  {wishlistedProducts.length === 0 ? (
+                    <div className="profile-empty-collection-box">
+                      <div className="profile-empty-icon-circle">
+                        <Heart size={36} color="var(--accent-terracotta)" />
+                      </div>
+                      <h3 className="profile-empty-title">Your wishlist is currently empty</h3>
+                      <p className="profile-empty-desc">
+                        Explore authentic creations shaped by master artisans and click the heart icon on any piece to curate your personal collection.
+                      </p>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => onNavigate && onNavigate('/shop')}
+                        style={{ minWidth: '200px' }}
+                      >
+                        Explore Handcrafted Shop
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="product-grid shop-product-grid">
+                      {wishlistedProducts.map((product) => (
+                        <ProductCard
+                          key={product.id}
+                          product={product}
+                          isWishlisted={true}
+                          onToggleWishlist={onToggleWishlist}
+                          onOpenProductModal={onOpenProductModal}
+                          onAddToCart={onAddToCart}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </section>
+              </div>
+            )}
+
+            {/* ========================================================
+                TAB 3: MAKERS SUPPORTED
+                ======================================================== */}
+            {activeTab === 'artisans' && (
+              <div className="animate-fade-in ap-tab-content-pane">
+                <section className="ap-tab-section">
+                  <div className="ap-tab-section-header">
+                    <div className="ap-eyebrow-row">
+                      <span className="ap-section-eyebrow">Studio Community</span>
+                      <span className="ap-count-badge">{allArtisans.length} Studios</span>
+                    </div>
+                    <h2 className="ap-section-title">Master Artisans You Support</h2>
+                    <p className="ap-section-subtitle">
+                      Independent creators preserving ancestral crafts across India and beyond.
+                    </p>
+                  </div>
+
+                  <div className="profile-makers-grid">
+                    {allArtisans.map((maker) => {
+                      const isFollowed = isFollowingSuggested[maker.id] ?? true;
+                      return (
+                        <div key={maker.id} className="profile-maker-card">
+                          <div className="profile-maker-cover">
+                            <img
+                              src={maker.workImage1 || maker.studioImage}
+                              alt={maker.name}
+                            />
+                            <span className="profile-maker-craft-tag">
+                              {maker.craft || 'Artisan Craft'}
+                            </span>
+                          </div>
+
+                          <div className="profile-maker-content">
+                            <div className="profile-maker-avatar-wrap">
+                              <img src={maker.avatar} alt={maker.name} />
+                            </div>
+
+                            <div className="profile-maker-meta">
+                              <div className="profile-maker-name-row">
+                                <h4 className="profile-maker-name">{maker.name}</h4>
+                                <CheckCircle2 size={15} fill="#2563EB" color="#FFFFFF" />
+                              </div>
+                              <span className="profile-maker-location">
+                                <MapPin size={13} /> {maker.city}, {maker.state || 'India'}
+                              </span>
+                              <p className="profile-maker-specialty">
+                                {maker.specialties ? maker.specialties.join(' • ') : maker.craftSpecialty}
+                              </p>
+                            </div>
+
+                            <div className="profile-maker-actions-row">
+                              <button
+                                type="button"
+                                className="btn-maker-card-view"
+                                onClick={() =>
+                                  onOpenArtisanModal && onOpenArtisanModal(maker)
+                                }
+                              >
+                                View Studio
+                                <ChevronRight size={14} />
+                              </button>
+
+                              <button
+                                type="button"
+                                className={`btn-maker-card-follow ${isFollowed ? 'following' : ''}`}
+                                onClick={() => handleToggleSuggestedFollow(maker.id, maker.name)}
+                              >
+                                {isFollowed ? 'Following' : 'Follow'}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
+              </div>
+            )}
+
+            {/* ========================================================
+                TAB 4: PATRON PERKS (How It's Made / Craft Process Cards)
+                ======================================================== */}
+            {activeTab === 'perks' && (
+              <div className="animate-fade-in ap-tab-content-pane">
+                <section className="ap-how-section" style={{ borderTop: 'none', paddingTop: '0.5rem' }}>
+                  <div className="ap-how-header" style={{ marginBottom: '2rem' }}>
+                    <div className="ap-eyebrow-row" style={{ justifyContent: 'center' }}>
+                      <span className="ap-section-eyebrow">Tier II Collector Privileges</span>
+                    </div>
+                    <h2 className="ap-how-title" style={{ fontSize: '1.85rem' }}>Patron Member Benefits</h2>
+                    <span className="ap-how-subtitle">
+                      Your direct patronage supports living artisan heritage, ethical living wages, and ancestral craftsmanship.
+                    </span>
+                  </div>
+
+                  <div className="ap-how-grid">
+                    <div className="ap-how-card">
+                      <div className="ap-how-media">
+                        <img
+                          src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=600&auto=format&fit=crop"
+                          alt="Early studio access"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="ap-how-body">
+                        <div className="profile-perk-badge-row">
+                          <Sparkles size={16} color="var(--accent-terracotta)" />
+                          <span className="profile-perk-step-tag">Exclusive Privilege</span>
+                        </div>
+                        <h4 className="ap-how-step-name">24-Hour Early Studio Access</h4>
+                        <p className="ap-how-step-desc">
+                          Gain exclusive preview and purchasing rights 24 hours before limited-edition studio drops are made public.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="ap-how-card">
+                      <div className="ap-how-media">
+                        <img
+                          src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=600&auto=format&fit=crop"
+                          alt="Plastic-free packaging"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="ap-how-body">
+                        <div className="profile-perk-badge-row">
+                          <Truck size={16} color="var(--accent-terracotta)" />
+                          <span className="profile-perk-step-tag">Eco Standard</span>
+                        </div>
+                        <h4 className="ap-how-step-name">100% Carbon-Neutral Shipping</h4>
+                        <p className="ap-how-step-desc">
+                          All orders are packed in biodegradable mulberry paper and shipped with verified climate carbon offset credits.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="ap-how-card">
+                      <div className="ap-how-media">
+                        <img
+                          src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop"
+                          alt="Authenticity certificate"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="ap-how-body">
+                        <div className="profile-perk-badge-row">
+                          <ShieldCheck size={16} color="var(--accent-terracotta)" />
+                          <span className="profile-perk-step-tag">Provenance Guarantee</span>
+                        </div>
+                        <h4 className="ap-how-step-name">Physical Certificate of Provenance</h4>
+                        <p className="ap-how-step-desc">
+                          Every acquisition includes a hand-embossed provenance card signed by the master maker verifying studio origin.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="ap-how-card">
+                      <div className="ap-how-media">
+                        <img
+                          src="https://images.unsplash.com/photo-1506806732259-39c2d0268443?q=80&w=600&auto=format&fit=crop"
+                          alt="Studio Commission"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="ap-how-body">
+                        <div className="profile-perk-badge-row">
+                          <HeartHandshake size={16} color="var(--accent-terracotta)" />
+                          <span className="profile-perk-step-tag">Artisan Connection</span>
+                        </div>
+                        <h4 className="ap-how-step-name">Custom Commission Priority</h4>
+                        <p className="ap-how-step-desc">
+                          Request bespoke dimensions, glaze treatments, or personalized inscriptions directly with certified ateliers.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            )}
+
+          </div>
+
+          {/* ----------------------------------------------------------
+              RIGHT COLUMN: Sticky Sidebar matching ArtisanDetailsPage
+              ---------------------------------------------------------- */}
+          <aside className="ap-sidebar-column">
+            
+            {/* SIDEBAR CARD 1: Patron Impact & Status */}
+            <div className="ap-sidebar-card">
+              <div className="profile-sidebar-impact-header">
+                <span className="ap-section-eyebrow" style={{ marginBottom: '0.25rem' }}>Patron Impact</span>
+                <h2 className="ap-sidebar-card-title" style={{ marginBottom: '0.85rem' }}>Tier II Patron Level</h2>
+              </div>
+
+              <div className="profile-impact-progress-block">
+                <div className="profile-impact-bar-labels">
+                  <span>Tier II Patron</span>
+                  <strong>84% to Tier III</strong>
+                </div>
+                <div className="profile-impact-progress-track">
+                  <div className="profile-impact-progress-fill" style={{ width: '84%' }} />
+                </div>
+                <span className="profile-impact-progress-note">
+                  ₹1,500 away from unlocking Lifetime Free Artisan Delivery
+                </span>
+              </div>
+
+              <div className="profile-impact-badges-grid">
+                <div className="profile-impact-stat-pill">
+                  <Award size={18} color="var(--accent-terracotta)" />
+                  <div>
+                    <strong>12 Studios</strong>
+                    <span>Directly Sustained</span>
+                  </div>
+                </div>
+
+                <div className="profile-impact-stat-pill">
+                  <ShieldCheck size={18} color="var(--accent-sage)" />
+                  <div>
+                    <strong>100% Fair</strong>
+                    <span>Verified Living Wage</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* SIDEBAR CARD 2: Suggested Artisans to Follow */}
+            <div className="ap-sidebar-card">
+              <h2 className="ap-sidebar-card-title">Artisans you may like</h2>
+
+              <div className="ap-suggested-makers-list">
+                {suggestedMakers.map((maker) => (
+                  <div key={maker.id} className="ap-suggested-maker-row">
+                    <div
+                      className="ap-sugg-author-info"
+                      onClick={() => onOpenArtisanModal && onOpenArtisanModal(maker)}
+                      title={`View ${maker.name}'s studio`}
                     >
-                      View Studio <ChevronRight size={14} />
+                      <img
+                        src={maker.avatar}
+                        alt={maker.name}
+                        className="ap-sugg-avatar"
+                      />
+                      <div className="ap-sugg-name-col">
+                        <div className="ap-sugg-name-row">
+                          <span className="ap-sugg-name">{maker.name}</span>
+                          <CheckCircle2 size={13} fill="#2563EB" color="#FFFFFF" />
+                        </div>
+                        <span className="ap-sugg-handle">{maker.craft || maker.city}</span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      className={`ap-sugg-follow-btn ${isFollowingSuggested[maker.id] ? 'following' : ''}`}
+                      onClick={() => handleToggleSuggestedFollow(maker.id, maker.name)}
+                    >
+                      {isFollowingSuggested[maker.id] ? 'Following' : 'Follow'}
                     </button>
                   </div>
                 ))}
               </div>
             </div>
-          )}
 
-          {/* TAB 4: PERKS */}
-          {activeTab === 'perks' && (
-            <div className="profile-perks-view">
-              <h2 className="profile-section-title">Patron Member Benefits</h2>
-              <div className="profile-perks-grid">
-                <div className="profile-perk-card">
-                  <div className="profile-perk-icon"><Sparkles size={24} /></div>
-                  <h3>Early Access to Studio Drops</h3>
-                  <p>Get 24-hour priority access before limited-edition studio drops are opened to the public.</p>
-                </div>
-                <div className="profile-perk-card">
-                  <div className="profile-perk-icon"><Award size={24} /></div>
-                  <h3>100% Carbon-Neutral Shipping</h3>
-                  <p>All your orders are shipped with recycled organic paper and verified climate offset credits.</p>
-                </div>
-                <div className="profile-perk-card">
-                  <div className="profile-perk-icon"><CheckCircle2 size={24} /></div>
-                  <h3>Handcrafted Certificate of Authenticity</h3>
-                  <p>Every piece includes a signed physical provenance stamp from the master maker.</p>
-                </div>
+            {/* SIDEBAR CARD 3: Account Quick Actions */}
+            <div className="ap-sidebar-card">
+              <h2 className="ap-sidebar-card-title">Quick Settings</h2>
+
+              <div className="profile-sidebar-shortcuts">
+                <button
+                  type="button"
+                  className="profile-shortcut-row"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('/settings');
+                    else if (showToast) showToast('Shipping addresses opened');
+                  }}
+                >
+                  <div className="profile-shortcut-icon">
+                    <MapPin size={16} />
+                  </div>
+                  <div className="profile-shortcut-text">
+                    <span className="profile-shortcut-title">Shipping Addresses</span>
+                    <span className="profile-shortcut-sub">Portland, OR (Default)</span>
+                  </div>
+                  <ChevronRight size={16} className="profile-shortcut-chevron" />
+                </button>
+
+                <button
+                  type="button"
+                  className="profile-shortcut-row"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('/settings');
+                    else if (showToast) showToast('Payment settings opened');
+                  }}
+                >
+                  <div className="profile-shortcut-icon">
+                    <Award size={16} />
+                  </div>
+                  <div className="profile-shortcut-text">
+                    <span className="profile-shortcut-title">Payment Methods</span>
+                    <span className="profile-shortcut-sub">UPI & Cards verified</span>
+                  </div>
+                  <ChevronRight size={16} className="profile-shortcut-chevron" />
+                </button>
+
+                <button
+                  type="button"
+                  className="profile-shortcut-row"
+                  onClick={() => {
+                    if (showToast) showToast('Craft care concierge opened');
+                  }}
+                >
+                  <div className="profile-shortcut-icon">
+                    <ShieldCheck size={16} />
+                  </div>
+                  <div className="profile-shortcut-text">
+                    <span className="profile-shortcut-title">Craft Care Concierge</span>
+                    <span className="profile-shortcut-sub">Returns & Authenticity help</span>
+                  </div>
+                  <ChevronRight size={16} className="profile-shortcut-chevron" />
+                </button>
               </div>
             </div>
-          )}
+
+          </aside>
 
         </div>
 
       </div>
-    </div>
+    </main>
   );
 }

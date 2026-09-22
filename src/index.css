@@ -548,7 +548,7 @@ a:active,
   display: block;
 }
 
-/* Utility Animations */
+/* Utility Animations & Progressive Reveal */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -565,6 +565,54 @@ a:active,
 
 .animate-slide-up {
   animation: slideUpFade 0.4s var(--ease-out) forwards;
+}
+
+/* Progressive Lazy Section Entrance */
+@keyframes lazySectionFade {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lazy-section-container {
+  position: relative;
+  width: 100%;
+}
+
+.lazy-fade-enter {
+  animation: lazySectionFade 0.5s var(--ease-out) forwards;
+  will-change: opacity, transform;
+}
+
+/* Tab Crossfade Transition */
+@keyframes tabCrossFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-content-crossfade {
+  animation: tabCrossFade 0.32s var(--ease-out) forwards;
+  will-change: opacity, transform;
+}
+
+/* Micro-Interaction: Gentle Button Press Scale */
+.btn-press-scale {
+  transition: transform 0.15s var(--ease-out), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-press-scale:active {
+  transform: scale(0.975);
 }
 
 /* Reduced Motion Respect */

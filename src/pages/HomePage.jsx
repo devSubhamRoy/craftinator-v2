@@ -12,7 +12,9 @@ import {
   PersonalizedDiscovery,
   SellerCTA,
   Testimonials,
-  Newsletter
+  Newsletter,
+  LazySection,
+  SectionSkeleton
 } from '../components';
 
 /* Datasets */
@@ -31,7 +33,7 @@ export default function HomePage({
 
   return (
     <div className="homepage-root">
-      {/* 1. Hero Section */}
+      {/* 1. Hero Section (Immediate - Above the Fold) */}
       <Hero
         onShopClick={() => onNavigate && onNavigate('/shop')}
         onArtisansClick={() => {
@@ -40,60 +42,114 @@ export default function HomePage({
         }}
       />
 
-      {/* 2. Brand Core Values */}
+      {/* 2. Brand Core Values (Immediate - Above the Fold) */}
       <BrandValues />
 
-      {/* 3. Shop by Category Carousel */}
-      <ShopByCategory
-        onSelectCategory={(category) => {
-          onNavigate && onNavigate('/shop');
-        }}
-      />
+      {/* 3. Shop by Category Carousel (Lazy Section) */}
+      <LazySection
+        skeletonVariant="carousel"
+        minHeight="360px"
+        placeholder={<SectionSkeleton variant="carousel" minHeight="360px" />}
+      >
+        <ShopByCategory
+          onSelectCategory={(category) => {
+            onNavigate && onNavigate('/shop');
+          }}
+        />
+      </LazySection>
 
-      {/* 4. Curated Trending Products Grid */}
-      <TrendingProducts
-        wishlist={wishlist}
-        onToggleWishlist={onToggleWishlist}
-        onOpenProductModal={onOpenProductModal}
-        onAddToCart={onAddToCart}
-        onExploreAllClick={() => onNavigate && onNavigate('/shop')}
-      />
+      {/* 4. Curated Trending Products Grid (Lazy Section) */}
+      <LazySection
+        skeletonVariant="grid"
+        minHeight="540px"
+        placeholder={<SectionSkeleton variant="grid" minHeight="540px" />}
+      >
+        <TrendingProducts
+          wishlist={wishlist}
+          onToggleWishlist={onToggleWishlist}
+          onOpenProductModal={onOpenProductModal}
+          onAddToCart={onAddToCart}
+          onExploreAllClick={() => onNavigate && onNavigate('/shop')}
+        />
+      </LazySection>
 
-      {/* 5. Meet the Makers / Artisan Grid */}
-      <MeetMakers
-        onOpenArtisanModal={onOpenArtisanModal}
-        onNavigate={onNavigate}
-      />
+      {/* 5. Meet the Makers / Artisan Grid (Lazy Section) */}
+      <LazySection
+        skeletonVariant="grid"
+        minHeight="520px"
+        placeholder={<SectionSkeleton variant="grid" minHeight="520px" />}
+      >
+        <MeetMakers
+          onOpenArtisanModal={onOpenArtisanModal}
+          onNavigate={onNavigate}
+        />
+      </LazySection>
 
-      {/* 6. Maker Community Interactive Feed */}
-      <CommunitySection
-        onExploreClick={() => onNavigate && onNavigate('/shop')}
-      />
+      {/* 6. Maker Community Interactive Feed (Lazy Section) */}
+      <LazySection
+        skeletonVariant="grid"
+        minHeight="520px"
+        placeholder={<SectionSkeleton variant="grid" minHeight="520px" />}
+      >
+        <CommunitySection
+          onExploreClick={() => onNavigate && onNavigate('/shop')}
+        />
+      </LazySection>
 
-      {/* 7. Craft Heritage Story Banner */}
-      <StoryBanner
-        onOpenStoryModal={() => showToast && showToast(t('story_modal_title'))}
-      />
+      {/* 7. Craft Heritage Story Banner (Lazy Section) */}
+      <LazySection
+        skeletonVariant="banner"
+        minHeight="300px"
+        placeholder={<SectionSkeleton variant="banner" minHeight="300px" showHeader={false} />}
+      >
+        <StoryBanner
+          onOpenStoryModal={() => showToast && showToast(t('story_modal_title'))}
+        />
+      </LazySection>
 
-      {/* 8. Personalized Style Aesthetic Discovery */}
-      <PersonalizedDiscovery
-        onFilterByStyle={(style) => {
-          onNavigate && onNavigate('/shop');
-        }}
-      />
+      {/* 8. Personalized Style Aesthetic Discovery (Lazy Section) */}
+      <LazySection
+        skeletonVariant="grid"
+        minHeight="420px"
+        placeholder={<SectionSkeleton variant="grid" minHeight="420px" />}
+      >
+        <PersonalizedDiscovery
+          onFilterByStyle={(style) => {
+            onNavigate && onNavigate('/shop');
+          }}
+        />
+      </LazySection>
 
-      {/* 9. Artisan Seller Onboarding CTA */}
-      <SellerCTA
-        onStartSelling={() => onOpenArtisanModal && onOpenArtisanModal(artisans[0])}
-      />
+      {/* 9. Artisan Seller Onboarding CTA (Lazy Section) */}
+      <LazySection
+        skeletonVariant="banner"
+        minHeight="280px"
+        placeholder={<SectionSkeleton variant="banner" minHeight="280px" showHeader={false} />}
+      >
+        <SellerCTA
+          onStartSelling={() => onOpenArtisanModal && onOpenArtisanModal(artisans[0])}
+        />
+      </LazySection>
 
-      {/* 10. Customer Community Testimonials */}
-      <Testimonials />
+      {/* 10. Customer Community Testimonials (Lazy Section) */}
+      <LazySection
+        skeletonVariant="banner"
+        minHeight="320px"
+        placeholder={<SectionSkeleton variant="banner" minHeight="320px" showHeader={false} />}
+      >
+        <Testimonials />
+      </LazySection>
 
-      {/* 11. Craftinator Community Newsletter */}
-      <Newsletter
-        onSubscribe={(email) => showToast && showToast(`Subscribed ${email} to Craftinator Community`)}
-      />
+      {/* 11. Craftinator Community Newsletter (Lazy Section) */}
+      <LazySection
+        skeletonVariant="banner"
+        minHeight="240px"
+        placeholder={<SectionSkeleton variant="banner" minHeight="240px" showHeader={false} />}
+      >
+        <Newsletter
+          onSubscribe={(email) => showToast && showToast(`Subscribed ${email} to Craftinator Community`)}
+        />
+      </LazySection>
     </div>
   );
 }
