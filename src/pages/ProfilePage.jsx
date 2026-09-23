@@ -27,6 +27,8 @@ import { ProductCard, ProductCardSkeleton, ArtisanCardSkeleton } from "../compon
 
 export default function ProfilePage({
   wishlist = [],
+  authUser = null,
+  onLogout,
   onToggleWishlist,
   onAddToCart,
   onOpenProductModal,
@@ -182,8 +184,8 @@ export default function ProfilePage({
               <div className="ap-profile-actions-bar">
                 <div className="ap-profile-avatar-box">
                   <img
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop"
-                    alt="Aarav Sharma"
+                    src={authUser?.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop"}
+                    alt={authUser?.name || "Aarav Sharma"}
                   />
                 </div>
 
@@ -226,7 +228,7 @@ export default function ProfilePage({
               <div className="ap-profile-body">
                 {/* Name & Verified Badge */}
                 <div className="ap-profile-name-row">
-                  <h1 className="ap-profile-name">Aarav Sharma</h1>
+                  <h1 className="ap-profile-name">{authUser?.name || "Aarav Sharma"}</h1>
                   <CheckCircle2
                     size={20}
                     className="ap-verified-check-icon"
@@ -237,12 +239,14 @@ export default function ProfilePage({
                 </div>
 
                 {/* Handle */}
-                <div className="ap-profile-handle">@aarav_crafts</div>
+                <div className="ap-profile-handle">
+                  {authUser?.email ? `@${authUser.email.split('@')[0]}` : "@aarav_crafts"}
+                </div>
 
                 {/* Brand Tag Pill & Specialty Italics */}
                 <div className="ap-brand-tag-row">
                   <span className="ap-brand-pill">
-                    Artisan Patron • Tier II
+                    {authUser?.role || "Artisan Patron • Tier II"}
                   </span>
                   <span className="ap-craft-desc-italics">
                     Heritage Pottery & Handloom Collector
@@ -260,12 +264,12 @@ export default function ProfilePage({
                 <div className="ap-profile-meta-row">
                   <div className="ap-meta-detail">
                     <MapPin size={15} />
-                    <span>Portland, OR, USA</span>
+                    <span>{authUser?.location || "Portland, OR, USA"}</span>
                   </div>
 
                   <div className="ap-meta-detail">
                     <Calendar size={15} />
-                    <span>Member since 2024</span>
+                    <span>{authUser?.memberSince ? `Member since ${authUser.memberSince}` : "Member since 2024"}</span>
                   </div>
 
                   <div className="ap-meta-detail">

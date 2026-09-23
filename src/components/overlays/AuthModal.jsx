@@ -13,8 +13,19 @@ export default function AuthModal({ isOpen, mode = 'login', onClose, onAuthSucce
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAuthSuccess(currentMode === 'login' ? `Welcome back!` : `Account created successfully!`);
-    onClose();
+    const user = {
+      id: `user_${Date.now()}`,
+      name: name || (email ? email.split('@')[0] : 'Artisan Friend'),
+      email: email || 'demo@craftinator.art',
+      role: 'Curator & Patron',
+      avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name || email || 'Artisan')}&backgroundColor=a85838,7a866a`
+    };
+    if (onAuthSuccess) {
+      onAuthSuccess(user);
+    }
+    if (onClose) {
+      onClose();
+    }
   };
 
   return (

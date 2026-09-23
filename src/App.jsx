@@ -30,6 +30,7 @@ import './styles/ArtisanDetailsPage.css';
 import './styles/CommunityPage.css';
 import './styles/ProfilePage.css';
 import './styles/SettingsPage.css';
+import './styles/AuthPage.css';
 import './styles/SectionSkeleton.css';
 
 import {
@@ -52,6 +53,7 @@ const ArtisanDetailsPage = lazy(() => import('./pages/ArtisanDetailsPage'));
 const CommunityPage = lazy(() => import('./pages/CommunityPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
+const AuthPage = lazy(() => import('./pages/AuthPage'));
 
 /* Lazy-Loaded Heavy Overlays */
 const ProductModal = lazy(() => import('./components/overlays/ProductModal'));
@@ -149,6 +151,32 @@ function AppContent() {
   const [selectedProductModal, setSelectedProductModal] = useState(null);
   const [selectedArtisanModal, setSelectedArtisanModal] = useState(null);
   const [authModalMode, setAuthModalMode] = useState(null); // 'login' | 'signup' | null
+
+  /* Persistent Demo Authentication State */
+  const [authUser, setAuthUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('craft_auth_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  });
+
+  const handleAuthSuccess = (user) => {
+    setAuthUser(user);
+    try {
+      localStorage.setItem('craft_auth_user', JSON.stringify(user));
+    } catch (e) {}
+    setAuthModalMode(null);
+  };
+
+  const handleLogout = () => {
+    setAuthUser(null);
+    try {
+      localStorage.removeItem('craft_auth_user');
+    } catch (e) {}
+    showToast(t('auth_logged_out', 'Signed out successfully. Come back soon!'));
+  };
 
   /* Toast Notification */
   const [toast, setToast] = useState(null);
@@ -250,11 +278,16 @@ function AppContent() {
         cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
         wishlistCount={wishlist.length}
         currentPath={currentPath}
+        authUser={authUser}
+        onLogout={handleLogout}
         onNavigate={handleNavigate}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
-        onOpenAuth={(mode) => setAuthModalMode(mode)}
+        onOpenAuth={(mode) => {
+          if (mode === 'signup') handleNavigate('/signup');
+          else handleNavigate('/login');
+        }}
         onOpenSearch={() => setIsSearchOpen(true)}
         onOpenChat={() => {
           showToast('Artisan Chat: Chat directly with master craftspeople');
@@ -267,7 +300,16 @@ function AppContent() {
       {/* 2. Main Page View Architecture */}
       <main id="main-content">
         <Suspense fallback={<RouteLoadingFallback />}>
-          {currentPath.startsWith('/product') ? (
+          {(currentPath === '/login' || currentPath === '/signup' || currentPath.startsWith('/auth')) ? (
+            /* Dedicated Independent Demo Auth Page (/login, /signup, /auth) */
+            <AuthPage
+              initialMode={currentPath === '/signup' ? 'signup' : 'login'}
+              onNavigate={handleNavigate}
+              onGoBack={goBack}
+              onAuthSuccess={handleAuthSuccess}
+              showToast={showToast}
+            />
+          ) : currentPath.startsWith('/product') ? (
             /* Dedicated Independent Product Details Page (/product?id=...) */
             <ProductDetailsPage
               productId={currentProductId}
@@ -323,6 +365,8 @@ function AppContent() {
             /* Dedicated Independent Profile Page (/profile) */
             <ProfilePage
               wishlist={wishlist}
+              authUser={authUser}
+              onLogout={handleLogout}
               onToggleWishlist={handleToggleWishlist}
               onAddToCart={handleAddToCart}
               onOpenProductModal={handleProductClick}
@@ -353,15 +397,21 @@ function AppContent() {
         </Suspense>
       </main>
 
-      {/* 3. Reusable Global Footer (Hidden on /community for full social media app experience) */}
-      {!currentPath.startsWith('/community') && <Footer />}
+      {/* 3. Reusable Global Footer (Hidden on /community, /login, /signup for full immersive experience) */}
+      {!currentPath.startsWith('/community') && !currentPath.startsWith('/login') && !currentPath.startsWith('/signup') && !currentPath.startsWith('/auth') && <Footer />}
 
       {/* Mobile Navigation Drawer */}
       <MobileDrawer
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        onOpenAuth={(mode) => setAuthModalMode(mode)}
+        onOpenAuth={(mode) => {
+          setIsMobileMenuOpen(false);
+          if (mode === 'signup') handleNavigate('/signup');
+          else handleNavigate('/login');
+        }}
         onNavigate={handleNavigate}
+        authUser={authUser}
+        onLogout={handleLogout}
         currentPath={currentPath}
         cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
         wishlistCount={wishlist.length}
@@ -420,11 +470,12 @@ function AppContent() {
       {authModalMode && (
         <Suspense fallback={null}>
           <AuthModal
-            initialMode={authModalMode}
+            isOpen={Boolean(authModalMode)}
+            mode={authModalMode}
             onClose={() => setAuthModalMode(null)}
-            onSuccess={(user) => {
+            onAuthSuccess={(user) => {
+              handleAuthSuccess(user);
               showToast(`Welcome back, ${user.name || 'Artisan Friend'}!`);
-              setAuthModalMode(null);
             }}
           />
         </Suspense>

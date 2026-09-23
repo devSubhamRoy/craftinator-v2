@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Heart, ShoppingBag, Menu, MessageSquare, Bell } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, MessageSquare, Bell, User, LogOut } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
 import LanguageSelector from '../ui/LanguageSelector';
 
@@ -7,6 +7,8 @@ export default function Header({
   cartCount,
   wishlistCount,
   currentPath,
+  authUser,
+  onLogout,
   onNavigate,
   onOpenCart,
   onOpenWishlist,
@@ -181,18 +183,43 @@ export default function Header({
 
           {/* Desktop Auth Actions (Desktop Only) */}
           <div className="header-auth-desktop header-desktop-only">
-            <button
-              className="header-login-btn"
-              onClick={() => onOpenAuth('login')}
-            >
-              {t('login')}
-            </button>
-            <button
-              className="btn btn-primary header-signup-btn"
-              onClick={() => onOpenAuth('signup')}
-            >
-              {t('signup')}
-            </button>
+            {authUser ? (
+              <div className="header-user-menu">
+                <button
+                  type="button"
+                  className="header-user-pill"
+                  onClick={() => onNavigate && onNavigate('/profile')}
+                  title={`Signed in as ${authUser.name}`}
+                >
+                  <img src={authUser.avatar} alt={authUser.name} className="header-user-avatar" />
+                  <span className="header-user-name">{authUser.name.split(' ')[0]}</span>
+                </button>
+                <button
+                  type="button"
+                  className="header-logout-btn"
+                  onClick={onLogout}
+                  title={t('auth_logout', 'Sign Out')}
+                  aria-label={t('auth_logout', 'Sign Out')}
+                >
+                  <LogOut size={16} />
+                </button>
+              </div>
+            ) : (
+              <>
+                <button
+                  className="header-login-btn"
+                  onClick={() => (onNavigate ? onNavigate('/login') : onOpenAuth('login'))}
+                >
+                  {t('login')}
+                </button>
+                <button
+                  className="btn btn-primary header-signup-btn"
+                  onClick={() => (onNavigate ? onNavigate('/signup') : onOpenAuth('signup'))}
+                >
+                  {t('signup')}
+                </button>
+              </>
+            )}
           </div>
         </div>
 

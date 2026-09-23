@@ -6,3 +6,4 @@ export { default as ArtisanDetailsPage } from './ArtisanDetailsPage';
 export { default as CommunityPage } from './CommunityPage';
 export { default as ProfilePage } from './ProfilePage';
 export { default as SettingsPage } from './SettingsPage';
+export { default as AuthPage } from './AuthPage';
