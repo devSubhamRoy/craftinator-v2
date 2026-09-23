@@ -1512,6 +1512,10 @@
     gap: 2rem;
   }
 
+  .ap-sidebar-column {
+    display: none !important;
+  }
+
   .ap-tab-products-grid,
   .ap-main-column .product-grid,
   .ap-main-column .shop-product-grid {
@@ -1651,13 +1655,6 @@
   .ap-nav-tabs-bar {
     gap: 2rem;
     margin-bottom: 1.5rem;
-  }
-
-  .ap-sidebar-column {
-    position: static;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
   }
 
   .ap-how-grid {
@@ -1926,8 +1923,7 @@
   }
 
   .ap-sidebar-column {
-    position: static;
-    grid-template-columns: 1fr;
+    display: none !important;
   }
 
   .ap-meet-card {

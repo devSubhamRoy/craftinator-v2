@@ -648,6 +648,10 @@
    6. RESPONSIVE BREAKPOINTS (Matching ArtisanDetailsPage)
    ------------------------------------------------------------ */
 @media (max-width: 1024px) {
+  .ap-sidebar-column {
+    display: none !important;
+  }
+
   .profile-makers-grid {
     grid-template-columns: 1fr;
   }
