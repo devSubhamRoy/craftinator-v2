@@ -54,9 +54,9 @@ export default function Header({
     }
   };
 
-  const isShopActive = currentPath === '/shop';
-  const isMakersActive = currentPath === '/makers' || currentPath === '/meet-makers';
-  const isCommunityActive = currentPath === '/community';
+  const isShopActive = currentPath === '/shop' || currentPath.startsWith('/shop');
+  const isMakersActive = currentPath === '/makers' || currentPath === '/meet-makers' || currentPath.startsWith('/makers');
+  const isCommunityActive = Boolean(currentPath && currentPath.startsWith('/community'));
   const isHomeActive = currentPath === '/' || currentPath === '/home';
 
   return (
@@ -144,21 +144,6 @@ export default function Header({
             <MessageSquare size={19} />
           </button>
 
-          {/* 3. Notification Button (Mobile & Tablet: Community Page Only) */}
-          {isCommunityActive && (
-            <button
-              className="header-icon-btn header-mobile-tablet-only notification-btn"
-              onClick={() => {
-                if (onOpenNotifications) onOpenNotifications();
-              }}
-              aria-label="Notifications"
-              title="Notifications"
-            >
-              <Bell size={19} />
-              <span className="header-badge badge-terracotta">2</span>
-            </button>
-          )}
-
           {/* Wishlist Button (Desktop Only) */}
           <button
             className="header-icon-btn wishlist-btn header-desktop-only"
@@ -170,16 +155,30 @@ export default function Header({
             {wishlistCount > 0 && <span className="header-badge">{wishlistCount}</span>}
           </button>
 
-          {/* 4. Cart Button (Desktop Always, Mobile & Tablet on non-Community pages) */}
-          <button
-            className={`header-icon-btn cart-btn ${isCommunityActive ? 'header-desktop-only' : ''}`}
-            onClick={onOpenCart}
-            aria-label={`${t('cart')} (${cartCount})`}
-            title={t('cart')}
-          >
-            <ShoppingBag size={19} />
-            {cartCount > 0 && <span className="header-badge badge-terracotta">{cartCount}</span>}
-          </button>
+          {/* 3. Action Icon: Notification Button on Community Page, Cart Button on all other pages */}
+          {isCommunityActive ? (
+            <button
+              className="header-icon-btn notification-btn"
+              onClick={() => {
+                if (onOpenNotifications) onOpenNotifications();
+              }}
+              aria-label="Notifications"
+              title="Notifications"
+            >
+              <Bell size={19} />
+              <span className="header-badge badge-terracotta">2</span>
+            </button>
+          ) : (
+            <button
+              className="header-icon-btn cart-btn"
+              onClick={onOpenCart}
+              aria-label={`${t('cart')} (${cartCount})`}
+              title={t('cart')}
+            >
+              <ShoppingBag size={19} />
+              {cartCount > 0 && <span className="header-badge badge-terracotta">{cartCount}</span>}
+            </button>
+          )}
 
           {/* Desktop Auth Actions (Desktop Only) */}
           <div className="header-auth-desktop header-desktop-only">
