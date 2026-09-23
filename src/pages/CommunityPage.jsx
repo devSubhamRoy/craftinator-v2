@@ -1522,7 +1522,7 @@ export default function CommunityPage({
       </div>
 
       {/* 5. MOBILE FLOATING ACTION BUTTON (Post / Share Craft Story) */}
-      <button
+      {/* <button
         type="button"
         className="soc-mobile-fab-btn"
         onClick={() => {
@@ -1532,7 +1532,7 @@ export default function CommunityPage({
       >
         <Sparkles size={18} />
         <span>Post Story</span>
-      </button>
+      </button> */}
 
     </div>
   );

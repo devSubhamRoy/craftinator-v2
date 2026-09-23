@@ -5,9 +5,6 @@ import {
   ShoppingBag, 
   Heart, 
   Users, 
-  Rss, 
-  Bookmark, 
-  MessageCircle, 
   User, 
   Settings as SettingsIcon, 
   ChevronDown, 
@@ -40,10 +37,9 @@ export default function MobileDrawer({
     onClose,
   });
 
-  // Single active accordion section (auto-closes others when one opens)
+  // Single active accordion section (for Shop categories/sub-items)
   const [activeAccordion, setActiveAccordion] = useState(() => {
     if (currentPath.startsWith('/shop')) return 'shop';
-    if (currentPath.startsWith('/community')) return 'community';
     return null;
   });
 
@@ -52,8 +48,6 @@ export default function MobileDrawer({
     if (isOpen) {
       if (currentPath.startsWith('/shop')) {
         setActiveAccordion('shop');
-      } else if (currentPath.startsWith('/community')) {
-        setActiveAccordion('community');
       } else {
         setActiveAccordion(null);
       }
@@ -215,80 +209,19 @@ export default function MobileDrawer({
               </div>
             </li>
 
-            {/* 3. COMMUNITY (Accordion Section) */}
-            <li className={`mobile-nav-root-item ${activeAccordion === 'community' ? 'is-expanded' : ''}`}>
+            {/* 3. COMMUNITY */}
+            <li className="mobile-nav-root-item">
               <button
                 type="button"
-                className={`mobile-drawer-link mobile-accordion-trigger ${isCommunityActive ? 'active-parent' : ''} ${activeAccordion === 'community' ? 'open-trigger' : ''}`}
-                onClick={() => toggleSection('community')}
-                aria-expanded={activeAccordion === 'community'}
+                className={`mobile-drawer-link ${isCommunityActive ? 'active' : ''}`}
+                onClick={() => handleNav('/community')}
               >
                 <div className="mobile-link-left">
                   <Users size={19} className="mobile-link-icon" />
                   <span className="mobile-link-text">{t('nav_community', 'Community')}</span>
                 </div>
-                <div className="mobile-accordion-chevron">
-                  <ChevronDown 
-                    size={18} 
-                    className={`accordion-chevron-icon ${activeAccordion === 'community' ? 'rotated' : ''}`} 
-                  />
-                </div>
+                <ChevronRight size={16} className="mobile-link-arrow" />
               </button>
-
-              {/* Community Sub-items Collapsible Panel */}
-              <div className={`mobile-accordion-panel ${activeAccordion === 'community' ? 'open' : ''}`}>
-                <ul className="mobile-subnav-list">
-                  
-                  {/* Feed */}
-                  <li className="mobile-subnav-item">
-                    <button
-                      type="button"
-                      className={`mobile-subnav-link ${currentPath === '/community' || currentPath.includes('tab=feed') ? 'active' : ''}`}
-                      onClick={() => handleNav('/community?tab=feed')}
-                    >
-                      <Rss size={15} className="mobile-sublink-icon" />
-                      <span className="mobile-sublink-text">Feed</span>
-                    </button>
-                  </li>
-
-                  {/* Saved */}
-                  <li className="mobile-subnav-item">
-                    <button
-                      type="button"
-                      className={`mobile-subnav-link ${currentPath.includes('tab=saved') || currentPath.includes('tab=favorites') ? 'active' : ''}`}
-                      onClick={() => handleNav('/community?tab=saved')}
-                    >
-                      <Bookmark size={15} className="mobile-sublink-icon" />
-                      <span className="mobile-sublink-text">Saved</span>
-                    </button>
-                  </li>
-
-                  {/* Liked */}
-                  <li className="mobile-subnav-item">
-                    <button
-                      type="button"
-                      className={`mobile-subnav-link ${currentPath.includes('tab=liked') ? 'active' : ''}`}
-                      onClick={() => handleNav('/community?tab=liked')}
-                    >
-                      <Heart size={15} className="mobile-sublink-icon icon-wishlist" />
-                      <span className="mobile-sublink-text">Liked</span>
-                    </button>
-                  </li>
-
-                  {/* Comment */}
-                  <li className="mobile-subnav-item">
-                    <button
-                      type="button"
-                      className={`mobile-subnav-link ${currentPath.includes('tab=comment') ? 'active' : ''}`}
-                      onClick={() => handleNav('/community?tab=comments')}
-                    >
-                      <MessageCircle size={15} className="mobile-sublink-icon" />
-                      <span className="mobile-sublink-text">Comment</span>
-                    </button>
-                  </li>
-
-                </ul>
-              </div>
             </li>
 
             {/* 4. PROFILE */}

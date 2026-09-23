@@ -119,7 +119,7 @@ export default function Header({
             <LanguageSelector />
           </div>
 
-          {/* 1. Search Button (Mobile + Tablet + Desktop) */}
+          {/* 1. Search Button (Always visible on Mobile, Tablet & Desktop) */}
           <button
             className="header-icon-btn"
             onClick={onOpenSearch}
@@ -142,18 +142,20 @@ export default function Header({
             <MessageSquare size={19} />
           </button>
 
-          {/* 3. Notification Button (Mobile & Tablet Mode Only) */}
-          <button
-            className="header-icon-btn header-mobile-tablet-only notification-btn"
-            onClick={() => {
-              if (onOpenNotifications) onOpenNotifications();
-            }}
-            aria-label="Notifications"
-            title="Notifications"
-          >
-            <Bell size={19} />
-            <span className="header-badge badge-terracotta">2</span>
-          </button>
+          {/* 3. Notification Button (Mobile & Tablet: Community Page Only) */}
+          {isCommunityActive && (
+            <button
+              className="header-icon-btn header-mobile-tablet-only notification-btn"
+              onClick={() => {
+                if (onOpenNotifications) onOpenNotifications();
+              }}
+              aria-label="Notifications"
+              title="Notifications"
+            >
+              <Bell size={19} />
+              <span className="header-badge badge-terracotta">2</span>
+            </button>
+          )}
 
           {/* Wishlist Button (Desktop Only) */}
           <button
@@ -166,9 +168,9 @@ export default function Header({
             {wishlistCount > 0 && <span className="header-badge">{wishlistCount}</span>}
           </button>
 
-          {/* 4. Cart Button (Mobile + Tablet + Desktop) */}
+          {/* 4. Cart Button (Desktop Always, Mobile & Tablet on non-Community pages) */}
           <button
-            className="header-icon-btn cart-btn"
+            className={`header-icon-btn cart-btn ${isCommunityActive ? 'header-desktop-only' : ''}`}
             onClick={onOpenCart}
             aria-label={`${t('cart')} (${cartCount})`}
             title={t('cart')}
