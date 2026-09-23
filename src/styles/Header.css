@@ -158,6 +158,65 @@
   white-space: nowrap;
 }
 
+/* Logged-in User Header Menu */
+.header-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-user-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-warm);
+  padding: 0.3rem 0.75rem 0.3rem 0.35rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.header-user-pill:hover {
+  background: #FFFFFF;
+  border-color: var(--accent-terracotta);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--accent-terracotta);
+}
+
+.header-user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.header-logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border-warm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.header-logout-btn:hover {
+  background: #FEF2F2;
+  border-color: #FCA5A5;
+  color: #B91C1C;
+}
+
 /* Visibility Utilities for Mobile/Tablet vs Desktop Header Actions */
 .header-mobile-tablet-only {
   display: none !important;

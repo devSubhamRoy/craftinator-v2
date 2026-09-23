@@ -10,7 +10,8 @@ import {
   ChevronDown, 
   ChevronRight, 
   LogIn, 
-  UserPlus 
+  UserPlus,
+  LogOut 
 } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
 import LanguageSelector from '../ui/LanguageSelector';
@@ -21,6 +22,8 @@ export default function MobileDrawer({
   onClose, 
   onOpenAuth, 
   onNavigate,
+  authUser,
+  onLogout,
   currentPath = '/',
   cartCount = 0,
   wishlistCount = 0,
@@ -259,28 +262,51 @@ export default function MobileDrawer({
 
         {/* Auth Buttons */}
         <div className="mobile-drawer-auth">
-          <button
-            type="button"
-            className="btn btn-secondary mobile-auth-btn"
-            onClick={() => {
-              onClose();
-              onOpenAuth('login');
-            }}
-          >
-            <LogIn size={18} />
-            {t('login')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary mobile-auth-btn"
-            onClick={() => {
-              onClose();
-              onOpenAuth('signup');
-            }}
-          >
-            <UserPlus size={18} />
-            {t('signup')}
-          </button>
+          {authUser ? (
+            <div className="mobile-drawer-user-box">
+              <button
+                type="button"
+                className="mobile-user-card"
+                onClick={() => handleNav('/profile')}
+              >
+                <img src={authUser.avatar} alt={authUser.name} className="mobile-user-avatar" />
+                <div className="mobile-user-info">
+                  <span className="mobile-user-name">{authUser.name}</span>
+                  <span className="mobile-user-role">{authUser.role || 'Artisan Guild Member'}</span>
+                </div>
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary mobile-logout-btn"
+                onClick={() => {
+                  onClose();
+                  if (onLogout) onLogout();
+                }}
+              >
+                <LogOut size={16} />
+                {t('auth_logout', 'Sign Out')}
+              </button>
+            </div>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="btn btn-secondary mobile-auth-btn"
+                onClick={() => handleNav('/login')}
+              >
+                <LogIn size={18} />
+                {t('login')}
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary mobile-auth-btn"
+                onClick={() => handleNav('/signup')}
+              >
+                <UserPlus size={18} />
+                {t('signup')}
+              </button>
+            </>
+          )}
         </div>
 
       </div>

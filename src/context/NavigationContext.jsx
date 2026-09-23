@@ -21,7 +21,23 @@ export function NavigationProvider({ children }) {
     if (path.startsWith('/community')) return sanitizePath(path + search);
     if (path === '/profile') return '/profile';
     if (path === '/settings') return '/settings';
+    if (path === '/login' || path === '/signup' || path === '/auth') return sanitizePath(path + search);
     return sanitizePath(path);
+  });
+
+  const isAuthRoute = useCallback((p) => {
+    if (!p) return false;
+    return p.startsWith('/login') || p.startsWith('/signup') || p.startsWith('/auth');
+  }, []);
+
+  // Track the last visited non-auth page so login knows where the user came from
+  const lastNonAuthPathRef = useRef(() => {
+    if (typeof window === 'undefined') return null;
+    const path = window.location.pathname;
+    if (path === '/login' || path === '/signup' || path.startsWith('/auth')) {
+      return null;
+    }
+    return sanitizePath(path + window.location.search);
   });
 
   // Track if current navigation is a popstate (back/forward)
@@ -122,8 +138,14 @@ export function NavigationProvider({ children }) {
         nextPath = '/profile';
       } else if (pathname === '/settings') {
         nextPath = '/settings';
+      } else if (pathname === '/login' || pathname === '/signup' || pathname === '/auth') {
+        nextPath = sanitizePath(pathname + search);
       } else {
         nextPath = sanitizePath(pathname);
+      }
+
+      if (!isAuthRoute(nextPath)) {
+        lastNonAuthPathRef.current = nextPath;
       }
 
       // Mark this transition as Back / Forward navigation
@@ -262,6 +284,10 @@ export function NavigationProvider({ children }) {
       const scrollData = { scrollY: currentScrollY, targetId };
       scrollRegistryRef.current[currentPath] = scrollData;
 
+      if (!isAuthRoute(currentPath)) {
+        lastNonAuthPathRef.current = currentPath;
+      }
+
       try {
         sessionStorage.setItem(`craft_scroll_${currentPath}`, JSON.stringify(scrollData));
         window.history.replaceState(
@@ -300,7 +326,7 @@ export function NavigationProvider({ children }) {
       // 5. Update route state
       setCurrentPath(nextPath);
     },
-    [currentPath, getNormalizedScrollY]
+    [currentPath, getNormalizedScrollY, isAuthRoute]
   );
 
   /* Central Back Navigation Method */
@@ -315,10 +341,23 @@ export function NavigationProvider({ children }) {
     [navigate]
   );
 
+  /* Helper to get context return path after login */
+  const getReturnPath = useCallback(
+    (fallbackPath = '/') => {
+      const last = typeof lastNonAuthPathRef.current === 'function' ? lastNonAuthPathRef.current() : lastNonAuthPathRef.current;
+      if (last && !isAuthRoute(last)) {
+        return last;
+      }
+      return fallbackPath;
+    },
+    [isAuthRoute]
+  );
+
   const value = {
     currentPath,
     navigate,
     goBack,
+    getReturnPath,
     savePageState,
     getPageState,
     isPopStateNav: isPopStateNav.current

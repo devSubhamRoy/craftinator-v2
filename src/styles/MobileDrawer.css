@@ -332,3 +332,70 @@
   gap: 0.5rem;
   min-height: 44px;
 }
+
+/* Logged-in User Box in Mobile Drawer */
+.mobile-drawer-user-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.mobile-user-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.mobile-user-card:hover {
+  border-color: var(--accent-terracotta);
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--accent-terracotta);
+}
+
+.mobile-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.mobile-user-role {
+  font-size: 0.75rem;
+  color: var(--accent-terracotta);
+  font-weight: 500;
+}
+
+.mobile-logout-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 42px;
+  border-color: rgba(185, 28, 28, 0.3);
+  color: #B91C1C;
+}
+
+.mobile-logout-btn:hover {
+  background: #FEF2F2;
+  border-color: #B91C1C;
+}
+
