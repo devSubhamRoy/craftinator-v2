@@ -326,13 +326,26 @@
    4. NAVIGATION TABS BAR
    ------------------------------------------------------------ */
 .ap-nav-tabs-bar {
+  position: sticky;
+  top: 72px;
+  z-index: 40;
+  background-color: var(--bg-primary);
   display: flex;
   align-items: center;
   gap: 2.75rem;
   border-bottom: 1px solid var(--border-warm);
   margin-bottom: 1.75rem;
-  padding: 0 0.5rem;
+  padding: 0.85rem 0.5rem 0;
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.ap-nav-tabs-bar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .ap-nav-tab-btn {
@@ -360,7 +373,7 @@
 .ap-nav-tab-btn.active::after {
   content: '';
   position: absolute;
-  bottom: -1px;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 2px;
@@ -1811,12 +1824,21 @@
 
   /* Compact Tabs Bar right below profile header */
   .ap-nav-tabs-bar {
+    top: 60px;
     gap: 1.5rem;
     margin-bottom: 1.25rem;
-    padding: 0 0.25rem;
+    padding: 0.65rem 0.25rem 0;
     border-bottom: 1px solid var(--border-warm);
     overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .ap-nav-tabs-bar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
   }
 
   .ap-nav-tab-btn {
