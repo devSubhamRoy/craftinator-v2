@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
 
 export default function CartDrawer({
   isOpen,
@@ -11,13 +12,22 @@ export default function CartDrawer({
   onCheckout
 }) {
   const { t } = useLanguage();
+  const containerRef = useRef(null);
+  const backdropRef = useRef(null);
+
+  useBodyScrollLock(isOpen, {
+    containerRef,
+    backdropRef,
+    onClose,
+  });
+
   if (!isOpen) return null;
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div className="drawer-backdrop" onClick={onClose}>
-      <div className="drawer-panel" onClick={(e) => e.stopPropagation()}>
+    <div ref={backdropRef} className="drawer-backdrop" onClick={onClose}>
+      <div ref={containerRef} className="drawer-panel" onClick={(e) => e.stopPropagation()}>
         
         {/* Drawer Header */}
         <div className="drawer-header">

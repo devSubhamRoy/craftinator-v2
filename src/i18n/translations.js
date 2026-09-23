@@ -422,7 +422,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -732,7 +735,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -1042,7 +1048,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "es": {
     "nav_explore": "Explorar",
@@ -1352,7 +1361,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -1662,7 +1674,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -1972,7 +1987,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -2282,7 +2300,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -2592,7 +2613,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "ja": {
     "nav_explore": "探す",
@@ -2902,7 +2926,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "ko": {
     "nav_explore": "탐색",
@@ -3212,7 +3239,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -3522,7 +3552,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -3832,7 +3865,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "it": {
     "nav_explore": "Esplora",
@@ -4142,7 +4178,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -4456,7 +4495,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -4770,7 +4812,10 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -5090,6 +5135,9 @@ export const translations = {
     "shop_filter_for_you_desc": "Showing all community connection products & artisan masterworks.",
     "shop_filter_followed_desc": "Showing handcrafted pieces only from artisans you follow.",
     "shop_filter_all_connections_desc": "Switch between all curated connection goods or your followed artisans.",
-    "filter_feed_all": "All Products"
+    "filter_feed_all": "All Products",
+    "trust_authentic": "100% Authentic Handcrafted",
+    "trust_sustainable": "Ethical & Natural Materials",
+    "trust_shipping": "Free Insured Delivery in 3-5 Days"
   }
 };

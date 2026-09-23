@@ -35,13 +35,19 @@ export function useBodyScrollLock(isLocked, options = {}) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
       savedStyles = {
-        position: document.body.style.position,
-        top: document.body.style.top,
-        left: document.body.style.left,
-        width: document.body.style.width,
-        overflow: document.body.style.overflow,
-        paddingRight: document.body.style.paddingRight,
+        bodyPosition: document.body.style.position,
+        bodyTop: document.body.style.top,
+        bodyLeft: document.body.style.left,
+        bodyWidth: document.body.style.width,
+        bodyOverflow: document.body.style.overflow,
+        bodyPaddingRight: document.body.style.paddingRight,
+        htmlScrollBehavior: document.documentElement.style.scrollBehavior,
+        bodyScrollBehavior: document.body.style.scrollBehavior,
       };
+
+      // Temporarily disable smooth scroll so locking doesn't trigger scroll animations
+      document.documentElement.style.scrollBehavior = 'auto';
+      document.body.style.scrollBehavior = 'auto';
 
       document.body.style.position = 'fixed';
       document.body.style.top = `-${savedScrollY}px`;
@@ -108,15 +114,46 @@ export function useBodyScrollLock(isLocked, options = {}) {
 
       lockCount = Math.max(0, lockCount - 1);
       if (lockCount === 0 && savedStyles) {
-        document.body.style.position = savedStyles.position;
-        document.body.style.top = savedStyles.top;
-        document.body.style.left = savedStyles.left;
-        document.body.style.width = savedStyles.width;
-        document.body.style.overflow = savedStyles.overflow;
-        document.body.style.paddingRight = savedStyles.paddingRight;
+        const {
+          bodyPosition,
+          bodyTop,
+          bodyLeft,
+          bodyWidth,
+          bodyOverflow,
+          bodyPaddingRight,
+          htmlScrollBehavior,
+          bodyScrollBehavior,
+        } = savedStyles;
 
-        window.scrollTo(savedScrollX, savedScrollY);
+        // Ensure smooth scroll is disabled during restoration
+        document.documentElement.style.scrollBehavior = 'auto';
+        document.body.style.scrollBehavior = 'auto';
+
+        document.body.style.position = bodyPosition;
+        document.body.style.top = bodyTop;
+        document.body.style.left = bodyLeft;
+        document.body.style.width = bodyWidth;
+        document.body.style.overflow = bodyOverflow;
+        document.body.style.paddingRight = bodyPaddingRight;
+
+        // Instantly restore scroll position without animated smooth scrolling
+        try {
+          window.scrollTo({
+            left: savedScrollX,
+            top: savedScrollY,
+            behavior: 'instant',
+          });
+        } catch {
+          window.scrollTo(savedScrollX, savedScrollY);
+        }
+
         savedStyles = null;
+
+        // Re-enable original scrollBehavior on next frame
+        requestAnimationFrame(() => {
+          document.documentElement.style.scrollBehavior = htmlScrollBehavior || '';
+          document.body.style.scrollBehavior = bodyScrollBehavior || '';
+        });
       }
     };
   }, [isLocked, containerRef, backdropRef]);

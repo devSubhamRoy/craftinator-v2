@@ -326,6 +326,12 @@
    4. NAVIGATION TABS BAR
    ------------------------------------------------------------ */
 .ap-nav-tabs-bar {
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+  background: rgba(250, 247, 242, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   gap: 2.75rem;
@@ -333,6 +339,16 @@
   margin-bottom: 1.75rem;
   padding: 0 0.5rem;
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transition: top 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ap-nav-tabs-bar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .ap-nav-tab-btn {
@@ -360,7 +376,7 @@
 .ap-nav-tab-btn.active::after {
   content: '';
   position: absolute;
-  bottom: -1px;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 2px;
@@ -1512,6 +1528,10 @@
     gap: 2rem;
   }
 
+  .ap-sidebar-column {
+    display: none !important;
+  }
+
   .ap-tab-products-grid,
   .ap-main-column .product-grid,
   .ap-main-column .shop-product-grid {
@@ -1651,13 +1671,6 @@
   .ap-nav-tabs-bar {
     gap: 2rem;
     margin-bottom: 1.5rem;
-  }
-
-  .ap-sidebar-column {
-    position: static;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
   }
 
   .ap-how-grid {
@@ -1814,12 +1827,21 @@
 
   /* Compact Tabs Bar right below profile header */
   .ap-nav-tabs-bar {
+    top: 60px;
     gap: 1.5rem;
     margin-bottom: 1.25rem;
     padding: 0 0.25rem;
     border-bottom: 1px solid var(--border-warm);
     overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .ap-nav-tabs-bar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
   }
 
   .ap-nav-tab-btn {
@@ -1926,8 +1948,7 @@
   }
 
   .ap-sidebar-column {
-    position: static;
-    grid-template-columns: 1fr;
+    display: none !important;
   }
 
   .ap-meet-card {
