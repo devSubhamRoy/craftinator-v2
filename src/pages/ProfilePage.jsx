@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import {
   ArrowLeft,
   Share2,
@@ -23,7 +23,7 @@ import {
 import { useLanguage } from "../i18n/LanguageContext";
 import { products as allCatalogProducts } from "../data/products";
 import { artisans as allArtisans } from "../data/artisans";
-import { ProductCard } from "../components";
+import { ProductCard, ProductCardSkeleton, ArtisanCardSkeleton } from "../components";
 
 export default function ProfilePage({
   wishlist = [],
@@ -37,6 +37,32 @@ export default function ProfilePage({
 }) {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState("orders"); // 'orders' | 'wishlist' | 'artisans' | 'perks'
+  const [isTabLoading, setIsTabLoading] = useState(false);
+  const tabLoadingTimeoutRef = useRef(null);
+
+  const handleTabChange = useCallback(
+    (newTab) => {
+      if (newTab === activeTab && !isTabLoading) return;
+      if (tabLoadingTimeoutRef.current) {
+        clearTimeout(tabLoadingTimeoutRef.current);
+      }
+      setActiveTab(newTab);
+      setIsTabLoading(true);
+      tabLoadingTimeoutRef.current = setTimeout(() => {
+        setIsTabLoading(false);
+      }, 1000);
+    },
+    [activeTab, isTabLoading],
+  );
+
+  useEffect(() => {
+    return () => {
+      if (tabLoadingTimeoutRef.current) {
+        clearTimeout(tabLoadingTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const [isFollowingSuggested, setIsFollowingSuggested] = useState({});
 
   // Filter wishlisted products from global catalog
@@ -257,7 +283,7 @@ export default function ProfilePage({
                 <div className="ap-profile-stats-row">
                   <div
                     className="ap-stat-item-inline"
-                    onClick={() => setActiveTab("orders")}
+                    onClick={() => handleTabChange("orders")}
                     style={{ cursor: "pointer" }}
                   >
                     <span className="ap-stat-num">{orders.length}</span>
@@ -266,7 +292,7 @@ export default function ProfilePage({
 
                   <div
                     className="ap-stat-item-inline"
-                    onClick={() => setActiveTab("wishlist")}
+                    onClick={() => handleTabChange("wishlist")}
                     style={{ cursor: "pointer" }}
                   >
                     <span className="ap-stat-num">{wishlist.length}</span>
@@ -275,7 +301,7 @@ export default function ProfilePage({
 
                   <div
                     className="ap-stat-item-inline"
-                    onClick={() => setActiveTab("artisans")}
+                    onClick={() => handleTabChange("artisans")}
                     style={{ cursor: "pointer" }}
                   >
                     <span className="ap-stat-num">{allArtisans.length}</span>
@@ -284,7 +310,7 @@ export default function ProfilePage({
 
                   <div
                     className="ap-stat-item-inline"
-                    onClick={() => setActiveTab("perks")}
+                    onClick={() => handleTabChange("perks")}
                     style={{ cursor: "pointer" }}
                   >
                     <span className="ap-stat-num">100%</span>
@@ -302,7 +328,7 @@ export default function ProfilePage({
               <button
                 type="button"
                 className={`ap-nav-tab-btn ${activeTab === "orders" ? "active" : ""}`}
-                onClick={() => setActiveTab("orders")}
+                onClick={() => handleTabChange("orders")}
               >
                 Orders & Deliveries ({orders.length})
               </button>
@@ -310,7 +336,7 @@ export default function ProfilePage({
               <button
                 type="button"
                 className={`ap-nav-tab-btn ${activeTab === "wishlist" ? "active" : ""}`}
-                onClick={() => setActiveTab("wishlist")}
+                onClick={() => handleTabChange("wishlist")}
               >
                 Saved Wishlist ({wishlist.length})
               </button>
@@ -318,7 +344,7 @@ export default function ProfilePage({
               <button
                 type="button"
                 className={`ap-nav-tab-btn ${activeTab === "artisans" ? "active" : ""}`}
-                onClick={() => setActiveTab("artisans")}
+                onClick={() => handleTabChange("artisans")}
               >
                 Makers Supported ({allArtisans.length})
               </button>
@@ -326,17 +352,148 @@ export default function ProfilePage({
               <button
                 type="button"
                 className={`ap-nav-tab-btn ${activeTab === "perks" ? "active" : ""}`}
-                onClick={() => setActiveTab("perks")}
+                onClick={() => handleTabChange("perks")}
               >
                 Patron Perks (4)
               </button>
             </nav>
 
-            {/* ========================================================
-                TAB 1: ORDERS & DELIVERIES
-                ======================================================== */}
-            {activeTab === "orders" && (
-              <div className="animate-fade-in ap-tab-content-pane">
+            {/* TAB CONTENT & SKELETON TRANSITION STATES */}
+            {isTabLoading ? (
+              <div
+                className="animate-fade-in ap-tab-content-pane"
+                aria-live="polite"
+                aria-busy="true"
+              >
+                {activeTab === "orders" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(340px, 75%)" }}
+                      />
+                      <div
+                        className="skel-block skel-subtitle"
+                        style={{ width: "min(460px, 90%)" }}
+                      />
+                    </div>
+                    <div className="profile-orders-stack">
+                      {[1, 2].map((idx) => (
+                        <div
+                          key={`order-skel-${idx}`}
+                          className="skel-block"
+                          style={{
+                            width: "100%",
+                            height: "190px",
+                            borderRadius: "var(--radius-lg)",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "wishlist" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(320px, 70%)" }}
+                      />
+                    </div>
+                    <div className="product-grid shop-product-grid">
+                      <ProductCardSkeleton count={4} />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "artisans" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(340px, 75%)" }}
+                      />
+                    </div>
+                    <div
+                      className="profile-makers-grid"
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fill, minmax(280px, 1fr))",
+                        gap: "1.25rem",
+                      }}
+                    >
+                      <ArtisanCardSkeleton />
+                      <ArtisanCardSkeleton />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "perks" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(360px, 80%)" }}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fit, minmax(240px, 1fr))",
+                        gap: "1.25rem",
+                      }}
+                    >
+                      <div
+                        className="skel-block"
+                        style={{
+                          height: "260px",
+                          borderRadius: "var(--radius-lg)",
+                        }}
+                      />
+                      <div
+                        className="skel-block"
+                        style={{
+                          height: "260px",
+                          borderRadius: "var(--radius-lg)",
+                        }}
+                      />
+                      <div
+                        className="skel-block"
+                        style={{
+                          height: "260px",
+                          borderRadius: "var(--radius-lg)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                {/* ========================================================
+                    TAB 1: ORDERS & DELIVERIES
+                    ======================================================== */}
+                {activeTab === "orders" && (
+                  <div className="animate-fade-in ap-tab-content-pane">
                 <section className="ap-tab-section">
                   <div className="ap-tab-section-header">
                     <div className="ap-eyebrow-row">
@@ -778,7 +935,9 @@ export default function ProfilePage({
                 </section>
               </div>
             )}
-          </div>
+          </>
+        )}
+      </div>
 
           {/* ----------------------------------------------------------
               RIGHT COLUMN: Sticky Sidebar matching ArtisanDetailsPage

@@ -332,6 +332,32 @@ export default function ArtisanDetailsPage({
 
   // 3. INTERACTIVE COMPONENT STATES
   const [activeTab, setActiveTab] = useState("Products");
+  const [isTabLoading, setIsTabLoading] = useState(false);
+  const tabLoadingTimeoutRef = useRef(null);
+
+  const handleTabChange = useCallback(
+    (newTab) => {
+      if (newTab === activeTab && !isTabLoading) return;
+      if (tabLoadingTimeoutRef.current) {
+        clearTimeout(tabLoadingTimeoutRef.current);
+      }
+      setActiveTab(newTab);
+      setIsTabLoading(true);
+      tabLoadingTimeoutRef.current = setTimeout(() => {
+        setIsTabLoading(false);
+      }, 1000);
+    },
+    [activeTab, isTabLoading],
+  );
+
+  useEffect(() => {
+    return () => {
+      if (tabLoadingTimeoutRef.current) {
+        clearTimeout(tabLoadingTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const [isFollowing, setIsFollowing] = useState(false);
   const [followersCount, setFollowersCount] = useState(
     artisan?.followersCount || 2450,
@@ -767,30 +793,159 @@ export default function ArtisanDetailsPage({
               aria-label="Artisan profile sections navigation"
             >
               <button
+                type="button"
                 className={`ap-nav-tab-btn ${activeTab === "Products" ? "active" : ""}`}
-                onClick={() => setActiveTab("Products")}
+                onClick={() => handleTabChange("Products")}
               >
                 Products ({artisan.creationsCount})
               </button>
 
               <button
+                type="button"
                 className={`ap-nav-tab-btn ${activeTab === "About" ? "active" : ""}`}
-                onClick={() => setActiveTab("About")}
+                onClick={() => handleTabChange("About")}
               >
                 About & Craft Process
               </button>
 
               <button
+                type="button"
                 className={`ap-nav-tab-btn ${activeTab === "Posts" ? "active" : ""}`}
-                onClick={() => setActiveTab("Posts")}
+                onClick={() => handleTabChange("Posts")}
               >
                 Studio Feed ({artisan.posts?.length || 1})
               </button>
             </nav>
 
-            {/* TAB CONTENT: PRODUCTS */}
-            {activeTab === "Products" && (
-              <div className="animate-fade-in ap-tab-content-pane">
+            {/* TAB CONTENT & SKELETON TRANSITION STATES */}
+            {isTabLoading ? (
+              <div
+                className="animate-fade-in ap-tab-content-pane"
+                aria-live="polite"
+                aria-busy="true"
+              >
+                {activeTab === "Products" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(340px, 70%)" }}
+                      />
+                      <div
+                        className="skel-block skel-subtitle"
+                        style={{ width: "min(460px, 90%)" }}
+                      />
+                    </div>
+                    <div className="product-grid shop-product-grid">
+                      <ProductCardSkeleton count={6} />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "About" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(380px, 80%)" }}
+                      />
+                    </div>
+                    <div
+                      className="skel-block"
+                      style={{
+                        width: "100%",
+                        height: "240px",
+                        borderRadius: "var(--radius-lg)",
+                        marginBottom: "1.75rem",
+                      }}
+                    />
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fit, minmax(220px, 1fr))",
+                        gap: "1.25rem",
+                        marginBottom: "1.75rem",
+                      }}
+                    >
+                      <div
+                        className="skel-block"
+                        style={{
+                          height: "160px",
+                          borderRadius: "var(--radius-md)",
+                        }}
+                      />
+                      <div
+                        className="skel-block"
+                        style={{
+                          height: "160px",
+                          borderRadius: "var(--radius-md)",
+                        }}
+                      />
+                      <div
+                        className="skel-block"
+                        style={{
+                          height: "160px",
+                          borderRadius: "var(--radius-md)",
+                        }}
+                      />
+                    </div>
+                    <div
+                      className="skel-block"
+                      style={{
+                        width: "100%",
+                        height: "180px",
+                        borderRadius: "var(--radius-md)",
+                      }}
+                    />
+                  </div>
+                )}
+
+                {activeTab === "Posts" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(300px, 70%)" }}
+                      />
+                    </div>
+                    <div
+                      className="skel-block"
+                      style={{
+                        width: "100%",
+                        height: "380px",
+                        borderRadius: "var(--radius-lg)",
+                        marginBottom: "1.5rem",
+                      }}
+                    />
+                    <div
+                      className="skel-block"
+                      style={{
+                        width: "100%",
+                        height: "260px",
+                        borderRadius: "var(--radius-lg)",
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                {/* TAB CONTENT: PRODUCTS */}
+                {activeTab === "Products" && (
+                  <div className="animate-fade-in ap-tab-content-pane">
                 {/* SECTION 1: Artisan Products Catalog */}
                 <section className="ap-tab-section ap-products-section">
                   <div className="ap-tab-section-header">
@@ -1232,7 +1387,9 @@ export default function ArtisanDetailsPage({
                 ))}
               </div>
             )}
-          </div>
+          </>
+        )}
+      </div>
 
           {/* ----------------------------------------------------------
               RIGHT COLUMN: Sidebar ("You might like" & "Trending in Crafting")

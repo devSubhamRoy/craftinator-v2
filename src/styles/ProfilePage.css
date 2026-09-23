@@ -17,6 +17,12 @@
    0. NAVIGATION TABS BAR (Harmonized, Clean & Scrollbar-free)
    ------------------------------------------------------------ */
 .profile-page-root .ap-nav-tabs-bar {
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+  background: rgba(250, 247, 242, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   gap: 2.75rem;
@@ -27,6 +33,7 @@
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  transition: top 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .profile-page-root .ap-nav-tabs-bar::-webkit-scrollbar {
@@ -680,6 +687,15 @@
 
   .profile-order-card-main {
     gap: 1.15rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-page-root .ap-nav-tabs-bar {
+    top: 60px;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+    padding: 0 0.25rem;
   }
 }
 
