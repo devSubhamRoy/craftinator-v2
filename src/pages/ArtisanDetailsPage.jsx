@@ -27,6 +27,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useNavigation } from "../context/NavigationContext";
 import { artisans } from "../data/artisans";
 import { products as allCatalogProducts } from "../data/products";
 import { trendingCrafts } from "../data/trendingCrafts";
@@ -330,24 +331,132 @@ export default function ArtisanDetailsPage({
       }));
   }, [artisan?.id, artisan?.name]);
 
+  const { getPageState, savePageState } = useNavigation();
+  const initialSavedTab =
+    artisan?.id && getPageState
+      ? getPageState(`artisan_${artisan.id}`)?.activeTab
+      : null;
+
   // 3. INTERACTIVE COMPONENT STATES
-  const [activeTab, setActiveTab] = useState("Products");
+  const [activeTab, setActiveTab] = useState(initialSavedTab || "Products");
   const [isTabLoading, setIsTabLoading] = useState(false);
+  const [loadedTabs, setLoadedTabs] = useState(() => new Set(["Products"]));
   const tabLoadingTimeoutRef = useRef(null);
+  const tabScrollPositionsRef = useRef({});
+  const tabsAnchorRef = useRef(null);
+  const tabsNavRef = useRef(null);
+
+  // Instantly align viewport to the START of the selected tab's content directly below sticky header (no disorienting scroll animation)
+  const scrollToTabStart = useCallback((behavior = "instant") => {
+    if (typeof window === "undefined") return;
+
+    // Dynamically measure fixed header height across Desktop, Tablet, and Mobile
+    const headerEl = document.querySelector(".header-root");
+    const headerHeight = headerEl
+      ? headerEl.offsetHeight
+      : window.innerWidth <= 767
+        ? 60
+        : 72;
+
+    if (tabsAnchorRef.current) {
+      const anchorRect = tabsAnchorRef.current.getBoundingClientRect();
+      const currentScrollY =
+        window.scrollY ||
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        0;
+
+      // Position the sticky tabs bar and the beginning of the tab content right under the fixed header
+      const targetScrollY = Math.max(
+        0,
+        Math.round(currentScrollY + anchorRect.top - headerHeight),
+      );
+
+      window.scrollTo({
+        top: targetScrollY,
+        behavior: behavior,
+      });
+    }
+  }, []);
+
+  // Passively record scroll position for the currently active tab
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isTabLoading) return;
+      const currentScrollY =
+        window.scrollY ||
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        0;
+      tabScrollPositionsRef.current[activeTab] = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeTab, isTabLoading]);
 
   const handleTabChange = useCallback(
     (newTab) => {
-      if (newTab === activeTab && !isTabLoading) return;
+      if (newTab === activeTab && !isTabLoading) {
+        // If clicking the current tab again, focus to start of content
+        scrollToTabStart("instant");
+        return;
+      }
+
+      // 1. Save scroll position of current active tab before switching
+      const currentScrollY =
+        window.scrollY ||
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        0;
+      tabScrollPositionsRef.current[activeTab] = currentScrollY;
+
       if (tabLoadingTimeoutRef.current) {
         clearTimeout(tabLoadingTimeoutRef.current);
       }
+
       setActiveTab(newTab);
-      setIsTabLoading(true);
-      tabLoadingTimeoutRef.current = setTimeout(() => {
+
+      if (savePageState && artisan?.id) {
+        savePageState(`artisan_${artisan.id}`, {
+          activeTab: newTab,
+          tabScrolls: tabScrollPositionsRef.current,
+        });
+      }
+
+      const savedPosition = tabScrollPositionsRef.current[newTab];
+
+      // 2. Only show 3-second skeleton on FIRST visit to this tab
+      if (!loadedTabs.has(newTab)) {
+        setIsTabLoading(true);
+        scrollToTabStart("instant");
+        tabLoadingTimeoutRef.current = setTimeout(() => {
+          setIsTabLoading(false);
+          setLoadedTabs((prev) => new Set([...prev, newTab]));
+        }, 3000);
+      } else {
+        // 3. Tab was already visited: switch instantly & restore exact previous scroll position
         setIsTabLoading(false);
-      }, 1000);
+        if (savedPosition !== undefined && savedPosition !== null) {
+          requestAnimationFrame(() => {
+            window.scrollTo({
+              top: savedPosition,
+              behavior: "instant",
+            });
+          });
+        } else {
+          scrollToTabStart("instant");
+        }
+      }
     },
-    [activeTab, isTabLoading],
+    [
+      activeTab,
+      isTabLoading,
+      loadedTabs,
+      scrollToTabStart,
+      savePageState,
+      artisan?.id,
+    ],
   );
 
   useEffect(() => {
@@ -397,6 +506,9 @@ export default function ArtisanDetailsPage({
     setFollowersCount(artisan?.followersCount || 2450);
     setIsFollowing(false);
     setActiveTab("Products");
+    setLoadedTabs(new Set(["Products"]));
+    tabScrollPositionsRef.current = {};
+    setIsTabLoading(false);
     setIsFilterLoading(true);
     setVisibleCount(PAGE_SIZE);
     setIsLoadingMore(false);
@@ -787,8 +899,22 @@ export default function ArtisanDetailsPage({
               </div>
             </section>
 
+            {/* TABS ANCHOR FOR PRECISION SCROLL TARGETING */}
+            <div
+              ref={tabsAnchorRef}
+              className="ap-tabs-anchor"
+              style={{
+                position: "relative",
+                top: 0,
+                height: 0,
+                visibility: "hidden",
+                pointerEvents: "none",
+              }}
+            />
+
             {/* NAVIGATION TABS */}
             <nav
+              ref={tabsNavRef}
               className="ap-nav-tabs-bar"
               aria-label="Artisan profile sections navigation"
             >
@@ -946,450 +1072,468 @@ export default function ArtisanDetailsPage({
                 {/* TAB CONTENT: PRODUCTS */}
                 {activeTab === "Products" && (
                   <div className="animate-fade-in ap-tab-content-pane">
-                {/* SECTION 1: Artisan Products Catalog */}
-                <section className="ap-tab-section ap-products-section">
-                  <div className="ap-tab-section-header">
-                    <div className="ap-eyebrow-row">
-                      <span className="ap-section-eyebrow">Studio Catalog</span>
-                      <span className="ap-count-badge">
-                        {totalFilteredCount} Pieces
-                      </span>
-                    </div>
-                    <h2 className="ap-section-title">
-                      Handcrafted by {artisan.name}
-                    </h2>
-                    <p className="ap-section-subtitle">
-                      Authentic creations originating from {artisan.city},{" "}
-                      {artisan.state}. Individually shaped by hand.
-                    </p>
-                  </div>
-
-                  {/* Primary Product Grid with Skeleton Loading States */}
-                  {isFilterLoading ? (
-                    <div
-                      className="product-grid shop-product-grid"
-                      aria-label="Loading products"
-                    >
-                      <ProductCardSkeleton count={8} />
-                    </div>
-                  ) : visibleProducts.length > 0 ? (
-                    <>
-                      <div className="product-grid shop-product-grid">
-                        {visibleProducts.map((product) => {
-                          const isWishlisted = wishlist.includes(product.id);
-                          return (
-                            <ProductCard
-                              key={product.id}
-                              product={product}
-                              isWishlisted={isWishlisted}
-                              onToggleWishlist={onToggleWishlist}
-                              onOpenProductModal={onOpenProductModal}
-                              onAddToCart={onAddToCart}
-                            />
-                          );
-                        })}
-
-                        {/* Skeleton Cards Appended Seamlessly During Infinite Scroll Loading */}
-                        {isLoadingMore && <ProductCardSkeleton count={6} />}
+                    {/* SECTION 1: Artisan Products Catalog */}
+                    <section className="ap-tab-section ap-products-section">
+                      <div className="ap-tab-section-header">
+                        <div className="ap-eyebrow-row">
+                          <span className="ap-section-eyebrow">
+                            Studio Catalog
+                          </span>
+                          <span className="ap-count-badge">
+                            {totalFilteredCount} Pieces
+                          </span>
+                        </div>
+                        <h2 className="ap-section-title">
+                          Handcrafted by {artisan.name}
+                        </h2>
+                        <p className="ap-section-subtitle">
+                          Authentic creations originating from {artisan.city},{" "}
+                          {artisan.state}. Individually shaped by hand.
+                        </p>
                       </div>
 
-                      {/* Infinite Scroll Sentinel Element */}
-                      <div
-                        ref={sentinelRef}
-                        className="infinite-scroll-sentinel"
-                        aria-hidden="true"
-                      />
-
-                      {/* Small Unobtrusive Loading Indicator & Load More Action */}
-                      {isLoadingMore ? (
+                      {/* Primary Product Grid with Skeleton Loading States */}
+                      {isFilterLoading ? (
                         <div
-                          className="infinite-loading-indicator"
-                          role="status"
-                          aria-live="polite"
+                          className="product-grid shop-product-grid"
+                          aria-label="Loading products"
                         >
-                          <Loader2 size={19} className="infinite-spinner" />
-                          <span>Loading more Pieces...</span>
+                          <ProductCardSkeleton count={8} />
                         </div>
-                      ) : (
-                        hasMore && (
+                      ) : visibleProducts.length > 0 ? (
+                        <>
+                          <div className="product-grid shop-product-grid">
+                            {visibleProducts.map((product) => {
+                              const isWishlisted = wishlist.includes(
+                                product.id,
+                              );
+                              return (
+                                <ProductCard
+                                  key={product.id}
+                                  product={product}
+                                  isWishlisted={isWishlisted}
+                                  onToggleWishlist={onToggleWishlist}
+                                  onOpenProductModal={onOpenProductModal}
+                                  onAddToCart={onAddToCart}
+                                />
+                              );
+                            })}
+
+                            {/* Skeleton Cards Appended Seamlessly During Infinite Scroll Loading */}
+                            {isLoadingMore && <ProductCardSkeleton count={6} />}
+                          </div>
+
+                          {/* Infinite Scroll Sentinel Element */}
                           <div
-                            className="text-center"
+                            ref={sentinelRef}
+                            className="infinite-scroll-sentinel"
+                            aria-hidden="true"
+                          />
+
+                          {/* Small Unobtrusive Loading Indicator & Load More Action */}
+                          {isLoadingMore ? (
+                            <div
+                              className="infinite-loading-indicator"
+                              role="status"
+                              aria-live="polite"
+                            >
+                              <Loader2 size={19} className="infinite-spinner" />
+                              <span>Loading more Pieces...</span>
+                            </div>
+                          ) : (
+                            hasMore && (
+                              <div
+                                className="text-center"
+                                style={{
+                                  marginTop: "1.75rem",
+                                  marginBottom: "1.25rem",
+                                }}
+                              >
+                                <button
+                                  className="btn btn-secondary"
+                                  onClick={loadNextRecords}
+                                  style={{
+                                    minWidth: "240px",
+                                    padding: "0.75rem 1.75rem",
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  Load More Pieces (
+                                  {totalFilteredCount - visibleProducts.length}{" "}
+                                  remaining)
+                                </button>
+                              </div>
+                            )
+                          )}
+
+                          {/* Natural End of Catalog Indicator */}
+                          {!hasMore && visibleProducts.length > 0 && (
+                            <div className="infinite-end-indicator">
+                              <span className="end-divider-line" />
+                              <span className="end-badge">
+                                {t("shop_showing_all", "Showing all")} (
+                                {totalFilteredCount})
+                              </span>
+                              <span className="end-divider-line" />
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <div
+                          className="shop-no-results text-center"
+                          style={{ padding: "3rem 0", width: "100%" }}
+                        >
+                          <h3
                             style={{
-                              marginTop: "1.75rem",
-                              marginBottom: "1.25rem",
+                              fontFamily: "var(--font-serif)",
+                              fontSize: "1.4rem",
+                              marginBottom: "0.5rem",
+                              color: "var(--text-primary)",
                             }}
                           >
-                            <button
-                              className="btn btn-secondary"
-                              onClick={loadNextRecords}
-                              style={{
-                                minWidth: "240px",
-                                padding: "0.75rem 1.75rem",
-                                cursor: "pointer",
-                              }}
-                            >
-                              Load More Pieces (
-                              {totalFilteredCount - visibleProducts.length}{" "}
-                              remaining)
-                            </button>
-                          </div>
-                        )
-                      )}
-
-                      {/* Natural End of Catalog Indicator */}
-                      {!hasMore && visibleProducts.length > 0 && (
-                        <div className="infinite-end-indicator">
-                          <span className="end-divider-line" />
-                          <span className="end-badge">
-                            {t("shop_showing_all", "Showing all")} (
-                            {totalFilteredCount})
-                          </span>
-                          <span className="end-divider-line" />
+                            {t("shop_no_products", "No creations found")}
+                          </h3>
+                          <p
+                            style={{
+                              color: "var(--text-muted)",
+                              marginBottom: "1.25rem",
+                              fontSize: "0.92rem",
+                            }}
+                          >
+                            {t("shop_reset_filters", "Reset filters")}
+                          </p>
+                          <button
+                            className="btn btn-primary"
+                            onClick={resetAllFilters}
+                          >
+                            {t("shop_reset_filters", "Reset filters")}
+                          </button>
                         </div>
                       )}
-                    </>
-                  ) : (
-                    <div
-                      className="shop-no-results text-center"
-                      style={{ padding: "3rem 0", width: "100%" }}
-                    >
-                      <h3
-                        style={{
-                          fontFamily: "var(--font-serif)",
-                          fontSize: "1.4rem",
-                          marginBottom: "0.5rem",
-                          color: "var(--text-primary)",
-                        }}
-                      >
-                        {t("shop_no_products", "No creations found")}
-                      </h3>
-                      <p
-                        style={{
-                          color: "var(--text-muted)",
-                          marginBottom: "1.25rem",
-                          fontSize: "0.92rem",
-                        }}
-                      >
-                        {t("shop_reset_filters", "Reset filters")}
-                      </p>
-                      <button
-                        className="btn btn-primary"
-                        onClick={resetAllFilters}
-                      >
-                        {t("shop_reset_filters", "Reset filters")}
-                      </button>
-                    </div>
-                  )}
-                </section>
+                    </section>
 
-                {/* Section Divider Line (Matching /shop & /home styling) */}
-                <div className="ap-section-divider">
-                  <span className="ap-divider-line" />
-                  <span className="ap-divider-text">
-                    Signature Line Collection
-                  </span>
-                  <span className="ap-divider-line" />
-                </div>
-
-                {/* SECTION 2: Dark Feature Collection Banner */}
-                <section className="ap-tab-section ap-signature-section">
-                  <div className="ap-dark-collection-banner">
-                    <div>
-                      <h3 className="ap-dark-banner-title">
-                        The {artisan.brandName} Signature Line
-                      </h3>
-                      <button
-                        className="ap-btn-shop-collection"
-                        onClick={() => onNavigate && onNavigate("/shop")}
-                      >
-                        <span>Explore Full Catalog</span>
-                        <ArrowRight size={14} />
-                      </button>
-                    </div>
-
-                    <div className="ap-dark-banner-thumbs">
-                      {artisan.products.slice(0, 3).map((p, idx) => (
-                        <div key={idx} className="ap-dark-thumb-item">
-                          <img src={p.image} alt={p.name} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </section>
-              </div>
-            )}
-
-            {/* TAB CONTENT: ABOUT & PROCESS (Screenshot 2 Harmonized) */}
-            {activeTab === "About" && (
-              <div className="animate-fade-in ap-tab-content-pane">
-                {/* Section 1: Meet the Maker Card */}
-                <section className="ap-meet-card-section">
-                  <div className="ap-meet-card">
-                    <div className="ap-meet-media">
-                      <img
-                        src={artisan.banner}
-                        alt={`${artisan.name} at work`}
-                      />
-                    </div>
-
-                    <div className="ap-meet-content">
-                      <span className="ap-meet-eyebrow">
-                        Meet {artisan.name.split(" ")[0]}
+                    {/* Section Divider Line (Matching /shop & /home styling) */}
+                    <div className="ap-section-divider">
+                      <span className="ap-divider-line" />
+                      <span className="ap-divider-text">
+                        Signature Line Collection
                       </span>
-                      <h2 className="ap-meet-title">
-                        Craft, patience, and human touch.
-                      </h2>
-                      <p className="ap-meet-desc">{artisan.story}</p>
+                      <span className="ap-divider-line" />
+                    </div>
 
-                      <div className="ap-meet-meta-row">
-                        <div className="ap-meet-meta-item">
-                          <MapPin size={18} className="ap-meet-meta-icon" />
-                          <div>
-                            <div className="ap-meta-label">{artisan.city}</div>
-                            <div className="ap-meta-sub">Studio Workshop</div>
-                          </div>
+                    {/* SECTION 2: Dark Feature Collection Banner */}
+                    <section className="ap-tab-section ap-signature-section">
+                      <div className="ap-dark-collection-banner">
+                        <div>
+                          <h3 className="ap-dark-banner-title">
+                            The {artisan.brandName} Signature Line
+                          </h3>
+                          <button
+                            className="ap-btn-shop-collection"
+                            onClick={() => onNavigate && onNavigate("/shop")}
+                          >
+                            <span>Explore Full Catalog</span>
+                            <ArrowRight size={14} />
+                          </button>
                         </div>
 
-                        <div className="ap-meet-meta-item">
-                          <Sparkles size={18} className="ap-meet-meta-icon" />
-                          <div>
-                            <div className="ap-meta-label">
-                              {artisan.craftSpecialty.split("&")[0].trim()}
+                        <div className="ap-dark-banner-thumbs">
+                          {artisan.products.slice(0, 3).map((p, idx) => (
+                            <div key={idx} className="ap-dark-thumb-item">
+                              <img src={p.image} alt={p.name} />
                             </div>
-                            <div className="ap-meta-sub">
-                              Est. {artisan.joinedYear}
-                            </div>
-                          </div>
+                          ))}
                         </div>
                       </div>
-                    </div>
+                    </section>
                   </div>
-                </section>
+                )}
 
-                {/* Section Divider */}
-                <div className="ap-section-divider">
-                  <span className="ap-divider-line" />
-                  <span className="ap-divider-text">Studio Specifications</span>
-                  <span className="ap-divider-line" />
-                </div>
-
-                {/* Section 2: About Specs Surface */}
-                <section className="ap-surface-container">
-                  <div
-                    className="ap-tab-section-header"
-                    style={{ marginBottom: "1.25rem" }}
-                  >
-                    <div className="ap-eyebrow-row">
-                      <span className="ap-section-eyebrow">
-                        Atelier Standards
-                      </span>
-                    </div>
-                    <h3
-                      className="ap-section-title"
-                      style={{ fontSize: "1.3rem" }}
-                    >
-                      Studio & Craft Details
-                    </h3>
-                  </div>
-
-                  <div className="ap-about-specs-grid">
-                    <div className="ap-spec-item">
-                      <Sparkles size={16} className="ap-spec-icon" />
-                      <div>
-                        <div className="ap-spec-key">Craft Discipline</div>
-                        <div className="ap-spec-val">{artisan.craft}</div>
-                      </div>
-                    </div>
-
-                    <div className="ap-spec-item">
-                      <Clock size={16} className="ap-spec-icon" />
-                      <div>
-                        <div className="ap-spec-key">Experience</div>
-                        <div className="ap-spec-val">
-                          {artisan.yearsOfExperience} Years
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="ap-spec-item">
-                      <MapPin size={16} className="ap-spec-icon" />
-                      <div>
-                        <div className="ap-spec-key">Workshop Location</div>
-                        <div className="ap-spec-val">
-                          {artisan.city}, {artisan.state}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="ap-spec-item">
-                      <Briefcase size={16} className="ap-spec-icon" />
-                      <div>
-                        <div className="ap-spec-key">Specialty</div>
-                        <div className="ap-spec-val">
-                          {artisan.craftSpecialty}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="ap-spec-item">
-                      <HeartHandshake size={16} className="ap-spec-icon" />
-                      <div>
-                        <div className="ap-spec-key">Studio Brand</div>
-                        <div className="ap-spec-val">{artisan.brandName}</div>
-                      </div>
-                    </div>
-
-                    <div className="ap-spec-item">
-                      <Layers size={16} className="ap-spec-icon" />
-                      <div>
-                        <div className="ap-spec-key">Materials Used</div>
-                        <div className="ap-spec-val">
-                          100% Sustainable & Hand-sourced
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                {/* Section Divider */}
-                <div className="ap-section-divider">
-                  <span className="ap-divider-line" />
-                  <span className="ap-divider-text">
-                    Ancestral Craft Process
-                  </span>
-                  <span className="ap-divider-line" />
-                </div>
-
-                {/* Section 3: How It's Made: 5-Step Process */}
-                <section className="ap-how-section">
-                  <div className="ap-how-header">
-                    <h3 className="ap-how-title">How It's Made</h3>
-                    <span className="ap-how-subtitle">
-                      5-step artisan process from raw material to finished
-                      treasure
-                    </span>
-                  </div>
-
-                  <div className="ap-how-grid">
-                    {artisan.processSteps.map((step, idx) => (
-                      <div key={idx} className="ap-how-card">
-                        <div className="ap-how-media">
+                {/* TAB CONTENT: ABOUT & PROCESS (Screenshot 2 Harmonized) */}
+                {activeTab === "About" && (
+                  <div className="animate-fade-in ap-tab-content-pane">
+                    {/* Section 1: Meet the Maker Card */}
+                    <section className="ap-meet-card-section">
+                      <div className="ap-meet-card">
+                        <div className="ap-meet-media">
                           <img
-                            src={step.image}
-                            alt={step.name}
-                            loading="lazy"
+                            src={artisan.banner}
+                            alt={`${artisan.name} at work`}
                           />
                         </div>
-                        <div className="ap-how-body">
-                          <h4 className="ap-how-step-name">{step.name}</h4>
-                          <p className="ap-how-step-desc">{step.desc}</p>
+
+                        <div className="ap-meet-content">
+                          <span className="ap-meet-eyebrow">
+                            Meet {artisan.name.split(" ")[0]}
+                          </span>
+                          <h2 className="ap-meet-title">
+                            Craft, patience, and human touch.
+                          </h2>
+                          <p className="ap-meet-desc">{artisan.story}</p>
+
+                          <div className="ap-meet-meta-row">
+                            <div className="ap-meet-meta-item">
+                              <MapPin size={18} className="ap-meet-meta-icon" />
+                              <div>
+                                <div className="ap-meta-label">
+                                  {artisan.city}
+                                </div>
+                                <div className="ap-meta-sub">
+                                  Studio Workshop
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="ap-meet-meta-item">
+                              <Sparkles
+                                size={18}
+                                className="ap-meet-meta-icon"
+                              />
+                              <div>
+                                <div className="ap-meta-label">
+                                  {artisan.craftSpecialty.split("&")[0].trim()}
+                                </div>
+                                <div className="ap-meta-sub">
+                                  Est. {artisan.joinedYear}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </section>
+                    </section>
 
-                {/* Section Divider */}
-                <div className="ap-section-divider">
-                  <span className="ap-divider-line" />
-                  <span className="ap-divider-text">Studio Moments</span>
-                  <span className="ap-divider-line" />
-                </div>
+                    {/* Section Divider */}
+                    <div className="ap-section-divider">
+                      <span className="ap-divider-line" />
+                      <span className="ap-divider-text">
+                        Studio Specifications
+                      </span>
+                      <span className="ap-divider-line" />
+                    </div>
 
-                {/* Section 4: Studio Moments Photo Strip */}
-                <section className="ap-moments-section">
-                  <h3 className="ap-how-title" style={{ marginBottom: "1rem" }}>
-                    Studio Moments
-                  </h3>
-                  <div className="ap-moments-strip">
-                    {artisan.moments.map((img, idx) => (
-                      <div key={idx} className="ap-moment-tile">
-                        <img
-                          src={img}
-                          alt={`Studio moment ${idx + 1}`}
-                          loading="lazy"
-                        />
+                    {/* Section 2: About Specs Surface */}
+                    <section className="ap-surface-container">
+                      <div
+                        className="ap-tab-section-header"
+                        style={{ marginBottom: "1.25rem" }}
+                      >
+                        <div className="ap-eyebrow-row">
+                          <span className="ap-section-eyebrow">
+                            Atelier Standards
+                          </span>
+                        </div>
+                        <h3
+                          className="ap-section-title"
+                          style={{ fontSize: "1.3rem" }}
+                        >
+                          Studio & Craft Details
+                        </h3>
                       </div>
-                    ))}
-                  </div>
-                </section>
-              </div>
-            )}
 
-            {/* TAB CONTENT: STUDIO FEED */}
-            {activeTab === "Posts" && (
-              <div className="animate-fade-in ap-studio-feed-container">
-                <div className="ap-tab-section-header">
-                  <div className="ap-eyebrow-row">
-                    <span className="ap-section-eyebrow">
-                      Studio Dispatches
-                    </span>
-                    <span className="ap-count-badge">
-                      {artisan.posts?.length || 1} Updates
-                    </span>
-                  </div>
-                  <h2 className="ap-section-title">
-                    Live From {artisan.name}'s Workshop
-                  </h2>
-                  <p className="ap-section-subtitle">
-                    Behind-the-scenes progress, freshly fired or shaped works,
-                    and atelier notes.
-                  </p>
-                </div>
+                      <div className="ap-about-specs-grid">
+                        <div className="ap-spec-item">
+                          <Sparkles size={16} className="ap-spec-icon" />
+                          <div>
+                            <div className="ap-spec-key">Craft Discipline</div>
+                            <div className="ap-spec-val">{artisan.craft}</div>
+                          </div>
+                        </div>
 
-                {artisan.posts?.map((post) => (
-                  <div
-                    key={post.id}
-                    className="ap-profile-card ap-feed-post-card"
-                  >
-                    <div className="ap-post-header-row">
-                      <div className="ap-post-author-box">
-                        <img
-                          src={artisan.avatar}
-                          alt={artisan.name}
-                          className="ap-post-author-avatar"
-                        />
-                        <div>
-                          <div className="ap-post-author-name-row">
-                            <span>{artisan.name}</span>
-                            <CheckCircle2
-                              size={14}
-                              fill="#2563EB"
-                              color="#FFFFFF"
+                        <div className="ap-spec-item">
+                          <Clock size={16} className="ap-spec-icon" />
+                          <div>
+                            <div className="ap-spec-key">Experience</div>
+                            <div className="ap-spec-val">
+                              {artisan.yearsOfExperience} Years
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="ap-spec-item">
+                          <MapPin size={16} className="ap-spec-icon" />
+                          <div>
+                            <div className="ap-spec-key">Workshop Location</div>
+                            <div className="ap-spec-val">
+                              {artisan.city}, {artisan.state}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="ap-spec-item">
+                          <Briefcase size={16} className="ap-spec-icon" />
+                          <div>
+                            <div className="ap-spec-key">Specialty</div>
+                            <div className="ap-spec-val">
+                              {artisan.craftSpecialty}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="ap-spec-item">
+                          <HeartHandshake size={16} className="ap-spec-icon" />
+                          <div>
+                            <div className="ap-spec-key">Studio Brand</div>
+                            <div className="ap-spec-val">
+                              {artisan.brandName}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="ap-spec-item">
+                          <Layers size={16} className="ap-spec-icon" />
+                          <div>
+                            <div className="ap-spec-key">Materials Used</div>
+                            <div className="ap-spec-val">
+                              100% Sustainable & Hand-sourced
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+
+                    {/* Section Divider */}
+                    <div className="ap-section-divider">
+                      <span className="ap-divider-line" />
+                      <span className="ap-divider-text">
+                        Ancestral Craft Process
+                      </span>
+                      <span className="ap-divider-line" />
+                    </div>
+
+                    {/* Section 3: How It's Made: 5-Step Process */}
+                    <section className="ap-how-section">
+                      <div className="ap-how-header">
+                        <h3 className="ap-how-title">How It's Made</h3>
+                        <span className="ap-how-subtitle">
+                          5-step artisan process from raw material to finished
+                          treasure
+                        </span>
+                      </div>
+
+                      <div className="ap-how-grid">
+                        {artisan.processSteps.map((step, idx) => (
+                          <div key={idx} className="ap-how-card">
+                            <div className="ap-how-media">
+                              <img
+                                src={step.image}
+                                alt={step.name}
+                                loading="lazy"
+                              />
+                            </div>
+                            <div className="ap-how-body">
+                              <h4 className="ap-how-step-name">{step.name}</h4>
+                              <p className="ap-how-step-desc">{step.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+
+                    {/* Section Divider */}
+                    <div className="ap-section-divider">
+                      <span className="ap-divider-line" />
+                      <span className="ap-divider-text">Studio Moments</span>
+                      <span className="ap-divider-line" />
+                    </div>
+
+                    {/* Section 4: Studio Moments Photo Strip */}
+                    <section className="ap-moments-section">
+                      <h3
+                        className="ap-how-title"
+                        style={{ marginBottom: "1rem" }}
+                      >
+                        Studio Moments
+                      </h3>
+                      <div className="ap-moments-strip">
+                        {artisan.moments.map((img, idx) => (
+                          <div key={idx} className="ap-moment-tile">
+                            <img
+                              src={img}
+                              alt={`Studio moment ${idx + 1}`}
+                              loading="lazy"
                             />
                           </div>
-                          <div className="ap-post-date">{post.date}</div>
+                        ))}
+                      </div>
+                    </section>
+                  </div>
+                )}
+
+                {/* TAB CONTENT: STUDIO FEED */}
+                {activeTab === "Posts" && (
+                  <div className="animate-fade-in ap-studio-feed-container">
+                    <div className="ap-tab-section-header">
+                      <div className="ap-eyebrow-row">
+                        <span className="ap-section-eyebrow">
+                          Studio Dispatches
+                        </span>
+                        <span className="ap-count-badge">
+                          {artisan.posts?.length || 1} Updates
+                        </span>
+                      </div>
+                      <h2 className="ap-section-title">
+                        Live From {artisan.name}'s Workshop
+                      </h2>
+                      <p className="ap-section-subtitle">
+                        Behind-the-scenes progress, freshly fired or shaped
+                        works, and atelier notes.
+                      </p>
+                    </div>
+
+                    {artisan.posts?.map((post) => (
+                      <div
+                        key={post.id}
+                        className="ap-profile-card ap-feed-post-card"
+                      >
+                        <div className="ap-post-header-row">
+                          <div className="ap-post-author-box">
+                            <img
+                              src={artisan.avatar}
+                              alt={artisan.name}
+                              className="ap-post-author-avatar"
+                            />
+                            <div>
+                              <div className="ap-post-author-name-row">
+                                <span>{artisan.name}</span>
+                                <CheckCircle2
+                                  size={14}
+                                  fill="#2563EB"
+                                  color="#FFFFFF"
+                                />
+                              </div>
+                              <div className="ap-post-date">{post.date}</div>
+                            </div>
+                          </div>
+                          <MoreHorizontal size={18} color="var(--text-muted)" />
+                        </div>
+
+                        <p className="ap-post-caption">{post.caption}</p>
+
+                        {post.image && (
+                          <div className="ap-post-image-wrap">
+                            <img
+                              src={post.image}
+                              alt="Studio update"
+                              className="ap-post-image"
+                            />
+                          </div>
+                        )}
+
+                        <div className="ap-post-actions-row">
+                          <span>♡ {post.likes} Likes</span>
+                          <span>💬 {post.comments} Comments</span>
+                          <span className="ap-post-verified-badge">
+                            Artisan Verified Post
+                          </span>
                         </div>
                       </div>
-                      <MoreHorizontal size={18} color="var(--text-muted)" />
-                    </div>
-
-                    <p className="ap-post-caption">{post.caption}</p>
-
-                    {post.image && (
-                      <div className="ap-post-image-wrap">
-                        <img
-                          src={post.image}
-                          alt="Studio update"
-                          className="ap-post-image"
-                        />
-                      </div>
-                    )}
-
-                    <div className="ap-post-actions-row">
-                      <span>♡ {post.likes} Likes</span>
-                      <span>💬 {post.comments} Comments</span>
-                      <span className="ap-post-verified-badge">
-                        Artisan Verified Post
-                      </span>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
-          </>
-        )}
-      </div>
+          </div>
 
           {/* ----------------------------------------------------------
               RIGHT COLUMN: Sidebar ("You might like" & "Trending in Crafting")
