@@ -395,6 +395,8 @@ export default function ArtisanDetailsPage({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [activeTab, isTabLoading]);
 
+  const isTabSwitchingRef = useRef(false);
+
   const handleTabChange = useCallback(
     (newTab) => {
       if (newTab === activeTab && !isTabLoading) {
@@ -403,7 +405,13 @@ export default function ArtisanDetailsPage({
         return;
       }
 
-      // 1. Save scroll position of current active tab before switching
+      // 1. Mark tab as actively switching to block any premature infinite scroll triggers
+      isTabSwitchingRef.current = true;
+      setTimeout(() => {
+        isTabSwitchingRef.current = false;
+      }, 600);
+
+      // 2. Save scroll position of current active tab before switching
       const currentScrollY =
         window.scrollY ||
         window.pageYOffset ||
@@ -426,7 +434,7 @@ export default function ArtisanDetailsPage({
 
       const savedPosition = tabScrollPositionsRef.current[newTab];
 
-      // 2. Only show 3-second skeleton on FIRST visit to this tab
+      // 3. Only show 3-second skeleton on FIRST visit to this tab
       if (!loadedTabs.has(newTab)) {
         setIsTabLoading(true);
         scrollToTabStart("instant");
@@ -435,7 +443,7 @@ export default function ArtisanDetailsPage({
           setLoadedTabs((prev) => new Set([...prev, newTab]));
         }, 3000);
       } else {
-        // 3. Tab was already visited: switch instantly & restore exact previous scroll position
+        // 4. Tab was already visited: switch instantly & restore exact previous scroll position
         setIsTabLoading(false);
         if (savedPosition !== undefined && savedPosition !== null) {
           requestAnimationFrame(() => {
@@ -513,6 +521,7 @@ export default function ArtisanDetailsPage({
     setVisibleCount(PAGE_SIZE);
     setIsLoadingMore(false);
     isLoadingMoreRef.current = false;
+    isTabSwitchingRef.current = false;
 
     const timer = setTimeout(() => {
       setIsFilterLoading(false);
@@ -523,7 +532,7 @@ export default function ArtisanDetailsPage({
 
   // Progressive batch loading handler with skeleton cards
   const loadNextRecords = useCallback(() => {
-    if (isLoadingMoreRef.current || !hasMore) return;
+    if (isLoadingMoreRef.current || !hasMore || isTabSwitchingRef.current) return;
 
     isLoadingMoreRef.current = true;
     setIsLoadingMore(true);
@@ -535,24 +544,37 @@ export default function ArtisanDetailsPage({
     }, 550);
   }, [hasMore, totalFilteredCount]);
 
-  // IntersectionObserver sentinel near the bottom of list
+  // IntersectionObserver sentinel near the bottom of list (with mount/tab-switch protection)
   useEffect(() => {
     const sentinel = sentinelRef.current;
-    if (!sentinel || !hasMore || activeTab !== "Products") return;
+    if (!sentinel || !hasMore || activeTab !== "Products" || isTabLoading) return;
+
+    let isInitialMount = true;
+    const initTimer = setTimeout(() => {
+      isInitialMount = false;
+    }, 500);
 
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
-        if (entry.isIntersecting && !isLoadingMoreRef.current) {
+        if (
+          entry.isIntersecting &&
+          !isInitialMount &&
+          !isTabSwitchingRef.current &&
+          !isLoadingMoreRef.current
+        ) {
           loadNextRecords();
         }
       },
-      { rootMargin: "200px" },
+      { rootMargin: "60px" },
     );
 
     observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, [hasMore, loadNextRecords, activeTab]);
+    return () => {
+      clearTimeout(initTimer);
+      observer.disconnect();
+    };
+  }, [hasMore, loadNextRecords, activeTab, isTabLoading]);
 
   const resetAllFilters = useCallback(() => {
     setVisibleCount(PAGE_SIZE);
