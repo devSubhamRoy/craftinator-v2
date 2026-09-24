@@ -345,9 +345,15 @@ export default function ArtisanDetailsPage({
   const tabScrollPositionsRef = useRef({});
   const tabsAnchorRef = useRef(null);
   const tabsNavRef = useRef(null);
+  const tabContainerRef = useRef(null);
 
   // Instantly align viewport to the START of the selected tab's content directly below sticky header (no disorienting scroll animation)
   const scrollToTabStart = useCallback((behavior = "instant") => {
+    if (tabContainerRef.current && window.innerWidth > 1024) {
+      tabContainerRef.current.scrollTo({ top: 0, behavior });
+      return;
+    }
+
     if (typeof window === "undefined") return;
 
     // Dynamically measure fixed header height across Desktop, Tablet, and Mobile
@@ -379,22 +385,6 @@ export default function ArtisanDetailsPage({
     }
   }, []);
 
-  // Passively record scroll position for the currently active tab
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isTabLoading) return;
-      const currentScrollY =
-        window.scrollY ||
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        0;
-      tabScrollPositionsRef.current[activeTab] = currentScrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [activeTab, isTabLoading]);
-
   const isTabSwitchingRef = useRef(false);
 
   const handleTabChange = useCallback(
@@ -413,10 +403,12 @@ export default function ArtisanDetailsPage({
 
       // 2. Save scroll position of current active tab before switching
       const currentScrollY =
-        window.scrollY ||
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        0;
+        tabContainerRef.current && window.innerWidth > 1024
+          ? tabContainerRef.current.scrollTop
+          : window.scrollY ||
+            window.pageYOffset ||
+            document.documentElement.scrollTop ||
+            0;
       tabScrollPositionsRef.current[activeTab] = currentScrollY;
 
       if (tabLoadingTimeoutRef.current) {
@@ -447,10 +439,14 @@ export default function ArtisanDetailsPage({
         setIsTabLoading(false);
         if (savedPosition !== undefined && savedPosition !== null) {
           requestAnimationFrame(() => {
-            window.scrollTo({
-              top: savedPosition,
-              behavior: "instant",
-            });
+            if (tabContainerRef.current && window.innerWidth > 1024) {
+              tabContainerRef.current.scrollTop = savedPosition;
+            } else {
+              window.scrollTo({
+                top: savedPosition,
+                behavior: "instant",
+              });
+            }
           });
         } else {
           scrollToTabStart("instant");
@@ -480,7 +476,6 @@ export default function ArtisanDetailsPage({
     artisan?.followersCount || 2450,
   );
   const [followingSuggestedIds, setFollowingSuggestedIds] = useState({});
-  const rightSidebarRef = useRef(null);
 
   // Inquiry Modal State
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
@@ -581,101 +576,29 @@ export default function ArtisanDetailsPage({
     setIsFilterLoading(false);
   }, []);
 
-  // Dynamic 2-Way Sticky Scroll for Right Sidebar (Desktop mode > 1024px)
-  useEffect(() => {
-    const sidebar = rightSidebarRef.current;
-    if (!sidebar) return;
+  // Handle internal scroll on tab container
+  const handleTabContainerScroll = useCallback(
+    (e) => {
+      const target = e.currentTarget;
+      if (!target || isTabLoading) return;
 
-    let lastScrollY = typeof window !== "undefined" ? window.scrollY : 0;
-    let mode = "stick-top"; // 'stick-top' | 'stick-bottom' | 'relative'
-    const HEADER_OFFSET = 88;
-    const BOTTOM_SPACING = 24;
+      tabScrollPositionsRef.current[activeTab] = target.scrollTop;
 
-    const handleScroll = () => {
-      if (typeof window === "undefined") return;
-
-      // Disable on tablet/mobile where layout collapses to single column (<= 1024px)
-      if (window.innerWidth <= 1024) {
-        sidebar.style.position = "";
-        sidebar.style.top = "";
-        return;
-      }
-
-      const currentScrollY = window.scrollY;
-      const scrollDelta = currentScrollY - lastScrollY;
-      const viewportHeight = window.innerHeight;
-      const sidebarHeight = sidebar.offsetHeight;
-
-      // If sidebar fits entirely in viewport, keep cleanly stuck to top
-      if (sidebarHeight <= viewportHeight - HEADER_OFFSET - BOTTOM_SPACING) {
-        sidebar.style.position = "sticky";
-        sidebar.style.top = `${HEADER_OFFSET}px`;
-        lastScrollY = currentScrollY;
-        return;
-      }
-
-      const sidebarRect = sidebar.getBoundingClientRect();
-      const parentRect = sidebar.parentElement
-        ? sidebar.parentElement.getBoundingClientRect()
-        : null;
-      if (!parentRect) {
-        lastScrollY = currentScrollY;
-        return;
-      }
-
-      const minTopSticky = viewportHeight - sidebarHeight - BOTTOM_SPACING;
-
-      if (currentScrollY <= HEADER_OFFSET) {
-        // At or near page top: stick to normal starting position
-        mode = "stick-top";
-        sidebar.style.position = "sticky";
-        sidebar.style.top = `${HEADER_OFFSET}px`;
-      } else if (scrollDelta > 0) {
-        // Scrolling DOWN
-        if (mode === "stick-top") {
-          // Release from top-sticky so sidebar moves naturally with the page
-          mode = "relative";
-          const relativeTop = Math.max(0, sidebarRect.top - parentRect.top);
-          sidebar.style.position = "relative";
-          sidebar.style.top = `${relativeTop}px`;
-        } else if (mode === "relative") {
-          // Check if footer/bottom reached viewport bottom boundary
-          if (sidebarRect.top <= minTopSticky) {
-            mode = "stick-bottom";
-            sidebar.style.position = "sticky";
-            sidebar.style.top = `${minTopSticky}px`;
-          }
-        }
-      } else if (scrollDelta < 0) {
-        // Scrolling UP
-        if (mode === "stick-bottom") {
-          // Release from bottom-sticky so sidebar moves down with the page
-          mode = "relative";
-          const relativeTop = Math.max(0, sidebarRect.top - parentRect.top);
-          sidebar.style.position = "relative";
-          sidebar.style.top = `${relativeTop}px`;
-        } else if (mode === "relative") {
-          // Check if top reached header offset
-          if (sidebarRect.top >= HEADER_OFFSET) {
-            mode = "stick-top";
-            sidebar.style.position = "sticky";
-            sidebar.style.top = `${HEADER_OFFSET}px`;
-          }
+      if (
+        activeTab === "Products" &&
+        hasMore &&
+        !isLoadingMoreRef.current &&
+        !isTabSwitchingRef.current
+      ) {
+        const remaining =
+          target.scrollHeight - target.scrollTop - target.clientHeight;
+        if (remaining < 220) {
+          loadNextRecords();
         }
       }
-
-      lastScrollY = currentScrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-    };
-  }, [artisan?.id, activeTab]);
+    },
+    [activeTab, isTabLoading, hasMore, loadNextRecords],
+  );
 
   // Main Artisan Follow Toggle
   const handleToggleFollow = () => {
@@ -965,13 +888,19 @@ export default function ArtisanDetailsPage({
               </button>
             </nav>
 
-            {/* TAB CONTENT & SKELETON TRANSITION STATES */}
-            {isTabLoading ? (
-              <div
-                className="animate-fade-in ap-tab-content-pane"
-                aria-live="polite"
-                aria-busy="true"
-              >
+            {/* TAB CONTENT SCROLL CONTAINER (Desktop Independent Scroll Container) */}
+            <div
+              ref={tabContainerRef}
+              className="ap-tab-scroll-container"
+              onScroll={handleTabContainerScroll}
+            >
+              {/* TAB CONTENT & SKELETON TRANSITION STATES */}
+              {isTabLoading ? (
+                <div
+                  className="animate-fade-in ap-tab-content-pane"
+                  aria-live="polite"
+                  aria-busy="true"
+                >
                 {activeTab === "Products" && (
                   <div className="ap-tab-skeleton-wrapper">
                     <div
@@ -1555,12 +1484,13 @@ export default function ArtisanDetailsPage({
                 )}
               </>
             )}
+            </div>
           </div>
 
           {/* ----------------------------------------------------------
               RIGHT COLUMN: Sidebar ("You might like" & "Trending in Crafting")
               ---------------------------------------------------------- */}
-          <aside ref={rightSidebarRef} className="ap-sidebar-column">
+          <aside className="ap-sidebar-column">
             {/* SIDEBAR CARD 1: You might like (Screenshot 1) */}
             <div className="ap-sidebar-card">
               <h2 className="ap-sidebar-card-title">You might like</h2>

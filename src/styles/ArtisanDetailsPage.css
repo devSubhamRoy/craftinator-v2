@@ -386,6 +386,42 @@
 }
 
 /* ------------------------------------------------------------
+   4.2 DEDICATED TAB CONTENT SCROLL CONTAINER (Desktop Isolated Scroll)
+   ------------------------------------------------------------ */
+.ap-tab-scroll-container {
+  width: 100%;
+  position: relative;
+}
+
+@media (min-width: 1025px) {
+  .ap-tab-scroll-container {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 88, 56, 0.4) transparent;
+  }
+
+  .ap-tab-scroll-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .ap-tab-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .ap-tab-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(168, 88, 56, 0.35);
+    border-radius: 9999px;
+  }
+
+  .ap-tab-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-terracotta);
+  }
+}
+
+/* ------------------------------------------------------------
    4.5 SECTION WISE DEMARCATION, DIVIDERS & ALTERNATING PALETTES
    (Matching /shop & /home visual hierarchy)
    ------------------------------------------------------------ */
@@ -1575,6 +1611,16 @@
   .ap-main-column .product-card-skeleton .skeleton-badge {
     font-size: 0.65rem;
     padding: 0.2rem 0.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ap-layout-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ap-sidebar-column {
+    display: none !important;
   }
 }
 
