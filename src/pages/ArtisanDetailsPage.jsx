@@ -25,6 +25,9 @@ import {
   MoreHorizontal,
   Globe,
   Loader2,
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useNavigation } from "../context/NavigationContext";
@@ -524,6 +527,97 @@ export default function ArtisanDetailsPage({
   const [inquiryEmail, setInquiryEmail] = useState("");
   const [inquiryMessage, setInquiryMessage] = useState("");
 
+  // Showcase Story Expand/Collapse and Multi-Image Slider State
+  const [isShowMoreExpanded, setIsShowMoreExpanded] = useState(false);
+  const [currentShowcaseSlide, setCurrentShowcaseSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+
+  const artisanShowcaseImages = useMemo(() => {
+    if (!artisan) return [];
+    
+    const specificImages = [
+      artisan.banner && {
+        src: artisan.banner,
+        caption: `${artisan.name} working inside the ${artisan.city} studio workshop`,
+      },
+      artisan.studioImage && {
+        src: artisan.studioImage,
+        caption: `${artisan.brandName || artisan.name} — Atelier workshop & craft environment`,
+      },
+      artisan.workImage1 && {
+        src: artisan.workImage1,
+        caption: `Handcrafting signature ${artisan.craftSpecialty || artisan.craft || "artisan"} pieces`,
+      },
+      artisan.workImage2 && {
+        src: artisan.workImage2,
+        caption: `Mastering ancestral techniques in ${artisan.city}, ${artisan.state}`,
+      },
+      artisan.avatar && {
+        src: artisan.avatar,
+        caption: `Master Artisan ${artisan.name} — ${artisan.yearsOfExperience || 10}+ years of dedicated craft experience`,
+      },
+    ].filter(Boolean);
+
+    // Curated high-res dummy craft photography fallbacks
+    const dummyCraftSlides = [
+      {
+        src: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=1000&auto=format&fit=crop",
+        caption: "Raw natural earth materials being hand-shaped with ancestral tools",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?q=80&w=1000&auto=format&fit=crop",
+        caption: "Delicate surface detailing and organic mineral pigment finishing",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=1000&auto=format&fit=crop",
+        caption: "Studio drying courtyard and natural sunlight curing process",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1000&auto=format&fit=crop",
+        caption: "Final inspection and individual artisan touch before dispatch",
+      },
+    ];
+
+    const combined = [...specificImages];
+    for (const dummy of dummyCraftSlides) {
+      if (combined.length >= 5) break;
+      if (!combined.some((item) => item.src === dummy.src)) {
+        combined.push(dummy);
+      }
+    }
+
+    return combined;
+  }, [artisan]);
+
+  const handleNextSlide = (e) => {
+    if (e) e.stopPropagation();
+    if (artisanShowcaseImages.length === 0) return;
+    setCurrentShowcaseSlide((prev) => (prev + 1) % artisanShowcaseImages.length);
+  };
+
+  const handlePrevSlide = (e) => {
+    if (e) e.stopPropagation();
+    if (artisanShowcaseImages.length === 0) return;
+    setCurrentShowcaseSlide(
+      (prev) => (prev - 1 + artisanShowcaseImages.length) % artisanShowcaseImages.length,
+    );
+  };
+
+  const handleSliderTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleSliderTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const diffX = e.changedTouches[0].clientX - touchStartX;
+    if (diffX < -30) {
+      handleNextSlide();
+    } else if (diffX > 30) {
+      handlePrevSlide();
+    }
+    setTouchStartX(null);
+  };
+
   // State for Artisan Products Infinite Scroll & Skeletons
   const PAGE_SIZE = 6;
   const [isFilterLoading, setIsFilterLoading] = useState(false);
@@ -549,6 +643,8 @@ export default function ArtisanDetailsPage({
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     setFollowersCount(artisan?.followersCount || 2450);
     setIsFollowing(false);
+    setIsShowMoreExpanded(false);
+    setCurrentShowcaseSlide(0);
     setActiveTab("Products");
     setLoadedTabs(new Set(["Products"]));
     tabScrollPositionsRef.current = {};
@@ -1244,51 +1340,163 @@ export default function ArtisanDetailsPage({
                 {/* TAB CONTENT: ABOUT & PROCESS (Screenshot 2 Harmonized) */}
                 {activeTab === "About" && (
                   <div className="animate-fade-in ap-tab-content-pane">
-                    {/* Section 1: Meet the Maker Card */}
+                    {/* Section 1: Meet the Maker Card (ProductAccordion Showcase Layout) */}
                     <section className="ap-meet-card-section">
-                      <div className="ap-meet-card">
-                        <div className="ap-meet-media">
-                          <img
-                            src={artisan.banner}
-                            alt={`${artisan.name} at work`}
-                          />
-                        </div>
+                      <div className="ap-meet-header" style={{ marginBottom: "1.25rem" }}>
+                        <span className="ap-meet-eyebrow">
+                          Meet {artisan.name.split(" ")[0]}
+                        </span>
+                        <h3 className="showcase-grid-title" style={{ margin: "0.35rem 0 0" }}>
+                          Craft, patience, and human touch.
+                        </h3>
+                      </div>
 
-                        <div className="ap-meet-content">
-                          <span className="ap-meet-eyebrow">
-                            Meet {artisan.name.split(" ")[0]}
-                          </span>
-                          <h2 className="ap-meet-title">
-                            Craft, patience, and human touch.
-                          </h2>
-                          <p className="ap-meet-desc">{artisan.story}</p>
+                      <div className="subtab-showcase-view">
+                        {/* Left Column: Text Details (Scrollable Up-Down) */}
+                        <div className="showcase-text-scrollable">
+                          {/* Desktop Full Description */}
+                          <p className="showcase-paragraph showcase-desktop-desc">
+                            {artisan.story || artisan.bio}
+                          </p>
 
-                          <div className="ap-meet-meta-row">
-                            <div className="ap-meet-meta-item">
-                              <MapPin size={18} className="ap-meet-meta-icon" />
-                              <div>
-                                <div className="ap-meta-label">
-                                  {artisan.city}
+                          {/* Mobile/Tablet Description (Truncated to 110 chars when collapsed) */}
+                          <p className="showcase-paragraph showcase-mobile-desc">
+                            {!isShowMoreExpanded ? (
+                              <>
+                                <span>
+                                  {(artisan.story || artisan.bio || "").length > 110
+                                    ? `${(artisan.story || artisan.bio || "").slice(0, 110)}... `
+                                    : (artisan.story || artisan.bio)}
+                                </span>
+                                {(artisan.story || artisan.bio || "").length > 110 && (
+                                  <button
+                                    type="button"
+                                    className="inline-more-btn"
+                                    onClick={() => setIsShowMoreExpanded(true)}
+                                  >
+                                    More
+                                  </button>
+                                )}
+                              </>
+                            ) : (
+                              <span>{artisan.story || artisan.bio}</span>
+                            )}
+                          </p>
+
+                          {/* Smooth expandable container for remaining story details, quote, meta & Show Less button */}
+                          <div className={`showcase-expandable-content ${isShowMoreExpanded ? 'is-expanded' : 'is-collapsed'}`}>
+                            <div className="showcase-expandable-inner">
+                              <p className="showcase-paragraph">
+                                {t('craft_narrative_p2', 'Each creation is individually shaped in independent artisan studios. Because natural materials respond uniquely to heat and touch, minor textural variances are celebrated as the hallmark of authentic handcrafted art.')}
+                              </p>
+                              {artisan.bio && artisan.story && artisan.bio !== artisan.story && (
+                                <p className="showcase-paragraph">
+                                  {artisan.bio}
+                                </p>
+                              )}
+
+                              <div className="showcase-quote-accent">
+                                <strong>{artisan.name}: </strong>
+                                <em>"{artisan.quote || artisan.bio || `Specializing in ancestral ${artisan.craftSpecialty || artisan.craft} techniques. Preserving local heritage traditions in ${artisan.city}.`}"</em>
+                              </div>
+
+                              <div className="ap-meet-meta-row" style={{ marginTop: '0.85rem', marginBottom: '0.25rem' }}>
+                                <div className="ap-meet-meta-item">
+                                  <MapPin size={16} className="ap-meet-meta-icon" />
+                                  <div>
+                                    <div className="ap-meta-label">
+                                      {artisan.city}
+                                    </div>
+                                    <div className="ap-meta-sub">
+                                      Studio Workshop
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="ap-meta-sub">
-                                  Studio Workshop
+
+                                <div className="ap-meet-meta-item">
+                                  <Sparkles
+                                    size={16}
+                                    className="ap-meet-meta-icon"
+                                  />
+                                  <div>
+                                    <div className="ap-meta-label">
+                                      {(artisan.craftSpecialty || artisan.craft || "Handcraft").split("&")[0].trim()}
+                                    </div>
+                                    <div className="ap-meta-sub">
+                                      Est. {artisan.joinedYear}
+                                    </div>
+                                  </div>
                                 </div>
+                              </div>
+
+                              {/* Show Less button aligned to the right */}
+                              <div className="showcase-less-wrapper">
+                                <button
+                                  type="button"
+                                  className="btn-show-less-inline"
+                                  onClick={() => setIsShowMoreExpanded(false)}
+                                >
+                                  <span>{t('show_less', 'Show Less')}</span>
+                                  <ChevronUp size={14} />
+                                </button>
                               </div>
                             </div>
+                          </div>
+                        </div>
 
-                            <div className="ap-meet-meta-item">
-                              <Sparkles
-                                size={18}
-                                className="ap-meet-meta-icon"
+                        {/* Right Column: Image Showcase Card with Slider (Left-Right Swipe) */}
+                        <div className="showcase-media-col">
+                          <div className="showcase-slider-card">
+                            <div
+                              className="showcase-slider-frame"
+                              onTouchStart={handleSliderTouchStart}
+                              onTouchEnd={handleSliderTouchEnd}
+                            >
+                              <img
+                                src={artisanShowcaseImages[currentShowcaseSlide]?.src || artisan.banner || artisan.avatar}
+                                alt={artisanShowcaseImages[currentShowcaseSlide]?.caption || artisan.name}
+                                className="showcase-slider-img img-cover"
                               />
-                              <div>
-                                <div className="ap-meta-label">
-                                  {artisan.craftSpecialty.split("&")[0].trim()}
-                                </div>
-                                <div className="ap-meta-sub">
-                                  Est. {artisan.joinedYear}
-                                </div>
-                              </div>
+
+                              {artisanShowcaseImages.length > 1 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="showcase-slide-arrow arrow-left"
+                                    onClick={handlePrevSlide}
+                                    aria-label="Previous image"
+                                  >
+                                    <ChevronLeft size={16} />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="showcase-slide-arrow arrow-right"
+                                    onClick={handleNextSlide}
+                                    aria-label="Next image"
+                                  >
+                                    <ChevronRight size={16} />
+                                  </button>
+
+                                  <div className="showcase-slide-dots">
+                                    {artisanShowcaseImages.map((_, idx) => (
+                                      <span
+                                        key={idx}
+                                        className={`dot ${idx === currentShowcaseSlide ? 'active' : ''}`}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setCurrentShowcaseSlide(idx);
+                                        }}
+                                      />
+                                    ))}
+                                  </div>
+                                </>
+                              )}
+                            </div>
+
+                            <div className="showcase-card-caption">
+                              <span>
+                                {artisanShowcaseImages[currentShowcaseSlide]?.caption || `${artisan.name} working inside the studio workshop`}
+                              </span>
                             </div>
                           </div>
                         </div>
