@@ -899,6 +899,17 @@
    ------------------------------------------------------------ */
 .ap-meet-card-section {
   margin-bottom: 2.5rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 900px) {
+  .ap-meet-card-section {
+    padding: 1.25rem 1rem;
+  }
 }
 
 .ap-meet-card {
