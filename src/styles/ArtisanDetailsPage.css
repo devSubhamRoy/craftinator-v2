@@ -72,6 +72,7 @@
 
 .ap-main-column {
   min-width: 0;
+  min-height: 850px;
 }
 
 /* ------------------------------------------------------------
@@ -329,9 +330,9 @@
   position: sticky;
   top: 72px;
   z-index: 90;
-  background: rgba(250, 247, 242, 0.96);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(250, 247, 242, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   gap: 2.75rem;
@@ -342,6 +343,7 @@
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  box-shadow: 0 2px 10px rgba(35, 24, 21, 0.03);
   transition: top 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -390,6 +392,7 @@
 .ap-tab-content-pane {
   display: flex;
   flex-direction: column;
+  min-height: 750px;
 }
 
 .ap-tab-section {
@@ -1230,12 +1233,8 @@
 }
 
 /* ------------------------------------------------------------
-   10. RIGHT SIDEBAR CARDS (Screenshot 1)
-   - Dynamic 2-Way Sticky Scroll:
-     * Left column = main scrolling content
-     * Right sidebar = scrolls naturally until footer/bottom card reaches bottom boundary,
-       then sticks with bottom visible while main content continues scrolling.
-     * On scroll up, releases immediately to reveal previous content.
+   10. RIGHT SIDEBAR CARDS
+   - Stable Pure CSS Sticky positioning
    ------------------------------------------------------------ */
 .ap-sidebar-column {
   position: sticky;
@@ -1245,7 +1244,6 @@
   gap: 1.5rem;
   height: fit-content;
   align-self: flex-start;
-  will-change: top, position;
 }
 
 .ap-sidebar-card {
