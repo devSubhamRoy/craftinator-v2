@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Heart, ShoppingBag, Menu, MessageSquare, Bell, User, LogOut } from 'lucide-react';
+import { Search, ShoppingBag, Menu, MessageSquare, Bell, User, LogOut } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
 import LanguageSelector from '../ui/LanguageSelector';
 
@@ -32,9 +32,9 @@ export default function Header({
   const navItems = [
     { id: 'home', label: t('nav_home', 'Home'), path: '/' },
     { id: 'shop', label: t('nav_shop', 'Shop'), path: '/shop' },
-    { id: 'makers', label: t('nav_makers', 'Meet the Makers'), path: '/makers' },
+    // { id: 'makers', label: t('nav_makers', 'Meet the Makers'), path: '/makers' },
     { id: 'community', label: t('nav_community', 'Community'), path: '/community' },
-    { id: 'stories', label: t('nav_story', 'Heritage Stories'), path: '/#story-banner', anchor: 'story-banner' }
+    // { id: 'stories', label: t('nav_story', 'Heritage Stories'), path: '/#story-banner', anchor: 'story-banner' }
   ];
 
   const handleNavClick = (e, item) => {
@@ -131,9 +131,9 @@ export default function Header({
             <Search size={19} />
           </button>
 
-          {/* 2. Chat Button (Mobile & Tablet Mode Only) */}
+          {/* 2. Chat Button (Available across Mobile, Tablet & Desktop) */}
           <button
-            className="header-icon-btn header-mobile-tablet-only"
+            className="header-icon-btn chat-btn"
             onClick={() => {
               if (onOpenChat) onOpenChat();
               else if (onNavigate) onNavigate('/community');
@@ -142,17 +142,6 @@ export default function Header({
             title="Artisan Chat"
           >
             <MessageSquare size={19} />
-          </button>
-
-          {/* Wishlist Button (Desktop Only) */}
-          <button
-            className="header-icon-btn wishlist-btn header-desktop-only"
-            onClick={onOpenWishlist}
-            aria-label={`${t('wishlist')} (${wishlistCount})`}
-            title={t('wishlist')}
-          >
-            <Heart size={19} />
-            {wishlistCount > 0 && <span className="header-badge">{wishlistCount}</span>}
           </button>
 
           {/* 3. Action Icon: Notification Button on Community Page, Cart Button on all other pages */}
