@@ -21,6 +21,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useNavigation } from "../context/NavigationContext";
 import { products as allCatalogProducts } from "../data/products";
 import { artisans as allArtisans } from "../data/artisans";
 import { ProductCard, ProductCardSkeleton, ArtisanCardSkeleton } from "../components";
@@ -38,23 +39,124 @@ export default function ProfilePage({
   showToast,
 }) {
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState("orders"); // 'orders' | 'wishlist' | 'artisans' | 'perks'
+  const { getPageState, savePageState } = useNavigation ? useNavigation() : { getPageState: () => null, savePageState: () => {} };
+  const initialSavedTab = getPageState ? getPageState("user_profile")?.activeTab : null;
+
+  const [activeTab, setActiveTab] = useState(initialSavedTab || "orders"); // 'orders' | 'wishlist' | 'artisans' | 'perks'
   const [isTabLoading, setIsTabLoading] = useState(false);
+  const [loadedTabs, setLoadedTabs] = useState(() => new Set([initialSavedTab || "orders"]));
   const tabLoadingTimeoutRef = useRef(null);
+  const tabScrollPositionsRef = useRef({});
+  const tabsAnchorRef = useRef(null);
+  const tabsNavRef = useRef(null);
+  const tabContainerRef = useRef(null);
+
+  // Instantly align viewport to the START of the selected tab's content directly below sticky header
+  const scrollToTabStart = useCallback((behavior = "instant") => {
+    if (tabContainerRef.current && window.innerWidth > 1024) {
+      tabContainerRef.current.scrollTo({ top: 0, behavior });
+      return;
+    }
+
+    if (typeof window === "undefined") return;
+
+    const headerEl = document.querySelector(".header-root");
+    const headerHeight = headerEl
+      ? headerEl.offsetHeight
+      : window.innerWidth <= 767
+        ? 60
+        : 72;
+
+    if (tabsAnchorRef.current) {
+      const anchorRect = tabsAnchorRef.current.getBoundingClientRect();
+      const currentScrollY =
+        window.scrollY ||
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        0;
+
+      const targetScrollY = Math.max(
+        0,
+        Math.round(currentScrollY + anchorRect.top - headerHeight),
+      );
+
+      window.scrollTo({
+        top: targetScrollY,
+        behavior: behavior,
+      });
+    }
+  }, []);
+
+  // Handle internal scroll on tab container
+  const handleTabContainerScroll = useCallback(
+    (e) => {
+      const target = e.currentTarget;
+      if (!target || isTabLoading) return;
+      tabScrollPositionsRef.current[activeTab] = target.scrollTop;
+    },
+    [activeTab, isTabLoading],
+  );
 
   const handleTabChange = useCallback(
     (newTab) => {
-      if (newTab === activeTab && !isTabLoading) return;
+      if (newTab === activeTab && !isTabLoading) {
+        scrollToTabStart("instant");
+        return;
+      }
+
+      // 1. Save scroll position of current active tab before switching
+      const currentScrollY =
+        tabContainerRef.current && window.innerWidth > 1024
+          ? tabContainerRef.current.scrollTop
+          : window.scrollY ||
+            window.pageYOffset ||
+            document.documentElement.scrollTop ||
+            0;
+      tabScrollPositionsRef.current[activeTab] = currentScrollY;
+
       if (tabLoadingTimeoutRef.current) {
         clearTimeout(tabLoadingTimeoutRef.current);
       }
+
       setActiveTab(newTab);
-      setIsTabLoading(true);
-      tabLoadingTimeoutRef.current = setTimeout(() => {
+
+      if (savePageState) {
+        savePageState("user_profile", {
+          activeTab: newTab,
+          tabScrolls: tabScrollPositionsRef.current,
+        });
+      }
+
+      const savedPosition = tabScrollPositionsRef.current[newTab];
+
+      // 2. Only show 3-second skeleton on FIRST visit to this tab
+      if (!loadedTabs.has(newTab)) {
+        setIsTabLoading(true);
+        scrollToTabStart("instant");
+        tabLoadingTimeoutRef.current = setTimeout(() => {
+          setIsTabLoading(false);
+          setLoadedTabs((prev) => new Set([...prev, newTab]));
+        }, 3000);
+      } else {
+        // 3. Tab was already visited: switch instantly & restore exact previous scroll position
         setIsTabLoading(false);
-      }, 1000);
+        if (savedPosition !== undefined && savedPosition !== null) {
+          requestAnimationFrame(() => {
+            if (tabContainerRef.current && window.innerWidth > 1024) {
+              tabContainerRef.current.scrollTop = savedPosition;
+            } else {
+              window.scrollTo({
+                top: savedPosition,
+                behavior: "instant",
+              });
+            }
+          });
+        } else {
+          scrollToTabStart("instant");
+        }
+      }
     },
-    [activeTab, isTabLoading],
+    [activeTab, isTabLoading, loadedTabs, scrollToTabStart, savePageState],
   );
 
   useEffect(() => {
@@ -324,8 +426,22 @@ export default function ProfilePage({
               </div>
             </section>
 
+            {/* Hidden anchor element to mark exact top start of tab content directly under header */}
+            <div
+              ref={tabsAnchorRef}
+              className="ap-tabs-anchor"
+              style={{
+                position: "relative",
+                top: 0,
+                height: 0,
+                visibility: "hidden",
+                pointerEvents: "none",
+              }}
+            />
+
             {/* NAVIGATION TABS matching ArtisanDetailsPage */}
             <nav
+              ref={tabsNavRef}
               className="ap-nav-tabs-bar"
               aria-label="Profile navigation tabs"
             >
@@ -362,8 +478,14 @@ export default function ProfilePage({
               </button>
             </nav>
 
-            {/* TAB CONTENT & SKELETON TRANSITION STATES */}
-            {isTabLoading ? (
+            {/* TAB CONTENT SCROLL CONTAINER (Desktop Independent Scroll Container) */}
+            <div
+              ref={tabContainerRef}
+              className="ap-tab-scroll-container"
+              onScroll={handleTabContainerScroll}
+            >
+              {/* TAB CONTENT & SKELETON TRANSITION STATES */}
+              {isTabLoading ? (
               <div
                 className="animate-fade-in ap-tab-content-pane"
                 aria-live="polite"
@@ -941,7 +1063,8 @@ export default function ProfilePage({
             )}
           </>
         )}
-      </div>
+            </div>
+          </div>
 
           {/* ----------------------------------------------------------
               RIGHT COLUMN: Sticky Sidebar matching ArtisanDetailsPage

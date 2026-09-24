@@ -20,9 +20,9 @@
   position: sticky;
   top: 72px;
   z-index: 90;
-  background: rgba(250, 247, 242, 0.96);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(250, 247, 242, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   gap: 2.75rem;
@@ -33,6 +33,7 @@
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  box-shadow: 0 2px 10px rgba(35, 24, 21, 0.03);
   transition: top 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -40,6 +41,42 @@
   display: none;
   width: 0;
   height: 0;
+}
+
+/* ------------------------------------------------------------
+   0.1 DEDICATED TAB CONTENT SCROLL CONTAINER (Desktop Isolated Scroll)
+   ------------------------------------------------------------ */
+.profile-page-root .ap-tab-scroll-container {
+  width: 100%;
+  position: relative;
+}
+
+@media (min-width: 1025px) {
+  .profile-page-root .ap-tab-scroll-container {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 88, 56, 0.4) transparent;
+  }
+
+  .profile-page-root .ap-tab-scroll-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .profile-page-root .ap-tab-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .profile-page-root .ap-tab-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(168, 88, 56, 0.35);
+    border-radius: 9999px;
+  }
+
+  .profile-page-root .ap-tab-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-terracotta);
+  }
 }
 
 /* ------------------------------------------------------------
