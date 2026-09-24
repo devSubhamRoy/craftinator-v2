@@ -329,6 +329,7 @@ function AppContent() {
               onToggleWishlist={handleToggleWishlist}
               onAddToCart={handleAddToCart}
               onOpenProductModal={handleProductClick}
+              onOpenArtisanModal={handleArtisanClick}
               onNavigate={handleNavigate}
               onGoBack={goBack}
               showToast={showToast}

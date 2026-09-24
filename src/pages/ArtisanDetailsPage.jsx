@@ -31,7 +31,12 @@ import { useNavigation } from "../context/NavigationContext";
 import { artisans } from "../data/artisans";
 import { products as allCatalogProducts } from "../data/products";
 import { trendingCrafts } from "../data/trendingCrafts";
-import { ProductCard, ProductCardSkeleton } from "../components";
+import { communityPosts } from "../data/communityPosts";
+import {
+  ProductCard,
+  ProductCardSkeleton,
+  CommunityPostCard,
+} from "../components";
 
 // Dynamic formatter turning any artisan into the harmonized profile format
 function formatArtisanProfile(artisanData) {
@@ -258,18 +263,53 @@ function formatArtisanProfile(artisanData) {
     processSteps: steps,
     moments,
     products: productsList,
-    posts: [
-      {
-        id: `${artId}-post-1`,
-        date: "2 days ago",
-        caption: artisanData.quote
-          ? `"${artisanData.quote}" — Live moments from our workshop in ${artisanData.city}.`
-          : `Working on newly shaped creations right here in our workshop in ${artisanData.city}.`,
-        image: artisanData.workImage1 || artisanData.studioImage,
-        likes: Math.max(140, Math.round(followersNum * 0.14)),
-        comments: Math.max(12, Math.round(followersNum * 0.02)),
-      },
-    ],
+    posts: (() => {
+      const matchedCommunityPosts = communityPosts.filter(
+        (p) =>
+          p.author?.toLowerCase() === artisanData.name?.toLowerCase() ||
+          p.authorName?.toLowerCase() === artisanData.name?.toLowerCase()
+      );
+      if (matchedCommunityPosts.length > 0) {
+        return matchedCommunityPosts;
+      }
+      return [
+        {
+          id: `${artId}-post-1`,
+          author: artisanData.name,
+          authorName: artisanData.name,
+          authorRole: artisanData.craft || brandPill || "Master Artisan",
+          handle:
+            artisanData.handle ||
+            `@${artisanData.name.toLowerCase().replace(/[^a-z0-9]/g, "")}`,
+          avatar: artisanData.avatar,
+          authorAvatar: artisanData.avatar,
+          images: [
+            artisanData.studioImage || artisanData.workImage1,
+            artisanData.workImage1 || artisanData.studioImage,
+            artisanData.workImage2 || artisanData.studioImage,
+          ].filter(Boolean),
+          mainImg: artisanData.studioImage || artisanData.workImage1,
+          caption: artisanData.quote
+            ? `"${artisanData.quote}" — Live moments from our atelier in ${artisanData.city}. Every piece takes hours of mindful shaping with ancestral craft techniques.`
+            : `Working on newly shaped creations right here in our workshop in ${artisanData.city}. Embracing sustainable processes and time-honored traditions.`,
+          hashtags: [
+            `#${(artisanData.craft || "artisan").toLowerCase().replace(/[^a-z0-9]/g, "")}`,
+            "#handmade",
+            "#sustainable",
+            "#craftinator",
+            `#${(artisanData.city || "india").toLowerCase().replace(/[^a-z0-9]/g, "")}`,
+          ],
+          likes: Math.max(140, Math.round(followersNum * 0.14)),
+          comments: Math.max(12, Math.round(followersNum * 0.02)),
+          savedCount: Math.max(18, Math.round(followersNum * 0.04)),
+          isLiked: false,
+          isSaved: false,
+          timeAgo: "2 days ago",
+          date: "2 days ago",
+          product: productsList.length > 0 ? productsList[0] : null,
+        },
+      ];
+    })(),
   };
 }
 
@@ -279,6 +319,7 @@ export default function ArtisanDetailsPage({
   onToggleWishlist,
   onAddToCart,
   onOpenProductModal,
+  onOpenArtisanModal,
   onNavigate,
   onGoBack,
   showToast,
@@ -1432,54 +1473,18 @@ export default function ArtisanDetailsPage({
                       </p>
                     </div>
 
-                    {artisan.posts?.map((post) => (
-                      <div
-                        key={post.id}
-                        className="ap-profile-card ap-feed-post-card"
-                      >
-                        <div className="ap-post-header-row">
-                          <div className="ap-post-author-box">
-                            <img
-                              src={artisan.avatar}
-                              alt={artisan.name}
-                              className="ap-post-author-avatar"
-                            />
-                            <div>
-                              <div className="ap-post-author-name-row">
-                                <span>{artisan.name}</span>
-                                <CheckCircle2
-                                  size={14}
-                                  fill="#2563EB"
-                                  color="#FFFFFF"
-                                />
-                              </div>
-                              <div className="ap-post-date">{post.date}</div>
-                            </div>
-                          </div>
-                          <MoreHorizontal size={18} color="var(--text-muted)" />
-                        </div>
-
-                        <p className="ap-post-caption">{post.caption}</p>
-
-                        {post.image && (
-                          <div className="ap-post-image-wrap">
-                            <img
-                              src={post.image}
-                              alt="Studio update"
-                              className="ap-post-image"
-                            />
-                          </div>
-                        )}
-
-                        <div className="ap-post-actions-row">
-                          <span>♡ {post.likes} Likes</span>
-                          <span>💬 {post.comments} Comments</span>
-                          <span className="ap-post-verified-badge">
-                            Artisan Verified Post
-                          </span>
-                        </div>
-                      </div>
-                    ))}
+                    <div className="soc-posts-container" style={{ width: "100%", maxWidth: "100%" }}>
+                      {artisan.posts?.map((post) => (
+                        <CommunityPostCard
+                          key={post.id}
+                          post={post}
+                          onOpenArtisanModal={onOpenArtisanModal}
+                          onOpenProductModal={onOpenProductModal}
+                          onNavigate={onNavigate}
+                          showToast={showToast}
+                        />
+                      ))}
+                    </div>
                   </div>
                 )}
               </>

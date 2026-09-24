@@ -16,6 +16,7 @@ export { default as LazySection } from './ui/LazySection';
 
 // Cards
 export { default as ProductCard } from './cards/ProductCard';
+export { default as CommunityPostCard } from './cards/CommunityPostCard';
 
 // Layout & Framing
 export { default as Header } from './layout/Header';
