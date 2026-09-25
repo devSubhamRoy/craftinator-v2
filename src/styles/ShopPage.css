@@ -732,24 +732,31 @@
   position: fixed;
   inset: 0;
   background-color: rgba(35, 24, 21, 0.6);
-  backdrop-filter: blur(4px);
   z-index: 1500;
   display: flex;
   justify-content: flex-end;
   touch-action: none;
+  animation: filterBackdropFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes filterBackdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .filter-drawer-panel {
   background-color: var(--bg-card);
   width: 100%;
   max-width: 420px;
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-lg);
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.25);
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  animation: slideDrawer 0.3s ease-out;
+  animation: slideDrawer 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
 }
 
 @keyframes slideDrawer {
@@ -758,11 +765,13 @@
 }
 
 .filter-drawer-header {
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-bottom: 1px solid var(--border-warm);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
+  background-color: var(--bg-card);
 }
 
 .filter-drawer-close {
@@ -770,7 +779,18 @@
   border: none;
   color: var(--text-primary);
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast);
+}
+
+.filter-drawer-close:hover {
+  background-color: rgba(35, 24, 21, 0.06);
 }
 
 .filter-drawer-body {
@@ -779,9 +799,19 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.filter-drawer-body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 .filter-group-title {
@@ -847,11 +877,14 @@
 }
 
 .filter-drawer-footer {
-  padding: 1.25rem 1.5rem;
+  padding: 1.25rem 1.5rem max(1.25rem, env(safe-area-inset-bottom, 1.25rem)) 1.5rem;
   border-top: 1px solid var(--border-warm);
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0;
+  background-color: var(--bg-card);
+  box-shadow: 0 -4px 16px rgba(35, 24, 21, 0.05);
 }
 
 .filter-drawer-footer button {
