@@ -35,25 +35,15 @@ export function useBodyScrollLock(isLocked, options = {}) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
       savedStyles = {
-        bodyPosition: document.body.style.position,
-        bodyTop: document.body.style.top,
-        bodyLeft: document.body.style.left,
-        bodyWidth: document.body.style.width,
         bodyOverflow: document.body.style.overflow,
+        htmlOverflow: document.documentElement.style.overflow,
         bodyPaddingRight: document.body.style.paddingRight,
-        htmlScrollBehavior: document.documentElement.style.scrollBehavior,
-        bodyScrollBehavior: document.body.style.scrollBehavior,
       };
 
-      // Temporarily disable smooth scroll so locking doesn't trigger scroll animations
-      document.documentElement.style.scrollBehavior = 'auto';
-      document.body.style.scrollBehavior = 'auto';
-
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${savedScrollY}px`;
-      document.body.style.left = `-${savedScrollX}px`;
-      document.body.style.width = '100%';
+      // Prevent background scrolling cleanly without position: fixed (which triggers background zoom / layout reflow)
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('has-overlay-blur');
 
       if (scrollbarWidth > 0) {
         document.body.style.paddingRight = `${scrollbarWidth}px`;
@@ -115,45 +105,17 @@ export function useBodyScrollLock(isLocked, options = {}) {
       lockCount = Math.max(0, lockCount - 1);
       if (lockCount === 0 && savedStyles) {
         const {
-          bodyPosition,
-          bodyTop,
-          bodyLeft,
-          bodyWidth,
           bodyOverflow,
+          htmlOverflow,
           bodyPaddingRight,
-          htmlScrollBehavior,
-          bodyScrollBehavior,
         } = savedStyles;
 
-        // Ensure smooth scroll is disabled during restoration
-        document.documentElement.style.scrollBehavior = 'auto';
-        document.body.style.scrollBehavior = 'auto';
-
-        document.body.style.position = bodyPosition;
-        document.body.style.top = bodyTop;
-        document.body.style.left = bodyLeft;
-        document.body.style.width = bodyWidth;
-        document.body.style.overflow = bodyOverflow;
-        document.body.style.paddingRight = bodyPaddingRight;
-
-        // Instantly restore scroll position without animated smooth scrolling
-        try {
-          window.scrollTo({
-            left: savedScrollX,
-            top: savedScrollY,
-            behavior: 'instant',
-          });
-        } catch {
-          window.scrollTo(savedScrollX, savedScrollY);
-        }
+        document.documentElement.style.overflow = htmlOverflow || '';
+        document.body.style.overflow = bodyOverflow || '';
+        document.body.style.paddingRight = bodyPaddingRight || '';
+        document.body.classList.remove('has-overlay-blur');
 
         savedStyles = null;
-
-        // Re-enable original scrollBehavior on next frame
-        requestAnimationFrame(() => {
-          document.documentElement.style.scrollBehavior = htmlScrollBehavior || '';
-          document.body.style.scrollBehavior = bodyScrollBehavior || '';
-        });
       }
     };
   }, [isLocked, containerRef, backdropRef]);

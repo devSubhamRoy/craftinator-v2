@@ -3,7 +3,6 @@
   position: fixed;
   inset: 0;
   background-color: rgba(35, 24, 21, 0.55);
-  backdrop-filter: blur(4px);
   z-index: 1200;
   display: flex;
   justify-content: flex-start;
@@ -33,9 +32,17 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
   z-index: 1201;
   transform: translateX(0);
   animation: slideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.mobile-drawer-content::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 @keyframes slideInLeft {
@@ -111,8 +118,8 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.75rem 0.85rem;
-  min-height: 48px;
+  padding: 0.75rem 0.95rem;
+  min-height: 46px;
   border-radius: var(--radius-md);
   border: none;
   background: transparent;
@@ -122,7 +129,7 @@
   font-weight: 500;
   text-align: left;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
   text-decoration: none;
 }
 
@@ -141,21 +148,21 @@
 .mobile-link-left {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.8rem;
 }
 
 .mobile-link-icon {
   color: var(--accent-terracotta);
   flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.mobile-drawer-link:hover .mobile-link-icon {
+  transform: scale(1.05);
 }
 
 .mobile-link-text {
   font-size: 0.95rem;
-}
-
-.mobile-link-arrow {
-  color: var(--text-muted);
-  flex-shrink: 0;
 }
 
 .mobile-link-dot-indicator {
@@ -164,72 +171,56 @@
   background: var(--accent-terracotta);
   border-radius: 50%;
   display: inline-block;
+  margin-left: 0.25rem;
 }
 
-/* Accordion Chevron with spring animation */
-.mobile-accordion-chevron {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  transition: background-color var(--transition-fast);
-}
-
-.mobile-accordion-trigger:hover .mobile-accordion-chevron {
-  background-color: rgba(168, 88, 56, 0.08);
-}
-
+/* Accordion Chevron */
 .accordion-chevron-icon {
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color var(--transition-fast);
+}
+
+.mobile-accordion-trigger:hover .accordion-chevron-icon,
+.accordion-chevron-icon.rotated {
+  color: var(--accent-terracotta);
 }
 
 .accordion-chevron-icon.rotated {
   transform: rotate(180deg);
-  color: var(--accent-terracotta);
 }
 
-/* Open Accordion Trigger styling */
 .mobile-accordion-trigger.open-trigger {
-  background-color: rgba(168, 88, 56, 0.08);
+  background-color: rgba(168, 88, 56, 0.06);
   color: var(--accent-terracotta);
   font-weight: 600;
 }
 
-/* Fluid Smooth Collapsible Sub-Navigation Panel */
+/* Fluid Smooth Collapsible Sub-Navigation Panel (CSS Grid animation) */
 .mobile-accordion-panel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.38s cubic-bezier(0.2, 0.9, 0.3, 1);
-  overflow: hidden;
+  transition: grid-template-rows 0.26s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mobile-accordion-panel.open {
   grid-template-rows: 1fr;
 }
 
-/* Sub-Navigation Enclosed Card Container */
-.mobile-subnav-list {
+.mobile-accordion-inner {
+  overflow: hidden;
   min-height: 0;
-  list-style: none;
-  padding: 0.4rem 0.5rem 0.45rem 0.85rem;
-  margin: 0.25rem 0 0.5rem 1.15rem;
-  background: rgba(168, 88, 56, 0.035);
-  border-left: 2.5px solid var(--accent-terracotta);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.28rem;
-  opacity: 0;
-  transform: translateY(-8px);
-  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 
-.mobile-accordion-panel.open .mobile-subnav-list {
-  opacity: 1;
-  transform: translateY(0);
+/* Sub-Navigation List with Clean Subtle Left Guide */
+.mobile-subnav-list {
+  list-style: none;
+  padding: 0.25rem 0 0.35rem 0.75rem;
+  margin: 0.25rem 0 0.4rem 1.65rem;
+  border-left: 1.5px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .mobile-subnav-item {
@@ -239,48 +230,41 @@
 .mobile-subnav-link {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
   width: 100%;
-  padding: 0.6rem 0.85rem;
-  min-height: 44px;
+  padding: 0.55rem 0.8rem;
+  min-height: 40px;
   border-radius: var(--radius-sm);
   border: none;
   background: transparent;
   color: var(--text-secondary);
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 500;
   text-align: left;
   cursor: pointer;
-  transition: all 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
-  gap: 0.75rem;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .mobile-subnav-link:hover {
   background-color: var(--bg-card);
   color: var(--accent-terracotta);
-  transform: translateX(4px);
-  box-shadow: var(--shadow-sm);
 }
 
 .mobile-subnav-link.active {
-  background-color: rgba(168, 88, 56, 0.12);
+  background-color: rgba(168, 88, 56, 0.1);
   color: var(--accent-terracotta);
   font-weight: 600;
-  box-shadow: inset 0 0 0 1px rgba(168, 88, 56, 0.2);
-}
-
-.subnav-bullet {
-  font-size: 1.1rem;
-  color: var(--accent-terracotta);
-  line-height: 1;
 }
 
 .mobile-sublink-icon {
   color: var(--text-muted);
   flex-shrink: 0;
+  transition: color var(--transition-fast);
 }
 
-.mobile-subnav-link:hover .mobile-sublink-icon {
+.mobile-subnav-link:hover .mobile-sublink-icon,
+.mobile-subnav-link.active .mobile-sublink-icon {
   color: var(--accent-terracotta);
 }
 
@@ -300,12 +284,13 @@
 .mobile-subnav-badge {
   font-size: 0.72rem;
   font-weight: 600;
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.55rem;
   border-radius: var(--radius-full);
+  margin-left: auto;
 }
 
 .mobile-subnav-badge.badge-terracotta {
-  background: rgba(168, 88, 56, 0.15);
+  background: rgba(168, 88, 56, 0.12);
   color: var(--accent-terracotta);
 }
 

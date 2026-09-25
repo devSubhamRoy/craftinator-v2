@@ -594,17 +594,10 @@ export default function ProfilePage({
                         style={{ width: "min(340px, 75%)" }}
                       />
                     </div>
-                    <div
-                      className="profile-makers-grid"
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns:
-                          "repeat(auto-fill, minmax(280px, 1fr))",
-                        gap: "1.25rem",
-                      }}
-                    >
-                      <ArtisanCardSkeleton />
-                      <ArtisanCardSkeleton />
+                    <div className="profile-makers-list skeleton-list">
+                      <div className="skel-maker-row" />
+                      <div className="skel-maker-row" />
+                      <div className="skel-maker-row" />
                     </div>
                   </div>
                 )}
@@ -876,60 +869,62 @@ export default function ProfilePage({
                     </p>
                   </div>
 
-                  <div className="profile-makers-grid">
+                  <div className="profile-makers-list">
                     {allArtisans.map((maker) => {
                       const isFollowed = isFollowingSuggested[maker.id] ?? true;
+                      const handle =
+                        maker.handle || `@${maker.id.replace(/-/g, "")}`;
+                      const bioText =
+                        maker.bio ||
+                        maker.story ||
+                        (maker.specialties
+                          ? maker.specialties.join(" • ")
+                          : maker.craftSpecialty);
+
                       return (
                         <div key={maker.id} className="profile-maker-card">
-                          <div className="profile-maker-cover">
+                          <button
+                            type="button"
+                            className="profile-maker-avatar-wrap"
+                            onClick={() =>
+                              onOpenArtisanModal && onOpenArtisanModal(maker)
+                            }
+                            aria-label={`View ${maker.name}'s studio`}
+                          >
                             <img
-                              src={maker.workImage1 || maker.studioImage}
+                              src={maker.avatar}
                               alt={maker.name}
+                              className="profile-maker-avatar"
                             />
-                            <span className="profile-maker-craft-tag">
-                              {maker.craft || "Artisan Craft"}
-                            </span>
-                          </div>
+                          </button>
 
                           <div className="profile-maker-content">
-                            <div className="profile-maker-avatar-wrap">
-                              <img src={maker.avatar} alt={maker.name} />
-                            </div>
-
-                            <div className="profile-maker-meta">
-                              <div className="profile-maker-name-row">
-                                <h4 className="profile-maker-name">
-                                  {maker.name}
-                                </h4>
-                                <CheckCircle2
-                                  size={15}
-                                  fill="#2563EB"
-                                  color="#FFFFFF"
-                                />
+                            <div className="profile-maker-top-row">
+                              <div className="profile-maker-info-col">
+                                <div className="profile-maker-name-row">
+                                  <button
+                                    type="button"
+                                    className="profile-maker-name-link"
+                                    onClick={() =>
+                                      onOpenArtisanModal &&
+                                      onOpenArtisanModal(maker)
+                                    }
+                                  >
+                                    <h4 className="profile-maker-name">
+                                      {maker.name}
+                                    </h4>
+                                  </button>
+                                  <CheckCircle2
+                                    size={15}
+                                    fill="#1D9BF0"
+                                    color="#FFFFFF"
+                                    className="profile-maker-verified-badge"
+                                  />
+                                </div>
+                                <span className="profile-maker-handle">
+                                  {handle}
+                                </span>
                               </div>
-                              <span className="profile-maker-location">
-                                <MapPin size={13} /> {maker.city},{" "}
-                                {maker.state || "India"}
-                              </span>
-                              <p className="profile-maker-specialty">
-                                {maker.specialties
-                                  ? maker.specialties.join(" • ")
-                                  : maker.craftSpecialty}
-                              </p>
-                            </div>
-
-                            <div className="profile-maker-actions-row">
-                              <button
-                                type="button"
-                                className="btn-maker-card-view"
-                                onClick={() =>
-                                  onOpenArtisanModal &&
-                                  onOpenArtisanModal(maker)
-                                }
-                              >
-                                View Studio
-                                <ChevronRight size={14} />
-                              </button>
 
                               <button
                                 type="button"
@@ -942,6 +937,44 @@ export default function ProfilePage({
                                 }
                               >
                                 {isFollowed ? "Following" : "Follow"}
+                              </button>
+                            </div>
+
+                            {bioText && (
+                              <p className="profile-maker-bio">{bioText}</p>
+                            )}
+
+                            <div className="profile-maker-meta-row">
+                              {maker.city && (
+                                <span className="profile-maker-location">
+                                  <MapPin size={12} /> {maker.city},{" "}
+                                  {maker.state || "India"}
+                                </span>
+                              )}
+                              <button
+                                type="button"
+                                className="profile-maker-studio-link"
+                                onClick={() =>
+                                  onOpenArtisanModal &&
+                                  onOpenArtisanModal(maker)
+                                }
+                              >
+                                <ExternalLink size={12} />
+                                craftinator.in/studio/{maker.id}
+                              </button>
+                              <span className="profile-maker-craft-tag">
+                                {maker.craft || "Artisan Craft"}
+                              </span>
+                              <button
+                                type="button"
+                                className="btn-maker-card-view"
+                                onClick={() =>
+                                  onOpenArtisanModal &&
+                                  onOpenArtisanModal(maker)
+                                }
+                              >
+                                View Studio
+                                <ChevronRight size={13} />
                               </button>
                             </div>
                           </div>
