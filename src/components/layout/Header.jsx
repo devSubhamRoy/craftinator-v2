@@ -133,13 +133,16 @@ export default function Header({
 
           {/* 2. Chat Button (Available across Mobile, Tablet & Desktop) */}
           <button
-            className="header-icon-btn chat-btn"
+            className={`header-icon-btn chat-btn ${currentPath === '/chat' || currentPath.startsWith('/chat') ? 'active' : ''}`}
             onClick={() => {
-              if (onOpenChat) onOpenChat();
-              else if (onNavigate) onNavigate('/community');
+              if (onNavigate) {
+                onNavigate('/chat');
+              } else if (onOpenChat) {
+                onOpenChat();
+              }
             }}
-            aria-label="Artisan Chat"
-            title="Artisan Chat"
+            aria-label={t('nav_chat', 'Artisan Studio Chat')}
+            title={t('nav_chat', 'Artisan Studio Chat')}
           >
             <MessageSquare size={19} />
           </button>
