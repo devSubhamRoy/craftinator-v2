@@ -123,6 +123,18 @@ body {
   }
 }
 
+/* Background Blur when Drawer / Modal is Active
+   Applied directly to background content so it blurs cleanly with ZERO zoom or mirroring artifacts */
+body.has-overlay-blur #main-content,
+body.has-overlay-blur .header-root,
+body.has-overlay-blur footer {
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+  transition: filter 0.22s ease-out;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 8px;

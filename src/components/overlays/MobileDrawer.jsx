@@ -8,9 +8,9 @@ import {
   User, 
   Settings as SettingsIcon, 
   ChevronDown, 
-  ChevronRight, 
+  Package, 
   LogIn, 
-  UserPlus,
+  UserPlus, 
   LogOut 
 } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -125,7 +125,6 @@ export default function MobileDrawer({
                   <Home size={19} className="mobile-link-icon" />
                   <span className="mobile-link-text">{t('nav_home', 'Home')}</span>
                 </div>
-                <ChevronRight size={16} className="mobile-link-arrow" />
               </button>
             </li>
 
@@ -144,71 +143,71 @@ export default function MobileDrawer({
                     <span className="mobile-link-dot-indicator" title="Items in cart or wishlist" />
                   )}
                 </div>
-                <div className="mobile-accordion-chevron">
-                  <ChevronDown 
-                    size={18} 
-                    className={`accordion-chevron-icon ${activeAccordion === 'shop' ? 'rotated' : ''}`} 
-                  />
-                </div>
+                <ChevronDown 
+                  size={18} 
+                  className={`accordion-chevron-icon ${activeAccordion === 'shop' ? 'rotated' : ''}`} 
+                />
               </button>
 
               {/* Shop Sub-items Collapsible Panel */}
               <div className={`mobile-accordion-panel ${activeAccordion === 'shop' ? 'open' : ''}`}>
-                <ul className="mobile-subnav-list">
-                  
-                  {/* All Shop Products */}
-                  <li className="mobile-subnav-item">
-                    <button
-                      type="button"
-                      className={`mobile-subnav-link ${currentPath === '/shop' ? 'active' : ''}`}
-                      onClick={() => handleNav('/shop')}
-                    >
-                      <span className="subnav-bullet">•</span>
-                      <span className="mobile-sublink-text">{t('all_products', 'All Products')}</span>
-                    </button>
-                  </li>
+                <div className="mobile-accordion-inner">
+                  <ul className="mobile-subnav-list">
+                    
+                    {/* All Shop Products */}
+                    <li className="mobile-subnav-item">
+                      <button
+                        type="button"
+                        className={`mobile-subnav-link ${currentPath === '/shop' ? 'active' : ''}`}
+                        onClick={() => handleNav('/shop')}
+                      >
+                        <Package size={16} className="mobile-sublink-icon" />
+                        <span className="mobile-sublink-text">{t('all_products', 'All Products')}</span>
+                      </button>
+                    </li>
 
-                  {/* Wishlist Sub-Item */}
-                  <li className="mobile-subnav-item">
-                    <button
-                      type="button"
-                      className="mobile-subnav-link"
-                      onClick={() => {
-                        onClose();
-                        if (onOpenWishlist) onOpenWishlist();
-                      }}
-                    >
-                      <Heart size={15} className="mobile-sublink-icon icon-wishlist" />
-                      <span className="mobile-sublink-text">{t('wishlist_title', 'Wishlist')}</span>
-                      {wishlistCount > 0 && (
-                        <span className="mobile-subnav-badge badge-terracotta">
-                          {wishlistCount}
-                        </span>
-                      )}
-                    </button>
-                  </li>
+                    {/* Wishlist Sub-Item */}
+                    <li className="mobile-subnav-item">
+                      <button
+                        type="button"
+                        className="mobile-subnav-link"
+                        onClick={() => {
+                          onClose();
+                          if (onOpenWishlist) onOpenWishlist();
+                        }}
+                      >
+                        <Heart size={16} className="mobile-sublink-icon icon-wishlist" />
+                        <span className="mobile-sublink-text">{t('wishlist_title', 'Wishlist')}</span>
+                        {wishlistCount > 0 && (
+                          <span className="mobile-subnav-badge badge-terracotta">
+                            {wishlistCount}
+                          </span>
+                        )}
+                      </button>
+                    </li>
 
-                  {/* Add to Cart / Cart Sub-Item */}
-                  <li className="mobile-subnav-item">
-                    <button
-                      type="button"
-                      className="mobile-subnav-link"
-                      onClick={() => {
-                        onClose();
-                        if (onOpenCart) onOpenCart();
-                      }}
-                    >
-                      <ShoppingBag size={15} className="mobile-sublink-icon icon-cart" />
-                      <span className="mobile-sublink-text">{t('cart_title', 'Add to Cart')}</span>
-                      {cartCount > 0 && (
-                        <span className="mobile-subnav-badge badge-warm">
-                          {cartCount}
-                        </span>
-                      )}
-                    </button>
-                  </li>
+                    {/* Add to Cart / Cart Sub-Item */}
+                    <li className="mobile-subnav-item">
+                      <button
+                        type="button"
+                        className="mobile-subnav-link"
+                        onClick={() => {
+                          onClose();
+                          if (onOpenCart) onOpenCart();
+                        }}
+                      >
+                        <ShoppingBag size={16} className="mobile-sublink-icon icon-cart" />
+                        <span className="mobile-sublink-text">{t('cart_title', 'Shopping Cart')}</span>
+                        {cartCount > 0 && (
+                          <span className="mobile-subnav-badge badge-warm">
+                            {cartCount}
+                          </span>
+                        )}
+                      </button>
+                    </li>
 
-                </ul>
+                  </ul>
+                </div>
               </div>
             </li>
 
@@ -223,7 +222,6 @@ export default function MobileDrawer({
                   <Users size={19} className="mobile-link-icon" />
                   <span className="mobile-link-text">{t('nav_community', 'Community')}</span>
                 </div>
-                <ChevronRight size={16} className="mobile-link-arrow" />
               </button>
             </li>
 
@@ -238,7 +236,6 @@ export default function MobileDrawer({
                   <User size={19} className="mobile-link-icon" />
                   <span className="mobile-link-text">{t('profile', 'Profile')}</span>
                 </div>
-                <ChevronRight size={16} className="mobile-link-arrow" />
               </button>
             </li>
 
@@ -253,7 +250,6 @@ export default function MobileDrawer({
                   <SettingsIcon size={19} className="mobile-link-icon" />
                   <span className="mobile-link-text">{t('settings', 'Settings')}</span>
                 </div>
-                <ChevronRight size={16} className="mobile-link-arrow" />
               </button>
             </li>
 
