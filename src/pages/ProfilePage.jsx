@@ -14,6 +14,8 @@ import {
   Layers,
   ChevronRight,
   ChevronLeft,
+  ChevronUp,
+  ArrowRight,
   ExternalLink,
   Edit3,
   ShieldCheck,
@@ -25,7 +27,8 @@ import { useLanguage } from "../i18n/LanguageContext";
 import { useNavigation } from "../context/NavigationContext";
 import { products as allCatalogProducts } from "../data/products";
 import { artisans as allArtisans } from "../data/artisans";
-import { ProductCard, ProductCardSkeleton, ArtisanCardSkeleton } from "../components";
+import { communityPosts } from "../data/communityPosts";
+import { ProductCard, ProductCardSkeleton, ArtisanCardSkeleton, CommunityPostCard } from "../components";
 
 export default function ProfilePage({
   wishlist = [],
@@ -91,6 +94,126 @@ export default function ProfilePage({
     const scrollAmount = direction === "left" ? -step : step;
     container.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
+
+  // Showcase Story Expand/Collapse and Multi-Image Slider State for About Tab
+  const [isShowMoreExpanded, setIsShowMoreExpanded] = useState(false);
+  const [currentShowcaseSlide, setCurrentShowcaseSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+
+  // Curated personal artisan seller showcase products
+  const artisanCreations = useMemo(() => {
+    const artisanName = authUser?.name || "Elena Rostova";
+    const matching = allCatalogProducts.filter((p) => {
+      if (!p.artisan) return false;
+      return (
+        p.artisan.toLowerCase().includes(artisanName.toLowerCase()) ||
+        artisanName.toLowerCase().includes(p.artisan.toLowerCase())
+      );
+    });
+    if (matching.length > 0) return matching;
+    return allCatalogProducts.slice(0, 6);
+  }, [authUser]);
+
+  // Curated showcase photography for About & Craft Process
+  const artisanShowcaseImages = useMemo(() => [
+    {
+      src: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?q=80&w=1000&auto=format&fit=crop",
+      caption: `${authUser?.name || "Elena Rostova"} — Handcrafting ceramic stoneware vessels in the atelier workshop`,
+    },
+    {
+      src: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=1000&auto=format&fit=crop",
+      caption: "Raw natural terracotta and river silt being hand-shaped with ancestral tools",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=1000&auto=format&fit=crop",
+      caption: "Studio drying courtyard and natural sunlight curing process",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1000&auto=format&fit=crop",
+      caption: "Final inspection and individual artisan touch before dispatch",
+    },
+  ], [authUser]);
+
+  const handlePrevSlide = useCallback(() => {
+    setCurrentShowcaseSlide((prev) =>
+      prev === 0 ? artisanShowcaseImages.length - 1 : prev - 1
+    );
+  }, [artisanShowcaseImages.length]);
+
+  const handleNextSlide = useCallback(() => {
+    setCurrentShowcaseSlide((prev) =>
+      prev === artisanShowcaseImages.length - 1 ? 0 : prev + 1
+    );
+  }, [artisanShowcaseImages.length]);
+
+  const handleSliderTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleSliderTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (diff > 50) {
+      handleNextSlide();
+    } else if (diff < -50) {
+      handlePrevSlide();
+    }
+    setTouchStartX(null);
+  };
+
+  // Ancestral Craft Process Steps
+  const craftProcessSteps = useMemo(() => [
+    {
+      name: "Source",
+      desc: "Harvesting purest natural clay, mineral pigments, and ethical timber.",
+      image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=600&auto=format&fit=crop",
+    },
+    {
+      name: "Shape",
+      desc: "Hand-throwing and contour sculpting using traditional kick-wheels and wooden ribs.",
+      image: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?q=80&w=600&auto=format&fit=crop",
+    },
+    {
+      name: "Refine",
+      desc: "Slow burnishing with river stones and hand-carving tactile geometric reliefs.",
+      image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=600&auto=format&fit=crop",
+    },
+    {
+      name: "Cure",
+      desc: "Sun-drying in shaded courtyards followed by slow wood-kiln mineral curing.",
+      image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop",
+    },
+    {
+      name: "Finish",
+      desc: "Cold-pressed botanical wax seal and rigorous master artisan inspection.",
+      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop",
+    },
+  ], []);
+
+  // Moments strip photos
+  const studioMoments = useMemo(() => [
+    "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=800&auto=format&fit=crop",
+  ], []);
+
+  // Studio Dispatches Feed
+  const studioPosts = useMemo(() => {
+    const authorName = authUser?.name || "Elena Rostova";
+    const matching = communityPosts.filter((post) => {
+      return (
+        post.author?.name?.toLowerCase().includes(authorName.toLowerCase()) ||
+        post.author?.handle === "@aarav_crafts" ||
+        post.author?.handle === "@elena_ceramics"
+      );
+    });
+    if (matching.length > 0) return matching;
+    return communityPosts.slice(0, 3);
+  }, [authUser]);
 
   // Instantly align viewport to the START of the selected tab's content directly below sticky header
   const scrollToTabStart = useCallback((behavior = "instant") => {
@@ -517,6 +640,30 @@ export default function ProfilePage({
               >
                 Patron Perks (4)
               </button>
+
+              <button
+                type="button"
+                className={`ap-nav-tab-btn ${activeTab === "products" ? "active" : ""}`}
+                onClick={() => handleTabChange("products")}
+              >
+                Products ({artisanCreations.length})
+              </button>
+
+              <button
+                type="button"
+                className={`ap-nav-tab-btn ${activeTab === "about" ? "active" : ""}`}
+                onClick={() => handleTabChange("about")}
+              >
+                About & Craft Process
+              </button>
+
+              <button
+                type="button"
+                className={`ap-nav-tab-btn ${activeTab === "posts" ? "active" : ""}`}
+                onClick={() => handleTabChange("posts")}
+              >
+                Studio Feed ({studioPosts.length})
+              </button>
             </nav>
 
             {/* TAB CONTENT SCROLL CONTAINER (Desktop Independent Scroll Container) */}
@@ -644,6 +791,115 @@ export default function ProfilePage({
                         }}
                       />
                     </div>
+                  </div>
+                )}
+
+                {activeTab === "products" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(340px, 70%)" }}
+                      />
+                      <div
+                        className="skel-block skel-subtitle"
+                        style={{ width: "min(460px, 90%)" }}
+                      />
+                    </div>
+                    <div className="product-grid shop-product-grid">
+                      <ProductCardSkeleton count={6} />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "about" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(380px, 80%)" }}
+                      />
+                    </div>
+                    <div
+                      className="skel-block"
+                      style={{
+                        width: "100%",
+                        height: "240px",
+                        borderRadius: "var(--radius-lg)",
+                        marginBottom: "1.75rem",
+                      }}
+                    />
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fit, minmax(220px, 1fr))",
+                        gap: "1.25rem",
+                        marginBottom: "1.75rem",
+                      }}
+                    >
+                      <div
+                        className="skel-block"
+                        style={{
+                          height: "160px",
+                          borderRadius: "var(--radius-md)",
+                        }}
+                      />
+                      <div
+                        className="skel-block"
+                        style={{
+                          height: "160px",
+                          borderRadius: "var(--radius-md)",
+                        }}
+                      />
+                      <div
+                        className="skel-block"
+                        style={{
+                          height: "160px",
+                          borderRadius: "var(--radius-md)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "posts" && (
+                  <div className="ap-tab-skeleton-wrapper">
+                    <div
+                      className="skel-section-header align-left"
+                      style={{ marginBottom: "1.75rem" }}
+                    >
+                      <div className="skel-block skel-eyebrow" />
+                      <div
+                        className="skel-block skel-title"
+                        style={{ width: "min(300px, 70%)" }}
+                      />
+                    </div>
+                    <div
+                      className="skel-block"
+                      style={{
+                        width: "100%",
+                        height: "380px",
+                        borderRadius: "var(--radius-lg)",
+                        marginBottom: "1.5rem",
+                      }}
+                    />
+                    <div
+                      className="skel-block"
+                      style={{
+                        width: "100%",
+                        height: "260px",
+                        borderRadius: "var(--radius-lg)",
+                      }}
+                    />
                   </div>
                 )}
               </div>
@@ -1160,6 +1416,378 @@ export default function ProfilePage({
                     </button>
                   </div>
                 </section>
+              </div>
+            )}
+
+            {/* ========================================================
+                TAB 5: PRODUCTS / CREATIONS (from ArtisanDetailsPage)
+                ======================================================== */}
+            {activeTab === "products" && (
+              <div className="animate-fade-in ap-tab-content-pane">
+                <section className="ap-tab-section ap-products-section">
+                  <div className="ap-tab-section-header">
+                    <div className="ap-eyebrow-row">
+                      <span className="ap-section-eyebrow">Studio Showcase</span>
+                      <span className="ap-count-badge">
+                        {artisanCreations.length} Pieces
+                      </span>
+                    </div>
+                    <h2 className="ap-section-title">
+                      Handcrafted Creations by {authUser?.name || "Elena Rostova"}
+                    </h2>
+                    <p className="ap-section-subtitle">
+                      Curated masterworks and small-batch studio artisan pieces directly from {authUser?.location || "the atelier"}.
+                    </p>
+                  </div>
+
+                  {artisanCreations.length > 0 ? (
+                    <div className="product-grid shop-product-grid">
+                      {artisanCreations.map((product) => {
+                        const isWishlisted = wishlist.includes(product.id);
+                        return (
+                          <ProductCard
+                            key={product.id}
+                            product={product}
+                            isWishlisted={isWishlisted}
+                            onToggleWishlist={onToggleWishlist}
+                            onAddToCart={onAddToCart}
+                            onOpenModal={onOpenProductModal}
+                            onOpenArtisanModal={onOpenArtisanModal}
+                          />
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="ap-empty-state">
+                      <Package size={48} className="empty-icon" />
+                      <h3>No creations listed yet</h3>
+                      <p>Creations crafted by this artisan will appear here.</p>
+                    </div>
+                  )}
+                </section>
+              </div>
+            )}
+
+            {/* ========================================================
+                TAB 6: ABOUT & CRAFT PROCESS (from ArtisanDetailsPage)
+                ======================================================== */}
+            {activeTab === "about" && (
+              <div className="animate-fade-in ap-tab-content-pane">
+                {/* Section 1: Meet the Maker Showcase */}
+                <section className="ap-meet-card-section">
+                  <div className="ap-meet-header" style={{ marginBottom: "1.25rem" }}>
+                    <span className="ap-meet-eyebrow">
+                      Meet {authUser?.name ? authUser.name.split(" ")[0] : "Elena"}
+                    </span>
+                    <h3 className="showcase-grid-title" style={{ margin: "0.35rem 0 0" }}>
+                      Craft, patience, and human touch.
+                    </h3>
+                  </div>
+
+                  <div className="subtab-showcase-view">
+                    {/* Left Column: Text Details */}
+                    <div className="showcase-text-scrollable">
+                      <p className="showcase-paragraph showcase-desktop-desc">
+                        {authUser?.bio || "Preserving heritage ceramic pottery and organic handloom traditions. Every work is shaped slowly by hand using local earth materials, mineral glazes, and ancestral techniques."}
+                      </p>
+
+                      <p className="showcase-paragraph showcase-mobile-desc">
+                        {!isShowMoreExpanded ? (
+                          <>
+                            <span>
+                              {(authUser?.bio || "Preserving heritage ceramic pottery and organic handloom traditions. Every work is shaped slowly by hand using local earth materials, mineral glazes, and ancestral techniques.").slice(0, 110)}... 
+                            </span>
+                            <button
+                              type="button"
+                              className="inline-more-btn"
+                              onClick={() => setIsShowMoreExpanded(true)}
+                            >
+                              More
+                            </button>
+                          </>
+                        ) : (
+                          <span>
+                            {authUser?.bio || "Preserving heritage ceramic pottery and organic handloom traditions. Every work is shaped slowly by hand using local earth materials, mineral glazes, and ancestral techniques."}
+                          </span>
+                        )}
+                      </p>
+
+                      <div className={`showcase-expandable-content ${isShowMoreExpanded ? 'is-expanded' : 'is-collapsed'}`}>
+                        <div className="showcase-expandable-inner">
+                          <p className="showcase-paragraph">
+                            Each creation is individually shaped in independent artisan studios. Because natural materials respond uniquely to heat and touch, minor textural variances are celebrated as the hallmark of authentic handcrafted art.
+                          </p>
+
+                          <div className="showcase-quote-accent">
+                            <strong>{authUser?.name || "Elena Rostova"}: </strong>
+                            <em>"Crafting is not about mass speed; it is about honoring the rhythm of earth, timber, and fire."</em>
+                          </div>
+
+                          <div className="ap-meet-meta-row" style={{ marginTop: '0.85rem', marginBottom: '0.25rem' }}>
+                            <div className="ap-meet-meta-item">
+                              <MapPin size={16} className="ap-meet-meta-icon" />
+                              <div>
+                                <div className="ap-meta-label">
+                                  {authUser?.location?.split(",")[0] || "Portland"}
+                                </div>
+                                <div className="ap-meta-sub">
+                                  Studio Workshop
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="ap-meet-meta-item">
+                              <Sparkles size={16} className="ap-meet-meta-icon" />
+                              <div>
+                                <div className="ap-meta-label">
+                                  Handmade Craft
+                                </div>
+                                <div className="ap-meta-sub">
+                                  Est. {authUser?.memberSince || "2020"}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="showcase-less-wrapper">
+                            <button
+                              type="button"
+                              className="btn-show-less-inline"
+                              onClick={() => setIsShowMoreExpanded(false)}
+                            >
+                              <span>Show Less</span>
+                              <ChevronUp size={14} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Column: Image Showcase Card with Slider */}
+                    <div className="showcase-media-col">
+                      <div className="showcase-slider-card">
+                        <div
+                          className="showcase-slider-frame"
+                          onTouchStart={handleSliderTouchStart}
+                          onTouchEnd={handleSliderTouchEnd}
+                        >
+                          <img
+                            src={artisanShowcaseImages[currentShowcaseSlide]?.src}
+                            alt={artisanShowcaseImages[currentShowcaseSlide]?.caption}
+                            className="showcase-slider-img img-cover"
+                          />
+
+                          {artisanShowcaseImages.length > 1 && (
+                            <>
+                              <button
+                                type="button"
+                                className="showcase-slide-arrow arrow-left"
+                                onClick={handlePrevSlide}
+                                aria-label="Previous image"
+                              >
+                                <ChevronLeft size={16} />
+                              </button>
+                              <button
+                                type="button"
+                                className="showcase-slide-arrow arrow-right"
+                                onClick={handleNextSlide}
+                                aria-label="Next image"
+                              >
+                                <ChevronRight size={16} />
+                              </button>
+
+                              <div className="showcase-slide-dots">
+                                {artisanShowcaseImages.map((_, idx) => (
+                                  <span
+                                    key={idx}
+                                    className={`dot ${idx === currentShowcaseSlide ? 'active' : ''}`}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setCurrentShowcaseSlide(idx);
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </div>
+
+                        <div className="showcase-card-caption">
+                          <span>
+                            {artisanShowcaseImages[currentShowcaseSlide]?.caption}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Section Divider */}
+                <div className="ap-section-divider">
+                  <span className="ap-divider-line" />
+                  <span className="ap-divider-text">Studio Specifications</span>
+                  <span className="ap-divider-line" />
+                </div>
+
+                {/* Section 2: About Specs Surface */}
+                <section className="ap-surface-container">
+                  <div className="ap-tab-section-header" style={{ marginBottom: "1.25rem" }}>
+                    <div className="ap-eyebrow-row">
+                      <span className="ap-section-eyebrow">Atelier Standards</span>
+                    </div>
+                    <h3 className="ap-section-title" style={{ fontSize: "1.3rem" }}>
+                      Studio & Craft Details
+                    </h3>
+                  </div>
+
+                  <div className="ap-about-specs-grid">
+                    <div className="ap-spec-item">
+                      <Sparkles size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Craft Discipline</div>
+                        <div className="ap-spec-val">Ceramics & Handloom Textile</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <Clock size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Experience</div>
+                        <div className="ap-spec-val">8+ Years Dedicated Craft</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <MapPin size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Workshop Location</div>
+                        <div className="ap-spec-val">{authUser?.location || "Portland, OR, USA"}</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <Briefcase size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Specialty</div>
+                        <div className="ap-spec-val">Heritage Terracotta & Natural Indigo</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <HeartHandshake size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Studio Brand</div>
+                        <div className="ap-spec-val">{authUser?.name || "Elena Rostova"} Atelier</div>
+                      </div>
+                    </div>
+
+                    <div className="ap-spec-item">
+                      <Layers size={16} className="ap-spec-icon" />
+                      <div>
+                        <div className="ap-spec-key">Materials Used</div>
+                        <div className="ap-spec-val">100% Sustainable & Hand-sourced</div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Section Divider */}
+                <div className="ap-section-divider">
+                  <span className="ap-divider-line" />
+                  <span className="ap-divider-text">Ancestral Craft Process</span>
+                  <span className="ap-divider-line" />
+                </div>
+
+                {/* Section 3: Ancestral Craft Process Steps */}
+                <section className="ap-how-section">
+                  <div className="ap-how-header">
+                    <h3 className="ap-how-title">How It's Made</h3>
+                    <span className="ap-how-subtitle">
+                      5-step artisan process from raw material to finished treasure
+                    </span>
+                  </div>
+
+                  <div className="ap-how-grid">
+                    {craftProcessSteps.map((step, idx) => (
+                      <div key={idx} className="ap-how-card">
+                        <div className="ap-how-media">
+                          <img
+                            src={step.image}
+                            alt={step.name}
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="ap-how-body">
+                          <h4 className="ap-how-step-name">{step.name}</h4>
+                          <p className="ap-how-step-desc">{step.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Section Divider */}
+                <div className="ap-section-divider">
+                  <span className="ap-divider-line" />
+                  <span className="ap-divider-text">Studio Moments</span>
+                  <span className="ap-divider-line" />
+                </div>
+
+                {/* Section 4: Studio Moments Photo Strip */}
+                <section className="ap-moments-section">
+                  <h3
+                    className="ap-how-title"
+                    style={{ marginBottom: "1rem" }}
+                  >
+                    Studio Moments
+                  </h3>
+                  <div className="ap-moments-strip">
+                    {studioMoments.map((img, idx) => (
+                      <div key={idx} className="ap-moment-tile">
+                        <img
+                          src={img}
+                          alt={`Studio moment ${idx + 1}`}
+                          loading="lazy"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            )}
+
+            {/* ========================================================
+                TAB 7: STUDIO FEED (from ArtisanDetailsPage)
+                ======================================================== */}
+            {activeTab === "posts" && (
+              <div className="animate-fade-in ap-studio-feed-container">
+                <div className="ap-tab-section-header">
+                  <div className="ap-eyebrow-row">
+                    <span className="ap-section-eyebrow">Studio Dispatches</span>
+                    <span className="ap-count-badge">
+                      {studioPosts.length} Updates
+                    </span>
+                  </div>
+                  <h2 className="ap-section-title">
+                    Live From {authUser?.name || "Elena Rostova"}'s Workshop
+                  </h2>
+                  <p className="ap-section-subtitle">
+                    Behind-the-scenes progress, freshly fired or shaped works, and atelier notes.
+                  </p>
+                </div>
+
+                <div className="soc-posts-container" style={{ width: "100%", maxWidth: "100%" }}>
+                  {studioPosts.map((post) => (
+                    <CommunityPostCard
+                      key={post.id}
+                      post={post}
+                      onOpenArtisanModal={onOpenArtisanModal}
+                      onOpenProductModal={onOpenProductModal}
+                      onNavigate={onNavigate}
+                      showToast={showToast}
+                    />
+                  ))}
+                </div>
               </div>
             )}
           </>
