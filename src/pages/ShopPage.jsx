@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { products } from '../data/products';
 import { artisans } from '../data/artisans';
 import { SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, Search, X, ArrowUpDown, ArrowRight, Loader2, Sparkles, Users } from 'lucide-react';
@@ -697,7 +698,7 @@ export default function ShopPage({
       <Newsletter onSubscribe={() => {}} />
 
       {/* Mobile / Desktop Filter Drawer Overlay */}
-      {isFilterDrawerOpen && (
+      {isFilterDrawerOpen && typeof document !== 'undefined' && createPortal(
         <div
           ref={filterBackdropRef}
           className="filter-drawer-backdrop"
@@ -829,7 +830,8 @@ export default function ShopPage({
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </div>
