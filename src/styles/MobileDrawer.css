@@ -28,21 +28,11 @@
   display: flex;
   flex-direction: column;
   box-shadow: 8px 0 30px rgba(0, 0, 0, 0.2);
-  padding: 1.25rem 1.25rem 2rem 1.25rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  padding: 0;
+  overflow: hidden;
   z-index: 1201;
   transform: translateX(0);
   animation: slideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.mobile-drawer-content::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
 }
 
 @keyframes slideInLeft {
@@ -51,11 +41,14 @@
 }
 
 .mobile-drawer-header {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 0.85rem;
+  padding: 1.25rem 1.25rem 0.85rem 1.25rem;
   border-bottom: 1px solid var(--border-warm);
+  background-color: var(--bg-primary);
+  z-index: 2;
 }
 
 .mobile-drawer-close {
@@ -77,6 +70,27 @@
   background-color: rgba(35, 24, 21, 0.06);
 }
 
+/* Scrollable Middle Body (Tagline, Language Selector & Navigation) */
+.mobile-drawer-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.mobile-drawer-body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
 .mobile-drawer-tagline {
   font-family: var(--font-sans);
   font-size: 0.75rem;
@@ -85,17 +99,18 @@
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--border-light);
   letter-spacing: 0.04em;
+  flex-shrink: 0;
 }
 
 .mobile-drawer-lang-wrapper {
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
 }
 
 /* Hierarchical Navigation Tree */
 .mobile-drawer-nav {
-  flex: 1;
-  padding: 0.85rem 0;
+  padding: 0.85rem 0 1rem 0;
 }
 
 .mobile-nav-root-list {
@@ -300,13 +315,17 @@
   border: 1px solid var(--border-warm);
 }
 
-/* Auth Buttons */
+/* Auth Buttons (Fixed Bottom Section) */
 .mobile-drawer-auth {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
-  padding-top: 1rem;
+  padding: 1rem 1.25rem max(1.25rem, env(safe-area-inset-bottom, 1.25rem)) 1.25rem;
   border-top: 1px solid var(--border-warm);
+  background-color: var(--bg-primary);
+  box-shadow: 0 -4px 16px rgba(35, 24, 21, 0.05);
+  z-index: 2;
 }
 
 .mobile-auth-btn {
