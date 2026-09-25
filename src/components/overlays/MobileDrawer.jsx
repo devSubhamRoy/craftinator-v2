@@ -11,7 +11,8 @@ import {
   Package, 
   LogIn, 
   UserPlus, 
-  LogOut 
+  LogOut,
+  MessageSquare 
 } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
 import LanguageSelector from '../ui/LanguageSelector';
@@ -74,6 +75,7 @@ export default function MobileDrawer({
   const isHomeActive = currentPath === '/' || currentPath === '/home';
   const isShopActive = currentPath.startsWith('/shop') || currentPath === '/cart';
   const isCommunityActive = currentPath.startsWith('/community');
+  const isChatActive = currentPath === '/chat' || currentPath.startsWith('/chat');
   const isProfileActive = currentPath === '/profile';
   const isSettingsActive = currentPath === '/settings';
 
@@ -222,6 +224,21 @@ export default function MobileDrawer({
                 <div className="mobile-link-left">
                   <Users size={19} className="mobile-link-icon" />
                   <span className="mobile-link-text">{t('nav_community', 'Community')}</span>
+                </div>
+              </button>
+            </li>
+
+            {/* 4. ARTISAN CHAT */}
+            <li className="mobile-nav-root-item">
+              <button
+                type="button"
+                className={`mobile-drawer-link ${isChatActive ? 'active' : ''}`}
+                onClick={() => handleNav('/chat')}
+                aria-current={isChatActive ? 'page' : undefined}
+              >
+                <div className="mobile-link-left">
+                  <MessageSquare size={19} className="mobile-link-icon" />
+                  <span className="mobile-link-text">{t('nav_chat', 'Artisan Chat')}</span>
                 </div>
               </button>
             </li>

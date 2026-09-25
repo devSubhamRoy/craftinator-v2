@@ -33,6 +33,7 @@ import './styles/SettingsPage.css';
 import './styles/AuthPage.css';
 import './styles/SectionSkeleton.css';
 import './styles/CartPage.css';
+import './styles/ChatPage.css';
 
 import {
   Header,
@@ -43,7 +44,8 @@ import {
   LoadingScreen,
   CartDrawer,
   WishlistDrawer,
-  CartSkeleton
+  CartSkeleton,
+  ChatSkeleton
 } from './components';
 
 /* Lazy-Loaded Route Pages (Code Splitting) */
@@ -57,6 +59,7 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const AuthPage = lazy(() => import('./pages/AuthPage'));
 const CartPage = lazy(() => import('./pages/CartPage'));
+const ChatPage = lazy(() => import('./pages/ChatPage'));
 
 /* Lazy-Loaded Heavy Overlays */
 const ProductModal = lazy(() => import('./components/overlays/ProductModal'));
@@ -74,6 +77,10 @@ function RouteLoadingFallback({ path }) {
         </div>
       </main>
     );
+  }
+
+  if (path === '/chat' || (path && path.startsWith('/chat'))) {
+    return <ChatSkeleton />;
   }
 
   return (
@@ -411,6 +418,14 @@ function AppContent() {
               onNavigate={handleNavigate}
               showToast={showToast}
             />
+          ) : (currentPath === '/chat' || currentPath.startsWith('/chat')) ? (
+            /* Dedicated Independent Artisan Chat Page (/chat) */
+            <ChatPage
+              onNavigate={handleNavigate}
+              onOpenProductModal={handleProductClick}
+              onOpenArtisanModal={handleArtisanClick}
+              showToast={showToast}
+            />
           ) : (
             /* Dedicated Homepage (/ and /home) */
             <HomePage
@@ -426,8 +441,8 @@ function AppContent() {
         </Suspense>
       </main>
 
-      {/* 3. Reusable Global Footer (Hidden on /community, /login, /signup for full immersive experience) */}
-      {!currentPath.startsWith('/community') && !currentPath.startsWith('/login') && !currentPath.startsWith('/signup') && !currentPath.startsWith('/auth') && <Footer />}
+      {/* 3. Reusable Global Footer (Hidden on /community, /login, /signup, /auth, /chat for full immersive experience) */}
+      {!currentPath.startsWith('/community') && !currentPath.startsWith('/login') && !currentPath.startsWith('/signup') && !currentPath.startsWith('/auth') && !currentPath.startsWith('/chat') && <Footer />}
 
       {/* Mobile Navigation Drawer */}
       <MobileDrawer

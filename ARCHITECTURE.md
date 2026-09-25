@@ -82,6 +82,7 @@ Craftinator-v2/
 │   │   ├── HomePage.jsx
 │   │   ├── ShopPage.jsx
 │   │   ├── CartPage.jsx
+│   │   ├── ChatPage.jsx
 │   │   ├── ProductDetailsPage.jsx
 │   │   ├── ArtisanDetailsPage.jsx
 │   │   ├── MeetMakersPage.jsx
@@ -156,6 +157,23 @@ Craftinator-v2/
   - Restores the previous tab and uses `NavigationContext`'s multi-frame engine to return smoothly to the exact prior scroll position.
   - 100% compatible across Mobile, Tablet, and Desktop, preserving direction-aware sticky chips (`.soc-mobile-nav-chips.visible`) and natural 60fps scrolling.
 
+### 3.9. Artisan Chat Architecture & Interaction Engine
+- **Layout & Structure**:
+  - Desktop-first 2-column layout (`ChatSidebar` & `ChatWindow`) filling viewport height (`calc(100vh - var(--header-height, 70px))`).
+  - Independent scroll containers: sidebar conversation list and chat message stream scroll independently with clean custom scrollbars.
+  - Seamless responsive adaptation: Desktop 2-column, Tablet proportional column widths, and Mobile master-detail pattern with hardware-accelerated transitions and back button navigation.
+- **Component Modularity**:
+  - `ChatSidebar`: Header, category filter pill dropdown (`ChatFilter`), search input (`ChatSearch`), and conversation list (`ConversationList`, `ConversationItem`).
+  - `ChatWindow`: Header (`ChatWindowHeader`), auto-scrolling message stream (`MessageList`, `MessageBubble`), and sticky composer (`MessageComposer`).
+  - `ChatEmptyState`: Centered artisan chat invitation with action button matching the empty-state layout reference.
+  - `NewChatModal`: Dialog for browsing artisans and launching new threads.
+- **Message Types & Bubble Presentation**:
+  - Earthy artisan color styling: incoming bubbles in `--bg-card` with terracotta borders, outgoing bubbles in `--accent-terracotta` with crisp white text.
+  - Support for rich link cards (`chat-link-preview-box`), custom order quote proposals, and product attachment chips.
+  - Read-Only Mode banner notice (`chat-readonly-bar`) for broadcast channels and archived conversations matching reference specifications.
+- **Real-Time Extension Readiness**:
+  - Decoupled state and simulated typing/message dispatch engine ready for WebSockets integration without UI rewriting.
+
 ---
 
 ## 4. Maintenance & Evolution Guide
@@ -165,3 +183,4 @@ When introducing new features or refactoring:
 3. Keep container widths consistent with the `0.35rem` mobile standard.
 4. For heavy below-the-fold page sections, wrap with `<LazySection placeholder={<SectionSkeleton ... />}>`.
 5. Update this `ARCHITECTURE.md` file whenever architectural patterns or routing structures evolve.
+
