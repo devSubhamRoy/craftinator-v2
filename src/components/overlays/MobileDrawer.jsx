@@ -42,14 +42,14 @@ export default function MobileDrawer({
 
   // Single active accordion section (for Shop categories/sub-items)
   const [activeAccordion, setActiveAccordion] = useState(() => {
-    if (currentPath.startsWith('/shop')) return 'shop';
+    if (currentPath.startsWith('/shop') || currentPath === '/cart') return 'shop';
     return null;
   });
 
   // Auto-sync active section when drawer opens
   useEffect(() => {
     if (isOpen) {
-      if (currentPath.startsWith('/shop')) {
+      if (currentPath.startsWith('/shop') || currentPath === '/cart') {
         setActiveAccordion('shop');
       } else {
         setActiveAccordion(null);
@@ -72,7 +72,7 @@ export default function MobileDrawer({
   };
 
   const isHomeActive = currentPath === '/' || currentPath === '/home';
-  const isShopActive = currentPath.startsWith('/shop');
+  const isShopActive = currentPath.startsWith('/shop') || currentPath === '/cart';
   const isCommunityActive = currentPath.startsWith('/community');
   const isProfileActive = currentPath === '/profile';
   const isSettingsActive = currentPath === '/settings';
@@ -192,8 +192,10 @@ export default function MobileDrawer({
                     <li className="mobile-subnav-item">
                       <button
                         type="button"
-                        className="mobile-subnav-link"
+                        className={`mobile-subnav-link ${currentPath === '/cart' ? 'active' : ''}`}
                         onClick={() => handleNav('/cart')}
+                        aria-current={currentPath === '/cart' ? 'page' : undefined}
+                        aria-label={`${t('cart_title', 'Shopping Cart')}${cartCount > 0 ? ` (${cartCount})` : ''}`}
                       >
                         <ShoppingBag size={16} className="mobile-sublink-icon icon-cart" />
                         <span className="mobile-sublink-text">{t('cart_title', 'Shopping Cart')}</span>
