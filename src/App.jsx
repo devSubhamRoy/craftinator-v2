@@ -32,6 +32,7 @@ import './styles/ProfilePage.css';
 import './styles/SettingsPage.css';
 import './styles/AuthPage.css';
 import './styles/SectionSkeleton.css';
+import './styles/CartPage.css';
 
 import {
   Header,
@@ -54,6 +55,7 @@ const CommunityPage = lazy(() => import('./pages/CommunityPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const AuthPage = lazy(() => import('./pages/AuthPage'));
+const CartPage = lazy(() => import('./pages/CartPage'));
 
 /* Lazy-Loaded Heavy Overlays */
 const ProductModal = lazy(() => import('./components/overlays/ProductModal'));
@@ -383,6 +385,21 @@ function AppContent() {
               onGoBack={goBack}
               showToast={showToast}
             />
+          ) : currentPath === '/cart' ? (
+            /* Dedicated Independent Cart Page (/cart) */
+            <CartPage
+              cartItems={cartItems}
+              onUpdateQuantity={handleUpdateCartQuantity}
+              onRemoveItem={handleRemoveCartItem}
+              onAddToCart={handleAddToCart}
+              onCheckout={handleCheckout}
+              wishlist={wishlist}
+              onToggleWishlist={handleToggleWishlist}
+              onOpenProductModal={handleProductClick}
+              onOpenArtisanModal={handleArtisanClick}
+              onNavigate={handleNavigate}
+              showToast={showToast}
+            />
           ) : (
             /* Dedicated Homepage (/ and /home) */
             <HomePage
@@ -428,6 +445,7 @@ function AppContent() {
         onUpdateQuantity={handleUpdateCartQuantity}
         onRemoveItem={handleRemoveCartItem}
         onCheckout={handleCheckout}
+        onNavigate={handleNavigate}
       />
 
       {/* Interactive Wishlist Slide-in Drawer */}

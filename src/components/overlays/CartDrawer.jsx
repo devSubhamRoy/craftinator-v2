@@ -9,7 +9,8 @@ export default function CartDrawer({
   cartItems,
   onUpdateQuantity,
   onRemoveItem,
-  onCheckout
+  onCheckout,
+  onNavigate
 }) {
   const { t } = useLanguage();
   const containerRef = useRef(null);
@@ -110,6 +111,20 @@ export default function CartDrawer({
               <span>{t('subtotal')}</span>
               <strong className="subtotal-amount">₹{subtotal.toLocaleString('en-IN')}</strong>
             </div>
+
+            <button
+              type="button"
+              className="btn btn-outline view-cart-page-btn"
+              onClick={() => {
+                onClose();
+                if (onNavigate) {
+                  onNavigate('/cart');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+            >
+              <span>{t('view_cart_page', 'View Cart Page')}</span>
+            </button>
 
             <button className="btn btn-terracotta checkout-btn" onClick={onCheckout}>
               <span>{t('checkout')}</span>

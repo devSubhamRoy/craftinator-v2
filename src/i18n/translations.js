@@ -468,7 +468,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "de": {
     "nav_explore": "Entdecken",
@@ -824,7 +826,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "pt-br": {
     "nav_explore": "Explorar",
@@ -1180,7 +1184,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "es": {
     "nav_explore": "Explorar",
@@ -1536,7 +1542,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "zh-cn": {
     "nav_explore": "探索",
@@ -1892,7 +1900,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "zh-tw": {
     "nav_explore": "探索",
@@ -2248,7 +2258,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "fr": {
     "nav_explore": "Explorer",
@@ -2604,7 +2616,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "ar": {
     "nav_explore": "استكشف",
@@ -2960,7 +2974,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "ja": {
     "nav_explore": "探す",
@@ -3316,7 +3332,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "ko": {
     "nav_explore": "탐색",
@@ -3672,7 +3690,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "pl": {
     "nav_explore": "Odkrywaj",
@@ -4028,7 +4048,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "ru": {
     "nav_explore": "Исследовать",
@@ -4384,7 +4406,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "it": {
     "nav_explore": "Esplora",
@@ -4740,7 +4764,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "hi": {
     "nav_explore": "एक्सप्लोर करें",
@@ -5100,7 +5126,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "bn": {
     "nav_explore": "অন্বেষণ করুন",
@@ -5460,7 +5488,9 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   },
   "sa": {
     "nav_explore": "अन्वेषणम्",
@@ -5826,6 +5856,8 @@ export const translations = {
     "auth_signing_in": "Authenticating...",
     "signup_now": "Create an account",
     "auth_have_account": "Already part of the craft community?",
-    "login_now": "Sign in here"
+    "login_now": "Sign in here",
+    "view_cart_page": "View Cart Page",
+    "cart_continue_shopping": "Continue Exploring Crafts"
   }
 };
