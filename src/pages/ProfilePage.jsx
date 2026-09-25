@@ -13,6 +13,7 @@ import {
   Truck,
   Layers,
   ChevronRight,
+  ChevronLeft,
   ExternalLink,
   Edit3,
   ShieldCheck,
@@ -50,6 +51,46 @@ export default function ProfilePage({
   const tabsAnchorRef = useRef(null);
   const tabsNavRef = useRef(null);
   const tabContainerRef = useRef(null);
+  const perksSliderRef = useRef(null);
+  const [perksCanScrollLeft, setPerksCanScrollLeft] = useState(false);
+  const [perksCanScrollRight, setPerksCanScrollRight] = useState(true);
+
+  const checkPerksScroll = useCallback(() => {
+    if (!perksSliderRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = perksSliderRef.current;
+    setPerksCanScrollLeft(scrollLeft > 4);
+    setPerksCanScrollRight(scrollLeft + clientWidth < scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    if (activeTab === "perks") {
+      const timeoutId = setTimeout(() => {
+        checkPerksScroll();
+      }, 50);
+
+      const slider = perksSliderRef.current;
+      if (slider) {
+        slider.addEventListener("scroll", checkPerksScroll, { passive: true });
+        window.addEventListener("resize", checkPerksScroll);
+      }
+      return () => {
+        clearTimeout(timeoutId);
+        if (slider) {
+          slider.removeEventListener("scroll", checkPerksScroll);
+        }
+        window.removeEventListener("resize", checkPerksScroll);
+      };
+    }
+  }, [activeTab, checkPerksScroll]);
+
+  const handlePerksScroll = (direction) => {
+    if (!perksSliderRef.current) return;
+    const container = perksSliderRef.current;
+    const card = container.querySelector(".ap-how-card");
+    const step = card ? card.offsetWidth + 16 : container.clientWidth * 0.5;
+    const scrollAmount = direction === "left" ? -step : step;
+    container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+  };
 
   // Instantly align viewport to the START of the selected tab's content directly below sticky header
   const scrollToTabStart = useCallback((behavior = "instant") => {
@@ -919,11 +960,11 @@ export default function ProfilePage({
               <div className="animate-fade-in ap-tab-content-pane">
                 <section
                   className="ap-how-section"
-                  style={{ borderTop: "none", paddingTop: "0.5rem" }}
+                  style={{ borderTop: "none", paddingTop: "0.5rem", marginBottom: "0.5rem" }}
                 >
                   <div
                     className="ap-how-header"
-                    style={{ marginBottom: "2rem" }}
+                    style={{ marginBottom: "1.75rem" }}
                   >
                     <div
                       className="ap-eyebrow-row"
@@ -945,118 +986,145 @@ export default function ProfilePage({
                     </span>
                   </div>
 
-                  <div className="ap-how-grid">
-                    <div className="ap-how-card">
-                      <div className="ap-how-media">
-                        <img
-                          src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=600&auto=format&fit=crop"
-                          alt="Early studio access"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="ap-how-body">
-                        <div className="profile-perk-badge-row">
-                          <Sparkles
-                            size={16}
-                            color="var(--accent-terracotta)"
+                  <div className="profile-perks-slider-wrapper">
+                    <button
+                      type="button"
+                      className="profile-perks-nav-btn profile-perks-nav-btn-prev"
+                      onClick={() => handlePerksScroll("left")}
+                      disabled={!perksCanScrollLeft}
+                      aria-label="Previous perks"
+                      title="Previous perks"
+                    >
+                      <ChevronLeft size={20} />
+                    </button>
+
+                    <div
+                      ref={perksSliderRef}
+                      className="profile-perks-slider-track"
+                    >
+                      <div className="ap-how-card">
+                        <div className="ap-how-media">
+                          <img
+                            src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?q=80&w=600&auto=format&fit=crop"
+                            alt="Early studio access"
+                            loading="lazy"
                           />
-                          <span className="profile-perk-step-tag">
-                            Exclusive Privilege
-                          </span>
                         </div>
-                        <h4 className="ap-how-step-name">
-                          24-Hour Early Studio Access
-                        </h4>
-                        <p className="ap-how-step-desc">
-                          Gain exclusive preview and purchasing rights 24 hours
-                          before limited-edition studio drops are made public.
-                        </p>
+                        <div className="ap-how-body">
+                          <div className="profile-perk-badge-row">
+                            <Sparkles
+                              size={16}
+                              color="var(--accent-terracotta)"
+                            />
+                            <span className="profile-perk-step-tag">
+                              Exclusive Privilege
+                            </span>
+                          </div>
+                          <h4 className="ap-how-step-name">
+                            24-Hour Early Studio Access
+                          </h4>
+                          <p className="ap-how-step-desc">
+                            Gain exclusive preview and purchasing rights 24 hours
+                            before limited-edition studio drops are made public.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="ap-how-card">
+                        <div className="ap-how-media">
+                          <img
+                            src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=600&auto=format&fit=crop"
+                            alt="Plastic-free packaging"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="ap-how-body">
+                          <div className="profile-perk-badge-row">
+                            <Truck size={16} color="var(--accent-terracotta)" />
+                            <span className="profile-perk-step-tag">
+                              Eco Standard
+                            </span>
+                          </div>
+                          <h4 className="ap-how-step-name">
+                            100% Carbon-Neutral Shipping
+                          </h4>
+                          <p className="ap-how-step-desc">
+                            All orders are packed in biodegradable mulberry paper
+                            and shipped with verified climate carbon offset
+                            credits.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="ap-how-card">
+                        <div className="ap-how-media">
+                          <img
+                            src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop"
+                            alt="Authenticity certificate"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="ap-how-body">
+                          <div className="profile-perk-badge-row">
+                            <ShieldCheck
+                              size={16}
+                              color="var(--accent-terracotta)"
+                            />
+                            <span className="profile-perk-step-tag">
+                              Provenance Guarantee
+                            </span>
+                          </div>
+                          <h4 className="ap-how-step-name">
+                            Physical Certificate of Provenance
+                          </h4>
+                          <p className="ap-how-step-desc">
+                            Every acquisition includes a hand-embossed provenance
+                            card signed by the master maker verifying studio
+                            origin.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="ap-how-card">
+                        <div className="ap-how-media">
+                          <img
+                            src="https://images.unsplash.com/photo-1506806732259-39c2d0268443?q=80&w=600&auto=format&fit=crop"
+                            alt="Studio Commission"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="ap-how-body">
+                          <div className="profile-perk-badge-row">
+                            <HeartHandshake
+                              size={16}
+                              color="var(--accent-terracotta)"
+                            />
+                            <span className="profile-perk-step-tag">
+                              Artisan Connection
+                            </span>
+                          </div>
+                          <h4 className="ap-how-step-name">
+                            Custom Commission Priority
+                          </h4>
+                          <p className="ap-how-step-desc">
+                            Request bespoke dimensions, glaze treatments, or
+                            personalized inscriptions directly with certified
+                            ateliers.
+                          </p>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="ap-how-card">
-                      <div className="ap-how-media">
-                        <img
-                          src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=600&auto=format&fit=crop"
-                          alt="Plastic-free packaging"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="ap-how-body">
-                        <div className="profile-perk-badge-row">
-                          <Truck size={16} color="var(--accent-terracotta)" />
-                          <span className="profile-perk-step-tag">
-                            Eco Standard
-                          </span>
-                        </div>
-                        <h4 className="ap-how-step-name">
-                          100% Carbon-Neutral Shipping
-                        </h4>
-                        <p className="ap-how-step-desc">
-                          All orders are packed in biodegradable mulberry paper
-                          and shipped with verified climate carbon offset
-                          credits.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="ap-how-card">
-                      <div className="ap-how-media">
-                        <img
-                          src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop"
-                          alt="Authenticity certificate"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="ap-how-body">
-                        <div className="profile-perk-badge-row">
-                          <ShieldCheck
-                            size={16}
-                            color="var(--accent-terracotta)"
-                          />
-                          <span className="profile-perk-step-tag">
-                            Provenance Guarantee
-                          </span>
-                        </div>
-                        <h4 className="ap-how-step-name">
-                          Physical Certificate of Provenance
-                        </h4>
-                        <p className="ap-how-step-desc">
-                          Every acquisition includes a hand-embossed provenance
-                          card signed by the master maker verifying studio
-                          origin.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="ap-how-card">
-                      <div className="ap-how-media">
-                        <img
-                          src="https://images.unsplash.com/photo-1506806732259-39c2d0268443?q=80&w=600&auto=format&fit=crop"
-                          alt="Studio Commission"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="ap-how-body">
-                        <div className="profile-perk-badge-row">
-                          <HeartHandshake
-                            size={16}
-                            color="var(--accent-terracotta)"
-                          />
-                          <span className="profile-perk-step-tag">
-                            Artisan Connection
-                          </span>
-                        </div>
-                        <h4 className="ap-how-step-name">
-                          Custom Commission Priority
-                        </h4>
-                        <p className="ap-how-step-desc">
-                          Request bespoke dimensions, glaze treatments, or
-                          personalized inscriptions directly with certified
-                          ateliers.
-                        </p>
-                      </div>
-                    </div>
+                    <button
+                      type="button"
+                      className="profile-perks-nav-btn profile-perks-nav-btn-next"
+                      onClick={() => handlePerksScroll("right")}
+                      disabled={!perksCanScrollRight}
+                      aria-label="Next perks"
+                      title="Next perks"
+                    >
+                      <ChevronRight size={20} />
+                    </button>
                   </div>
                 </section>
               </div>
