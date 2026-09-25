@@ -8,21 +8,44 @@
 body.chat-page-active {
   overflow: hidden !important;
   height: 100vh !important;
+  height: 100dvh !important;
   max-height: 100vh !important;
+  max-height: 100dvh !important;
 }
 
 body.chat-page-active #root,
 body.chat-page-active .app-root {
   height: 100vh !important;
+  height: 100dvh !important;
   max-height: 100vh !important;
+  max-height: 100dvh !important;
   overflow: hidden !important;
+}
+
+body.chat-page-active #main-content {
+  height: calc(100vh - 72px) !important;
+  height: calc(100dvh - 72px) !important;
+  max-height: calc(100vh - 72px) !important;
+  max-height: calc(100dvh - 72px) !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 767px) {
+  body.chat-page-active #main-content {
+    height: calc(100vh - 60px) !important;
+    height: calc(100dvh - 60px) !important;
+    max-height: calc(100vh - 60px) !important;
+    max-height: calc(100dvh - 60px) !important;
+  }
 }
 
 /* Main Page Container filling exact viewport height below header */
 .chat-page-root {
   width: 100%;
   height: calc(100vh - 72px);
+  height: calc(100dvh - 72px);
   max-height: calc(100vh - 72px);
+  max-height: calc(100dvh - 72px);
   background-color: var(--bg-primary);
   display: flex;
   flex-direction: column;
@@ -509,7 +532,7 @@ body.chat-page-active .app-root {
   position: relative;
 }
 
-/* Active Chat Top Header */
+/* Active Chat Top Header - Strictly Sticky at Top */
 .chat-window-header {
   padding: 0.85rem 1.5rem;
   background-color: var(--bg-card);
@@ -517,8 +540,10 @@ body.chat-page-active .app-root {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
-  z-index: 10;
+  flex-shrink: 0 !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 25;
 }
 
 .chat-header-left {
@@ -887,9 +912,12 @@ body.chat-page-active .app-root {
   color: var(--accent-terracotta);
 }
 
-/* Bottom Composer Bar */
+/* Bottom Composer Bar - Strictly Sticky at Bottom */
 .chat-composer-wrap {
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 25;
   background-color: var(--bg-card);
 }
 
@@ -985,7 +1013,10 @@ body.chat-page-active .app-root {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 25;
 }
 
 .chat-readonly-bar {
@@ -1198,16 +1229,19 @@ body.chat-page-active .app-root {
 /* MOBILE & TABLET (< 1024px): Single-Panel Master-Detail Navigation */
 @media (max-width: 1023px) {
   .chat-page-root {
-    height: calc(100vh - 72px);
-    max-height: calc(100vh - 72px);
+    height: calc(100vh - 72px) !important;
+    height: calc(100dvh - 72px) !important;
+    max-height: calc(100vh - 72px) !important;
+    max-height: calc(100dvh - 72px) !important;
+    overflow: hidden !important;
   }
 
   .chat-layout-container {
-    height: 100%;
-    max-height: 100%;
+    height: 100% !important;
+    max-height: 100% !important;
     border-top: none;
     position: relative;
-    overflow: hidden;
+    overflow: hidden !important;
   }
 
   /* List view: Full-width conversation sidebar */
@@ -1215,11 +1249,14 @@ body.chat-page-active .app-root {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
-    height: 100%;
-    max-height: 100%;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
     border-right: none;
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    flex: 1 1 0% !important;
   }
 
   .chat-sidebar-column.mobile-hidden {
@@ -1235,10 +1272,14 @@ body.chat-page-active .app-root {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
-    height: 100%;
-    max-height: 100%;
-    display: flex;
-    flex-direction: column;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    position: relative;
+    flex: 1 1 0% !important;
   }
 
   .chat-main-column.mobile-hidden {
@@ -1247,6 +1288,24 @@ body.chat-page-active .app-root {
 
   .chat-main-column:not(.mobile-hidden) {
     animation: chatConvSlideIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Top chat window header stays permanently sticky */
+  .chat-window-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 30 !important;
+    flex-shrink: 0 !important;
+    background-color: var(--bg-card);
+  }
+
+  /* Bottom composer and quick replies stay permanently sticky */
+  .chat-composer-wrap {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 30 !important;
+    flex-shrink: 0 !important;
+    background-color: var(--bg-card);
   }
 
   /* Back button to return to conversation list */
@@ -1260,7 +1319,15 @@ body.chat-page-active .app-root {
     max-width: 82%;
   }
 
+  /* Only the messages stream is scrollable */
   .chat-messages-stream {
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
     padding: 1.25rem 1.5rem;
   }
 }
@@ -1268,8 +1335,11 @@ body.chat-page-active .app-root {
 /* Mobile Small Screen Refinement (< 768px) */
 @media (max-width: 767px) {
   .chat-page-root {
-    height: calc(100vh - 60px);
-    max-height: calc(100vh - 60px);
+    height: calc(100vh - 60px) !important;
+    height: calc(100dvh - 60px) !important;
+    max-height: calc(100vh - 60px) !important;
+    max-height: calc(100dvh - 60px) !important;
+    overflow: hidden !important;
   }
 
   .chat-bubble {
