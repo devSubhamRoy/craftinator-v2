@@ -31,6 +31,8 @@ export default function ChatWindow({
 
           {/* 2. Independently Scrollable Message Stream */}
           <MessageList
+            key={activeConversation.id}
+            conversationId={activeConversation.id}
             messages={activeConversation.messages || []}
             isTyping={isTyping}
             artisanName={activeConversation.artisanName}
