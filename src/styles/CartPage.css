@@ -994,3 +994,111 @@
     font-size: 1.4rem;
   }
 }
+
+/* ==========================================================================
+   CART SKELETON LOADING PLACEHOLDERS
+   ========================================================================== */
+
+.cart-skeleton-container {
+  width: 100%;
+}
+
+.cart-skel-breadcrumb {
+  margin-bottom: 1.5rem;
+}
+
+.cart-skel-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.cart-skel-shipping-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.cart-skel-table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-warm);
+}
+
+.cart-skel-item-row {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.cart-skel-thumb {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.cart-skel-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-skel-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.cart-skel-summary-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem 1.5rem;
+  position: sticky;
+  top: 96px;
+}
+
+@media (max-width: 1023px) {
+  .cart-skel-summary-card {
+    position: static;
+  }
+}
+
+@media (max-width: 767px) {
+  .cart-skel-table-header {
+    display: none;
+  }
+
+  .cart-skel-item-row {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .cart-skel-thumb {
+    width: 76px;
+    height: 76px;
+  }
+
+  .cart-skel-item-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--border-light);
+  }
+}
+

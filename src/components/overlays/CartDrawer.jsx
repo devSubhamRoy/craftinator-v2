@@ -10,7 +10,8 @@ export default function CartDrawer({
   onUpdateQuantity,
   onRemoveItem,
   onCheckout,
-  onNavigate
+  onNavigate,
+  isLoading = false
 }) {
   const { t } = useLanguage();
   const containerRef = useRef(null);
@@ -51,7 +52,20 @@ export default function CartDrawer({
 
         {/* Cart Items List */}
         <div className="drawer-body">
-          {cartItems.length === 0 ? (
+          {isLoading ? (
+            <div className="drawer-skeleton-list" aria-busy="true">
+              {[1, 2, 3].map((idx) => (
+                <div key={`cart-drawer-skel-${idx}`} className="drawer-skeleton-item">
+                  <div className="skel-block drawer-skel-img" />
+                  <div className="drawer-skel-details">
+                    <div className="skel-block" style={{ width: '70%', height: '16px', marginBottom: '6px' }} />
+                    <div className="skel-block" style={{ width: '45%', height: '12px', marginBottom: '10px' }} />
+                    <div className="skel-block" style={{ width: '35%', height: '16px' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : cartItems.length === 0 ? (
             <div className="drawer-empty-state">
               <ShoppingBag size={48} className="empty-icon" />
               <h4>{t('cart_empty')}</h4>
