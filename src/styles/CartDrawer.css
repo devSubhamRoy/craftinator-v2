@@ -260,6 +260,27 @@
   color: var(--text-muted);
 }
 
+.view-cart-page-btn {
+  width: 100%;
+  padding: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-color: var(--border-warm);
+  color: var(--text-primary);
+  background-color: transparent;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+}
+
+.view-cart-page-btn:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
+}
+
 .checkout-btn {
   width: 100%;
   padding: 1rem;
@@ -275,3 +296,33 @@
   color: var(--text-muted);
   padding-top: 0.4rem;
 }
+
+/* ==========================================================================
+   DRAWER SKELETON PLACEHOLDERS
+   ========================================================================== */
+
+.drawer-skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1rem 0;
+}
+
+.drawer-skeleton-item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.drawer-skel-img {
+  width: 70px;
+  height: 70px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.drawer-skel-details {
+  flex: 1;
+}
+
+

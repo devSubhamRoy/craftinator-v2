@@ -160,7 +160,13 @@ export default function Header({
           ) : (
             <button
               className="header-icon-btn cart-btn"
-              onClick={onOpenCart}
+              onClick={() => {
+                if (onNavigate) {
+                  onNavigate('/cart');
+                } else {
+                  if (onOpenCart) onOpenCart();
+                }
+              }}
               aria-label={`${t('cart')} (${cartCount})`}
               title={t('cart')}
             >

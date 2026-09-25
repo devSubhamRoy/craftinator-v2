@@ -9,7 +9,9 @@ export default function CartDrawer({
   cartItems,
   onUpdateQuantity,
   onRemoveItem,
-  onCheckout
+  onCheckout,
+  onNavigate,
+  isLoading = false
 }) {
   const { t } = useLanguage();
   const containerRef = useRef(null);
@@ -50,7 +52,20 @@ export default function CartDrawer({
 
         {/* Cart Items List */}
         <div className="drawer-body">
-          {cartItems.length === 0 ? (
+          {isLoading ? (
+            <div className="drawer-skeleton-list" aria-busy="true">
+              {[1, 2, 3].map((idx) => (
+                <div key={`cart-drawer-skel-${idx}`} className="drawer-skeleton-item">
+                  <div className="skel-block drawer-skel-img" />
+                  <div className="drawer-skel-details">
+                    <div className="skel-block" style={{ width: '70%', height: '16px', marginBottom: '6px' }} />
+                    <div className="skel-block" style={{ width: '45%', height: '12px', marginBottom: '10px' }} />
+                    <div className="skel-block" style={{ width: '35%', height: '16px' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : cartItems.length === 0 ? (
             <div className="drawer-empty-state">
               <ShoppingBag size={48} className="empty-icon" />
               <h4>{t('cart_empty')}</h4>
@@ -110,6 +125,20 @@ export default function CartDrawer({
               <span>{t('subtotal')}</span>
               <strong className="subtotal-amount">₹{subtotal.toLocaleString('en-IN')}</strong>
             </div>
+
+            <button
+              type="button"
+              className="btn btn-outline view-cart-page-btn"
+              onClick={() => {
+                onClose();
+                if (onNavigate) {
+                  onNavigate('/cart');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+            >
+              <span>{t('view_cart_page', 'View Cart Page')}</span>
+            </button>
 
             <button className="btn btn-terracotta checkout-btn" onClick={onCheckout}>
               <span>{t('checkout')}</span>

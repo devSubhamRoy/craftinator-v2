@@ -81,6 +81,7 @@ Craftinator-v2/
 │   ├── pages/
 │   │   ├── HomePage.jsx
 │   │   ├── ShopPage.jsx
+│   │   ├── CartPage.jsx
 │   │   ├── ProductDetailsPage.jsx
 │   │   ├── ArtisanDetailsPage.jsx
 │   │   ├── MeetMakersPage.jsx

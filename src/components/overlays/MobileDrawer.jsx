@@ -193,10 +193,7 @@ export default function MobileDrawer({
                       <button
                         type="button"
                         className="mobile-subnav-link"
-                        onClick={() => {
-                          onClose();
-                          if (onOpenCart) onOpenCart();
-                        }}
+                        onClick={() => handleNav('/cart')}
                       >
                         <ShoppingBag size={16} className="mobile-sublink-icon icon-cart" />
                         <span className="mobile-sublink-text">{t('cart_title', 'Shopping Cart')}</span>

@@ -427,12 +427,9 @@ export default function ProfilePage({
           <span className="breadcrumb-current">My Patron Profile</span>
         </nav>
 
-        {/* ============================================================
-            MAIN 2-COLUMN LAYOUT (1fr 340px)
-            ============================================================ */}
+        {/* MAIN 2-COLUMN LAYOUT (1fr 340px) */}
         <div className="ap-layout-grid">
-          {/* ----------------------------------------------------------
-              LEFT COLUMN: Profile Card, Tabs & Content Panes
+          {/* LEFT COLUMN: Profile Card, Tabs & Content Panes
               ---------------------------------------------------------- */}
           <div className="ap-main-column">
             {/* PROFILE CARD matching ArtisanDetailsPage */}
@@ -905,9 +902,7 @@ export default function ProfilePage({
               </div>
             ) : (
               <>
-                {/* ========================================================
-                    TAB 1: ORDERS & DELIVERIES
-                    ======================================================== */}
+                {/* TAB 1: ORDERS & DELIVERIES */}
                 {activeTab === "orders" && (
                   <div className="animate-fade-in ap-tab-content-pane">
                 <section className="ap-tab-section">
@@ -1039,9 +1034,7 @@ export default function ProfilePage({
               </div>
             )}
 
-            {/* ========================================================
-                TAB 2: SAVED WISHLIST (Standard ProductCard Grid)
-                ======================================================== */}
+            {/* TAB 2: SAVED WISHLIST (Standard ProductCard Grid) */}
             {activeTab === "wishlist" && (
               <div className="animate-fade-in ap-tab-content-pane">
                 <section className="ap-tab-section">
@@ -1101,9 +1094,7 @@ export default function ProfilePage({
               </div>
             )}
 
-            {/* ========================================================
-                TAB 3: MAKERS SUPPORTED
-                ======================================================== */}
+            {/* TAB 3: MAKERS SUPPORTED */}
             {activeTab === "artisans" && (
               <div className="animate-fade-in ap-tab-content-pane">
                 <section className="ap-tab-section">
@@ -1242,9 +1233,7 @@ export default function ProfilePage({
               </div>
             )}
 
-            {/* ========================================================
-                TAB 4: PATRON PERKS (How It's Made / Craft Process Cards)
-                ======================================================== */}
+            {/* TAB 4: PATRON PERKS (How It's Made / Craft Process Cards) */}
             {activeTab === "perks" && (
               <div className="animate-fade-in ap-tab-content-pane">
                 <section
@@ -1419,9 +1408,7 @@ export default function ProfilePage({
               </div>
             )}
 
-            {/* ========================================================
-                TAB 5: PRODUCTS / CREATIONS (from ArtisanDetailsPage)
-                ======================================================== */}
+            {/* TAB 5: PRODUCTS / CREATIONS (from ArtisanDetailsPage) */}
             {activeTab === "products" && (
               <div className="animate-fade-in ap-tab-content-pane">
                 <section className="ap-tab-section ap-products-section">
@@ -1468,9 +1455,7 @@ export default function ProfilePage({
               </div>
             )}
 
-            {/* ========================================================
-                TAB 6: ABOUT & CRAFT PROCESS (from ArtisanDetailsPage)
-                ======================================================== */}
+            {/* TAB 6: ABOUT & CRAFT PROCESS (from ArtisanDetailsPage) */}
             {activeTab === "about" && (
               <div className="animate-fade-in ap-tab-content-pane">
                 {/* Section 1: Meet the Maker Showcase */}
@@ -1756,9 +1741,7 @@ export default function ProfilePage({
               </div>
             )}
 
-            {/* ========================================================
-                TAB 7: STUDIO FEED (from ArtisanDetailsPage)
-                ======================================================== */}
+            {/* TAB 7: STUDIO FEED (from ArtisanDetailsPage) */}
             {activeTab === "posts" && (
               <div className="animate-fade-in ap-studio-feed-container">
                 <div className="ap-tab-section-header">
@@ -1795,9 +1778,7 @@ export default function ProfilePage({
             </div>
           </div>
 
-          {/* ----------------------------------------------------------
-              RIGHT COLUMN: Sticky Sidebar matching ArtisanDetailsPage
-              ---------------------------------------------------------- */}
+          {/* RIGHT COLUMN: Sticky Sidebar matching ArtisanDetailsPage */}
           <aside className="ap-sidebar-column">
             {/* SIDEBAR CARD 1: Patron Impact & Status */}
             <div className="ap-sidebar-card">
