@@ -92,7 +92,7 @@ export default function MobileDrawer({
         onClick={(e) => e.stopPropagation()}
       >
         
-        {/* Drawer Header */}
+        {/* Fixed Header */}
         <div className="mobile-drawer-header">
           <span className="brand-logo-text">Craftinator</span>
           <button className="mobile-drawer-close" onClick={onClose} aria-label="Close navigation">
@@ -100,18 +100,20 @@ export default function MobileDrawer({
           </button>
         </div>
 
-        {/* Brand Tagline Strip */}
-        <div className="mobile-drawer-tagline">
-          <span>Artisans</span> • <span>Community</span> • <span>Connections</span>
-        </div>
+        {/* Scrollable Middle Body (Tagline, Language Selector, and Nav) */}
+        <div className="mobile-drawer-body">
+          {/* Brand Tagline Strip */}
+          <div className="mobile-drawer-tagline">
+            <span>Artisans</span> • <span>Community</span> • <span>Connections</span>
+          </div>
 
-        {/* Language Selector in Mobile Drawer */}
-        <div className="mobile-drawer-lang-wrapper">
-          <LanguageSelector isMobile={true} />
-        </div>
+          {/* Language Selector in Mobile Drawer */}
+          <div className="mobile-drawer-lang-wrapper">
+            <LanguageSelector isMobile={true} />
+          </div>
 
-        {/* Hierarchical Navigation Tree */}
-        <nav className="mobile-drawer-nav" aria-label="Mobile Navigation">
+          {/* Hierarchical Navigation Tree */}
+          <nav className="mobile-drawer-nav" aria-label="Mobile Navigation">
           <ul className="mobile-nav-root-list">
             
             {/* 1. HOME */}
@@ -255,9 +257,10 @@ export default function MobileDrawer({
 
           </ul>
         </nav>
+      </div>
 
-        {/* Auth Buttons */}
-        <div className="mobile-drawer-auth">
+      {/* Fixed Auth Buttons */}
+      <div className="mobile-drawer-auth">
           {authUser ? (
             <div className="mobile-drawer-user-box">
               <button
