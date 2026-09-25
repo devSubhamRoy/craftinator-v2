@@ -42,7 +42,8 @@ import {
   ScrollToTop,
   LoadingScreen,
   CartDrawer,
-  WishlistDrawer
+  WishlistDrawer,
+  CartSkeleton
 } from './components';
 
 /* Lazy-Loaded Route Pages (Code Splitting) */
@@ -64,7 +65,17 @@ const AuthModal = lazy(() => import('./components/overlays/AuthModal'));
 const SearchModal = lazy(() => import('./components/overlays/SearchModal'));
 
 /* Lightweight Route Transition Fallback */
-function RouteLoadingFallback() {
+function RouteLoadingFallback({ path }) {
+  if (path === '/cart') {
+    return (
+      <main className="cart-page-root animate-fade-in" id="cart-content">
+        <div className="container">
+          <CartSkeleton />
+        </div>
+      </main>
+    );
+  }
+
   return (
     <div className="route-loading-fallback animate-fade-in" aria-busy="true">
       <div className="route-loading-bar" />
@@ -301,7 +312,7 @@ function AppContent() {
 
       {/* 2. Main Page View Architecture */}
       <main id="main-content">
-        <Suspense fallback={<RouteLoadingFallback />}>
+        <Suspense fallback={<RouteLoadingFallback path={currentPath} />}>
           {(currentPath === '/login' || currentPath === '/signup' || currentPath.startsWith('/auth')) ? (
             /* Dedicated Independent Demo Auth Page (/login, /signup, /auth) */
             <AuthPage

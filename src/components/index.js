@@ -11,6 +11,7 @@ export { default as LanguageSelector } from './ui/LanguageSelector';
 export { default as ProductAccordion } from './ui/ProductAccordion';
 export { default as ProductCardSkeleton } from './ui/ProductCardSkeleton';
 export { default as ArtisanCardSkeleton } from './ui/ArtisanCardSkeleton';
+export { default as CartSkeleton } from './ui/CartSkeleton';
 export { default as SectionSkeleton } from './ui/SectionSkeleton';
 export { default as LazySection } from './ui/LazySection';
 
